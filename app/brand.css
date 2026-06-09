@@ -1,0 +1,17 @@
+@theme {
+  --font-display: var(--font-display);
+  --font-sans:    var(--font-sans);
+
+  --color-brand-espresso:   #3D322E;
+  --color-brand-mauve:      #847071;
+  --color-brand-rose-dark:  #AB737B;
+  --color-brand-rose:       #B4898F;
+  --color-brand-rose-soft:  #BF9EA1;
+  --color-brand-sage-dark:  #82987F;
+  --color-brand-sage:       #97AC94;
+  --color-brand-sand:       #AA9468;
+  --color-brand-wheat:      #BCA67D;
+  --color-brand-gray:       #CEC6C3;
+  --color-brand-cream:      #E3DDD9;
+  --color-brand-cream-light:#F2EDE8;
+}
