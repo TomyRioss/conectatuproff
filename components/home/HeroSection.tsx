@@ -202,12 +202,12 @@ export default function HeroSection({ subcategories }: Props) {
               value={aiQuery}
               onChange={(e) => setAiQuery(e.target.value)}
               placeholder="Ej: Necesito un masajista en Palermo que atienda fines de semana y tenga experiencia con deportistas..."
-              className="w-full rounded-xl border border-gray-200 bg-[#F3F4F8] px-4 py-3 text-sm text-[#1A1A2E] placeholder:text-gray-300 outline-none focus:border-[#6C5CE7] focus:bg-white resize-none transition-colors"
+              className="w-full rounded-xl border border-gray-200 bg-[#F3F4F8] px-4 py-3 text-sm text-[#1A1A2E] placeholder:text-gray-400 outline-none focus:border-[#6C5CE7] focus:ring-2 focus:ring-[#6C5CE7]/20 focus:bg-white resize-none transition-colors"
             />
             <button
               type="submit"
               disabled={!aiQuery.trim()}
-              className="w-full bg-[#6C5CE7] text-white py-3 rounded-xl text-sm font-semibold hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              className="w-full bg-[#6C5CE7] text-white py-3 rounded-xl text-sm font-semibold hover:bg-[#5a4bd1] disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
               <Sparkles size={14} />
               Buscar profesional
