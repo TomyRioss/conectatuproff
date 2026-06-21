@@ -29,15 +29,15 @@ const COLUMNS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#3D322E] text-[#F2EDE8] py-14 px-4">
+    <footer className="bg-[#1A1A2E] text-white py-14 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div>
             <p className="text-xl font-bold font-[family-name:var(--font-display)] mb-3">
-              Conecta<span className="text-[#AB737B]">Tu</span>Proff
+              Conecta<span className="text-[#1EC97E]">Tu</span>Proff
             </p>
-            <p className="text-[#847071] text-sm leading-relaxed">
+            <p className="text-white/50 text-sm leading-relaxed">
               Marketplace de profesionales en CABA y GBA. Bienestar, oficios y más.
             </p>
           </div>
@@ -45,7 +45,7 @@ export default function Footer() {
           {/* Link columns */}
           {COLUMNS.map((col) => (
             <div key={col.title}>
-              <p className="text-[#CEC6C3] text-xs font-semibold uppercase tracking-wider mb-4">
+              <p className="text-white/70 text-xs font-semibold uppercase tracking-wider mb-4">
                 {col.title}
               </p>
               <ul className="space-y-3">
@@ -53,7 +53,7 @@ export default function Footer() {
                   <li key={l.href}>
                     <Link
                       href={l.href}
-                      className="text-[#847071] hover:text-[#F2EDE8] text-sm transition-colors"
+                      className="text-white/50 hover:text-white text-sm transition-colors"
                     >
                       {l.label}
                     </Link>
@@ -64,9 +64,8 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="border-t border-[#847071]/30 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-[#847071]">
+        <div className="border-t border-white/20 pt-8 text-xs text-white/50">
           <p>© {new Date().getFullYear()} ConectaTuProff. Todos los derechos reservados.</p>
-          <p>Hecho con ♥ en Buenos Aires</p>
         </div>
       </div>
     </footer>

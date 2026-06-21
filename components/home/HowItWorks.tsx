@@ -4,36 +4,36 @@ const STEPS = [
     title: "Elegí al profesional",
     description:
       "Buscá por servicio, barrio y disponibilidad. Leé reseñas de otros clientes y elegí el que mejor se adapte a vos.",
-    color: "#AB737B",
+    color: "#1EC97E",
   },
   {
     number: "02",
     title: "Coordiná el servicio",
     description:
       "Solicitá un turno o hacé una consulta directamente desde el perfil. Recibís confirmación por email al instante.",
-    color: "#82987F",
+    color: "#6C5CE7",
   },
   {
     number: "03",
     title: "Servicio completado",
     description:
       "El profesional se presenta, hace su trabajo y vos dejás una reseña para ayudar a la comunidad.",
-    color: "#AA9468",
+    color: "#1A1A2E",
   },
 ]
 
 export default function HowItWorks() {
   return (
-    <section id="como-funciona" className="py-20 px-4 bg-[#E3DDD9]">
+    <section id="como-funciona" className="py-20 px-4 bg-[#F3F4F8]">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
-          <p className="text-[#AB737B] text-sm font-medium uppercase tracking-wider mb-2">
+          <p className="text-[#6B7280] text-sm font-medium uppercase tracking-wider mb-2">
             Simple y rápido
           </p>
-          <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold text-[#3D322E]">
+          <h2 className="font-[family-name:var(--font-display)] text-3xl sm:text-4xl font-bold text-[#1A1A2E]">
             ¿Cómo funciona?
           </h2>
-          <p className="text-[#847071] mt-4 max-w-lg mx-auto">
+          <p className="text-[#6B7280] mt-4 max-w-lg mx-auto">
             Conectamos clientes con profesionales en tres pasos simples.
             Sin complicaciones.
           </p>
@@ -53,7 +53,7 @@ type Step = (typeof STEPS)[0]
 
 function StepCard({ step }: { step: Step }) {
   return (
-    <div className="bg-[#F2EDE8] rounded-2xl p-7 border border-[#CEC6C3] relative overflow-hidden">
+    <div className="bg-white rounded-2xl p-7 border border-gray-200 relative overflow-hidden">
       {/* Large number background */}
       <span
         className="absolute top-3 right-4 font-[family-name:var(--font-display)] text-7xl font-bold opacity-[0.07] select-none leading-none"
@@ -69,10 +69,10 @@ function StepCard({ step }: { step: Step }) {
         {step.number}
       </div>
 
-      <h3 className="font-semibold text-[#3D322E] text-lg mb-3">
+      <h3 className="font-semibold text-[#1A1A2E] text-lg mb-3">
         {step.title}
       </h3>
-      <p className="text-[#847071] text-sm leading-relaxed">
+      <p className="text-[#6B7280] text-sm leading-relaxed">
         {step.description}
       </p>
     </div>

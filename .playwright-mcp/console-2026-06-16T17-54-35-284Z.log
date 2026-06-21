@@ -1,0 +1,3779 @@
+[     134ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[     165ms] [LOG] [Fast Refresh] done in 146ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[     250ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/profesional/login:0
+[     351ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[     394ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[     598ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[     602ms] [LOG] [Fast Refresh] done in 112ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[    6409ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[    6426ms] [LOG] [Fast Refresh] done in 119ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   13254ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   13460ms] [LOG] [Fast Refresh] done in 309ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   19773ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   19964ms] [LOG] [Fast Refresh] done in 306ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  196196ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  196417ms] [LOG] [Fast Refresh] done in 331ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  250853ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  251906ms] [LOG] [Fast Refresh] done in 1172ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  252014ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  252694ms] [LOG] [Fast Refresh] done in 782ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  253147ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  253177ms] [LOG] [Fast Refresh] done in 135ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  253280ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  253281ms] [LOG] [Fast Refresh] done in 102ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  253393ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  253396ms] [LOG] [Fast Refresh] done in 105ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  256329ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  256359ms] [LOG] [Fast Refresh] done in 136ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  256940ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  256948ms] [LOG] [Fast Refresh] done in 109ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  384849ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  387863ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  389917ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/profesional/login:0
+[  389992ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  390068ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  392095ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  392300ms] [LOG] [Fast Refresh] done in 369ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  398510ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  398890ms] [LOG] [Fast Refresh] done in 472ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  398994ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  399278ms] [LOG] [Fast Refresh] done in 385ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  399394ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  399701ms] [LOG] [Fast Refresh] done in 408ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  399814ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  399849ms] [LOG] [Fast Refresh] done in 135ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  405314ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  405464ms] [LOG] [Fast Refresh] done in 245ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  405575ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  405754ms] [LOG] [Fast Refresh] done in 279ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  405863ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  405865ms] [LOG] [Fast Refresh] done in 103ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  413044ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  413551ms] [LOG] [Fast Refresh] done in 601ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  413672ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  414058ms] [LOG] [Fast Refresh] done in 488ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  418638ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  419210ms] [LOG] [Fast Refresh] done in 668ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  419317ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  419469ms] [LOG] [Fast Refresh] done in 254ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  425353ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  425498ms] [LOG] [Fast Refresh] done in 245ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  425609ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  426032ms] [LOG] [Fast Refresh] done in 525ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  432881ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  433131ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  433315ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  433460ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  434405ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  434507ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  434557ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  434660ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  435587ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  435901ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  435926ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/profesional/login?_rsc=Pij44XeGnCuYYkxK:0
+[  436026ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  436051ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  436073ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/profesional/login?_rsc=Pij44XeGnCuYYkxK:0
+[  436141ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/profesional/login:0
+[  436624ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_react-dom_0kla17-._.js:15305
+[  436764ms] Error: ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./app/(auth)/register/page.tsx:100:7)
+    at Object.getCompilationErrors (file://C:\Users\Pc\Desktop\clientes\conectatuproff\node_modules\next\dist\server\dev\hot-reloader-turbopack.js:1186:59)
+    at DevBundlerService.getCompilationError (file://C:\Users\Pc\Desktop\clientes\conectatuproff\node_modules\next\dist\server\lib\dev-bundler-service.js:44:55)
+    at DevServer.getCompilationError (file://C:\Users\Pc\Desktop\clientes\conectatuproff\node_modules\next\dist\server\dev\next-dev-server.js:720:42)
+    at DevServer.findPageComponents (file://C:\Users\Pc\Desktop\clientes\conectatuproff\node_modules\next\dist\server\dev\next-dev-server.js:690:43)
+    at async DevServer.renderErrorToResponseImpl (file://C:\Users\Pc\Desktop\clientes\conectatuproff\node_modules\next\dist\server\base-server.js:1753:26)
+[  436764ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1226
+[  436780ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  436839ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  436884ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  436924ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  436964ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437004ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437042ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437080ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437120ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437172ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437252ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437295ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437338ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437379ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437421ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437463ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437518ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437557ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437599ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437646ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437691ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437731ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437772ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437814ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437854ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437895ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437933ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  437973ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  438016ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  438061ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  438100ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  438163ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  438210ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  438249ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  438289ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  438334ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  438378ms] [ERROR] ./app/(auth)/register/page.tsx:100:7
+Expected corresponding JSX closing tag for <AuthShell>
+   98 |         </div>
+   99 |       </div>
+> 100 |     </div>
+      |       ^^^
+  101 |   );
+  102 | }
+  103 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/register/page.tsx [Client Component Browser]
+    ./app/(auth)/register/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/register/page.tsx [Client Component SSR]
+    ./app/(auth)/register/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  438479ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1226
+[  439730ms] [LOG] [Fast Refresh] done in 1350ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1226
+[  439874ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1226
+[  440609ms] [LOG] [Fast Refresh] done in 836ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1226
+[  441167ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/profesional/login:0
+[  441513ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  441573ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  444480ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  444733ms] [LOG] [Fast Refresh] done in 334ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  444840ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  445060ms] [LOG] [Fast Refresh] done in 322ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  451547ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  451993ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  452089ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  452138ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  452149ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/profesional/login?_rsc=Pij44XeGnCuYYkxK:0
+[  452247ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:3318
+[  452258ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/profesional/login?_rsc=Pij44XeGnCuYYkxK:0
+[  452310ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/profesional/login:0
+[  452405ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_react-dom_0kla17-._.js:15305
+[  452455ms] Error: ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./app/(auth)/profesional/login/page.tsx:92:7)
+    at Object.getCompilationErrors (file://C:\Users\Pc\Desktop\clientes\conectatuproff\node_modules\next\dist\server\dev\hot-reloader-turbopack.js:1186:59)
+    at DevBundlerService.getCompilationError (file://C:\Users\Pc\Desktop\clientes\conectatuproff\node_modules\next\dist\server\lib\dev-bundler-service.js:44:55)
+    at DevServer.getCompilationError (file://C:\Users\Pc\Desktop\clientes\conectatuproff\node_modules\next\dist\server\dev\next-dev-server.js:720:42)
+    at DevServer.findPageComponents (file://C:\Users\Pc\Desktop\clientes\conectatuproff\node_modules\next\dist\server\dev\next-dev-server.js:690:43)
+    at async DevServer.renderErrorToResponseImpl (file://C:\Users\Pc\Desktop\clientes\conectatuproff\node_modules\next\dist\server\base-server.js:1753:26)
+[  452429ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1226
+[  452449ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  452543ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  452584ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  452625ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  452670ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  452710ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  452751ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  452798ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  452841ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  452885ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  452924ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  452964ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453005ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453046ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453085ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453127ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453167ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453208ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453249ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453290ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453330ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453373ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453414ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453457ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453514ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453583ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453625ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453671ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453714ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453769ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453813ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453857ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453900ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453941ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  453979ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454020ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454060ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454099ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454140ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454179ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454219ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454257ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454297ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454337ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454376ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454416ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454455ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454494ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454534ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454576ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454614ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454656ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454700ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454741ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454783ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454822ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454861ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454902ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454941ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  454981ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455022ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455062ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455101ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455140ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455179ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455218ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455256ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455295ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455334ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455379ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455418ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455458ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455500ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455541ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455581ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455620ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455661ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455699ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455738ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455778ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455819ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455860ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455900ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455940ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  455982ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456025ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456065ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456107ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456147ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456188ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456232ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456273ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456314ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456355ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456399ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456440ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456479ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456519ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456559ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456600ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456642ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456684ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456730ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456775ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456816ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456857ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456897ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456937ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  456979ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457022ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457063ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457104ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457144ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457184ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457224ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457267ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457306ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457347ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457387ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457428ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457469ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457511ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457550ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457589ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457627ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457668ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457708ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457760ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457801ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457840ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457880ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457926ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  457968ms] [ERROR] ./app/(auth)/profesional/login/page.tsx:92:7
+Expected corresponding JSX closing tag for <AuthShell>
+  90 |         </div>
+  91 |       </div>
+> 92 |     </div>
+     |       ^^^
+  93 |   );
+  94 | }
+  95 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/(auth)/profesional/login/page.tsx [Client Component Browser]
+    ./app/(auth)/profesional/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/(auth)/profesional/login/page.tsx [Client Component SSR]
+    ./app/(auth)/profesional/login/page.tsx [Server Component] @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1945
+[  458069ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1226
+[  459673ms] [LOG] [Fast Refresh] done in 1703ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1226
+[  460203ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1226
+[  460470ms] [LOG] [Fast Refresh] done in 367ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1gdrd03._.js:1226
+[  460560ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/profesional/login:0
+[  460607ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  460645ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  462114ms] [WARNING] Image with src "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  463832ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  463970ms] [LOG] [Fast Refresh] done in 240ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  469806ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  469888ms] [LOG] [Fast Refresh] done in 182ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  478524ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[  478638ms] [LOG] [Fast Refresh] done in 213ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477

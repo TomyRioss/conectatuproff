@@ -1,0 +1,46 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - img "Personas conectándose con profesionales" [ref=e5]
+      - generic [ref=e9]:
+        - generic [ref=e10]:
+          - heading "Crear cuenta" [level=1] [ref=e11]
+          - paragraph [ref=e12]: Encontrá al profesional ideal
+        - generic [ref=e13]:
+          - generic [ref=e14]:
+            - generic [ref=e15]:
+              - generic [ref=e16]: Nombre
+              - textbox "Nombre" [ref=e17]:
+                - /placeholder: Juan
+            - generic [ref=e18]:
+              - generic [ref=e19]: Apellido
+              - textbox "Apellido" [ref=e20]:
+                - /placeholder: García
+          - generic [ref=e21]:
+            - generic [ref=e22]: Email
+            - textbox "Email" [ref=e23]:
+              - /placeholder: tu@email.com
+          - generic [ref=e24]:
+            - generic [ref=e25]: Contraseña
+            - generic [ref=e26]:
+              - textbox "Contraseña" [ref=e27]:
+                - /placeholder: Mínimo 8 caracteres
+              - button [ref=e28]:
+                - img [ref=e29]
+          - generic [ref=e32]:
+            - generic [ref=e33]: Teléfono (opcional)
+            - textbox "Teléfono (opcional)" [ref=e34]:
+              - /placeholder: +54 11 1234-5678
+          - button "Crear cuenta" [ref=e35]
+        - generic [ref=e36]:
+          - paragraph [ref=e37]:
+            - text: ¿Ya tenés cuenta?
+            - link "Iniciá sesión" [ref=e38] [cursor=pointer]:
+              - /url: /login
+          - paragraph [ref=e39]:
+            - text: ¿Sos profesional?
+            - link "Registrate acá" [ref=e40] [cursor=pointer]:
+              - /url: /profesional/register
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e46] [cursor=pointer]:
+    - img [ref=e47]

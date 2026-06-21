@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 @theme {
   --font-display: var(--font-display);
   --font-sans:    var(--font-sans);
@@ -11,7 +13,12 @@
   --color-brand-sage:       #97AC94;
   --color-brand-sand:       #AA9468;
   --color-brand-wheat:      #BCA67D;
-  --color-brand-gray:       #CEC6C3;
+  --color-brand-gray-cream: #CEC6C3;
+  --color-brand-green:      #1EC97E;
+  --color-brand-violet:     #6C5CE7;
+  --color-brand-dark:       #1A1A2E;
+  --color-brand-gray:       #6B7280;
+  --color-brand-bg:         #F3F4F8;
   --color-brand-cream:      #E3DDD9;
   --color-brand-cream-light:#F2EDE8;
 }

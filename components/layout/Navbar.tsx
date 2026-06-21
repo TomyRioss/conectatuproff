@@ -14,45 +14,42 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#F2EDE8]/95 backdrop-blur-sm border-b border-[#CEC6C3]">
+    <nav className="sticky top-0 z-50 bg-[#F3F4F8]/95 backdrop-blur-sm border-b border-gray-200">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="text-xl font-bold text-[#3D322E] font-[family-name:var(--font-display)]">
-          Conecta<span className="text-[#AB737B]">Tu</span>Proff
+
+        <Link href="/" className="text-xl font-bold text-[#1A1A2E] font-[family-name:var(--font-display)]">
+          Conecta<span className="text-[#6C5CE7]">Tu</span>Proff
         </Link>
 
-        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="text-[#847071] hover:text-[#3D322E] text-sm transition-colors duration-200"
+              className="text-[#6B7280] hover:text-[#1A1A2E] text-sm transition-colors"
             >
               {l.label}
             </Link>
           ))}
         </div>
 
-        {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
           <Link
-            href="/login"
-            className="text-sm text-[#3D322E] hover:text-[#AB737B] transition-colors"
+            href="/profesional/login"
+            className="text-sm text-[#1A1A2E] hover:text-[#6C5CE7] transition-colors underline decoration-[#1EC97E] underline-offset-2"
           >
-            Iniciar sesión
+            ¿Sos profesional?
           </Link>
           <Link
-            href="/registro/profesional"
-            className="text-sm bg-[#AB737B] text-white px-4 py-2 rounded-xl hover:bg-[#847071] active:bg-[#3D322E] transition-colors"
+            href="/register"
+            className="text-sm bg-[#1EC97E] text-white px-4 py-2 rounded-xl hover:opacity-90 transition-opacity"
           >
-            Publicar servicio
+            Busca ahora
           </Link>
         </div>
 
-        {/* Mobile toggle */}
         <button
-          className="md:hidden text-[#3D322E] p-1"
+          className="md:hidden text-[#1A1A2E] p-1"
           onClick={() => setOpen(!open)}
           aria-label="Menú"
         >
@@ -60,28 +57,39 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile menu */}
       {open && (
-        <div className="md:hidden bg-[#F2EDE8] border-t border-[#CEC6C3] px-4 py-5 flex flex-col gap-5">
+        <div className="md:hidden bg-[#F3F4F8] border-t border-gray-200 px-4 py-5 flex flex-col gap-5">
           {NAV_LINKS.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="text-[#3D322E] text-sm"
+              className="text-[#1A1A2E] text-sm"
               onClick={() => setOpen(false)}
             >
               {l.label}
             </Link>
           ))}
-          <hr className="border-[#CEC6C3]" />
-          <Link href="/login" className="text-[#3D322E] text-sm">
+          <hr className="border-gray-200" />
+          <Link
+            href="/login"
+            className="text-[#1A1A2E] text-sm"
+            onClick={() => setOpen(false)}
+          >
             Iniciar sesión
           </Link>
           <Link
-            href="/registro/profesional"
-            className="text-sm bg-[#AB737B] text-white px-4 py-2.5 rounded-xl text-center hover:bg-[#847071] transition-colors"
+            href="/profesional/login"
+            className="text-[#1A1A2E] text-sm underline decoration-[#1EC97E] underline-offset-2"
+            onClick={() => setOpen(false)}
           >
-            Publicar servicio
+            ¿Sos profesional?
+          </Link>
+          <Link
+            href="/register"
+            className="text-sm bg-[#1EC97E] text-white px-4 py-2.5 rounded-xl text-center hover:opacity-90 transition-opacity"
+            onClick={() => setOpen(false)}
+          >
+            Busca ahora
           </Link>
         </div>
       )}

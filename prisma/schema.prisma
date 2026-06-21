@@ -1,0 +1,386 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  CLIENT
+  PROFESSIONAL
+  ADMIN
+  SUPER_ADMIN
+  OWNER
+}
+
+enum Modality {
+  ONLINE
+  IN_PERSON
+  HYBRID
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+enum RecurrenceType {
+  DAILY
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+}
+
+enum BlockedSlotReason {
+  VACATION
+  ABSENCE
+  PERSONAL
+  OTHER
+}
+
+// ─── NextAuth ─────────────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?   @db.Text
+  role          Role      @default(CLIENT)
+  isActive      Boolean   @default(true)
+  isBanned      Boolean   @default(false)
+  lastActivity  DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  version       Int       @default(0)
+
+  accounts     Account[]
+  sessions     Session[]
+  professional Professional?
+  client       Client?
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ─── Profiles ────────────────────────────────────────────────────────────────
+
+model Professional {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  firstName String
+  lastName  String
+  dni       Int?
+  phone     String?
+  bio       String?  @db.Text
+  specialty String?
+  location  String?
+  modality  Modality @default(IN_PERSON)
+  rating    Float    @default(0)
+  timezone      String   @default("America/Argentina/Buenos_Aires")
+  dniPhotoFront String?
+  dniPhotoBack  String?
+  isActive    Boolean  @default(true)
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  version     Int      @default(0)
+
+  user         User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categories   ProfessionalCategory[]
+  services     Service[]
+  packages     ServicePackage[]
+  portfolio    PortfolioItem[]
+  availability ProfessionalAvailability[]
+  blockedSlots BlockedSlot[]
+  appointments Appointment[]
+  reviews      Review[]
+
+  @@map("professionals")
+}
+
+model Client {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  firstName String
+  lastName  String
+  dni       Int?
+  phone      String?
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  version    Int      @default(0)
+
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appointments    Appointment[]
+  reviews         Review[]
+  clientPackages  ClientPackage[]
+
+  @@map("clients")
+}
+
+// ─── Categories ───────────────────────────────────────────────────────────────
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  imageUrl  String?
+  createdAt DateTime @default(now())
+
+  subcategories Subcategory[]
+  services      Service[]
+  professionals ProfessionalCategory[]
+
+  @@map("categories")
+}
+
+model Subcategory {
+  id         String   @id @default(cuid())
+  name       String   @unique
+  slug       String   @unique
+  categoryId String
+  imageUrl   String?
+  createdAt  DateTime @default(now())
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@map("subcategories")
+}
+
+model ProfessionalCategory {
+  professionalId String
+  categoryId     String
+
+  professional Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  category     Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([professionalId, categoryId])
+  @@map("professional_categories")
+}
+
+// ─── Services ────────────────────────────────────────────────────────────────
+
+model Service {
+  id             String    @id @default(cuid())
+  professionalId String
+  categoryId     String?
+  title          String
+  description    String?   @db.Text
+  price          Decimal   @db.Decimal(10, 2)
+  currency       String    @default("ARS")
+  durationMin    Int?
+  imageUrl       String?
+  modality       Modality?
+  isActive       Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  version        Int       @default(0)
+
+  professional Professional    @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  category     Category?       @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  appointments Appointment[]
+  packages     PackageService[]
+
+  @@map("services")
+}
+
+// ─── Packages ────────────────────────────────────────────────────────────────
+
+model ServicePackage {
+  id             String   @id @default(cuid())
+  professionalId String
+  name           String
+  description    String?  @db.Text
+  sessionCount   Int
+  price          Decimal  @db.Decimal(10, 2)
+  originalPrice  Decimal  @db.Decimal(10, 2)
+  currency       String   @default("ARS")
+  validityDays   Int?
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  version        Int      @default(0)
+
+  professional   Professional     @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  services       PackageService[]
+  clientPackages ClientPackage[]
+
+  @@map("service_packages")
+}
+
+model PackageService {
+  packageId String
+  serviceId String
+
+  package ServicePackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  service Service        @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@id([packageId, serviceId])
+  @@map("package_services")
+}
+
+model ClientPackage {
+  id                String   @id @default(cuid())
+  clientId          String
+  servicePackageId  String
+  sessionsTotal     Int
+  sessionsRemaining Int
+  pricePaid         Decimal  @db.Decimal(10, 2)
+  currency          String   @default("ARS")
+  purchasedAt       DateTime @default(now())
+  expiresAt         DateTime?
+
+  client         Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  servicePackage ServicePackage @relation(fields: [servicePackageId], references: [id])
+  appointments   Appointment[]
+
+  @@map("client_packages")
+}
+
+// ─── Portfolio ────────────────────────────────────────────────────────────────
+
+model PortfolioItem {
+  id             String   @id @default(cuid())
+  professionalId String
+  title          String?
+  description    String?  @db.Text
+  imageUrl       String
+  order          Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  professional Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+  @@map("portfolio_items")
+}
+
+// ─── Availability ────────────────────────────────────────────────────────────
+
+// Horario semanal recurrente del profesional (ej: lunes 12:00–20:00)
+model ProfessionalAvailability {
+  id             String   @id @default(cuid())
+  professionalId String
+  dayOfWeek      Int      // 0=Dom 1=Lun … 6=Sab
+  startTime      String   // "HH:MM" en timezone del profesional
+  endTime        String   // "HH:MM"
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  professional Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+  @@map("professional_availability")
+}
+
+// Ausencias, vacaciones o bloqueos puntuales
+model BlockedSlot {
+  id             String            @id @default(cuid())
+  professionalId String
+  startAt        DateTime
+  endAt          DateTime
+  reason         BlockedSlotReason @default(OTHER)
+  note           String?
+  createdAt      DateTime          @default(now())
+
+  professional Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+  @@map("blocked_slots")
+}
+
+// ─── Appointments ─────────────────────────────────────────────────────────────
+
+model Appointment {
+  id               String            @id @default(cuid())
+  professionalId   String
+  clientId         String
+  serviceId        String?
+  clientPackageId  String?
+  priceAtBooking   Decimal?          @db.Decimal(10, 2)
+  currency         String            @default("ARS")
+  startAt          DateTime
+  durationMin      Int?
+  status           AppointmentStatus @default(PENDING)
+  notes            String?           @db.Text
+  isRecurring      Boolean           @default(false)
+  recurrenceType   RecurrenceType?
+  daysOfWeek       Int[]
+  recurrenceEndAt  DateTime?
+  parentId         String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  version          Int               @default(0)
+
+  professional  Professional   @relation(fields: [professionalId], references: [id])
+  client        Client         @relation(fields: [clientId], references: [id])
+  service       Service?       @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  clientPackage ClientPackage? @relation(fields: [clientPackageId], references: [id], onDelete: SetNull)
+  parent        Appointment?   @relation("RecurringInstances", fields: [parentId], references: [id], onDelete: SetNull)
+  children      Appointment[]  @relation("RecurringInstances")
+
+  @@map("appointments")
+}
+
+// ─── Reviews ──────────────────────────────────────────────────────────────────
+
+model Review {
+  id             String   @id @default(cuid())
+  professionalId String
+  clientId       String
+  rating         Int
+  comment        String?  @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  version        Int      @default(0)
+
+  professional Professional @relation(fields: [professionalId], references: [id])
+  client       Client       @relation(fields: [clientId], references: [id])
+
+  @@map("reviews")
+}

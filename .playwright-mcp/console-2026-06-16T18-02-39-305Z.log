@@ -1,0 +1,27 @@
+[     123ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[     244ms] [LOG] [Fast Refresh] done in 222ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[     335ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/login:0
+[     430ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[     491ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[     923ms] [WARNING] Image with src "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[    1070ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[    1306ms] [LOG] [Fast Refresh] done in 338ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[    9368ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[    9443ms] [LOG] [Fast Refresh] done in 183ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   27069ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   27605ms] [LOG] [Fast Refresh] done in 695ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   27717ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   28249ms] [LOG] [Fast Refresh] done in 633ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   28501ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   28516ms] [LOG] [Fast Refresh] done in 115ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   33687ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   34043ms] [LOG] [Fast Refresh] done in 450ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   34049ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/login:0
+[   34153ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   34613ms] [LOG] [Fast Refresh] done in 560ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   34722ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   34733ms] [LOG] [Fast Refresh] done in 111ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   34835ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   34846ms] [LOG] [Fast Refresh] done in 112ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   58984ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   59029ms] [LOG] [Fast Refresh] done in 146ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477

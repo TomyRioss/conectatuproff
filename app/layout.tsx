@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, DM_Sans } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 import "./brand.css";
 
@@ -30,7 +31,10 @@ export default function RootLayout({
       lang="es"
       className={`${playfair.variable} ${dmSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Toaster richColors position="top-right" />
+      </body>
     </html>
   );
 }

@@ -25,28 +25,22 @@ Siempre investigar si existe librería de terceros antes de implementar lógica 
 
 ## Branding — Paleta Conecta
 
-Paleta completa en `conecta-brand-colors.md`. Siempre usar brand tokens Tailwind:
+Paleta completa en `docs/conectatuprof-palette.md`. Siempre usar brand tokens Tailwind. Nunca hex hardcodeado en markup.
 
 | Token | Hex | Uso |
 |---|---|---|
-| `brand-espresso` | `#3D322E` | Texto principal, headings |
-| `brand-mauve` | `#847071` | Texto secundario, bordes |
-| `brand-rose-dark` | `#AB737B` | CTA, botones primarios |
-| `brand-rose` | `#B4898F` | Acento secundario, hover |
-| `brand-rose-soft` | `#BF9EA1` | Estados disabled, badges |
-| `brand-sage-dark` | `#82987F` | Éxito, confirmaciones |
-| `brand-sage` | `#97AC94` | Badges verdes |
-| `brand-sand` | `#AA9468` | Precios, detalles dorados |
-| `brand-wheat` | `#BCA67D` | Íconos decorativos |
-| `brand-gray` | `#CEC6C3` | Bordes, separadores |
-| `brand-cream` | `#E3DDD9` | Fondo cards, inputs |
-| `brand-cream-light` | `#F2EDE8` | Fondo de página |
+| `brand-green` | `#1EC97E` | Botón principal, CTAs — una sola acción primaria por vista |
+| `brand-violet` | `#6C5CE7` | Botones secundarios, precios destacados |
+| `brand-dark` | `#1A1A2E` | Títulos, texto principal, navbar/header bg |
+| `brand-gray` | `#6B7280` | Texto de apoyo, etiquetas, metadata |
+| `brand-bg` | `#F3F4F8` | Fondo de página y tarjetas |
 
-**Reglas accesibilidad:**
-- Texto body: solo `brand-espresso` o `brand-mauve` sobre fondos claros
-- `rose/sage/sand`: solo texto grande 18px+, íconos o decorativo
-- Nunca blanco puro `#FFFFFF` como fondo — usar `brand-cream-light`
-- Nunca negro puro `#000000` ni gris frío
+**Reglas accesibilidad (WCAG AA):**
+- `brand-dark` sobre blanco o `brand-bg`: ✅ texto normal
+- Blanco sobre `brand-green`, `brand-violet` o `brand-dark`: ✅ botones
+- `brand-gray` sobre `brand-bg`: ⚠️ solo texto ≥14px
+- `brand-green` o `brand-violet` como color de texto sobre `brand-bg`: ❌ no usar
+- Cards con `bg-brand-bg`: agregar `border border-gray-200` para definir borde
 
 ## Base de Datos
 

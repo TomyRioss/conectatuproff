@@ -62,7 +62,7 @@ Marketplace conecta clientes con profesionales bienestar (reflexología, masajes
 | id | status | goal | cites |
 |----|--------|------|-------|
 | T1 | x | Setup proyecto: Tailwind brand tokens, shadcn init, estructura carpetas MVC | V3,V4,V15 |
-| T2 | . | Schema DB: tablas users/professionals/services/zones/availability/appointments | I.db,V6 |
+| T2 | ~ | Schema DB: tablas users/professionals/services/zones/availability/appointments | I.db,V6 |
 | T3 | . | Auth: NextAuth roles client/professional/admin + registro + login + redirect por rol | I.auth,V7 |
 | T4 | . | Recuperación de contraseña (email reset) | I.auth,I.email,V1 |
 | T5 | . | Búsqueda profesionales: filtros barrio + servicio + bloque horario | I.db,I.api,V14 |

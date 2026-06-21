@@ -1,0 +1,31 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - heading "Acceso profesionales" [level=1] [ref=e6]
+        - paragraph [ref=e7]: Ingresá a tu panel profesional
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - generic [ref=e10]: Email
+          - textbox "Email" [ref=e11]:
+            - /placeholder: tu@email.com
+        - generic [ref=e12]:
+          - generic [ref=e13]: Contraseña
+          - generic [ref=e14]:
+            - textbox "Contraseña" [ref=e15]:
+              - /placeholder: Mínimo 8 caracteres
+            - button [ref=e16]:
+              - img [ref=e17]
+        - button "Ingresar" [ref=e20]
+      - generic [ref=e21]:
+        - paragraph [ref=e22]:
+          - text: ¿No tenés cuenta?
+          - link "Registrate como profesional" [ref=e23] [cursor=pointer]:
+            - /url: /profesional/register
+        - paragraph [ref=e24]:
+          - text: ¿Sos cliente?
+          - link "Ingresá acá" [ref=e25] [cursor=pointer]:
+            - /url: /login
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e31] [cursor=pointer]:
+    - img [ref=e32]
