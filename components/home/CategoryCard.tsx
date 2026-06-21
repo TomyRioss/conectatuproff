@@ -20,7 +20,7 @@ export default function CategoryCard({ name, slug, imageUrl, subcategories }: Pr
 
   return (
     <div className="flex flex-col">
-      <Link href={`/buscar?categoria=${slug}`} className="block relative w-full h-44 overflow-hidden rounded-xl mb-4">
+      <Link href={`/buscar?categoria=${slug}`} className="block relative w-full h-36 overflow-hidden rounded-xl mb-4">
         <div className="absolute inset-0 bg-gray-200" />
         {imageUrl && (
           <img
