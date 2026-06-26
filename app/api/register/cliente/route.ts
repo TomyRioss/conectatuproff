@@ -38,7 +38,6 @@ export async function POST(request: Request) {
         role: "CLIENT",
         isActive: true,
         client: { create: { firstName, lastName, phone, location } },
-        professional: { create: { firstName, lastName, isActive: false } },
       },
     });
 

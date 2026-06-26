@@ -8,25 +8,32 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 })
   }
 
-  const { firstName, lastName, avatarUrl } = await req.json()
+  const body = await req.json()
+  const { firstName, lastName, avatarUrl, phone, dni, location } = body
 
-  if (!firstName?.trim() || !lastName?.trim()) {
+  if (firstName !== undefined && (!firstName?.trim() || !lastName?.trim())) {
     return NextResponse.json({ error: "Nombre y apellido requeridos" }, { status: 400 })
   }
 
+  const data: Record<string, unknown> = {}
+  if (firstName !== undefined) { data.firstName = firstName.trim(); data.lastName = lastName.trim() }
+  if (avatarUrl !== undefined) data.avatarUrl = avatarUrl
+  if (phone !== undefined) data.phone = phone?.trim() || null
+  if (dni !== undefined) data.dni = dni ? parseInt(dni) : null
+  if (location !== undefined) data.location = location?.trim() || null
+
   const cliente = await prisma.client.update({
     where: { userId: session.user.id },
-    data: {
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      ...(avatarUrl !== undefined ? { avatarUrl } : {}),
-    },
+    data,
   })
 
-  await prisma.user.update({
-    where: { id: session.user.id },
-    data: { name: `${firstName.trim()} ${lastName.trim()}` },
-  })
+  const userUpdate: Record<string, unknown> = {}
+  if (firstName !== undefined) userUpdate.name = `${firstName.trim()} ${lastName.trim()}`
+  if (avatarUrl !== undefined) userUpdate.image = avatarUrl ? `/api/avatar?key=${encodeURIComponent(avatarUrl)}` : null
+
+  if (Object.keys(userUpdate).length > 0) {
+    await prisma.user.update({ where: { id: session.user.id }, data: userUpdate })
+  }
 
   return NextResponse.json(cliente)
 }

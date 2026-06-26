@@ -31,6 +31,7 @@ function AvatarButton() {
   const name = session?.user?.name
   const email = session?.user?.email
   const role = (session?.user as any)?.role
+  const avatarUrl = session?.user?.image ?? null
   const isClient = role === "CLIENT"
   const isProfessional = role === "PROFESSIONAL"
 
@@ -38,10 +39,14 @@ function AvatarButton() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
-          className="w-9 h-9 rounded-full bg-brand-violet text-white text-sm font-semibold flex items-center justify-center hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet ring-offset-2"
+          className="w-9 h-9 rounded-full bg-brand-violet text-white text-sm font-semibold flex items-center justify-center hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet ring-offset-2 overflow-hidden relative"
           aria-label="Menú de usuario"
         >
-          {initials}
+          <span className="absolute inset-0 flex items-center justify-center select-none">{initials}</span>
+          {avatarUrl && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={avatarUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
+          )}
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" className="w-52 bg-brand-bg border-gray-200">

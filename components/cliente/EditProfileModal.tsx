@@ -4,6 +4,7 @@ import { useState, useRef } from "react"
 import { Pencil, X, Upload } from "lucide-react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import {
   Dialog,
   DialogContent,
@@ -32,6 +33,7 @@ export default function EditProfileModal({ firstName, lastName, avatarKey, initi
   const [saving, setSaving] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
+  const { update } = useSession()
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -50,17 +52,14 @@ export default function EditProfileModal({ firstName, lastName, avatarKey, initi
       let newAvatarKey: string | undefined
 
       if (pendingFile) {
-        const urlRes = await fetch(
-          `/api/cliente/upload-url?contentType=${encodeURIComponent(pendingFile.type)}`
-        )
-        if (!urlRes.ok) throw new Error("Error obteniendo URL de subida")
-        const { uploadUrl, key } = await urlRes.json()
-
-        await fetch(uploadUrl, {
-          method: "PUT",
-          body: pendingFile,
-          headers: { "Content-Type": pendingFile.type },
-        })
+        const fd = new FormData()
+        fd.append("file", pendingFile)
+        const uploadRes = await fetch("/api/cliente/upload-avatar", { method: "POST", body: fd })
+        if (!uploadRes.ok) {
+          const err = await uploadRes.json()
+          throw new Error(err.error ?? "Error subiendo imagen")
+        }
+        const { key } = await uploadRes.json()
         newAvatarKey = key
       }
 
@@ -79,6 +78,8 @@ export default function EditProfileModal({ firstName, lastName, avatarKey, initi
         throw new Error(err.error ?? "Error al guardar")
       }
 
+      const newImageUrl = newAvatarKey ? `/api/avatar?key=${encodeURIComponent(newAvatarKey)}` : undefined
+      if (newImageUrl !== undefined) await update({ image: newImageUrl })
       toast.success("Perfil actualizado")
       setOpen(false)
       router.refresh()
@@ -158,7 +159,7 @@ export default function EditProfileModal({ firstName, lastName, avatarKey, initi
           </div>
 
           <div className="flex justify-end gap-2 pt-2">
-            <Button variant="ghost" onClick={() => setOpen(false)} disabled={saving}>
+            <Button variant="outline" onClick={() => setOpen(false)} disabled={saving}>
               Cancelar
             </Button>
             <Button

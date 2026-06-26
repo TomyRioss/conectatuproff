@@ -41,21 +41,33 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           data: { lastActivity: new Date() },
         }).catch((e) => console.error("[auth] update lastActivity failed:", e));
 
-        return { id: user.id, email: user.email ?? "", name: user.name, role: user.role };
+        return { id: user.id, email: user.email ?? "", name: user.name, role: user.role, image: user.image };
       },
     }),
   ],
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user, trigger, session: sessionUpdate }) {
       if (user) {
         token.id = user.id!;
         token.role = (user as { role: string }).role;
+        const role = (user as { role: string }).role;
+        const profile = role === "CLIENT"
+          ? await prisma.client.findUnique({ where: { userId: user.id! }, select: { avatarUrl: true } })
+          : role === "PROFESSIONAL"
+          ? await prisma.professional.findUnique({ where: { userId: user.id! }, select: { avatarUrl: true } })
+          : null;
+        const key = (profile as { avatarUrl?: string | null } | null)?.avatarUrl;
+        token.picture = key ? `/api/avatar?key=${encodeURIComponent(key)}` : null;
+      }
+      if (trigger === "update" && sessionUpdate?.image !== undefined) {
+        token.picture = sessionUpdate.image;
       }
       return token;
     },
     session({ session, token }) {
       session.user.id = token.id as string;
       (session.user as { role?: string }).role = token.role as string;
+      session.user.image = token.picture as string | null;
       return session;
     },
   },

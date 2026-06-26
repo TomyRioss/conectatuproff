@@ -55,9 +55,23 @@ export async function PATCH(request: Request) {
       uploadDniPhoto(dniBackFile, userId, "back"),
     ]);
 
-    await prisma.professional.update({
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
+    const [firstName, ...rest] = (user?.name ?? "").split(" ");
+    const lastName = rest.join(" ") || firstName;
+
+    await prisma.professional.upsert({
       where: { userId },
-      data: {
+      update: {
+        phone,
+        dni: dniNum,
+        dniPhotoFront: dniFrontKey,
+        dniPhotoBack: dniBackKey,
+        isActive: true,
+      },
+      create: {
+        userId,
+        firstName: firstName || "N",
+        lastName: lastName || "N",
         phone,
         dni: dniNum,
         dniPhotoFront: dniFrontKey,
