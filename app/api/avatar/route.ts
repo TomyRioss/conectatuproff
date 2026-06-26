@@ -18,7 +18,7 @@ export async function GET(req: Request) {
   try {
     const obj = await r2.send(new GetObjectCommand({ Bucket: process.env.R2_BUCKET_NAME!, Key: key }))
     const body = await obj.Body!.transformToByteArray()
-    return new Response(body, {
+    return new Response(Buffer.from(body), {
       headers: {
         "Content-Type": obj.ContentType ?? "image/jpeg",
         "Cache-Control": "private, max-age=31536000",
