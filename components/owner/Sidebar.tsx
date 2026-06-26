@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, Users } from "lucide-react";
+import { LayoutGrid, Users, FileText } from "lucide-react";
 
 const links = [
   { href: "/owner/categorias", label: "Categorías", icon: LayoutGrid },
   { href: "/owner/usuarios", label: "Usuarios", icon: Users },
+  { href: "/owner/documentacion", label: "Documentación", icon: FileText },
 ];
 
 export default function OwnerSidebar() {

@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 import Link from "next/link";
+import { AlertTriangle } from "lucide-react";
 import FormField from "@/components/auth/FormField";
 import PasswordInput from "@/components/auth/PasswordInput";
 import AuthShell from "@/components/auth/AuthShell";
@@ -15,6 +16,7 @@ import { loginSchema, type LoginInput } from "@/lib/validations/auth";
 function ProfesionalLoginForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [notProfessional, setNotProfessional] = useState(false);
 
   const {
     register,
@@ -28,21 +30,33 @@ function ProfesionalLoginForm() {
       toast.warning("Tu cuenta está en revisión. Te avisaremos por email cuando sea aprobada.");
     } else if (error === "BANNED") {
       toast.error("Tu cuenta fue suspendida. Contactá a soporte.");
+    } else if (error === "NOT_PROFESSIONAL") {
+      setNotProfessional(true);
     } else if (error) {
       toast.error("Email o contraseña incorrectos.");
     }
   }, [searchParams]);
 
   async function onSubmit(data: LoginInput) {
+    setNotProfessional(false);
     try {
       const result = await signIn("credentials", {
         email: data.email,
         password: data.password,
+        professionalOnly: "true",
         redirect: false,
       });
 
       if (result?.error) {
-        toast.error("Email o contraseña incorrectos.");
+        if (result.code === "NOT_PROFESSIONAL") {
+          setNotProfessional(true);
+        } else if (result.code === "PENDING_REVIEW") {
+          toast.warning("Tu cuenta está en revisión. Te avisaremos por email cuando sea aprobada.");
+        } else if (result.code === "BANNED") {
+          toast.error("Tu cuenta fue suspendida. Contactá a soporte.");
+        } else {
+          toast.error("Email o contraseña incorrectos.");
+        }
         return;
       }
 
@@ -64,6 +78,19 @@ function ProfesionalLoginForm() {
           <h1 className="text-2xl font-bold text-brand-dark font-display">Acceso profesionales</h1>
           <p className="text-brand-gray text-sm mt-1">Ingresá a tu panel profesional</p>
         </div>
+
+        {notProfessional && (
+          <div className="mb-4 flex gap-3 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3">
+            <AlertTriangle className="mt-0.5 shrink-0 text-amber-500" size={18} />
+            <p className="text-sm text-amber-800 leading-snug">
+              <span className="font-semibold">Cuenta de Cliente.</span> Creá una cuenta de Profesional o{" "}
+              <Link href="/login" className="font-semibold underline underline-offset-2 hover:text-amber-900">
+                accedé desde acá como cliente
+              </Link>
+              .
+            </p>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <FormField label="Email" type="email" placeholder="tu@email.com" error={errors.email?.message} {...register("email")} />

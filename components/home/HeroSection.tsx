@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react"
 import { MapPin, Briefcase, ChevronDown, ChevronRight, Sparkles, Tag } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { AISearchDialog } from "@/components/ui/AISearchDialog"
 
 type Props = {
   subcategories: { name: string; slug: string }[]
@@ -14,7 +14,6 @@ export default function HeroSection({ subcategories }: Props) {
   const [barrio, setBarrio] = useState("")
   const [servicio, setServicio] = useState("")
   const [aiOpen, setAiOpen] = useState(false)
-  const [aiQuery, setAiQuery] = useState("")
   const scrollRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
   const startX = useRef(0)
@@ -51,12 +50,6 @@ export default function HeroSection({ subcategories }: Props) {
     router.push(`/buscar?${params.toString()}`)
   }
 
-  function handleAiSearch(e: React.FormEvent) {
-    e.preventDefault()
-    if (!aiQuery.trim()) return
-    setAiOpen(false)
-    router.push(`/buscar?q=${encodeURIComponent(aiQuery.trim())}`)
-  }
 
   return (
     <section className="relative overflow-hidden pt-16 pb-20 px-4 min-h-[480px]">
@@ -176,45 +169,7 @@ export default function HeroSection({ subcategories }: Props) {
         </div>
       </div>
 
-      {/* AI Search Dialog */}
-      <Dialog open={aiOpen} onOpenChange={setAiOpen}>
-        <DialogContent className="sm:max-w-lg p-0 overflow-hidden border-0 shadow-2xl">
-          {/* Header */}
-          <div className="bg-[#1A1A2E] px-6 pt-6 pb-5">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2.5 text-white text-lg">
-                <div className="w-8 h-8 rounded-lg bg-[#6C5CE7] flex items-center justify-center shrink-0">
-                  <Sparkles size={15} className="text-white" />
-                </div>
-                Buscar con IA
-              </DialogTitle>
-            </DialogHeader>
-            <p className="text-white/60 text-sm mt-2 ml-[42px]">
-              Describí lo que necesitás y encontramos al profesional ideal.
-            </p>
-          </div>
-
-          {/* Body */}
-          <form onSubmit={handleAiSearch} className="px-6 py-5 flex flex-col gap-4 bg-white">
-            <textarea
-              autoFocus
-              rows={4}
-              value={aiQuery}
-              onChange={(e) => setAiQuery(e.target.value)}
-              placeholder="Ej: Necesito un masajista en Palermo que atienda fines de semana y tenga experiencia con deportistas..."
-              className="w-full rounded-xl border border-gray-200 bg-[#F3F4F8] px-4 py-3 text-sm text-[#1A1A2E] placeholder:text-gray-400 outline-none focus:border-[#6C5CE7] focus:ring-2 focus:ring-[#6C5CE7]/20 focus:bg-white resize-none transition-colors"
-            />
-            <button
-              type="submit"
-              disabled={!aiQuery.trim()}
-              className="w-full bg-[#6C5CE7] text-white py-3 rounded-xl text-sm font-semibold hover:bg-[#5a4bd1] disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
-            >
-              <Sparkles size={14} />
-              Buscar profesional
-            </button>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <AISearchDialog open={aiOpen} onOpenChange={setAiOpen} />
     </section>
   )
 }

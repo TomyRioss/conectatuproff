@@ -15,11 +15,16 @@ export async function POST(request: Request) {
       );
     }
 
-    const { firstName, lastName, email, password, phone } = parsed.data;
+    const { firstName, lastName, username, email, password, phone, location } = parsed.data;
 
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
       return NextResponse.json({ error: "EMAIL_TAKEN" }, { status: 409 });
+    }
+
+    const existingUsername = await prisma.user.findUnique({ where: { username } });
+    if (existingUsername) {
+      return NextResponse.json({ error: "USERNAME_TAKEN" }, { status: 409 });
     }
 
     const hash = await bcrypt.hash(password, 12);
@@ -27,10 +32,13 @@ export async function POST(request: Request) {
     await prisma.user.create({
       data: {
         email,
+        username,
+        name: `${firstName} ${lastName}`,
         password: hash,
         role: "CLIENT",
         isActive: true,
-        client: { create: { firstName, lastName, phone } },
+        client: { create: { firstName, lastName, phone, location } },
+        professional: { create: { firstName, lastName, isActive: false } },
       },
     });
 

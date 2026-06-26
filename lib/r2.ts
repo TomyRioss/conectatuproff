@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const r2 = new S3Client({
@@ -11,13 +11,12 @@ const r2 = new S3Client({
 });
 
 const BUCKET = process.env.R2_BUCKET_NAME!;
-const PUBLIC_URL = process.env.R2_PUBLIC_URL!;
 
 export async function uploadFile(key: string, body: Buffer, contentType: string) {
   await r2.send(
     new PutObjectCommand({ Bucket: BUCKET, Key: key, Body: body, ContentType: contentType })
   );
-  return `${PUBLIC_URL}/${key}`;
+  return key;
 }
 
 export async function deleteFile(key: string) {
@@ -32,6 +31,10 @@ export async function getPresignedUploadUrl(key: string, contentType: string, ex
   );
 }
 
-export function getPublicUrl(key: string) {
-  return `${PUBLIC_URL}/${key}`;
+export async function getPresignedDownloadUrl(key: string, expiresIn = 3600) {
+  return getSignedUrl(
+    r2,
+    new GetObjectCommand({ Bucket: BUCKET, Key: key }),
+    { expiresIn }
+  );
 }

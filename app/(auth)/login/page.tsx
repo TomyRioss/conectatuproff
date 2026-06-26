@@ -24,6 +24,7 @@ function LoginForm() {
 
   useEffect(() => {
     const error = searchParams.get("error");
+    if (!error || error === "undefined") return;
     if (error === "PENDING_REVIEW") {
       toast.error("Tu cuenta está en revisión. Te avisaremos por email cuando sea aprobada.");
     } else if (error === "BANNED") {
@@ -42,7 +43,13 @@ function LoginForm() {
       });
 
       if (result?.error) {
-        toast.error("Email o contraseña incorrectos.");
+        if (result.error === "PENDING_REVIEW") {
+          toast.error("Tu cuenta está en revisión. Te avisaremos por email cuando sea aprobada.");
+        } else if (result.error === "BANNED") {
+          toast.error("Tu cuenta fue suspendida. Contactá a soporte.");
+        } else {
+          toast.error("Email o contraseña incorrectos.");
+        }
         return;
       }
 

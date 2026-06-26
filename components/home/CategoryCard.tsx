@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 type Subcategory = { id: string; name: string; slug: string }
 
@@ -14,9 +14,15 @@ type Props = {
 
 export default function CategoryCard({ name, slug, imageUrl, subcategories }: Props) {
   const [expanded, setExpanded] = useState(false)
-
-  const visible = expanded ? subcategories : subcategories.slice(0, 5)
+  const listRef = useRef<HTMLUListElement>(null)
   const hasMore = subcategories.length > 5
+  const visible = expanded ? subcategories : subcategories.slice(0, 5)
+
+  function handleScroll() {
+    if (listRef.current && listRef.current.scrollTop === 0) {
+      setExpanded(false)
+    }
+  }
 
   return (
     <div className="flex flex-col">
@@ -39,8 +45,12 @@ export default function CategoryCard({ name, slug, imageUrl, subcategories }: Pr
         {name}
       </Link>
 
-      {visible.length > 0 && (
-        <ul className="space-y-1.5 mb-2">
+      {subcategories.length > 0 && (
+        <ul
+          ref={listRef}
+          onScroll={handleScroll}
+          className={`space-y-1.5 mb-2 transition-all ${expanded ? "overflow-y-auto max-h-36 pr-1" : "overflow-hidden"}`}
+        >
           {visible.map((sub) => (
             <li key={sub.id}>
               <Link

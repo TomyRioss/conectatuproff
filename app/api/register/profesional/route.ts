@@ -13,10 +13,12 @@ export async function POST(request: Request) {
     const parsed = professionalRegisterSchema.safeParse({
       firstName: formData.get("firstName"),
       lastName: formData.get("lastName"),
+      username: formData.get("username"),
       email: formData.get("email"),
       password: formData.get("password"),
       phone: formData.get("phone"),
       dni: formData.get("dni"),
+      location: formData.get("location"),
     });
 
     if (!parsed.success) {
@@ -26,7 +28,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { firstName, lastName, email, password, phone } = parsed.data;
+    const { firstName, lastName, username, email, password, phone, location } = parsed.data;
     const dni = parseInt(parsed.data.dni, 10);
 
     const dniFront = formData.get("dniFront") as File | null;
@@ -44,10 +46,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "EMAIL_TAKEN" }, { status: 409 });
     }
 
+    const existingUsername = await prisma.user.findUnique({ where: { username } });
+    if (existingUsername) {
+      return NextResponse.json({ error: "USERNAME_TAKEN" }, { status: 409 });
+    }
+
     const hash = await bcrypt.hash(password, 12);
 
     const user = await prisma.user.create({
-      data: { email, password: hash, role: "PROFESSIONAL", isActive: false },
+      data: { email, username, password: hash, role: "PROFESSIONAL", isActive: false },
     });
     userId = user.id;
 
@@ -68,7 +75,7 @@ export async function POST(request: Request) {
     ]);
 
     await prisma.professional.create({
-      data: { userId: user.id, firstName, lastName, phone, dni, dniPhotoFront, dniPhotoBack },
+      data: { userId: user.id, firstName, lastName, phone, dni, dniPhotoFront, dniPhotoBack, location },
     });
 
     return NextResponse.json({ ok: true });

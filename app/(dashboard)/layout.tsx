@@ -1,7 +1,14 @@
+import Navbar from "@/components/layout/Navbar"
+import Footer from "@/components/layout/Footer"
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="min-h-screen bg-brand-cream-light">
-      {children}
-    </main>
+    <>
+      <Navbar />
+      <main className="min-h-screen bg-brand-bg">
+        {children}
+      </main>
+      <Footer />
+    </>
   )
 }

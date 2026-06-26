@@ -50,6 +50,7 @@ enum BlockedSlotReason {
 model User {
   id            String    @id @default(cuid())
   name          String?
+  username      String?   @unique
   email         String    @unique
   emailVerified DateTime?
   image         String?
@@ -62,10 +63,11 @@ model User {
   updatedAt     DateTime  @updatedAt
   version       Int       @default(0)
 
-  accounts     Account[]
-  sessions     Session[]
-  professional Professional?
-  client       Client?
+  accounts      Account[]
+  sessions      Session[]
+  professional  Professional?
+  client        Client?
+  notifications Notification[]
 
   @@map("users")
 }
@@ -127,13 +129,17 @@ model Professional {
   timezone      String   @default("America/Argentina/Buenos_Aires")
   dniPhotoFront String?
   dniPhotoBack  String?
+  avatarUrl   String?
   isActive    Boolean  @default(true)
   isVerified  Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   version     Int      @default(0)
 
+  subcategoryId String?
+
   user         User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subcategory  Subcategory?               @relation(fields: [subcategoryId], references: [id], onDelete: SetNull)
   categories   ProfessionalCategory[]
   services     Service[]
   packages     ServicePackage[]
@@ -153,6 +159,8 @@ model Client {
   lastName  String
   dni       Int?
   phone      String?
+  avatarUrl  String?
+  location   String?
   isVerified Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -190,7 +198,8 @@ model Subcategory {
   imageUrl   String?
   createdAt  DateTime @default(now())
 
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category      Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  professionals Professional[]
 
   @@map("subcategories")
 }
@@ -383,4 +392,21 @@ model Review {
   client       Client       @relation(fields: [clientId], references: [id])
 
   @@map("reviews")
+}
+
+// ─── Notifications ────────────────────────────────────────────────────────────
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  body      String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
 }

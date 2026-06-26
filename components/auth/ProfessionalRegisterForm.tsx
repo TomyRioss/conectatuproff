@@ -8,7 +8,8 @@ import { useRouter } from "next/navigation";
 import FormField from "@/components/auth/FormField";
 import PasswordInput from "@/components/auth/PasswordInput";
 import DniUpload from "@/components/auth/DniUpload";
-import { professionalRegisterSchema, type ProfessionalRegisterInput } from "@/lib/validations/auth";
+import ArgentinaLocationSelect from "@/components/auth/ArgentinaLocationSelect";
+import { professionalRegisterFormSchema, type ProfessionalRegisterFormInput } from "@/lib/validations/auth";
 
 const STEPS = [
   { label: "Datos básicos" },
@@ -18,9 +19,9 @@ const STEPS = [
   { label: "Foto reverso" },
 ];
 
-const STEP_FIELDS: (keyof ProfessionalRegisterInput)[][] = [
-  ["firstName", "lastName", "email", "password"],
-  ["phone"],
+const STEP_FIELDS: (keyof ProfessionalRegisterFormInput)[][] = [
+  ["firstName", "lastName", "username", "email", "password", "confirmPassword"],
+  ["phone", "province", "municipality"],
   ["dni"],
   [],
   [],
@@ -38,8 +39,10 @@ export default function ProfessionalRegisterForm() {
     handleSubmit,
     trigger,
     setError,
+    watch,
+    setValue,
     formState: { errors, isSubmitting },
-  } = useForm<ProfessionalRegisterInput>({ resolver: zodResolver(professionalRegisterSchema) });
+  } = useForm<ProfessionalRegisterFormInput>({ resolver: zodResolver(professionalRegisterFormSchema) });
 
   async function next() {
     const fields = STEP_FIELDS[step];
@@ -60,7 +63,7 @@ export default function ProfessionalRegisterForm() {
     setStep((s) => s - 1);
   }
 
-  async function onSubmit(data: ProfessionalRegisterInput) {
+  async function onSubmit(data: ProfessionalRegisterFormInput) {
     if (!dniBack) { setDniErrors((e) => ({ ...e, back: "Requerido" })); return; }
     setDniErrors((e) => ({ ...e, back: "" }));
 
@@ -68,10 +71,12 @@ export default function ProfessionalRegisterForm() {
       const formData = new FormData();
       formData.append("firstName", data.firstName);
       formData.append("lastName", data.lastName);
+      formData.append("username", data.username);
       formData.append("email", data.email);
       formData.append("password", data.password);
       formData.append("phone", data.phone);
       formData.append("dni", String(data.dni));
+      formData.append("location", `${data.province}, ${data.municipality}`);
       formData.append("dniFront", dniFront!);
       formData.append("dniBack", dniBack);
 
@@ -83,7 +88,11 @@ export default function ProfessionalRegisterForm() {
       const body = await res.json();
 
       if (res.status === 409) {
-        setError("email", { message: "Este email ya está registrado" });
+        if (body.error === "USERNAME_TAKEN") {
+          setError("username", { message: "Este nombre de usuario ya está en uso" });
+        } else {
+          setError("email", { message: "Este email ya está registrado" });
+        }
         setStep(0);
         return;
       }
@@ -93,7 +102,7 @@ export default function ProfessionalRegisterForm() {
         for (const [field, msgs] of Object.entries(fields)) {
           if (field === "dniFront") setDniErrors((e) => ({ ...e, front: msgs[0] }));
           else if (field === "dniBack") setDniErrors((e) => ({ ...e, back: msgs[0] }));
-          else setError(field as keyof ProfessionalRegisterInput, { message: msgs[0] });
+          else setError(field as keyof ProfessionalRegisterFormInput, { message: msgs[0] });
         }
         return;
       }
@@ -146,6 +155,12 @@ export default function ProfessionalRegisterForm() {
               />
             </div>
             <FormField
+              label="Nombre de usuario"
+              placeholder="ana_lopez"
+              error={errors.username?.message}
+              {...register("username")}
+            />
+            <FormField
               label="Email"
               type="email"
               placeholder="tu@email.com"
@@ -158,18 +173,34 @@ export default function ProfessionalRegisterForm() {
               error={errors.password?.message}
               {...register("password")}
             />
+            <PasswordInput
+              label="Confirmar contraseña"
+              placeholder="Repetí tu contraseña"
+              error={errors.confirmPassword?.message}
+              {...register("confirmPassword")}
+            />
           </>
         )}
 
-        {/* Step 1: teléfono */}
+        {/* Step 1: teléfono + ubicación */}
         {step === 1 && (
-          <FormField
-            label="Teléfono"
-            type="tel"
-            placeholder="+54 11 1234-5678"
-            error={errors.phone?.message}
-            {...register("phone")}
-          />
+          <>
+            <FormField
+              label="Teléfono"
+              type="tel"
+              placeholder="+54 11 1234-5678"
+              error={errors.phone?.message}
+              {...register("phone")}
+            />
+            <ArgentinaLocationSelect
+              provinciaValue={watch("province") ?? ""}
+              municipioValue={watch("municipality") ?? ""}
+              onProvinciaChange={(v) => setValue("province", v, { shouldValidate: true })}
+              onMunicipioChange={(v) => setValue("municipality", v, { shouldValidate: true })}
+              provinciaError={errors.province?.message}
+              municipioError={errors.municipality?.message}
+            />
+          </>
         )}
 
         {/* Step 2: DNI número */}
@@ -177,7 +208,7 @@ export default function ProfessionalRegisterForm() {
           <FormField
             label="DNI"
             type="text"
-            placeholder="46800296"
+            placeholder="12345678"
             error={errors.dni?.message}
             {...register("dni")}
           />
