@@ -19,6 +19,7 @@ type Service = {
   price: unknown
   durationMin: number | null
   modality: "ONLINE" | "IN_PERSON" | "HYBRID" | null
+  categoryId: string | null
   imageUrl: string | null
   isActive: boolean
 }
