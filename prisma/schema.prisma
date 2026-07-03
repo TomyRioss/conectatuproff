@@ -68,6 +68,7 @@ model User {
   professional  Professional?
   client        Client?
   notifications Notification[]
+  petitions     Petition[]
 
   @@map("users")
 }
@@ -130,6 +131,7 @@ model Professional {
   dniPhotoFront String?
   dniPhotoBack  String?
   avatarUrl   String?
+  videoUrl    String?
   isActive    Boolean  @default(true)
   isVerified  Boolean  @default(false)
   createdAt   DateTime @default(now())
@@ -409,4 +411,25 @@ model Notification {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("notifications")
+}
+
+// ─── Petitions ────────────────────────────────────────────────────────────────
+
+enum PetitionStatus {
+  PENDING
+  RESOLVED
+  REJECTED
+}
+
+model Petition {
+  id        String         @id @default(cuid())
+  userId    String
+  name      String
+  status    PetitionStatus @default(PENDING)
+  createdAt DateTime       @default(now())
+  resolvedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("petitions")
 }

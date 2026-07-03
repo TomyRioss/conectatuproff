@@ -21,6 +21,7 @@ export const professionalRegisterSchema = z.object({
   username: z.string().min(3, "Mínimo 3 caracteres").regex(/^[a-z0-9_]+$/, "Solo letras minúsculas, números y _"),
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Mínimo 8 caracteres"),
+  specialty: z.string().min(3, "Mínimo 3 caracteres"),
   phone: z.string().min(1, "Requerido"),
   dni: z.string().regex(/^\d{7,8}$/, "DNI inválido (7 u 8 dígitos)"),
   location: z.string().min(1, "Requerido"),

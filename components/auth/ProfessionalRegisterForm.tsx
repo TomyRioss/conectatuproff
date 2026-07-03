@@ -5,10 +5,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
 import FormField from "@/components/auth/FormField";
 import PasswordInput from "@/components/auth/PasswordInput";
 import DniUpload from "@/components/auth/DniUpload";
 import ArgentinaLocationSelect from "@/components/auth/ArgentinaLocationSelect";
+import SpecialtyAutocomplete from "@/components/auth/SpecialtyAutocomplete";
 import { professionalRegisterFormSchema, type ProfessionalRegisterFormInput } from "@/lib/validations/auth";
 
 const STEPS = [
@@ -20,7 +22,7 @@ const STEPS = [
 ];
 
 const STEP_FIELDS: (keyof ProfessionalRegisterFormInput)[][] = [
-  ["firstName", "lastName", "username", "email", "password", "confirmPassword"],
+  ["firstName", "lastName", "username", "email", "password", "confirmPassword", "specialty"],
   ["phone", "province", "municipality"],
   ["dni"],
   [],
@@ -29,6 +31,7 @@ const STEP_FIELDS: (keyof ProfessionalRegisterFormInput)[][] = [
 
 export default function ProfessionalRegisterForm() {
   const router = useRouter();
+  const { update } = useSession();
   const [step, setStep] = useState(0);
   const [dniFront, setDniFront] = useState<File | null>(null);
   const [dniBack, setDniBack] = useState<File | null>(null);
@@ -74,6 +77,7 @@ export default function ProfessionalRegisterForm() {
       formData.append("username", data.username);
       formData.append("email", data.email);
       formData.append("password", data.password);
+      formData.append("specialty", data.specialty);
       formData.append("phone", data.phone);
       formData.append("dni", String(data.dni));
       formData.append("location", `${data.province}, ${data.municipality}`);
@@ -112,7 +116,9 @@ export default function ProfessionalRegisterForm() {
         return;
       }
 
-      router.push("/pendiente");
+      await signIn("credentials", { email: data.email, password: data.password, redirect: false });
+      await update({ role: "CLIENT" });
+      router.push("/?pendingReview=1");
     } catch {
       toast.error("Ocurrió un error, intentá de nuevo.");
     }
@@ -178,6 +184,11 @@ export default function ProfessionalRegisterForm() {
               placeholder="Repetí tu contraseña"
               error={errors.confirmPassword?.message}
               {...register("confirmPassword")}
+            />
+            <SpecialtyAutocomplete
+              value={watch("specialty")}
+              onChange={(v) => setValue("specialty", v, { shouldValidate: true })}
+              error={errors.specialty?.message}
             />
           </>
         )}

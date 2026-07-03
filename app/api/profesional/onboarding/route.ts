@@ -35,12 +35,13 @@ export async function PATCH(request: Request) {
     }
 
     const formData = await request.formData();
+    const specialty = formData.get("specialty") as string | null;
     const phone = formData.get("phone") as string | null;
     const dni = formData.get("dni") as string | null;
     const dniFrontFile = formData.get("dniFront") as File | null;
     const dniBackFile = formData.get("dniBack") as File | null;
 
-    if (!phone || !dni || !dniFrontFile || !dniBackFile) {
+    if (!specialty || !phone || !dni || !dniFrontFile || !dniBackFile) {
       return NextResponse.json({ error: "MISSING_FIELDS" }, { status: 400 });
     }
 
@@ -59,26 +60,34 @@ export async function PATCH(request: Request) {
     const [firstName, ...rest] = (user?.name ?? "").split(" ");
     const lastName = rest.join(" ") || firstName;
 
-    await prisma.professional.upsert({
-      where: { userId },
-      update: {
-        phone,
-        dni: dniNum,
-        dniPhotoFront: dniFrontKey,
-        dniPhotoBack: dniBackKey,
-        isActive: true,
-      },
-      create: {
-        userId,
-        firstName: firstName || "N",
-        lastName: lastName || "N",
-        phone,
-        dni: dniNum,
-        dniPhotoFront: dniFrontKey,
-        dniPhotoBack: dniBackKey,
-        isActive: true,
-      },
-    });
+    await prisma.$transaction([
+      prisma.professional.upsert({
+        where: { userId },
+        update: {
+          specialty,
+          phone,
+          dni: dniNum,
+          dniPhotoFront: dniFrontKey,
+          dniPhotoBack: dniBackKey,
+          isActive: true,
+        },
+        create: {
+          userId,
+          firstName: firstName || "N",
+          lastName: lastName || "N",
+          specialty,
+          phone,
+          dni: dniNum,
+          dniPhotoFront: dniFrontKey,
+          dniPhotoBack: dniBackKey,
+          isActive: true,
+        },
+      }),
+      prisma.user.update({
+        where: { id: userId },
+        data: { role: "PROFESSIONAL" },
+      }),
+    ]);
 
     return NextResponse.json({ ok: true });
   } catch (err) {

@@ -1,0 +1,30 @@
+[    2310ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3001/login:0
+[    2665ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[    2966ms] [LOG] [HMR] connected @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[    3365ms] [WARNING] Image with src "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[    3367ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[    3589ms] [LOG] [Fast Refresh] done in 321ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   73924ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   75603ms] [LOG] [Fast Refresh] done in 1761ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   75748ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   76710ms] [LOG] [Fast Refresh] done in 1064ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   76826ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   77801ms] [LOG] [Fast Refresh] done in 1087ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   78134ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   78256ms] [LOG] [Fast Refresh] done in 225ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   80354ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   80387ms] [LOG] [Fast Refresh] done in 143ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   84900ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   85585ms] [LOG] [Fast Refresh] done in 785ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   85695ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   86214ms] [LOG] [Fast Refresh] done in 621ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   86363ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   86384ms] [LOG] [Fast Refresh] done in 122ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   86495ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   87193ms] [LOG] [Fast Refresh] done in 801ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   87537ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   87566ms] [LOG] [Fast Refresh] done in 131ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   87672ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   87754ms] [LOG] [Fast Refresh] done in 186ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   98079ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
+[   98416ms] [LOG] [Fast Refresh] done in 450ms @ http://localhost:3001/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477

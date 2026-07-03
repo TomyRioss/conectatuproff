@@ -1,9 +1,10 @@
 ﻿"use client"
 
 import Link from "next/link"
-import { Menu, X, LogOut, User, Search, MessageSquare, Heart, Sparkles, ChevronDown } from "lucide-react"
+import { Menu, X, LogOut, User, Search, MessageSquare, Heart, Sparkles, ChevronDown, Clock } from "lucide-react"
 import NotificationBell from "@/components/layout/NotificationBell"
 import { useState, useEffect } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useSession, signOut } from "next-auth/react"
 import {
   DropdownMenu,
@@ -13,21 +14,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { AISearchDialog } from "@/components/ui/AISearchDialog"
 
-function getInitials(name?: string | null) {
-  if (!name) return "?"
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
-    .join("")
+function getInitials(name?: string | null, email?: string | null) {
+  if (name) {
+    return name
+      .split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((w) => w[0].toUpperCase())
+      .join("")
+  }
+  if (email) return email[0].toUpperCase()
+  return "?"
 }
 
 function AvatarButton() {
   const { data: session } = useSession()
-  const initials = getInitials(session?.user?.name)
+  const initials = getInitials(session?.user?.name, session?.user?.email)
   const name = session?.user?.name
   const email = session?.user?.email
   const role = (session?.user as any)?.role
@@ -113,11 +118,52 @@ type Category = { id: string; name: string; slug: string }
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [aiOpen, setAiOpen] = useState(false)
+  const [pendingOpen, setPendingOpen] = useState(false)
+  const [checkingMode, setCheckingMode] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
-  const { data: session, status } = useSession()
+  const { data: session, status, update } = useSession()
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const isLoggedIn = status === "authenticated"
   const role = (session?.user as any)?.role
   const isClient = ["cliente", "client", "CLIENT"].includes(role)
+
+  async function handleModoProfesional() {
+    if (checkingMode) return
+    setCheckingMode(true)
+    try {
+      const res = await fetch("/api/profesional/status")
+      const data = await res.json()
+      if (data.state === "verified" || data.state === "pending") {
+        if (role !== "PROFESSIONAL") await update({ role: "PROFESSIONAL" })
+      }
+      if (data.state === "verified") router.push("/profesional/perfil")
+      else if (data.state === "pending") setPendingOpen(true)
+      else router.push("/profesional/onboarding")
+    } catch {
+      router.push("/profesional/inicio")
+    } finally {
+      setCheckingMode(false)
+    }
+  }
+
+  async function handleModoCliente() {
+    if (checkingMode) return
+    setCheckingMode(true)
+    try {
+      await update({ role: "CLIENT" })
+      router.push("/")
+    } finally {
+      setCheckingMode(false)
+    }
+  }
+
+  useEffect(() => {
+    if (searchParams.get("pendingReview") === "1") {
+      setPendingOpen(true)
+      router.replace("/")
+    }
+  }, [searchParams, router])
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -196,12 +242,22 @@ export default function Navbar() {
           ) : isLoggedIn ? (
             <>
               {isClient && (
-                <Link
-                  href="/profesional/onboarding"
-                  className="text-sm font-semibold text-brand-violet relative after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-brand-green after:scale-x-0 after:origin-left hover:after:scale-x-100 after:transition-transform after:duration-300"
+                <button
+                  onClick={handleModoProfesional}
+                  disabled={checkingMode}
+                  className="text-sm font-semibold text-brand-violet relative after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-brand-green after:scale-x-0 after:origin-left hover:after:scale-x-100 after:transition-transform after:duration-300 cursor-pointer disabled:cursor-default disabled:opacity-60"
                 >
                   Modo Profesional
-                </Link>
+                </button>
+              )}
+              {role === "PROFESSIONAL" && (
+                <button
+                  onClick={handleModoCliente}
+                  disabled={checkingMode}
+                  className="text-sm font-semibold text-brand-violet relative after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-brand-green after:scale-x-0 after:origin-left hover:after:scale-x-100 after:transition-transform after:duration-300 cursor-pointer disabled:cursor-default disabled:opacity-60"
+                >
+                  Buscar Servicios
+                </button>
               )}
               <AvatarButton />
 </>
@@ -298,6 +354,26 @@ export default function Navbar() {
           )}
         </div>
       )}
+
+      <Dialog open={pendingOpen} onOpenChange={setPendingOpen}>
+        <DialogContent className="text-center">
+          <div className="flex justify-center mb-2">
+            <div className="w-16 h-16 rounded-full bg-brand-bg flex items-center justify-center">
+              <Clock size={32} className="text-brand-violet" />
+            </div>
+          </div>
+          <h2 className="text-xl font-bold text-brand-dark font-display">
+            Tu registro está en revisión
+          </h2>
+          <p className="text-brand-gray text-sm leading-relaxed">
+            Recibimos tu solicitud y las fotos de tu DNI.
+          </p>
+          <p className="text-brand-gray text-sm leading-relaxed">
+            Revisaremos tu información y te notificaremos por email en{" "}
+            <span className="font-medium text-brand-dark">24–48 horas</span>.
+          </p>
+        </DialogContent>
+      </Dialog>
     </nav>
   )
 }

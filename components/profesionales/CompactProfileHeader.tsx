@@ -1,0 +1,336 @@
+"use client"
+
+import { useState, useRef } from "react"
+import Link from "next/link"
+import { Pencil, Upload, MapPin, Phone, Mail, Share2, Check, ExternalLink, ImageUp, Crop } from "lucide-react"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Textarea } from "@/components/ui/textarea"
+import SpecialtyAutocomplete from "@/components/auth/SpecialtyAutocomplete"
+import { AvatarCropDialog } from "@/components/profesionales/AvatarCropDialog"
+
+interface Props {
+  username: string
+  firstName: string
+  lastName: string
+  specialty: string | null
+  location: string | null
+  phone: string | null
+  email: string
+  avatarUrl: string | null
+  bio: string | null
+}
+
+export function CompactProfileHeader({
+  username,
+  firstName,
+  lastName,
+  specialty,
+  location,
+  phone,
+  email,
+  avatarUrl,
+  bio,
+}: Props) {
+  const [open, setOpen] = useState(false)
+  const [first, setFirst] = useState(firstName)
+  const [last, setLast] = useState(lastName)
+  const [tagline, setTagline] = useState(specialty ?? "")
+  const [loc, setLoc] = useState(location ?? "")
+  const [tel, setTel] = useState(phone ?? "")
+  const [about, setAbout] = useState(bio ?? "")
+  const [pendingFile, setPendingFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    avatarUrl ? `/api/avatar?key=${encodeURIComponent(avatarUrl)}` : null
+  )
+  const [saving, setSaving] = useState(false)
+  const [cropSrc, setCropSrc] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
+  const fileRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
+
+  const initials = `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase()
+  const fullName = `${firstName} ${lastName}`
+
+  function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setCropSrc(URL.createObjectURL(file))
+    e.target.value = ""
+  }
+
+  function handleCropSaved(blob: Blob) {
+    const file = new File([blob], "avatar.jpg", { type: blob.type })
+    setPendingFile(file)
+    setPreviewUrl(URL.createObjectURL(blob))
+  }
+
+  async function handleSave() {
+    if (!first.trim() || !last.trim()) {
+      toast.error("Nombre y apellido requeridos")
+      return
+    }
+    setSaving(true)
+    try {
+      let newAvatarKey: string | undefined
+
+      if (pendingFile) {
+        const fd = new FormData()
+        fd.append("file", pendingFile)
+        const uploadRes = await fetch("/api/profesional/upload-avatar", { method: "POST", body: fd })
+        if (!uploadRes.ok) {
+          const err = await uploadRes.json()
+          throw new Error(err.error ?? "Error subiendo imagen")
+        }
+        const { key } = await uploadRes.json()
+        newAvatarKey = key
+      }
+
+      const res = await fetch("/api/profesional/perfil", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: first.trim(),
+          lastName: last.trim(),
+          specialty: tagline.trim(),
+          location: loc.trim(),
+          phone: tel.trim(),
+          bio: about.trim(),
+          ...(newAvatarKey !== undefined ? { avatarUrl: newAvatarKey } : {}),
+        }),
+      })
+
+      if (!res.ok) {
+        const err = await res.json()
+        throw new Error(err.error ?? "Error al guardar")
+      }
+
+      toast.success("Perfil actualizado")
+      setOpen(false)
+      router.refresh()
+    } catch (e: unknown) {
+      toast.error(e instanceof Error ? e.message : "Error al guardar")
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function handleShare() {
+    const url = `${window.location.origin}/perfil/profesional/${username}`
+    try {
+      await navigator.clipboard.writeText(url)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      toast.error("No se pudo copiar el link")
+    }
+  }
+
+  return (
+    <div>
+      <div className="h-28 sm:h-32 bg-gradient-to-br from-brand-violet to-brand-dark" />
+      <div className="w-full max-w-6xl mx-auto px-6 sm:px-10 pt-6 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex items-center gap-4">
+        <div className="relative shrink-0 w-32 h-16">
+          <Avatar className="absolute -top-16 h-32 w-32 border-4 border-white shadow-md">
+            {avatarUrl && <AvatarImage src={`/api/avatar?key=${encodeURIComponent(avatarUrl)}`} alt={fullName} />}
+            <AvatarFallback className="bg-brand-violet text-white text-3xl font-semibold">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                className="absolute bottom-1 right-1 w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow cursor-pointer hover:bg-brand-bg transition-colors"
+                aria-label="Cambiar foto"
+              >
+                <Upload size={14} className="text-brand-gray" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuItem className="cursor-pointer gap-2" onClick={() => fileRef.current?.click()}>
+                <ImageUp size={14} />
+                Subir imagen
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer gap-2"
+                disabled={!previewUrl}
+                onClick={() => previewUrl && setCropSrc(previewUrl)}
+              >
+                <Crop size={14} />
+                Editar
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <h1 className="text-xl font-bold text-brand-dark">{fullName}</h1>
+            <button onClick={() => setOpen(true)} aria-label="Editar nombre">
+              <Pencil size={14} className="text-brand-gray hover:text-brand-violet transition-colors" />
+            </button>
+            <span className="text-brand-gray text-sm">@{username}</span>
+          </div>
+
+          <button
+            onClick={() => setOpen(true)}
+            className="flex items-center gap-2 mt-0.5 text-left"
+            aria-label="Editar especialidad"
+          >
+            <p className="text-brand-dark text-sm">{specialty || "Agregá tu especialidad"}</p>
+          </button>
+
+          <div className="flex items-center gap-4 mt-1.5 flex-wrap">
+            <button
+              onClick={() => setOpen(true)}
+              className="flex items-center gap-1 text-sm text-brand-gray"
+              aria-label="Editar ubicación"
+            >
+              <MapPin size={14} />
+              <span>{location || "Sin ubicación"}</span>
+            </button>
+            <button
+              onClick={() => setOpen(true)}
+              className="flex items-center gap-1 text-sm text-brand-gray"
+              aria-label="Editar teléfono"
+            >
+              {phone ? <Phone size={14} /> : <Mail size={14} />}
+              <span>{phone || email}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 shrink-0">
+        <Button variant="outline" size="sm" onClick={handleShare} className="gap-1.5">
+          {copied ? <Check size={14} /> : <Share2 size={14} />}
+          {copied ? "Copiado" : "Compartir"}
+        </Button>
+        <Link href={`/perfil/profesional/${username}`} target="_blank">
+          <Button variant="outline" size="sm" className="gap-1.5">
+            <ExternalLink size={14} />
+            Vista previa
+          </Button>
+        </Link>
+      </div>
+      </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-md bg-brand-bg border-gray-200">
+          <DialogHeader>
+            <DialogTitle className="text-brand-dark">Editar perfil</DialogTitle>
+          </DialogHeader>
+
+          <div className="flex flex-col items-center gap-3 py-2">
+            <div className="relative">
+              <div className="w-20 h-20 rounded-full bg-brand-violet text-white text-xl font-bold flex items-center justify-center ring-4 ring-white shadow-md overflow-hidden select-none">
+                {previewUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={previewUrl} alt="avatar" className="w-full h-full object-cover" />
+                ) : (
+                  initials
+                )}
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-brand-violet text-white flex items-center justify-center shadow hover:opacity-90 transition-opacity"
+                    aria-label="Cambiar foto"
+                  >
+                    <Upload size={12} />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center">
+                  <DropdownMenuItem className="cursor-pointer gap-2" onClick={() => fileRef.current?.click()}>
+                    <ImageUp size={14} />
+                    Subir imagen
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="cursor-pointer gap-2"
+                    disabled={!previewUrl}
+                    onClick={() => previewUrl && setCropSrc(previewUrl)}
+                  >
+                    <Crop size={14} />
+                    Editar
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="hidden"
+              onChange={handleFile}
+            />
+            <p className="text-xs text-brand-gray">JPG, PNG o WebP · máx 5 MB</p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="firstName" className="text-xs text-brand-gray">Nombre</Label>
+              <Input id="firstName" value={first} onChange={(e) => setFirst(e.target.value)} className="bg-white border-gray-200 text-brand-dark" />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="lastName" className="text-xs text-brand-gray">Apellido</Label>
+              <Input id="lastName" value={last} onChange={(e) => setLast(e.target.value)} className="bg-white border-gray-200 text-brand-dark" />
+            </div>
+          </div>
+
+          <SpecialtyAutocomplete value={tagline} onChange={setTagline} />
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="location" className="text-xs text-brand-gray">Ubicación</Label>
+              <Input id="location" value={loc} onChange={(e) => setLoc(e.target.value)} className="bg-white border-gray-200 text-brand-dark" />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="phone" className="text-xs text-brand-gray">Teléfono</Label>
+              <Input id="phone" value={tel} onChange={(e) => setTel(e.target.value)} className="bg-white border-gray-200 text-brand-dark" />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="bio" className="text-xs text-brand-gray">Biografía</Label>
+            <Textarea id="bio" value={about} onChange={(e) => setAbout(e.target.value)} className="bg-white border-gray-200 text-brand-dark" rows={4} />
+          </div>
+
+          <div className="flex justify-end gap-2 pt-2">
+            <Button variant="outline" onClick={() => setOpen(false)} disabled={saving}>
+              Cancelar
+            </Button>
+            <Button onClick={handleSave} disabled={saving} className="bg-brand-green text-white hover:opacity-90">
+              {saving ? "Guardando..." : "Guardar"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {cropSrc && (
+        <AvatarCropDialog
+          imageSrc={cropSrc}
+          open={!!cropSrc}
+          onOpenChange={(o) => !o && setCropSrc(null)}
+          onSave={handleCropSaved}
+        />
+      )}
+    </div>
+  )
+}

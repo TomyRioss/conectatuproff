@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,23 +10,28 @@ import { toast } from "sonner";
 import AuthShell from "@/components/auth/AuthShell";
 import FormField from "@/components/auth/FormField";
 import DniUpload from "@/components/auth/DniUpload";
+import SpecialtyAutocomplete from "@/components/auth/SpecialtyAutocomplete";
 
 const schema = z.object({
+  specialty: z.string().min(3, "Mínimo 3 caracteres"),
   phone: z.string().min(8, "Mínimo 8 caracteres"),
   dni: z.string().regex(/^\d{7,8}$/, "DNI inválido"),
 });
 type FormInput = z.infer<typeof schema>;
 
-const STEPS = ["Teléfono", "DNI", "Foto frente", "Foto reverso"];
+const STEPS = ["Rol", "Teléfono", "DNI", "Foto frente", "Foto reverso"];
 
 export default function OnboardingWizard({
   initialPhone,
+  initialSpecialty,
   initialStep,
 }: {
   initialPhone: string | null;
+  initialSpecialty: string | null;
   initialStep: number;
 }) {
   const router = useRouter();
+  const { update } = useSession();
   const [step, setStep] = useState(initialStep);
   const [dniFront, setDniFront] = useState<File | null>(null);
   const [dniBack, setDniBack] = useState<File | null>(null);
@@ -36,22 +42,28 @@ export default function OnboardingWizard({
     register,
     trigger,
     getValues,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<FormInput>({
     resolver: zodResolver(schema),
-    defaultValues: { phone: initialPhone ?? "" },
+    defaultValues: { phone: initialPhone ?? "", specialty: initialSpecialty ?? "" },
   });
 
   async function next() {
     if (step === 0) {
-      const ok = await trigger("phone");
+      const ok = await trigger("specialty");
       if (!ok) return;
     }
     if (step === 1) {
-      const ok = await trigger("dni");
+      const ok = await trigger("phone");
       if (!ok) return;
     }
     if (step === 2) {
+      const ok = await trigger("dni");
+      if (!ok) return;
+    }
+    if (step === 3) {
       if (!dniFront) { setDniErrors((e) => ({ ...e, front: "Requerido" })); return; }
       setDniErrors((e) => ({ ...e, front: "" }));
     }
@@ -64,8 +76,9 @@ export default function OnboardingWizard({
 
     setLoading(true);
     try {
-      const { phone, dni } = getValues();
+      const { specialty, phone, dni } = getValues();
       const formData = new FormData();
+      formData.append("specialty", specialty);
       formData.append("phone", phone);
       formData.append("dni", dni);
       formData.append("dniFront", dniFront!);
@@ -82,7 +95,8 @@ export default function OnboardingWizard({
       }
 
       toast.success("¡Perfil profesional activado!");
-      router.push("/");
+      await update({ role: "PROFESSIONAL" });
+      router.push("/profesional/dashboard");
     } catch {
       toast.error("Ocurrió un error, intentá de nuevo.");
     } finally {
@@ -116,6 +130,14 @@ export default function OnboardingWizard({
 
         <div className="flex flex-col gap-4">
           {step === 0 && (
+            <SpecialtyAutocomplete
+              value={watch("specialty")}
+              onChange={(v) => setValue("specialty", v, { shouldValidate: true })}
+              error={errors.specialty?.message}
+            />
+          )}
+
+          {step === 1 && (
             <FormField
               label="Teléfono"
               type="tel"
@@ -125,7 +147,7 @@ export default function OnboardingWizard({
             />
           )}
 
-          {step === 1 && (
+          {step === 2 && (
             <FormField
               label="DNI"
               type="text"
@@ -135,14 +157,14 @@ export default function OnboardingWizard({
             />
           )}
 
-          {step === 2 && (
+          {step === 3 && (
             <div className="flex flex-col gap-2">
               <p className="text-xs text-brand-gray">Sacá una foto clara del frente de tu DNI.</p>
               <DniUpload label="DNI — Frente" onChange={setDniFront} error={dniErrors.front} />
             </div>
           )}
 
-          {step === 3 && (
+          {step === 4 && (
             <div className="flex flex-col gap-2">
               <p className="text-xs text-brand-gray">Ahora el reverso de tu DNI.</p>
               <DniUpload label="DNI — Reverso" onChange={setDniBack} error={dniErrors.back} />

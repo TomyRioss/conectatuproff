@@ -12,6 +12,14 @@ class AuthError extends CredentialsSignin {
   }
 }
 
+async function getProfile(userId: string, role: string) {
+  return role === "CLIENT"
+    ? prisma.client.findUnique({ where: { userId }, select: { avatarUrl: true, firstName: true, lastName: true } })
+    : role === "PROFESSIONAL"
+    ? prisma.professional.findUnique({ where: { userId }, select: { avatarUrl: true, firstName: true, lastName: true } })
+    : null;
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
@@ -50,17 +58,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.id = user.id!;
         token.role = (user as { role: string }).role;
-        const role = (user as { role: string }).role;
-        const profile = role === "CLIENT"
-          ? await prisma.client.findUnique({ where: { userId: user.id! }, select: { avatarUrl: true } })
-          : role === "PROFESSIONAL"
-          ? await prisma.professional.findUnique({ where: { userId: user.id! }, select: { avatarUrl: true } })
-          : null;
-        const key = (profile as { avatarUrl?: string | null } | null)?.avatarUrl;
-        token.picture = key ? `/api/avatar?key=${encodeURIComponent(key)}` : null;
+        const profile = await getProfile(user.id!, (user as { role: string }).role);
+        token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : null;
+        token.name = user.name ?? (profile ? `${profile.firstName} ${profile.lastName}` : null);
       }
       if (trigger === "update" && sessionUpdate?.image !== undefined) {
         token.picture = sessionUpdate.image;
+      }
+      if (trigger === "update" && sessionUpdate?.role !== undefined) {
+        token.role = sessionUpdate.role;
+        const profile = await getProfile(token.id as string, sessionUpdate.role);
+        token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : null;
+        if (!token.name && profile) token.name = `${profile.firstName} ${profile.lastName}`;
+      }
+      if (!token.name && token.id) {
+        const profile = await getProfile(token.id as string, token.role as string);
+        if (profile) token.name = `${profile.firstName} ${profile.lastName}`;
       }
       return token;
     },
@@ -68,6 +81,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.user.id = token.id as string;
       (session.user as { role?: string }).role = token.role as string;
       session.user.image = token.picture as string | null;
+      session.user.name = token.name as string | null;
       return session;
     },
   },

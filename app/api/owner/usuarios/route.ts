@@ -30,9 +30,17 @@ export async function GET(req: NextRequest) {
       isBanned: true,
       createdAt: true,
       role: true,
+      client: { select: { firstName: true, lastName: true } },
+      professional: { select: { firstName: true, lastName: true } },
     },
     orderBy: { createdAt: "desc" },
   });
 
-  return NextResponse.json(users);
+  const result = users.map(({ client, professional, ...u }) => {
+    const profile = professional ?? client;
+    const name = u.name ?? (profile ? `${profile.firstName} ${profile.lastName}` : null);
+    return { ...u, name };
+  });
+
+  return NextResponse.json(result);
 }

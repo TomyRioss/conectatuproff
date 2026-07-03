@@ -1,0 +1,31 @@
+- generic [active] [ref=f4e1]:
+  - main [ref=f4e2]:
+    - generic [ref=f4e6]:
+      - generic [ref=f4e7]:
+        - heading "Bienvenido de vuelta" [level=1] [ref=f4e8]
+        - paragraph [ref=f4e9]: Ingresá a tu cuenta
+      - generic [ref=f4e10]:
+        - generic [ref=f4e11]:
+          - generic [ref=f4e12]: Email
+          - textbox "Email" [ref=f4e13]:
+            - /placeholder: tu@email.com
+        - generic [ref=f4e14]:
+          - generic [ref=f4e15]: Contraseña
+          - generic [ref=f4e16]:
+            - textbox "Contraseña" [ref=f4e17]:
+              - /placeholder: Mínimo 8 caracteres
+            - button [ref=f4e18]:
+              - img [ref=f4e19]
+        - button "Ingresar" [ref=f4e22]
+      - generic [ref=f4e23]:
+        - paragraph [ref=f4e24]:
+          - text: ¿No tenés cuenta?
+          - link "Registrate" [ref=f4e25] [cursor=pointer]:
+            - /url: /register
+        - paragraph [ref=f4e26]:
+          - text: ¿Sos profesional?
+          - link "Ingresá acá" [ref=f4e27] [cursor=pointer]:
+            - /url: /profesional/login
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=f4e33] [cursor=pointer]:
+    - img [ref=f4e34]

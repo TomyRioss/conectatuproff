@@ -16,6 +16,7 @@ export async function POST(request: Request) {
       username: formData.get("username"),
       email: formData.get("email"),
       password: formData.get("password"),
+      specialty: formData.get("specialty"),
       phone: formData.get("phone"),
       dni: formData.get("dni"),
       location: formData.get("location"),
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { firstName, lastName, username, email, password, phone, location } = parsed.data;
+    const { firstName, lastName, username, email, password, specialty, phone, location } = parsed.data;
     const dni = parseInt(parsed.data.dni, 10);
 
     const dniFront = formData.get("dniFront") as File | null;
@@ -54,7 +55,7 @@ export async function POST(request: Request) {
     const hash = await bcrypt.hash(password, 12);
 
     const user = await prisma.user.create({
-      data: { email, username, password: hash, role: "PROFESSIONAL", isActive: false },
+      data: { email, username, password: hash, role: "PROFESSIONAL" },
     });
     userId = user.id;
 
@@ -74,9 +75,14 @@ export async function POST(request: Request) {
       ),
     ]);
 
-    await prisma.professional.create({
-      data: { userId: user.id, firstName, lastName, phone, dni, dniPhotoFront, dniPhotoBack, location },
-    });
+    await prisma.$transaction([
+      prisma.client.create({
+        data: { userId: user.id, firstName, lastName, phone, dni, location },
+      }),
+      prisma.professional.create({
+        data: { userId: user.id, firstName, lastName, specialty, phone, dni, dniPhotoFront, dniPhotoBack, location },
+      }),
+    ]);
 
     return NextResponse.json({ ok: true });
   } catch (err) {

@@ -7,13 +7,20 @@ export default async function ProfesionalOnboardingPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const client = await prisma.client.findUnique({
-    where: { userId: session.user.id },
-    select: { phone: true },
-  });
+  const [client, pro] = await Promise.all([
+    prisma.client.findUnique({ where: { userId: session.user.id }, select: { phone: true } }),
+    prisma.professional.findUnique({
+      where: { userId: session.user.id },
+      select: { specialty: true, phone: true, dni: true, dniPhotoFront: true, dniPhotoBack: true },
+    }),
+  ]);
 
-  const phone = client?.phone ?? null;
-  const initialStep = phone ? 1 : 0;
+  const phone = pro?.phone ?? client?.phone ?? null;
+  let initialStep = 0;
+  if (pro?.dniPhotoFront) initialStep = 4;
+  else if (pro?.dni) initialStep = 3;
+  else if (phone) initialStep = 2;
+  else if (pro?.specialty) initialStep = 1;
 
-  return <OnboardingWizard initialPhone={phone} initialStep={initialStep} />;
+  return <OnboardingWizard initialPhone={phone} initialSpecialty={pro?.specialty ?? null} initialStep={initialStep} />;
 }
