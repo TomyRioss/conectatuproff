@@ -145,13 +145,43 @@ model Professional {
   categories   ProfessionalCategory[]
   services     Service[]
   packages     ServicePackage[]
-  portfolio    PortfolioItem[]
-  availability ProfessionalAvailability[]
-  blockedSlots BlockedSlot[]
-  appointments Appointment[]
-  reviews      Review[]
+  portfolio     PortfolioItem[]
+  availability  ProfessionalAvailability[]
+  blockedSlots  BlockedSlot[]
+  appointments  Appointment[]
+  reviews       Review[]
+  educations    Education[]
+  certifications Certification[]
 
   @@map("professionals")
+}
+
+model Education {
+  id             String   @id @default(cuid())
+  professionalId String
+  institution    String
+  degree         String
+  fieldOfStudy   String?
+  location       String?
+  year           Int?
+  graduated      Boolean  @default(true)
+  createdAt      DateTime @default(now())
+
+  professional Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+  @@map("educations")
+}
+
+model Certification {
+  id             String   @id @default(cuid())
+  professionalId String
+  name           String
+  year           Int?
+  createdAt      DateTime @default(now())
+
+  professional Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+
+  @@map("certifications")
 }
 
 model Client {
@@ -304,13 +334,30 @@ model PortfolioItem {
   title          String?
   description    String?  @db.Text
   imageUrl       String
+  costMin        Int?
+  costMax        Int?
+  durationMin    Int?
+  durationMax    Int?
+  tags           String[]
   order          Int      @default(0)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  professional Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  professional Professional          @relation(fields: [professionalId], references: [id], onDelete: Cascade)
+  images       PortfolioItemImage[]
 
   @@map("portfolio_items")
+}
+
+model PortfolioItemImage {
+  id              String @id @default(cuid())
+  portfolioItemId String
+  imageUrl        String
+  order           Int    @default(0)
+
+  portfolioItem PortfolioItem @relation(fields: [portfolioItemId], references: [id], onDelete: Cascade)
+
+  @@map("portfolio_item_images")
 }
 
 // ─── Availability ────────────────────────────────────────────────────────────

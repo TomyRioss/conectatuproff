@@ -5,6 +5,8 @@ import { CompactProfileHeader } from "@/components/profesionales/CompactProfileH
 import { IntroVideo } from "@/components/profesionales/IntroVideo";
 import { ReviewsList } from "@/components/profesionales/ReviewsList";
 import { AgendaSummary } from "@/components/profesionales/AgendaSummary";
+import { FormacionManageSection } from "@/components/profesionales/FormacionManageSection";
+import { PortfolioManageSection } from "@/components/profesionales/PortfolioManageSection";
 
 export default async function ProfesionalDashboardPerfilPage({
   params,
@@ -57,6 +59,14 @@ export default async function ProfesionalDashboardPerfilPage({
       <div className="w-full px-6 sm:px-10 pb-16">
         <div className="py-8 max-w-xl">
           <IntroVideo name={pro.firstName} videoUrl={pro.videoUrl} isOwner />
+        </div>
+
+        <div className="py-8 border-t border-gray-100">
+          <FormacionManageSection />
+        </div>
+
+        <div className="py-8 border-t border-gray-100">
+          <PortfolioManageSection />
         </div>
 
         <div className="py-8 border-t border-gray-100">

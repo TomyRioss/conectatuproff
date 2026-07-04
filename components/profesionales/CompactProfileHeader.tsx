@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Pencil, Upload, MapPin, Phone, Mail, Share2, Check, ExternalLink, ImageUp, Crop } from "lucide-react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import {
   Dialog,
   DialogContent,
@@ -64,6 +65,7 @@ export function CompactProfileHeader({
   const [copied, setCopied] = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
+  const { update: updateSession } = useSession()
 
   const initials = `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase()
   const fullName = `${firstName} ${lastName}`
@@ -119,6 +121,10 @@ export function CompactProfileHeader({
       if (!res.ok) {
         const err = await res.json()
         throw new Error(err.error ?? "Error al guardar")
+      }
+
+      if (newAvatarKey !== undefined) {
+        await updateSession({ image: `/api/avatar?key=${encodeURIComponent(newAvatarKey)}` })
       }
 
       toast.success("Perfil actualizado")

@@ -22,7 +22,7 @@ export function IntroVideo({
       </h3>
 
       {videoUrl ? (
-        <div className="relative w-full">
+        <div className="relative w-full max-w-md">
           <video
             controls
             className="w-full aspect-video rounded-2xl overflow-hidden bg-brand-dark"

@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Star, MapPin, Zap } from "lucide-react";
+import { CheckCircle, Star, MapPin } from "lucide-react";
 
 type ProfileHeaderProps = {
   pro: {
@@ -55,13 +55,10 @@ export function ProfileHeader({ pro, avatarSrc, avgRating, reviewCount }: Profil
                 <CheckCircle size={12} className="mr-1" /> Verificada
               </Badge>
             )}
-            <Badge className="bg-brand-violet/10 text-brand-violet border border-brand-violet/30 font-medium">
-              <Zap size={12} className="mr-1" /> Responde rápido
-            </Badge>
             {pro.location && (
-              <Badge className="bg-brand-bg text-brand-gray border border-gray-200 font-medium">
+              <span className="flex items-center text-sm text-brand-gray font-medium">
                 <MapPin size={12} className="mr-1" /> {pro.location}
-              </Badge>
+              </span>
             )}
           </div>
         </div>
