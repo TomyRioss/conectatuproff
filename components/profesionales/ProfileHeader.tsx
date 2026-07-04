@@ -9,14 +9,14 @@ type ProfileHeaderProps = {
     specialty: string | null;
     location: string | null;
     isVerified: boolean;
-    avatarUrl: string | null;
     subcategory: { name: string } | null;
   };
+  avatarSrc: string | null;
   avgRating: number;
   reviewCount: number;
 };
 
-export function ProfileHeader({ pro, avgRating, reviewCount }: ProfileHeaderProps) {
+export function ProfileHeader({ pro, avatarSrc, avgRating, reviewCount }: ProfileHeaderProps) {
   const initials = `${pro.firstName[0] ?? ""}${pro.lastName[0] ?? ""}`.toUpperCase();
   const fullName = `${pro.firstName} ${pro.lastName}`;
 
@@ -28,9 +28,7 @@ export function ProfileHeader({ pro, avgRating, reviewCount }: ProfileHeaderProp
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 px-5 pb-6 pt-4">
           <div className="flex justify-center">
             <Avatar className="h-24 w-24 border-4 border-white shadow-md">
-              {pro.avatarUrl && (
-                <AvatarImage src={`/api/avatar?key=${encodeURIComponent(pro.avatarUrl)}`} alt={fullName} />
-              )}
+              {avatarSrc && <AvatarImage src={avatarSrc} alt={fullName} />}
               <AvatarFallback className="bg-brand-violet text-white text-2xl font-semibold">
                 {initials}
               </AvatarFallback>

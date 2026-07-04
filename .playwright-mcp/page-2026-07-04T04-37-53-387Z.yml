@@ -1,0 +1,295 @@
+- generic [active] [ref=f8e1]:
+  - navigation [ref=f8e2]:
+    - generic [ref=f8e3]:
+      - link "ConectaTuProff" [ref=f8e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f8e6]:
+        - generic [ref=f8e7]:
+          - img
+        - searchbox "Buscar profesionales, servicios..." [ref=f8e8]
+        - button "Buscar con IA" [ref=f8e9]:
+          - img [ref=f8e10]
+      - generic [ref=f8e13]:
+        - button "Explorar" [ref=f8e15]:
+          - text: Explorar
+          - img [ref=f8e16]
+        - link "¿Sos profesional?" [ref=f8e18] [cursor=pointer]:
+          - /url: /profesional/login
+        - link "Busca ahora" [ref=f8e19] [cursor=pointer]:
+          - /url: /register
+  - main [ref=f8e20]:
+    - generic [ref=f8e24]:
+      - heading "Encontrá al profesional ideal para lo que necesitás." [level=1] [ref=f8e25]:
+        - text: Encontrá al profesional ideal
+        - text: para lo que necesitás.
+      - paragraph [ref=f8e26]: Bienestar, oficios y más — conectamos clientes con los mejores profesionales de CABA y GBA.
+      - generic [ref=f8e27]:
+        - generic [ref=f8e28]:
+          - img [ref=f8e29]
+          - textbox "¿Qué servicio buscás?" [ref=f8e32]
+        - generic [ref=f8e33]:
+          - img [ref=f8e34]
+          - textbox "Zona" [ref=f8e37]
+        - generic [ref=f8e38]:
+          - button "Buscar" [ref=f8e39]
+          - button "Buscar con IA" [ref=f8e40]:
+            - img [ref=f8e41]
+            - text: Buscar con IA
+      - generic [ref=f8e44]:
+        - button "Ver todos" [ref=f8e48]:
+          - img [ref=f8e49]
+          - generic [ref=f8e51]: Ver todos
+        - button "Ver más categorías" [ref=f8e52]:
+          - img [ref=f8e53]
+    - generic [ref=f8e56]:
+      - generic [ref=f8e57]:
+        - generic [ref=f8e58]:
+          - paragraph [ref=f8e59]: Explorá por rubro
+          - heading "¿Qué necesitás?" [level=2] [ref=f8e60]
+        - link "Ver todos →" [ref=f8e61] [cursor=pointer]:
+          - /url: /buscar
+      - generic [ref=f8e63]:
+        - link "Salud y Bienestar" [ref=f8e64] [cursor=pointer]:
+          - /url: /buscar?categoria=salud-y-bienestar
+          - img "Salud y Bienestar" [ref=f8e66]
+        - link "Salud y Bienestar" [ref=f8e67] [cursor=pointer]:
+          - /url: /buscar?categoria=salud-y-bienestar
+        - list [ref=f8e68]:
+          - listitem [ref=f8e69]:
+            - link "Manicuría y pedicuría" [ref=f8e70] [cursor=pointer]:
+              - /url: /buscar?categoria=manicuria-pedicuria
+    - generic [ref=f8e72]:
+      - generic [ref=f8e73]:
+        - generic [ref=f8e74]:
+          - paragraph [ref=f8e75]: Destacados
+          - heading "Profesionales verificados en tu zona" [level=2] [ref=f8e76]:
+            - text: Profesionales verificados
+            - text: en tu zona
+        - link "Ver todos →" [ref=f8e77] [cursor=pointer]:
+          - /url: /buscar
+      - generic [ref=f8e78]:
+        - link "Elena Brea Elena Brea Kinesiología deportiva San Isidro, GBA 5 (0) Desde $5.000 Verificado" [ref=f8e79] [cursor=pointer]:
+          - /url: /perfil/profesional/elena-brea
+          - generic [ref=f8e80]:
+            - img "Elena Brea" [ref=f8e81]
+            - generic [ref=f8e82]:
+              - heading "Elena Brea" [level=3] [ref=f8e84]
+              - paragraph [ref=f8e85]: Kinesiología deportiva
+          - generic [ref=f8e86]:
+            - generic [ref=f8e87]:
+              - img [ref=f8e88]
+              - generic [ref=f8e91]: San Isidro, GBA
+            - generic [ref=f8e92]:
+              - img [ref=f8e93]
+              - generic [ref=f8e95]: "5"
+              - generic [ref=f8e96]: (0)
+          - generic [ref=f8e97]:
+            - generic [ref=f8e98]:
+              - text: Desde
+              - paragraph [ref=f8e99]: $5.000
+            - generic [ref=f8e100]:
+              - img [ref=f8e101]
+              - generic [ref=f8e104]: Verificado
+        - link "Laura Miranda Laura Miranda Masajes terapéuticos Palermo, CABA 4.9 (0) Desde $3.500 Verificado" [ref=f8e105] [cursor=pointer]:
+          - /url: /perfil/profesional/laura-miranda
+          - generic [ref=f8e106]:
+            - img "Laura Miranda" [ref=f8e107]
+            - generic [ref=f8e108]:
+              - heading "Laura Miranda" [level=3] [ref=f8e110]
+              - paragraph [ref=f8e111]: Masajes terapéuticos
+          - generic [ref=f8e112]:
+            - generic [ref=f8e113]:
+              - img [ref=f8e114]
+              - generic [ref=f8e117]: Palermo, CABA
+            - generic [ref=f8e118]:
+              - img [ref=f8e119]
+              - generic [ref=f8e121]: "4.9"
+              - generic [ref=f8e122]: (0)
+          - generic [ref=f8e123]:
+            - generic [ref=f8e124]:
+              - text: Desde
+              - paragraph [ref=f8e125]: $3.500
+            - generic [ref=f8e126]:
+              - img [ref=f8e127]
+              - generic [ref=f8e130]: Verificado
+        - link "Andrea Paz Andrea Paz Limpieza · Hogar Flores, CABA 4.9 (0) Desde $2.500 Verificado" [ref=f8e131] [cursor=pointer]:
+          - /url: /perfil/profesional/andrea-p
+          - generic [ref=f8e132]:
+            - img "Andrea Paz" [ref=f8e133]
+            - generic [ref=f8e134]:
+              - heading "Andrea Paz" [level=3] [ref=f8e136]
+              - paragraph [ref=f8e137]: Limpieza · Hogar
+          - generic [ref=f8e138]:
+            - generic [ref=f8e139]:
+              - img [ref=f8e140]
+              - generic [ref=f8e143]: Flores, CABA
+            - generic [ref=f8e144]:
+              - img [ref=f8e145]
+              - generic [ref=f8e147]: "4.9"
+              - generic [ref=f8e148]: (0)
+          - generic [ref=f8e149]:
+            - generic [ref=f8e150]:
+              - text: Desde
+              - paragraph [ref=f8e151]: $2.500
+            - generic [ref=f8e152]:
+              - img [ref=f8e153]
+              - generic [ref=f8e156]: Verificado
+        - link "Sofía Ramos Sofía Ramos Reflexóloga · Bienestar Caballito, CABA 4.8 (0) Desde $3.200 Verificado" [ref=f8e157] [cursor=pointer]:
+          - /url: /perfil/profesional/sofia-r
+          - generic [ref=f8e158]:
+            - img "Sofía Ramos" [ref=f8e159]
+            - generic [ref=f8e160]:
+              - heading "Sofía Ramos" [level=3] [ref=f8e162]
+              - paragraph [ref=f8e163]: Reflexóloga · Bienestar
+          - generic [ref=f8e164]:
+            - generic [ref=f8e165]:
+              - img [ref=f8e166]
+              - generic [ref=f8e169]: Caballito, CABA
+            - generic [ref=f8e170]:
+              - img [ref=f8e171]
+              - generic [ref=f8e173]: "4.8"
+              - generic [ref=f8e174]: (0)
+          - generic [ref=f8e175]:
+            - generic [ref=f8e176]:
+              - text: Desde
+              - paragraph [ref=f8e177]: $3.200
+            - generic [ref=f8e178]:
+              - img [ref=f8e179]
+              - generic [ref=f8e182]: Verificado
+        - link "Diego Núñez Diego Núñez Plomero · Urgencias 24h Belgrano, CABA 4.7 (0) Desde $4.500 Verificado" [ref=f8e183] [cursor=pointer]:
+          - /url: /perfil/profesional/diego-n
+          - generic [ref=f8e184]:
+            - img "Diego Núñez" [ref=f8e185]
+            - generic [ref=f8e186]:
+              - heading "Diego Núñez" [level=3] [ref=f8e188]
+              - paragraph [ref=f8e189]: Plomero · Urgencias 24h
+          - generic [ref=f8e190]:
+            - generic [ref=f8e191]:
+              - img [ref=f8e192]
+              - generic [ref=f8e195]: Belgrano, CABA
+            - generic [ref=f8e196]:
+              - img [ref=f8e197]
+              - generic [ref=f8e199]: "4.7"
+              - generic [ref=f8e200]: (0)
+          - generic [ref=f8e201]:
+            - generic [ref=f8e202]:
+              - text: Desde
+              - paragraph [ref=f8e203]: $4.500
+            - generic [ref=f8e204]:
+              - img [ref=f8e205]
+              - generic [ref=f8e208]: Verificado
+        - link "Martín Vera Martín Vera Electricista · Urgencias Lanús, GBA 4.6 (0) Desde $4.800 Verificado" [ref=f8e209] [cursor=pointer]:
+          - /url: /perfil/profesional/martin-v
+          - generic [ref=f8e210]:
+            - img "Martín Vera" [ref=f8e211]
+            - generic [ref=f8e212]:
+              - heading "Martín Vera" [level=3] [ref=f8e214]
+              - paragraph [ref=f8e215]: Electricista · Urgencias
+          - generic [ref=f8e216]:
+            - generic [ref=f8e217]:
+              - img [ref=f8e218]
+              - generic [ref=f8e221]: Lanús, GBA
+            - generic [ref=f8e222]:
+              - img [ref=f8e223]
+              - generic [ref=f8e225]: "4.6"
+              - generic [ref=f8e226]: (0)
+          - generic [ref=f8e227]:
+            - generic [ref=f8e228]:
+              - text: Desde
+              - paragraph [ref=f8e229]: $4.800
+            - generic [ref=f8e230]:
+              - img [ref=f8e231]
+              - generic [ref=f8e234]: Verificado
+    - generic [ref=f8e236]:
+      - generic [ref=f8e237]:
+        - paragraph [ref=f8e238]: Simple y rápido
+        - heading "¿Cómo funciona?" [level=2] [ref=f8e239]
+        - paragraph [ref=f8e240]: Conectamos clientes con profesionales en tres pasos simples. Sin complicaciones.
+      - generic [ref=f8e241]:
+        - generic [ref=f8e242]:
+          - generic [ref=f8e243]: "01"
+          - generic [ref=f8e244]: "01"
+          - heading "Elegí al profesional" [level=3] [ref=f8e245]
+          - paragraph [ref=f8e246]: Buscá por servicio, barrio y disponibilidad. Leé reseñas de otros clientes y elegí el que mejor se adapte a vos.
+        - generic [ref=f8e247]:
+          - generic [ref=f8e248]: "02"
+          - generic [ref=f8e249]: "02"
+          - heading "Coordiná el servicio" [level=3] [ref=f8e250]
+          - paragraph [ref=f8e251]: Solicitá un turno o hacé una consulta directamente desde el perfil. Recibís confirmación por email al instante.
+        - generic [ref=f8e252]:
+          - generic [ref=f8e253]: "03"
+          - generic [ref=f8e254]: "03"
+          - heading "Servicio completado" [level=3] [ref=f8e255]
+          - paragraph [ref=f8e256]: El profesional se presenta, hace su trabajo y vos dejás una reseña para ayudar a la comunidad.
+    - generic [ref=f8e260]:
+      - paragraph [ref=f8e261]: Para profesionales
+      - heading "¿Sos experto en tu oficio? Empezá a ofrecer tus servicios." [level=2] [ref=f8e262]:
+        - text: ¿Sos experto en
+        - text: tu oficio?
+        - generic [ref=f8e263]:
+          - text: Empezá a ofrecer
+          - text: tus servicios.
+      - paragraph [ref=f8e264]: Unite a cientos de profesionales que ya usan Conecta Tu Proff para llegar a clientes en su zona. Sin costos de entrada.
+      - list [ref=f8e265]:
+        - listitem [ref=f8e266]:
+          - img [ref=f8e267]
+          - text: Perfil completo gratis para siempre
+        - listitem [ref=f8e270]:
+          - img [ref=f8e271]
+          - text: Primer mes Premium sin costo
+        - listitem [ref=f8e274]:
+          - img [ref=f8e275]
+          - text: Aparecé en búsquedas de CABA y GBA
+      - generic [ref=f8e278]:
+        - link "Crear perfil gratis" [ref=f8e279] [cursor=pointer]:
+          - /url: /registro/profesional
+          - text: Crear perfil gratis
+          - img [ref=f8e280]
+        - link "Saber más" [ref=f8e282] [cursor=pointer]:
+          - /url: "#como-funciona"
+  - contentinfo [ref=f8e283]:
+    - generic [ref=f8e284]:
+      - generic [ref=f8e285]:
+        - generic [ref=f8e286]:
+          - paragraph [ref=f8e287]: ConectaTuProff
+          - paragraph [ref=f8e288]: Marketplace de profesionales en CABA y GBA. Bienestar, oficios y más.
+        - generic [ref=f8e289]:
+          - paragraph [ref=f8e290]: Plataforma
+          - list [ref=f8e291]:
+            - listitem [ref=f8e292]:
+              - link "Buscar profesionales" [ref=f8e293] [cursor=pointer]:
+                - /url: /buscar
+            - listitem [ref=f8e294]:
+              - link "Cómo funciona" [ref=f8e295] [cursor=pointer]:
+                - /url: "#como-funciona"
+            - listitem [ref=f8e296]:
+              - link "Publicar servicio" [ref=f8e297] [cursor=pointer]:
+                - /url: /registro/profesional
+        - generic [ref=f8e298]:
+          - paragraph [ref=f8e299]: Soporte
+          - list [ref=f8e300]:
+            - listitem [ref=f8e301]:
+              - link "Centro de ayuda" [ref=f8e302] [cursor=pointer]:
+                - /url: /ayuda
+            - listitem [ref=f8e303]:
+              - link "Contacto" [ref=f8e304] [cursor=pointer]:
+                - /url: /contacto
+            - listitem [ref=f8e305]:
+              - link "Términos y condiciones" [ref=f8e306] [cursor=pointer]:
+                - /url: /terminos
+        - generic [ref=f8e307]:
+          - paragraph [ref=f8e308]: Registro
+          - list [ref=f8e309]:
+            - listitem [ref=f8e310]:
+              - link "Soy cliente" [ref=f8e311] [cursor=pointer]:
+                - /url: /registro/cliente
+            - listitem [ref=f8e312]:
+              - link "Soy profesional" [ref=f8e313] [cursor=pointer]:
+                - /url: /registro/profesional
+            - listitem [ref=f8e314]:
+              - link "Iniciar sesión" [ref=f8e315] [cursor=pointer]:
+                - /url: /login
+      - paragraph [ref=f8e317]: © 2026 ConectaTuProff. Todos los derechos reservados.
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=f8e323] [cursor=pointer]:
+    - img [ref=f8e324]

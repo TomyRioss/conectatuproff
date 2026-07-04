@@ -8,10 +8,19 @@ import CTABanner from "@/components/home/CTABanner"
 import { prisma } from "@/lib/prisma"
 
 export default async function HomePage() {
-  const subcategories = await prisma.subcategory.findMany({
-    select: { name: true, slug: true },
-    orderBy: { name: "asc" },
-  })
+  const [allSubcategories, activePros] = await Promise.all([
+    prisma.subcategory.findMany({
+      select: { name: true, slug: true },
+      orderBy: { name: "asc" },
+    }),
+    prisma.professional.findMany({
+      where: { isActive: true },
+      select: { specialty: true },
+    }),
+  ])
+
+  const specialtySet = new Set(activePros.map((p) => p.specialty?.trim().toLowerCase()).filter(Boolean))
+  const subcategories = allSubcategories.filter((sub) => specialtySet.has(sub.name.trim().toLowerCase()))
 
   return (
     <>

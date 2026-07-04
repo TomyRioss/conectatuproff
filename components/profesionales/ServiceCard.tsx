@@ -12,8 +12,6 @@ type ServiceCardProps = {
   };
 };
 
-const RESULT_LABELS = ["Antes", "Después", "Resultado"];
-
 export function ServiceCard({ service }: ServiceCardProps) {
   const price = Number(service.price.toString());
 
@@ -40,25 +38,16 @@ export function ServiceCard({ service }: ServiceCardProps) {
         <p className="text-sm text-brand-gray mt-2">{service.description}</p>
       )}
 
-      <p className="text-[11px] font-semibold uppercase tracking-wide text-brand-gray mt-3 mb-2">
-        Resultados · Antes y después
-      </p>
-      <div className="grid grid-cols-3 gap-2">
-        {RESULT_LABELS.map((label, i) => (
-          <div
-            key={label}
-            className="relative aspect-square rounded-lg overflow-hidden bg-brand-bg border border-gray-200"
-          >
-            {i === 0 && service.imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={service.imageUrl} alt={label} className="h-full w-full object-cover" />
-            ) : null}
-            <span className="absolute bottom-1 left-1 text-[10px] bg-black/60 text-white px-1.5 py-0.5 rounded">
-              {label}
-            </span>
-          </div>
-        ))}
-      </div>
+      {service.imageUrl && (
+        <div className="relative aspect-video rounded-lg overflow-hidden bg-brand-bg border border-gray-200 mt-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/api/avatar?key=${encodeURIComponent(service.imageUrl)}`}
+            alt={service.title}
+            className="h-full w-full object-cover"
+          />
+        </div>
+      )}
 
       <div className="flex items-center gap-3 mt-4">
         <button

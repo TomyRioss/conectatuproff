@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import Link from "next/link"
 import { MoreVertical, Pencil, Trash2, Power } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -32,11 +33,9 @@ const MODALIDAD_LABEL: Record<string, string> = {
 
 export function ManageServiceCard({
   service,
-  onEdit,
   onChanged,
 }: {
   service: Service
-  onEdit: (service: Service) => void
   onChanged: () => void
 }) {
   const router = useRouter()
@@ -113,8 +112,10 @@ export function ManageServiceCard({
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-white border-gray-200">
-              <DropdownMenuItem onClick={() => onEdit(service)} className="cursor-pointer gap-2 text-brand-dark">
-                <Pencil size={14} /> Editar
+              <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
+                <Link href={`/profesional/servicios/${service.id}/editar`}>
+                  <Pencil size={14} /> Editar
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={toggleActive} className="cursor-pointer gap-2 text-brand-dark">
                 <Power size={14} /> {service.isActive ? "Desactivar" : "Activar"}

@@ -1,8 +1,7 @@
-"use client"
-
 import Link from "next/link"
 import { ArrowRight, CheckCircle } from "lucide-react"
-import { ProfCard, type ProfCardData } from "./ProfCard"
+import { ProfCard } from "./ProfCard"
+import { getFeaturedPros } from "@/lib/featured-professionals"
 
 const BENEFITS = [
   "Perfil completo gratis para siempre",
@@ -10,19 +9,11 @@ const BENEFITS = [
   "Aparecé en búsquedas de CABA y GBA",
 ]
 
-const CAROUSEL_PROS: ProfCardData[] = [
-  { slug: "maria-g", name: "María G.", specialty: "Reflexóloga", zone: "Palermo, CABA", rating: 4.8, reviews: 93, priceFrom: 3000, premium: true, initials: "MG", color: "#1EC97E" },
-  { slug: "juan-r", name: "Juan R.", specialty: "Electricista", zone: "Belgrano, CABA", rating: 4.6, reviews: 61, priceFrom: 4000, premium: false, initials: "JR", color: "#6C5CE7" },
-  { slug: "carla-s", name: "Carla S.", specialty: "Masajista", zone: "San Isidro, GBA", rating: 5.0, reviews: 42, priceFrom: 2800, premium: true, initials: "CS", color: "#1EC97E" },
-  { slug: "pablo-l", name: "Pablo L.", specialty: "Cerrajero", zone: "Lanús, GBA", rating: 4.5, reviews: 38, priceFrom: 3500, premium: false, initials: "PL", color: "#6B7280" },
-  { slug: "ana-f", name: "Ana F.", specialty: "Kinesióloga", zone: "Recoleta, CABA", rating: 4.9, reviews: 77, priceFrom: 4500, premium: true, initials: "AF", color: "#1A1A2E" },
-  { slug: "marcos-d", name: "Marcos D.", specialty: "Plomero · 24h", zone: "Quilmes, GBA", rating: 4.7, reviews: 55, priceFrom: 3800, premium: false, initials: "MD", color: "#6C5CE7" },
-]
+export default async function CTABanner() {
+  const pros = await getFeaturedPros()
+  // Duplicate for seamless loop
+  const looped = [...pros, ...pros]
 
-// Duplicate for seamless loop
-const LOOPED = [...CAROUSEL_PROS, ...CAROUSEL_PROS]
-
-export default function CTABanner() {
   return (
     <section
       id="para-profesionales"
@@ -79,29 +70,31 @@ export default function CTABanner() {
           </div>
 
           {/* Vertical carousel */}
-          <div className="hidden lg:block h-[420px] overflow-hidden relative">
-            {/* Fade top/bottom */}
-            <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-[#6C5CE7] to-transparent z-10 pointer-events-none" />
-            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#6C5CE7] to-transparent z-10 pointer-events-none" />
+          {pros.length > 0 && (
+            <div className="hidden lg:block h-[420px] overflow-hidden relative">
+              {/* Fade top/bottom */}
+              <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-[#6C5CE7] to-transparent z-10 pointer-events-none" />
+              <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#6C5CE7] to-transparent z-10 pointer-events-none" />
 
-            <div
-              className="flex flex-col gap-4"
-              style={{
-                animation: "scroll-up 18s linear infinite",
-              }}
-            >
-              {LOOPED.map((pro, i) => (
-                <ProfCard key={`${pro.slug}-${i}`} pro={pro} variant="dark" />
-              ))}
+              <div
+                className="flex flex-col gap-4"
+                style={{
+                  animation: "scroll-up 18s linear infinite",
+                }}
+              >
+                {looped.map((pro, i) => (
+                  <ProfCard key={`${pro.slug}-${i}`} pro={pro} variant="dark" />
+                ))}
+              </div>
+
+              <style>{`
+                @keyframes scroll-up {
+                  0% { transform: translateY(0); }
+                  100% { transform: translateY(-50%); }
+                }
+              `}</style>
             </div>
-
-            <style>{`
-              @keyframes scroll-up {
-                0% { transform: translateY(0); }
-                100% { transform: translateY(-50%); }
-              }
-            `}</style>
-          </div>
+          )}
         </div>
       </div>
     </section>

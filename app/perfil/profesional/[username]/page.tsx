@@ -20,6 +20,7 @@ export default async function ProfesionalProfilePage({
   const pro = await prisma.professional.findFirst({
     where: { isActive: true, user: { username } },
     include: {
+      user: { select: { image: true } },
       subcategory: true,
       services: { where: { isActive: true }, orderBy: { createdAt: "asc" } },
       portfolio: { orderBy: { order: "asc" } },
@@ -28,6 +29,10 @@ export default async function ProfesionalProfilePage({
   });
 
   if (!pro) notFound();
+
+  const avatarSrc = pro.avatarUrl
+    ? `/api/avatar?key=${encodeURIComponent(pro.avatarUrl)}`
+    : pro.user.image;
 
   const reviewCount = pro.reviews.length;
   const avgRating =
@@ -38,7 +43,7 @@ export default async function ProfesionalProfilePage({
   return (
     <main className="min-h-screen bg-brand-bg pb-28">
       <Navbar />
-      <ProfileHeader pro={pro} avgRating={avgRating} reviewCount={reviewCount} />
+      <ProfileHeader pro={pro} avatarSrc={avatarSrc} avgRating={avgRating} reviewCount={reviewCount} />
 
       <div className="max-w-2xl mx-auto px-4 space-y-6 mt-6">
         <div className="flex flex-col md:flex-row gap-12">

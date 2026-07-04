@@ -8,10 +8,12 @@ export type ProfCardData = {
   zone: string
   rating: number
   reviews: number
-  priceFrom: number
+  priceFrom: number | null
   premium: boolean
+  verified: boolean
   initials: string
   color: string
+  avatarSrc?: string | null
 }
 
 export function ProfCard({ pro, variant = "default" }: { pro: ProfCardData; variant?: "default" | "dark" }) {
@@ -19,7 +21,7 @@ export function ProfCard({ pro, variant = "default" }: { pro: ProfCardData; vari
 
   return (
     <Link
-      href={`/profesionales/${pro.slug}`}
+      href={`/perfil/profesional/${pro.slug}`}
       className={`group rounded-2xl p-5 shadow-sm transition-all duration-300 block ${
         isDark
           ? "bg-white/10 border border-white/20 hover:bg-white/20"
@@ -27,12 +29,21 @@ export function ProfCard({ pro, variant = "default" }: { pro: ProfCardData; vari
       }`}
     >
       <div className="flex items-start gap-4 mb-4">
-        <div
-          className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-semibold text-lg shrink-0"
-          style={{ backgroundColor: pro.color }}
-        >
-          {pro.initials}
-        </div>
+        {pro.avatarSrc ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={pro.avatarSrc}
+            alt={pro.name}
+            className="w-14 h-14 rounded-xl object-cover shrink-0"
+          />
+        ) : (
+          <div
+            className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-semibold text-lg shrink-0"
+            style={{ backgroundColor: pro.color }}
+          >
+            {pro.initials}
+          </div>
+        )}
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
@@ -65,13 +76,15 @@ export function ProfCard({ pro, variant = "default" }: { pro: ProfCardData; vari
         <div>
           <span className={`text-[10px] uppercase tracking-wide ${isDark ? "text-white/50" : "text-[#6B7280]"}`}>Desde</span>
           <p className={`font-semibold text-base ${isDark ? "text-[#1EC97E]" : "text-[#6C5CE7]"}`}>
-            ${pro.priceFrom.toLocaleString("es-AR")}
+            {pro.priceFrom != null ? `$${pro.priceFrom.toLocaleString("es-AR")}` : "Consultar"}
           </p>
         </div>
-        <div className="flex items-center gap-1 text-[#1EC97E] text-xs">
-          <CheckCircle size={13} />
-          <span>Verificado</span>
-        </div>
+        {pro.verified && (
+          <div className="flex items-center gap-1 text-[#1EC97E] text-xs">
+            <CheckCircle size={13} />
+            <span>Verificado</span>
+          </div>
+        )}
       </div>
     </Link>
   )

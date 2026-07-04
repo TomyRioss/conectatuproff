@@ -3,10 +3,25 @@ import { prisma } from "@/lib/prisma"
 import CategoryCard from "./CategoryCard"
 
 export default async function CategoriesSection() {
-  const categories = await prisma.category.findMany({
-    include: { subcategories: { take: 15, orderBy: { name: "asc" } } },
-    orderBy: { name: "asc" },
-  })
+  const [allCategories, activeSpecialties] = await Promise.all([
+    prisma.category.findMany({
+      include: { subcategories: { orderBy: { name: "asc" } } },
+      orderBy: { name: "asc" },
+    }),
+    prisma.professional.findMany({
+      where: { isActive: true },
+      select: { specialty: true },
+    }),
+  ])
+
+  const specialtySet = new Set(activeSpecialties.map((p) => p.specialty?.trim().toLowerCase()).filter(Boolean))
+
+  const categories = allCategories
+    .map((cat) => ({
+      ...cat,
+      subcategories: cat.subcategories.filter((sub) => specialtySet.has(sub.name.trim().toLowerCase())).slice(0, 15),
+    }))
+    .filter((cat) => cat.subcategories.length > 0)
 
   if (categories.length === 0) return null
 

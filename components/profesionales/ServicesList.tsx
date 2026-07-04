@@ -21,7 +21,6 @@ type Service = {
 export function ServicesList({ initialServices }: { initialServices: Service[] }) {
   const [services, setServices] = useState(initialServices)
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [editing, setEditing] = useState<Service | undefined>(undefined)
 
   async function refetch() {
     const res = await fetch("/api/profesional/servicios")
@@ -33,7 +32,7 @@ export function ServicesList({ initialServices }: { initialServices: Service[] }
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-brand-dark font-display">Mis servicios</h1>
         <Button
-          onClick={() => { setEditing(undefined); setDialogOpen(true) }}
+          onClick={() => setDialogOpen(true)}
           className="bg-brand-green text-white hover:opacity-90 gap-2"
         >
           <Plus size={16} /> Nuevo servicio
@@ -48,7 +47,6 @@ export function ServicesList({ initialServices }: { initialServices: Service[] }
             <ManageServiceCard
               key={s.id}
               service={s}
-              onEdit={(svc) => { setEditing(svc); setDialogOpen(true) }}
               onChanged={refetch}
             />
           ))}
@@ -58,7 +56,6 @@ export function ServicesList({ initialServices }: { initialServices: Service[] }
       <ServiceFormDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
-        service={editing}
         onSaved={refetch}
       />
     </div>
