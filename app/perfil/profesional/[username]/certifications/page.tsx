@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, BadgeCheck } from "lucide-react";
-import Navbar from "@/components/layout/Navbar";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default async function CertificationsPage({
@@ -26,7 +25,6 @@ export default async function CertificationsPage({
 
   return (
     <main className="min-h-screen bg-brand-bg pb-16">
-      <Navbar />
       <div className="max-w-2xl mx-auto px-4 mt-6">
         <Link
           href={`/perfil/profesional/${username}`}

@@ -1,14 +1,14 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Link from "next/link"
 import { toast } from "sonner"
-import { Plus } from "lucide-react"
+import { SquareArrowOutUpRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { PortfolioCard } from "@/components/profesionales/PortfolioCard"
 import { PortfolioFormDialog } from "@/components/profesionales/PortfolioFormDialog"
 import type { PortfolioFormValue } from "@/components/profesionales/PortfolioForm"
 
-export function PortfolioManageSection() {
+export function PortfolioManageSection({ username }: { username: string }) {
   const [items, setItems] = useState<PortfolioFormValue[]>([])
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editing, setEditing] = useState<PortfolioFormValue | undefined>(undefined)
@@ -25,32 +25,40 @@ export function PortfolioManageSection() {
   }, [])
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold text-brand-dark font-display">Portfolio</h2>
-        <Button
-          variant="outline"
-          className="border-gray-200 text-brand-dark gap-2"
-          onClick={() => { setEditing(undefined); setDialogOpen(true) }}
-        >
-          <Plus size={16} /> Agregar proyecto
-        </Button>
-      </div>
+    <div className="bg-white rounded-2xl border border-gray-200 p-5">
+      <h2 className="text-lg font-bold text-brand-dark font-display mb-3">Portfolio</h2>
 
       {items.length === 0 ? (
-        <p className="text-sm text-brand-gray">Todavía no agregaste proyectos.</p>
+        <p className="text-sm text-brand-gray mb-4">Todavía no agregaste proyectos.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="flex gap-2 overflow-x-auto mb-4">
           {items.map((item) => (
-            <PortfolioCard
+            <button
               key={item.id}
-              item={item}
-              onEdit={() => { setEditing(item); setDialogOpen(true) }}
-              onChanged={load}
-            />
+              type="button"
+              onClick={() => { setEditing(item); setDialogOpen(true) }}
+              className="shrink-0 w-28 aspect-video rounded-lg overflow-hidden border border-gray-200 bg-brand-bg"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`/api/avatar?key=${encodeURIComponent(item.images[0]?.imageUrl ?? "")}`}
+                alt={item.title ?? "Proyecto"}
+                className="w-full h-full object-cover"
+              />
+            </button>
           ))}
         </div>
       )}
+
+      <Button
+        variant="outline"
+        className="border-gray-200 text-brand-dark gap-2"
+        asChild
+      >
+        <Link href={`/${username}/portfolio`}>
+          <SquareArrowOutUpRight size={16} /> Revisar portfolio
+        </Link>
+      </Button>
 
       <PortfolioFormDialog
         open={dialogOpen}

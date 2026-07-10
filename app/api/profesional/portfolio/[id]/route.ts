@@ -25,7 +25,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   if (!existing) return NextResponse.json({ error: "Proyecto no encontrado" }, { status: 404 })
 
   const body = await req.json()
-  const { title, description, costMin, costMax, durationMin, durationMax, tags, imageKeys } = body
+  const { title, description, costMin, costMax, durationMin, durationMax, tags, imageKeys, startedAt, categoryIds } = body
 
   const data: Record<string, unknown> = {}
   if (title !== undefined) data.title = title?.trim() || null
@@ -35,6 +35,9 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   if (durationMin !== undefined) data.durationMin = durationMin !== "" ? Number(durationMin) : null
   if (durationMax !== undefined) data.durationMax = durationMax !== "" ? Number(durationMax) : null
   if (tags !== undefined) data.tags = Array.isArray(tags) ? tags.filter(Boolean) : []
+  if (startedAt !== undefined) data.startedAt = startedAt ? new Date(startedAt) : null
+
+  const catIds: string[] | undefined = Array.isArray(categoryIds) ? categoryIds.filter(Boolean).slice(0, 4) : undefined
 
   let keys: string[] | undefined
   if (imageKeys !== undefined) {
@@ -58,13 +61,19 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
           }
         }
       }
+      if (catIds) {
+        await tx.portfolioItemCategory.deleteMany({ where: { portfolioItemId: id } })
+        await tx.portfolioItemCategory.createMany({
+          data: catIds.map((categoryId) => ({ portfolioItemId: id, categoryId })),
+        })
+      }
       return tx.portfolioItem.update({
         where: { id },
         data,
-        include: { images: { orderBy: { order: "asc" } } },
+        include: { images: { orderBy: { order: "asc" } }, categories: { include: { category: true } } },
       })
     })
-    return NextResponse.json(item)
+    return NextResponse.json({ ...item, categories: item.categories.map((c) => c.category) })
   } catch (e) {
     console.error("PATCH /api/profesional/portfolio/[id]", e)
     return NextResponse.json({ error: "Error al guardar" }, { status: 500 })

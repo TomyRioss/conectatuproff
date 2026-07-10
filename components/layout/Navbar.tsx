@@ -175,45 +175,44 @@ export default function Navbar() {
   }, [status])
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#F3F4F8]/95 backdrop-blur-sm border-b border-gray-200">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 h-16 grid grid-cols-[auto_1fr_auto] md:grid-cols-[auto_1fr_auto] items-center gap-6">
 
-        <Link href="/" className="text-xl font-bold text-[#1A1A2E] font-[family-name:var(--font-display)]">
+        <Link href="/" className="text-xl font-bold text-[#1A1A2E] font-[family-name:var(--font-display)] shrink-0">
           Conecta<span className="text-[#6C5CE7]">Tu</span>Proff
         </Link>
 
-        <div className="hidden md:flex flex-1 max-w-xl mx-8">
-          <div className="flex flex-1 items-center bg-white border border-gray-200 rounded-2xl overflow-hidden focus-within:ring-2 focus-within:ring-brand-violet/30 focus-within:border-brand-violet transition-colors">
-            <div className="flex items-center justify-center px-3 self-stretch bg-brand-violet shrink-0">
-              <Search size={16} className="text-white pointer-events-none" />
-            </div>
+        <div className="hidden md:flex items-center justify-center w-full gap-6">
+          <div className="flex items-center w-full max-w-md h-10 bg-white border border-gray-300 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-brand-violet/30 focus-within:border-brand-violet transition-colors">
             <input
               type="search"
-              placeholder="Buscar profesionales, servicios..."
-              className="w-full pl-3 pr-3 py-2.5 bg-transparent text-sm text-brand-dark placeholder:text-brand-gray/70 focus:outline-none"
+              placeholder="¿Qué servicio estás buscando hoy?"
+              className="w-full h-full pl-4 pr-2 bg-transparent text-sm text-brand-dark placeholder:text-brand-gray focus:outline-none"
             />
             <button
               onClick={() => setAiOpen(true)}
               aria-label="Buscar con IA"
-              className="mr-2 p-1 text-brand-violet hover:opacity-70 transition-opacity shrink-0"
+              className="px-2 text-brand-violet hover:opacity-70 transition-opacity shrink-0"
             >
               <Sparkles size={16} />
             </button>
+            <button
+              aria-label="Buscar"
+              className="h-full px-4 bg-brand-dark text-white flex items-center justify-center hover:bg-brand-dark/90 transition-colors shrink-0"
+            >
+              <Search size={16} />
+            </button>
           </div>
-        </div>
-        <AISearchDialog open={aiOpen} onOpenChange={setAiOpen} />
-
-        <div className="hidden md:flex items-center gap-6">
-          <div className="flex items-center gap-1 mr-1">
+          <div className="flex items-center gap-3 shrink-0">
             {isLoggedIn ? (
               <>
                 <NotificationBell />
-                <button aria-label="Mensajes" className="p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors">
+                <button aria-label="Mensajes" className="text-brand-gray hover:text-brand-dark transition-colors">
                   <MessageSquare size={20} />
                 </button>
-                <button aria-label="Favoritos" className="p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors">
+                <Link href="/favoritos" aria-label="Favoritos" className="text-brand-gray hover:text-brand-dark transition-colors">
                   <Heart size={20} />
-                </button>
+                </Link>
               </>
             ) : (
               <DropdownMenu>
@@ -237,6 +236,10 @@ export default function Navbar() {
               </DropdownMenu>
             )}
           </div>
+        </div>
+        <AISearchDialog open={aiOpen} onOpenChange={setAiOpen} />
+
+        <div className="hidden md:flex items-center gap-2 justify-self-end">
           {status === "loading" ? (
             <div className="w-9 h-9 rounded-full bg-gray-200 animate-pulse" />
           ) : isLoggedIn ? (
@@ -250,17 +253,19 @@ export default function Navbar() {
                   Modo Profesional
                 </button>
               )}
-              {role === "PROFESSIONAL" && (
-                <button
-                  onClick={handleModoCliente}
-                  disabled={checkingMode}
-                  className="text-sm font-semibold text-brand-violet relative after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-brand-green after:scale-x-0 after:origin-left hover:after:scale-x-100 after:transition-transform after:duration-300 cursor-pointer disabled:cursor-default disabled:opacity-60"
-                >
-                  Buscar Servicios
-                </button>
-              )}
-              <AvatarButton />
-</>
+              <div className="flex items-center gap-7 ml-10">
+                {role === "PROFESSIONAL" && (
+                  <button
+                    onClick={handleModoCliente}
+                    disabled={checkingMode}
+                    className="text-sm font-semibold text-brand-violet relative after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-brand-green after:scale-x-0 after:origin-left hover:after:scale-x-100 after:transition-transform after:duration-300 cursor-pointer disabled:cursor-default disabled:opacity-60"
+                  >
+                    Buscar Servicios
+                  </button>
+                )}
+                <AvatarButton />
+              </div>
+            </>
           ) : (
             <>
               <Link
@@ -280,7 +285,7 @@ export default function Navbar() {
         </div>
 
         <button
-          className="md:hidden text-[#1A1A2E] p-1"
+          className="md:hidden text-[#1A1A2E] p-1 col-start-3 justify-self-end"
           onClick={() => setOpen(!open)}
           aria-label="Menú"
         >

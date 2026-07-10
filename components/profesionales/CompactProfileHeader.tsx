@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react"
 import Link from "next/link"
-import { Pencil, Upload, MapPin, Phone, Mail, Share2, Check, ExternalLink, ImageUp, Crop } from "lucide-react"
+import { Pencil, Upload, MapPin, Phone, Mail, Share2, Check, ExternalLink, ImageUp, Crop, Trash2 } from "lucide-react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
@@ -60,6 +60,7 @@ export function CompactProfileHeader({
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     avatarUrl ? `/api/avatar?key=${encodeURIComponent(avatarUrl)}` : null
   )
+  const [removed, setRemoved] = useState(false)
   const [saving, setSaving] = useState(false)
   const [cropSrc, setCropSrc] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
@@ -83,6 +84,16 @@ export function CompactProfileHeader({
     setPreviewUrl(URL.createObjectURL(blob))
   }
 
+  function handleDiscard() {
+    setPendingFile(null)
+    if (pendingFile && avatarUrl) {
+      setPreviewUrl(`/api/avatar?key=${encodeURIComponent(avatarUrl)}`)
+    } else {
+      setPreviewUrl(null)
+      setRemoved(true)
+    }
+  }
+
   async function handleSave() {
     if (!first.trim() || !last.trim()) {
       toast.error("Nombre y apellido requeridos")
@@ -90,9 +101,11 @@ export function CompactProfileHeader({
     }
     setSaving(true)
     try {
-      let newAvatarKey: string | undefined
+      let newAvatarKey: string | null | undefined
 
-      if (pendingFile) {
+      if (removed && !pendingFile) {
+        newAvatarKey = null
+      } else if (pendingFile) {
         const fd = new FormData()
         fd.append("file", pendingFile)
         const uploadRes = await fetch("/api/profesional/upload-avatar", { method: "POST", body: fd })
@@ -124,9 +137,10 @@ export function CompactProfileHeader({
       }
 
       if (newAvatarKey !== undefined) {
-        await updateSession({ image: `/api/avatar?key=${encodeURIComponent(newAvatarKey)}` })
+        await updateSession({ image: newAvatarKey ? `/api/avatar?key=${encodeURIComponent(newAvatarKey)}` : null })
       }
 
+      setRemoved(false)
       toast.success("Perfil actualizado")
       setOpen(false)
       router.refresh()
@@ -150,23 +164,22 @@ export function CompactProfileHeader({
 
   return (
     <div>
-      <div className="h-28 sm:h-32 bg-gradient-to-br from-brand-violet to-brand-dark" />
-      <div className="w-full max-w-6xl mx-auto px-6 sm:px-10 pt-6 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      <div className="flex items-center gap-4">
-        <div className="relative shrink-0 w-32 h-16">
-          <Avatar className="absolute -top-16 h-32 w-32 border-4 border-white shadow-md">
+      <div className="w-full max-w-6xl mx-auto px-6 sm:px-10 pt-8 pb-8 flex flex-col sm:flex-row sm:items-start justify-between gap-6">
+      <div className="flex items-center gap-6">
+        <div className="relative shrink-0">
+          <Avatar className="h-32 w-32 sm:h-36 sm:w-36">
             {avatarUrl && <AvatarImage src={`/api/avatar?key=${encodeURIComponent(avatarUrl)}`} alt={fullName} />}
-            <AvatarFallback className="bg-brand-violet text-white text-3xl font-semibold">
+            <AvatarFallback className="bg-brand-violet text-white text-4xl font-semibold">
               {initials}
             </AvatarFallback>
           </Avatar>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
-                className="absolute bottom-1 right-1 w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow cursor-pointer hover:bg-brand-bg transition-colors"
+                className="absolute bottom-0 right-0 w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow cursor-pointer hover:bg-brand-bg transition-colors"
                 aria-label="Cambiar foto"
               >
-                <Upload size={14} className="text-brand-gray" />
+                <Upload size={18} className="text-brand-gray" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
@@ -182,56 +195,70 @@ export function CompactProfileHeader({
                 <Crop size={14} />
                 Editar
               </DropdownMenuItem>
+              {previewUrl && (
+                <DropdownMenuItem className="cursor-pointer gap-2 text-red-600" onClick={handleDiscard}>
+                  <Trash2 size={14} />
+                  Descartar imagen
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            className="hidden"
+            onChange={handleFile}
+          />
         </div>
 
         <div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="text-xl font-bold text-brand-dark">{fullName}</h1>
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <h1 className="text-3xl font-bold text-brand-dark">{fullName}</h1>
             <button onClick={() => setOpen(true)} aria-label="Editar nombre">
-              <Pencil size={14} className="text-brand-gray hover:text-brand-violet transition-colors" />
+              <Pencil size={18} className="text-brand-gray hover:text-brand-violet transition-colors" />
             </button>
             <span className="text-brand-gray text-sm">@{username}</span>
           </div>
 
           <button
             onClick={() => setOpen(true)}
-            className="flex items-center gap-2 mt-0.5 text-left"
+            className="flex items-center gap-2 mt-1 text-left"
             aria-label="Editar especialidad"
           >
-            <p className="text-brand-dark text-sm">{specialty || "Agregá tu especialidad"}</p>
+            <p className="text-brand-dark text-base font-medium">{specialty || "Agregá tu especialidad"}</p>
+            <Pencil size={14} className="text-brand-gray" />
           </button>
 
-          <div className="flex items-center gap-4 mt-1.5 flex-wrap">
+          <div className="flex items-center gap-5 mt-2 flex-wrap">
             <button
               onClick={() => setOpen(true)}
-              className="flex items-center gap-1 text-sm text-brand-gray"
+              className="flex items-center gap-1.5 text-base text-brand-gray"
               aria-label="Editar ubicación"
             >
-              <MapPin size={14} />
+              <MapPin size={18} />
               <span>{location || "Sin ubicación"}</span>
             </button>
             <button
               onClick={() => setOpen(true)}
-              className="flex items-center gap-1 text-sm text-brand-gray"
+              className="flex items-center gap-1.5 text-base text-brand-gray"
               aria-label="Editar teléfono"
             >
-              {phone ? <Phone size={14} /> : <Mail size={14} />}
+              {phone ? <Phone size={18} /> : <Mail size={18} />}
               <span>{phone || email}</span>
             </button>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 shrink-0">
-        <Button variant="outline" size="sm" onClick={handleShare} className="gap-1.5">
-          {copied ? <Check size={14} /> : <Share2 size={14} />}
+      <div className="flex items-center gap-3 shrink-0">
+        <Button variant="outline" onClick={handleShare} className="gap-1.5 text-base h-10 px-4">
+          {copied ? <Check size={16} /> : <Share2 size={16} />}
           {copied ? "Copiado" : "Compartir"}
         </Button>
         <Link href={`/perfil/profesional/${username}`} target="_blank">
-          <Button variant="outline" size="sm" className="gap-1.5">
-            <ExternalLink size={14} />
+          <Button variant="outline" className="gap-1.5 text-base h-10 px-4">
+            <ExternalLink size={16} />
             Vista previa
           </Button>
         </Link>
@@ -276,16 +303,15 @@ export function CompactProfileHeader({
                     <Crop size={14} />
                     Editar
                   </DropdownMenuItem>
+                  {previewUrl && (
+                    <DropdownMenuItem className="cursor-pointer gap-2 text-red-600" onClick={handleDiscard}>
+                      <Trash2 size={14} />
+                      Descartar imagen
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              className="hidden"
-              onChange={handleFile}
-            />
             <p className="text-xs text-brand-gray">JPG, PNG o WebP · máx 5 MB</p>
           </div>
 

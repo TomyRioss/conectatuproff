@@ -1,4 +1,5 @@
 import { Clock } from "lucide-react";
+import { FavoriteButton } from "./FavoriteButton";
 
 type ServiceCardProps = {
   service: {
@@ -10,13 +11,18 @@ type ServiceCardProps = {
     durationMin: number | null;
     imageUrl: string | null;
   };
+  initialFavorited?: boolean;
 };
 
-export function ServiceCard({ service }: ServiceCardProps) {
+export function ServiceCard({ service, initialFavorited = false }: ServiceCardProps) {
   const price = Number(service.price.toString());
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col">
+    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col relative">
+      <div className="absolute top-2 right-2 z-10">
+        <FavoriteButton type="servicio" id={service.id} initialFavorited={initialFavorited} className="bg-white" />
+      </div>
+
       {service.imageUrl && (
         <div className="relative h-40 bg-brand-bg">
           {/* eslint-disable-next-line @next/next/no-img-element */}

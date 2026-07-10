@@ -10,7 +10,7 @@ export function ChatWidget({ name }: { name: string }) {
   const [message, setMessage] = useState("");
 
   return (
-    <div className="max-w-2xl mx-auto px-4 mt-6 mb-28">
+    <div id="chat-widget" className="max-w-2xl mx-auto px-4 mt-6 mb-28">
       <div className="bg-brand-bg border border-gray-200 rounded-2xl overflow-hidden">
         <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200 bg-white">
           <Avatar className="h-9 w-9">

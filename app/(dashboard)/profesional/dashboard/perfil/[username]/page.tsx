@@ -3,10 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { redirect, notFound } from "next/navigation";
 import { CompactProfileHeader } from "@/components/profesionales/CompactProfileHeader";
 import { IntroVideo } from "@/components/profesionales/IntroVideo";
-import { ReviewsList } from "@/components/profesionales/ReviewsList";
-import { AgendaSummary } from "@/components/profesionales/AgendaSummary";
 import { FormacionManageSection } from "@/components/profesionales/FormacionManageSection";
 import { PortfolioManageSection } from "@/components/profesionales/PortfolioManageSection";
+import { AboutEditSection } from "@/components/profesionales/AboutEditSection";
 
 export default async function ProfesionalDashboardPerfilPage({
   params,
@@ -46,48 +45,19 @@ export default async function ProfesionalDashboardPerfilPage({
         avatarUrl={pro.avatarUrl}
         bio={pro.bio}
       />
-      {pro.bio && (
-        <div className="w-full px-6 sm:px-10">
-          <h2 className="text-xs font-semibold text-brand-gray uppercase tracking-wider mb-2">
-            Acerca de
-          </h2>
-          <p className="text-brand-dark text-sm leading-relaxed whitespace-pre-line">{pro.bio}</p>
-        </div>
-      )}
+      <div className="w-full max-w-6xl mx-auto px-6 sm:px-10">
+        <AboutEditSection bio={pro.bio} />
+      </div>
 
-      {/* Flowing content — sections separated by rules, no boxed cards */}
-      <div className="w-full px-6 sm:px-10 pb-16">
-        <div className="py-8 max-w-xl">
-          <IntroVideo name={pro.firstName} videoUrl={pro.videoUrl} isOwner />
+      <div className="w-full max-w-6xl mx-auto px-6 sm:px-10 pb-16 flex flex-col gap-6">
+        <div className="pt-6">
+          <PortfolioManageSection username={username} />
         </div>
 
-        <div className="py-8 border-t border-gray-100">
+        <IntroVideo name={pro.firstName} videoUrl={pro.videoUrl} isOwner />
+
+        <div className="border-t border-gray-100 pt-8">
           <FormacionManageSection />
-        </div>
-
-        <div className="py-8 border-t border-gray-100">
-          <PortfolioManageSection />
-        </div>
-
-        <div className="py-8 border-t border-gray-100">
-          <h2 className="text-xs font-semibold text-brand-gray uppercase tracking-wider mb-4">
-            Agenda
-          </h2>
-          <AgendaSummary availability={pro.availability} blockedSlots={pro.blockedSlots} />
-        </div>
-
-        <div className="py-8 border-t border-gray-100">
-          <h2 className="text-xs font-semibold text-brand-gray uppercase tracking-wider mb-4">
-            Reseñas
-          </h2>
-          <ReviewsList reviews={pro.reviews} />
-        </div>
-
-        <div className="py-8 border-t border-gray-100">
-          <h2 className="text-xs font-semibold text-brand-gray uppercase tracking-wider mb-2">
-            Mensajes
-          </h2>
-          <p className="text-sm text-brand-gray">Próximamente.</p>
         </div>
       </div>
     </main>

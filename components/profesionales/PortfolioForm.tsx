@@ -1,13 +1,35 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "sonner"
-import { Loader2, Upload, X } from "lucide-react"
+import { Loader2, Upload, X, ChevronDown, Star, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu"
 
 const MAX_IMAGES = 5
+const MAX_CATEGORIES = 4
+const MONTHS = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+]
+
+const DURATION_RANGES = [
+  { label: "1-7 día", min: 1, max: 7 },
+  { label: "7-30 días", min: 7, max: 30 },
+  { label: "1-3 meses", min: 30, max: 90 },
+  { label: "3-6 meses", min: 90, max: 180 },
+  { label: "Más de 6 meses", min: 180, max: null as number | null },
+]
+
+type Category = { id: string; name: string; slug: string }
 
 export type PortfolioFormValue = {
   id: string
@@ -18,6 +40,8 @@ export type PortfolioFormValue = {
   durationMin: number | null
   durationMax: number | null
   tags: string[]
+  startedAt?: string | null
+  categories?: Category[]
   images: { imageUrl: string }[]
 }
 
@@ -29,42 +53,71 @@ export function PortfolioForm({
   onSaved: () => void
 }) {
   const isEdit = !!item
+  const itemStartedAt = item?.startedAt ? new Date(item.startedAt) : null
 
   const [title, setTitle] = useState(item?.title ?? "")
   const [description, setDescription] = useState(item?.description ?? "")
-  const [costMin, setCostMin] = useState(item?.costMin != null ? String(item.costMin) : "")
-  const [costMax, setCostMax] = useState(item?.costMax != null ? String(item.costMax) : "")
-  const [durationMin, setDurationMin] = useState(item?.durationMin != null ? String(item.durationMin) : "")
-  const [durationMax, setDurationMax] = useState(item?.durationMax != null ? String(item.durationMax) : "")
-  const [tagInput, setTagInput] = useState("")
-  const [tags, setTags] = useState<string[]>(item?.tags ?? [])
+  const [cost, setCost] = useState(item?.costMin != null ? String(item.costMin) : "")
+  const initialDurationLabel = DURATION_RANGES.find(
+    (r) => r.min === item?.durationMin && r.max === item?.durationMax
+  )?.label ?? ""
+  const [durationLabel, setDurationLabel] = useState(initialDurationLabel)
+  const [month, setMonth] = useState(itemStartedAt ? String(itemStartedAt.getMonth()) : "")
+  const [year, setYear] = useState(itemStartedAt ? String(itemStartedAt.getFullYear()) : "")
+  const [categories, setCategories] = useState<Category[]>([])
+  const [categoryIds, setCategoryIds] = useState<string[]>(item?.categories?.map((c) => c.id) ?? [])
   const [imageKeys, setImageKeys] = useState<string[]>(item?.images.map((i) => i.imageUrl) ?? [])
   const [uploading, setUploading] = useState(false)
   const [saving, setSaving] = useState(false)
 
-  function addTag() {
-    const t = tagInput.trim()
-    if (!t) return
-    if (!tags.includes(t)) setTags([...tags, t])
-    setTagInput("")
+  useEffect(() => {
+    fetch("/api/categorias")
+      .then((r) => r.json())
+      .then(setCategories)
+      .catch(() => {})
+  }, [])
+
+  function toggleCategory(id: string) {
+    setCategoryIds((prev) => {
+      if (prev.includes(id)) return prev.filter((c) => c !== id)
+      if (prev.length >= MAX_CATEGORIES) {
+        toast.error(`Máximo ${MAX_CATEGORIES} categorías`)
+        return prev
+      }
+      return [...prev, id]
+    })
   }
 
-  async function handleImageUpload(file: File) {
-    if (imageKeys.length >= MAX_IMAGES) {
+  const currentYear = new Date().getFullYear()
+  const years = Array.from({ length: 15 }, (_, i) => currentYear - i)
+
+  async function uploadOne(file: File) {
+    const formData = new FormData()
+    formData.append("file", file)
+    const res = await fetch("/api/profesional/portfolio/upload-image", { method: "POST", body: formData })
+    const data = await res.json().catch(() => null)
+    if (!res.ok) {
+      toast.error(data?.error ?? "No se pudo subir la imagen")
+      return
+    }
+    setImageKeys((prev) => [...prev, data.key])
+  }
+
+  async function handleImageUpload(files: FileList | File[]) {
+    const remaining = MAX_IMAGES - imageKeys.length
+    if (remaining <= 0) {
       toast.error(`Máximo ${MAX_IMAGES} imágenes`)
       return
     }
+    const list = Array.from(files).slice(0, remaining)
+    if (files.length > list.length) {
+      toast.error(`Máximo ${MAX_IMAGES} imágenes`)
+    }
     setUploading(true)
     try {
-      const formData = new FormData()
-      formData.append("file", file)
-      const res = await fetch("/api/profesional/portfolio/upload-image", { method: "POST", body: formData })
-      const data = await res.json().catch(() => null)
-      if (!res.ok) {
-        toast.error(data?.error ?? "No se pudo subir la imagen")
-        return
+      for (const file of list) {
+        await uploadOne(file)
       }
-      setImageKeys((prev) => [...prev, data.key])
     } catch {
       toast.error("No se pudo subir la imagen")
     } finally {
@@ -80,14 +133,22 @@ export function PortfolioForm({
 
     setSaving(true)
     try {
+      const startedAt = month !== "" && year !== ""
+        ? new Date(Number(year), Number(month), 1).toISOString()
+        : undefined
+
+      const selectedRange = DURATION_RANGES.find((r) => r.label === durationLabel)
+
       const payload = {
         title: title || undefined,
         description: description || undefined,
-        costMin: costMin || undefined,
-        costMax: costMax || undefined,
-        durationMin: durationMin || undefined,
-        durationMax: durationMax || undefined,
-        tags,
+        costMin: cost || undefined,
+        costMax: cost || undefined,
+        durationMin: selectedRange?.min ?? undefined,
+        durationMax: selectedRange?.max ?? undefined,
+        tags: [],
+        startedAt,
+        categoryIds,
         imageKeys,
       }
       const res = await fetch(
@@ -112,110 +173,246 @@ export function PortfolioForm({
     }
   }
 
+  const inputClass =
+    "h-14 rounded-xl border-gray-200 px-4 text-brand-dark placeholder:text-brand-gray/60 focus-visible:ring-brand-violet/30 focus-visible:border-brand-violet"
+
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-7">
+      <h1 className="text-3xl font-bold text-brand-dark">
+        {isEdit ? "Editá tu proyecto" : "Agregá un nuevo proyecto a tu portfolio"}
+      </h1>
+
       <div>
-        <Label htmlFor="title">Título</Label>
-        <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <Label htmlFor="title" className="text-brand-dark font-semibold text-base">Nombre del proyecto</Label>
+        <Input
+          id="title"
+          value={title}
+          maxLength={50}
+          placeholder="Ej: División Nike Mujer: campaña de marketing de otoño."
+          onChange={(e) => setTitle(e.target.value)}
+          className={`${inputClass} w-1/2`}
+        />
+        <p className="text-sm text-brand-gray text-right mt-1 w-1/2">{title.length}/50 Caracteres</p>
+      </div>
+
+      <div className="w-1/2">
+        <Label className="text-brand-dark font-semibold text-base">Categoría del proyecto</Label>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              type="button"
+              className={`${inputClass} w-full flex items-center justify-between border bg-white`}
+            >
+              <span className={categoryIds.length ? "text-brand-dark" : "text-brand-gray/60"}>
+                {categoryIds.length
+                  ? categories.filter((c) => categoryIds.includes(c.id)).map((c) => c.name).join(", ")
+                  : "Selecciona una categoría de la lista."}
+              </span>
+              <ChevronDown size={16} className="text-brand-gray shrink-0" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-64 bg-white border-gray-200 max-h-64 overflow-y-auto">
+            {categories.map((c) => (
+              <DropdownMenuCheckboxItem
+                key={c.id}
+                checked={categoryIds.includes(c.id)}
+                onCheckedChange={() => toggleCategory(c.id)}
+                onSelect={(e) => e.preventDefault()}
+                className="text-brand-dark"
+              >
+                {c.name}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      <div className="grid grid-cols-2 gap-6">
+        <div>
+          <Label className="text-brand-dark font-semibold text-base">Duración del proyecto</Label>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className={`${inputClass} w-full flex items-center justify-between border bg-white`}
+              >
+                <span className={durationLabel ? "text-brand-dark" : "text-brand-gray/60"}>
+                  {durationLabel || "Selecciona la duración."}
+                </span>
+                <ChevronDown size={16} className="text-brand-gray shrink-0" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-64 bg-white border-gray-200">
+              {DURATION_RANGES.map((r) => (
+                <DropdownMenuItem
+                  key={r.label}
+                  onClick={() => setDurationLabel(r.label)}
+                  className="text-brand-dark justify-between"
+                >
+                  {r.label}
+                  {durationLabel === r.label && <Check size={14} className="text-brand-violet" />}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div>
+          <Label className="text-brand-dark font-semibold text-base">Costo (ARS)</Label>
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-gray text-sm">$</span>
+            <Input
+              id="cost"
+              type="number"
+              min="0"
+              placeholder="Ej. 1000"
+              value={cost}
+              onChange={(e) => setCost(e.target.value)}
+              className={`${inputClass} pl-7`}
+            />
+          </div>
+        </div>
       </div>
 
       <div>
-        <Label htmlFor="description">Descripción</Label>
+        <Label className="text-brand-dark font-semibold text-base">Proyecto iniciado el</Label>
+        <div className="grid grid-cols-2 gap-3 w-1/2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className={`${inputClass} w-full flex items-center justify-between border bg-white`}
+              >
+                <span className={month === "" ? "text-brand-gray/60" : "text-brand-dark"}>
+                  {month === "" ? "Mes" : MONTHS[Number(month)]}
+                </span>
+                <ChevronDown size={16} className="text-brand-gray shrink-0" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-56 bg-white border-gray-200">
+              {MONTHS.map((m, i) => (
+                <DropdownMenuItem
+                  key={m}
+                  onClick={() => setMonth(String(i))}
+                  className="text-brand-dark justify-between"
+                >
+                  {m}
+                  {month === String(i) && <Check size={14} className="text-brand-violet" />}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className={`${inputClass} w-full flex items-center justify-between border bg-white`}
+              >
+                <span className={year === "" ? "text-brand-gray/60" : "text-brand-dark"}>
+                  {year === "" ? "Año" : year}
+                </span>
+                <ChevronDown size={16} className="text-brand-gray shrink-0" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-40 bg-white border-gray-200">
+              {years.map((y) => (
+                <DropdownMenuItem
+                  key={y}
+                  onClick={() => setYear(String(y))}
+                  className="text-brand-dark justify-between"
+                >
+                  {y}
+                  {year === String(y) && <Check size={14} className="text-brand-violet" />}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="description" className="text-brand-dark font-semibold text-base">Descripción del proyecto</Label>
         <textarea
           id="description"
           value={description ?? ""}
+          maxLength={1400}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full min-h-20 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
+          className="w-full min-h-40 rounded-xl border border-gray-200 bg-white px-4 py-3 text-base text-brand-dark placeholder:text-brand-gray/60 focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
         />
-      </div>
-
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <Label htmlFor="costMin">Costo mín. (ARS)</Label>
-          <Input id="costMin" type="number" min="0" value={costMin} onChange={(e) => setCostMin(e.target.value)} />
-        </div>
-        <div>
-          <Label htmlFor="costMax">Costo máx. (ARS)</Label>
-          <Input id="costMax" type="number" min="0" value={costMax} onChange={(e) => setCostMax(e.target.value)} />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <Label htmlFor="durationMin">Duración mín. (días)</Label>
-          <Input id="durationMin" type="number" min="0" value={durationMin} onChange={(e) => setDurationMin(e.target.value)} />
-        </div>
-        <div>
-          <Label htmlFor="durationMax">Duración máx. (días)</Label>
-          <Input id="durationMax" type="number" min="0" value={durationMax} onChange={(e) => setDurationMax(e.target.value)} />
-        </div>
+        <p className="text-sm text-brand-gray text-right mt-1">{(description ?? "").length}/1400 Caracteres</p>
       </div>
 
       <div>
-        <Label>Tags</Label>
-        <div className="flex gap-2">
-          <Input
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag() } }}
-            placeholder="Ej: React, Node.js"
-          />
-          <Button type="button" variant="outline" className="border-gray-200" onClick={addTag}>Agregar</Button>
-        </div>
-        {tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-2">
-            {tags.map((t) => (
-              <span key={t} className="inline-flex items-center gap-1 rounded-full bg-brand-bg border border-gray-200 px-2 py-1 text-xs text-brand-dark">
-                {t}
-                <button type="button" onClick={() => setTags(tags.filter((x) => x !== t))} aria-label="Quitar tag">
-                  <X size={12} />
-                </button>
-              </span>
-            ))}
+        <Label className="text-brand-dark font-semibold text-base">Archivos adjuntos</Label>
+
+        {imageKeys.length > 0 && (
+          <div className="flex flex-wrap gap-4 mb-3">
+            {imageKeys.map((key, index) => {
+              const isCover = index === 0
+              return (
+                <div key={key} className="group relative w-28 h-28">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`/api/avatar?key=${encodeURIComponent(key)}`}
+                    alt=""
+                    className={`w-28 h-28 rounded-xl object-cover border ${isCover ? "border-brand-violet ring-2 ring-brand-violet/40" : "border-gray-200"}`}
+                  />
+
+                  {isCover ? (
+                    <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded-full bg-brand-violet text-white text-[10px] font-semibold px-2 py-0.5">
+                      <Star size={10} className="fill-white" /> Portada
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setImageKeys((prev) => [key, ...prev.filter((k) => k !== key)])}
+                      className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/0 group-hover:bg-black/40 opacity-0 group-hover:opacity-100 transition-all"
+                    >
+                      <span className="text-white text-[11px] font-medium px-2 py-1 rounded-full bg-black/50">
+                        Usar como portada
+                      </span>
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => setImageKeys(imageKeys.filter((k) => k !== key))}
+                    className="absolute -top-1.5 -right-1.5 bg-white border border-gray-200 rounded-full p-0.5 shadow"
+                    aria-label="Quitar imagen"
+                  >
+                    <X size={12} className="text-brand-dark" strokeWidth={3} />
+                  </button>
+                </div>
+              )
+            })}
           </div>
+        )}
+
+        {imageKeys.length < MAX_IMAGES && (
+          <label className="flex flex-col items-center justify-center gap-3 py-10 rounded-xl border border-dashed border-gray-300 cursor-pointer hover:bg-brand-bg/50 transition-colors">
+            <span className="text-brand-dark text-sm">Arrastrá y soltá los archivos o</span>
+            <span className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-brand-dark">
+              {uploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
+              Seleccioná los archivos
+            </span>
+            <span className="text-xs text-brand-gray">
+              .jpg, .jpeg, .png, .webp · tamaño máximo: 5 MB · máximo de archivos: {MAX_IMAGES}
+            </span>
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              multiple
+              className="hidden"
+              onChange={(e) => {
+                if (e.target.files?.length) handleImageUpload(e.target.files)
+                e.target.value = ""
+              }}
+            />
+          </label>
         )}
       </div>
 
-      <div>
-        <Label>Imágenes ({imageKeys.length}/{MAX_IMAGES})</Label>
-        <div className="flex flex-wrap gap-3 mt-1">
-          {imageKeys.map((key) => (
-            <div key={key} className="relative w-16 h-16">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`/api/avatar?key=${encodeURIComponent(key)}`}
-                alt=""
-                className="w-16 h-16 rounded-lg object-cover border border-gray-200"
-              />
-              <button
-                type="button"
-                onClick={() => setImageKeys(imageKeys.filter((k) => k !== key))}
-                className="absolute -top-1.5 -right-1.5 bg-white border border-gray-200 rounded-full p-0.5"
-                aria-label="Quitar imagen"
-              >
-                <X size={12} />
-              </button>
-            </div>
-          ))}
-          {imageKeys.length < MAX_IMAGES && (
-            <label className="w-16 h-16 flex items-center justify-center rounded-lg border border-dashed border-gray-300 cursor-pointer text-brand-violet hover:opacity-80">
-              {uploading ? <Loader2 size={18} className="animate-spin" /> : <Upload size={18} />}
-              <input
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files?.[0]
-                  if (file) handleImageUpload(file)
-                  e.target.value = ""
-                }}
-              />
-            </label>
-          )}
-        </div>
-      </div>
-
-      <Button onClick={handleSubmit} disabled={saving || uploading} className="bg-brand-green text-white hover:opacity-90 mt-2">
+      <Button onClick={handleSubmit} disabled={saving || uploading} className="bg-brand-green text-white hover:opacity-90 h-11 rounded-xl">
         {saving ? "Guardando..." : isEdit ? "Guardar cambios" : "Crear proyecto"}
       </Button>
     </div>
