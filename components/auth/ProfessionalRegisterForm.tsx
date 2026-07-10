@@ -66,6 +66,15 @@ export default function ProfessionalRegisterForm() {
     setStep((s) => s - 1);
   }
 
+  function onInvalid(fieldErrors: Record<string, unknown>) {
+    const invalidFields = Object.keys(fieldErrors) as (keyof ProfessionalRegisterFormInput)[];
+    const firstStepWithError = STEP_FIELDS.findIndex((fields) =>
+      fields.some((f) => invalidFields.includes(f))
+    );
+    if (firstStepWithError !== -1) setStep(firstStepWithError);
+    toast.error("Revisá los datos marcados, hay campos incompletos o inválidos.");
+  }
+
   async function onSubmit(data: ProfessionalRegisterFormInput) {
     if (!dniBack) { setDniErrors((e) => ({ ...e, back: "Requerido" })); return; }
     setDniErrors((e) => ({ ...e, back: "" }));
@@ -142,7 +151,7 @@ export default function ProfessionalRegisterForm() {
         Paso {step + 1} de {STEPS.length} — {STEPS[step].label}
       </p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="flex flex-col gap-4">
         {/* Step 0: datos básicos */}
         {step === 0 && (
           <>
@@ -259,7 +268,7 @@ export default function ProfessionalRegisterForm() {
             <button
               type="button"
               onClick={prev}
-              className="rounded-xl border border-gray-200 px-5 py-3 text-sm font-medium text-brand-dark hover:bg-gray-50 transition-colors"
+              className="rounded-xl border border-gray-200 px-5 py-3 text-sm font-medium text-brand-dark hover:bg-gray-50 transition-colors cursor-pointer"
             >
               Anterior
             </button>
@@ -269,7 +278,7 @@ export default function ProfessionalRegisterForm() {
             <button
               type="button"
               onClick={next}
-              className="flex-1 rounded-xl bg-brand-violet py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+              className="flex-1 rounded-xl bg-brand-violet py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity cursor-pointer"
             >
               Siguiente
             </button>
@@ -277,7 +286,7 @@ export default function ProfessionalRegisterForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 rounded-xl bg-brand-violet py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-60"
+              className="flex-1 rounded-xl bg-brand-violet py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
             >
               {isSubmitting ? "Enviando solicitud..." : "Solicitar registro"}
             </button>

@@ -1,8 +1,12 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CheckCircle, Star, MapPin } from "lucide-react";
+import { useIsOnline } from "@/lib/hooks/use-online-users";
 
 type ProfileHeaderProps = {
   pro: {
+    userId: string;
     firstName: string;
     lastName: string;
     specialty: string | null;
@@ -19,21 +23,37 @@ type ProfileHeaderProps = {
 export function ProfileHeader({ pro, username, avatarSrc, avgRating, reviewCount }: ProfileHeaderProps) {
   const fullName = `${pro.firstName} ${pro.lastName}`;
   const initials = `${pro.firstName[0] ?? ""}${pro.lastName[0] ?? ""}`.toUpperCase();
+  const isOnline = useIsOnline(pro.userId);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 pt-6">
+    <div>
       <div className="flex items-center gap-4">
-        <Avatar className="h-32 w-32 shrink-0">
-          {avatarSrc && <AvatarImage src={avatarSrc} alt={fullName} />}
-          <AvatarFallback className="bg-brand-violet text-white text-xl font-semibold">
-            {initials}
-          </AvatarFallback>
-        </Avatar>
+        <div className="relative h-32 w-32 shrink-0">
+          <Avatar className="h-32 w-32">
+            {avatarSrc && <AvatarImage src={avatarSrc} alt={fullName} />}
+            <AvatarFallback className="bg-brand-violet text-white text-xl font-semibold">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+          <span
+            className={`absolute bottom-2 right-2 h-6 w-6 rounded-full border-[3px] border-white ${
+              isOnline ? "bg-brand-green" : "bg-brand-gray"
+            }`}
+            title={isOnline ? "En línea" : "Desconectado"}
+          />
+        </div>
 
         <div>
           <div className="flex items-center gap-2 flex-wrap">
             <h1 className="text-2xl font-bold text-brand-dark">{fullName}</h1>
             <span className="text-brand-gray">@{username}</span>
+            <span
+              className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                isOnline ? "bg-brand-green/10 text-brand-green" : "bg-brand-bg text-brand-gray border border-gray-200"
+              }`}
+            >
+              {isOnline ? "En línea" : "Desconectado"}
+            </span>
           </div>
 
           <div className="flex items-center gap-1.5 mt-1 text-sm">
@@ -54,7 +74,7 @@ export function ProfileHeader({ pro, username, avatarSrc, avgRating, reviewCount
             )}
             {pro.isVerified && (
               <span className="flex items-center text-sm text-brand-green font-medium">
-                <CheckCircle size={13} className="mr-1" /> Verificada
+                <CheckCircle size={13} className="mr-1" /> Perfil Verificado
               </span>
             )}
           </div>

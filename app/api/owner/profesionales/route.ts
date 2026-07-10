@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireOwner } from "@/lib/owner-auth";
-import { getPresignedDownloadUrl } from "@/lib/r2";
+import { getPresignedDownloadUrl } from "@/lib/storage";
 
 export async function GET() {
   const { error } = await requireOwner();

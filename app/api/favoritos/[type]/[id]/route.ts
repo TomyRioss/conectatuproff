@@ -38,12 +38,14 @@ export async function POST(
   }
 
   try {
-    await prisma.favorite.create({
-      data: {
+    await prisma.favorite.upsert({
+      where: whereFor(type, session.user.id, id),
+      create: {
         userId: session.user.id,
         professionalId: type === "profesional" ? id : undefined,
         serviceId: type === "servicio" ? id : undefined,
       },
+      update: {},
     })
     return NextResponse.json({ favorited: true }, { status: 201 })
   } catch (e) {

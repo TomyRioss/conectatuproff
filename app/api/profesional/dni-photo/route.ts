@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireOwner } from "@/lib/owner-auth";
-import { getPresignedDownloadUrl } from "@/lib/r2";
+import { getPresignedDownloadUrl } from "@/lib/storage";
 
 export async function GET(req: Request) {
   const { error } = await requireOwner();

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { deleteFile } from "@/lib/r2"
+import { deleteFile } from "@/lib/storage"
 
 const MAX_IMAGES = 5
 

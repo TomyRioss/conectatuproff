@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { uploadFile, deleteFile } from "@/lib/r2"
+import { uploadFile, deleteFile } from "@/lib/storage"
 import { randomUUID } from "crypto"
 
 const MAX_BYTES = 50 * 1024 * 1024

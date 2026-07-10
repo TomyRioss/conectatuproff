@@ -25,7 +25,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   if (action === "approve") {
     await prisma.$transaction([
       prisma.professional.update({ where: { id }, data: { isVerified: true } }),
-      prisma.user.update({ where: { id: professional.userId }, data: { isActive: true } }),
+      prisma.user.update({ where: { id: professional.userId }, data: { isActive: true, role: "PROFESSIONAL" } }),
     ]);
   } else {
     await prisma.user.update({

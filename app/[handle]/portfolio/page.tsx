@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Plus } from "lucide-react";
-import { PortfolioGalleryCard } from "@/components/profesionales/PortfolioGalleryCard";
+import { PortfolioGalleryGrid } from "@/components/profesionales/PortfolioGalleryGrid";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 
@@ -44,36 +44,39 @@ export default async function PortfolioGalleryPage({
 
   return (
     <main className="min-h-screen bg-brand-bg">
-      <div className="max-w-6xl mx-auto px-6 sm:px-10 py-10">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <Avatar className="h-16 w-16">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 py-12">
+        <div className="flex items-center justify-between mb-10">
+          <div className="flex items-center gap-5">
+            <Avatar className="h-20 w-20">
               {pro.avatarUrl && (
                 <AvatarImage src={`/api/avatar?key=${encodeURIComponent(pro.avatarUrl)}`} alt={fullName} />
               )}
-              <AvatarFallback className="bg-brand-violet text-white text-lg font-semibold">
+              <AvatarFallback className="bg-brand-violet text-white text-2xl font-semibold">
                 {initials}
               </AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="text-lg font-bold text-brand-dark">{fullName}</h1>
-              {pro.specialty && <p className="text-sm text-brand-gray mt-0.5">{pro.specialty}</p>}
+              <h1 className="text-2xl font-bold text-brand-dark">{fullName}</h1>
+              {pro.specialty && <p className="text-base text-brand-gray mt-1">{pro.specialty}</p>}
             </div>
           </div>
-          <Button disabled={isOwner} className="bg-brand-green text-white hover:opacity-90 disabled:opacity-50">
+          <Button
+            disabled={isOwner}
+            className="bg-brand-green text-white hover:opacity-90 disabled:opacity-50 text-base px-6 py-6"
+          >
             Ponte en contacto
           </Button>
         </div>
 
-        <hr className="border-gray-200 mb-6" />
+        <hr className="border-gray-200 mb-8" />
 
         {isOwner && (
-          <div className="flex justify-end mb-6">
+          <div className="flex justify-end mb-8">
             <Link
               href={`/${handle}/portfolio/new`}
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-green text-white px-4 py-2.5 text-sm font-semibold hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand-green text-white px-5 py-3 text-base font-semibold hover:opacity-90 transition-opacity"
             >
-              <Plus size={16} /> Agregar proyecto
+              <Plus size={18} /> Agregar proyecto
             </Link>
           </div>
         )}
@@ -81,11 +84,13 @@ export default async function PortfolioGalleryPage({
         {pro.portfolio.length === 0 ? (
           <p className="text-sm text-brand-gray">Todavía no hay proyectos en este portfolio.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {pro.portfolio.map((item) => (
-              <PortfolioGalleryCard key={item.id} item={item} handle={handle} isOwner={isOwner} />
-            ))}
-          </div>
+          <PortfolioGalleryGrid
+            items={pro.portfolio}
+            handle={handle}
+            isOwner={isOwner}
+            proName={fullName}
+            proAvatarSrc={pro.avatarUrl ? `/api/avatar?key=${encodeURIComponent(pro.avatarUrl)}` : null}
+          />
         )}
       </div>
     </main>

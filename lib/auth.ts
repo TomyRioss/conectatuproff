@@ -66,8 +66,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.picture = sessionUpdate.image;
       }
       if (trigger === "update" && sessionUpdate?.role !== undefined) {
-        token.role = sessionUpdate.role;
-        const profile = await getProfile(token.id as string, sessionUpdate.role);
+        let nextRole = sessionUpdate.role;
+        if (nextRole === "PROFESSIONAL") {
+          const dbUser = await prisma.user.findUnique({ where: { id: token.id as string }, select: { role: true } });
+          if (dbUser?.role !== "PROFESSIONAL") nextRole = token.role as string;
+        }
+        token.role = nextRole;
+        const profile = await getProfile(token.id as string, nextRole);
         token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : null;
         if (!token.name && profile) token.name = `${profile.firstName} ${profile.lastName}`;
       }

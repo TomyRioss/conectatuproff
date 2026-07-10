@@ -16,7 +16,7 @@ export async function getFeaturedPros(take = 6): Promise<ProfCardData[]> {
       user: { select: { username: true, image: true } },
       _count: { select: { reviews: true } },
       services: {
-        where: { isActive: true },
+        where: { status: "ACTIVE" },
         select: { price: true },
         orderBy: { price: "asc" },
         take: 1,

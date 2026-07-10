@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { AISearchDialog } from "@/components/ui/AISearchDialog"
 
 function getInitials(name?: string | null, email?: string | null) {
@@ -44,7 +44,7 @@ function AvatarButton() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
-          className="w-9 h-9 rounded-full bg-brand-violet text-white text-sm font-semibold flex items-center justify-center hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet ring-offset-2 overflow-hidden relative"
+          className="w-11 h-11 rounded-full bg-brand-violet text-white text-base font-semibold flex items-center justify-center hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet ring-offset-2 overflow-hidden relative"
           aria-label="Menú de usuario"
         >
           <span className="absolute inset-0 flex items-center justify-center select-none">{initials}</span>
@@ -84,11 +84,6 @@ function AvatarButton() {
             <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
               <Link href="/profesional/servicios" className="text-brand-dark">
                 Servicios
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
-              <Link href="/profesional/paquetes" className="text-brand-dark">
-                Paquetes
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
@@ -134,12 +129,14 @@ export default function Navbar() {
     try {
       const res = await fetch("/api/profesional/status")
       const data = await res.json()
-      if (data.state === "verified" || data.state === "pending") {
+      if (data.state === "verified") {
         if (role !== "PROFESSIONAL") await update({ role: "PROFESSIONAL" })
+        router.push("/profesional/perfil")
+      } else if (data.state === "pending") {
+        setPendingOpen(true)
+      } else {
+        router.push("/profesional/onboarding")
       }
-      if (data.state === "verified") router.push("/profesional/perfil")
-      else if (data.state === "pending") setPendingOpen(true)
-      else router.push("/profesional/onboarding")
     } catch {
       router.push("/profesional/inicio")
     } finally {
@@ -176,70 +173,71 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200">
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 h-16 grid grid-cols-[auto_1fr_auto] md:grid-cols-[auto_1fr_auto] items-center gap-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-20 grid grid-cols-[auto_1fr_auto_auto] md:grid-cols-[auto_1fr_auto_auto] items-center gap-6">
 
-        <Link href="/" className="text-xl font-bold text-[#1A1A2E] font-[family-name:var(--font-display)] shrink-0">
+        <Link href="/" className="text-2xl font-bold text-[#1A1A2E] font-[family-name:var(--font-display)] shrink-0">
           Conecta<span className="text-[#6C5CE7]">Tu</span>Proff
         </Link>
 
-        <div className="hidden md:flex items-center justify-center w-full gap-6">
-          <div className="flex items-center w-full max-w-md h-10 bg-white border border-gray-300 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-brand-violet/30 focus-within:border-brand-violet transition-colors">
+        <div className="hidden md:flex items-center justify-center w-full">
+          <div className="flex items-center w-full max-w-2xl h-12 bg-white border border-gray-200 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-brand-violet/30 focus-within:border-brand-violet transition-colors">
             <input
               type="search"
               placeholder="¿Qué servicio estás buscando hoy?"
-              className="w-full h-full pl-4 pr-2 bg-transparent text-sm text-brand-dark placeholder:text-brand-gray focus:outline-none"
+              className="w-full h-full pl-5 pr-2 bg-transparent text-base text-brand-dark placeholder:text-brand-gray focus:outline-none"
             />
             <button
               onClick={() => setAiOpen(true)}
               aria-label="Buscar con IA"
-              className="px-2 text-brand-violet hover:opacity-70 transition-opacity shrink-0"
+              className="px-2.5 text-brand-violet hover:opacity-70 transition-opacity shrink-0"
             >
-              <Sparkles size={16} />
+              <Sparkles size={18} />
             </button>
             <button
               aria-label="Buscar"
-              className="h-full px-4 bg-brand-dark text-white flex items-center justify-center hover:bg-brand-dark/90 transition-colors shrink-0"
+              className="h-full px-5 bg-brand-green text-white flex items-center justify-center hover:opacity-90 transition-colors shrink-0"
             >
-              <Search size={16} />
+              <Search size={18} />
             </button>
           </div>
-          <div className="flex items-center gap-3 shrink-0">
-            {isLoggedIn ? (
-              <>
-                <NotificationBell />
-                <button aria-label="Mensajes" className="text-brand-gray hover:text-brand-dark transition-colors">
-                  <MessageSquare size={20} />
+        </div>
+
+        <div className="hidden md:flex items-center gap-4 shrink-0">
+          {isLoggedIn ? (
+            <>
+              <NotificationBell />
+              <button aria-label="Mensajes" className="text-brand-gray hover:text-brand-dark transition-colors">
+                <MessageSquare size={22} />
+              </button>
+              <Link href="/favoritos" aria-label="Favoritos" className="text-brand-gray hover:text-brand-dark transition-colors">
+                <Heart size={22} />
+              </Link>
+            </>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-1 text-base font-medium text-brand-dark hover:text-brand-violet transition-colors px-2 py-1.5 rounded-xl hover:bg-white">
+                  Explorar
+                  <ChevronDown size={16} />
                 </button>
-                <Link href="/favoritos" aria-label="Favoritos" className="text-brand-gray hover:text-brand-dark transition-colors">
-                  <Heart size={20} />
-                </Link>
-              </>
-            ) : (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-1 text-sm font-medium text-brand-dark hover:text-brand-violet transition-colors px-2 py-1.5 rounded-xl hover:bg-white">
-                    Explorar
-                    <ChevronDown size={14} />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-48 bg-brand-bg border-gray-200">
-                  {categories.length === 0 ? (
-                    <DropdownMenuLabel className="text-brand-gray text-xs">Cargando...</DropdownMenuLabel>
-                  ) : (
-                    categories.map((cat) => (
-                      <DropdownMenuItem key={cat.id} asChild className="cursor-pointer text-brand-dark">
-                        <Link href={`/buscar?categoria=${cat.slug}`}>{cat.name}</Link>
-                      </DropdownMenuItem>
-                    ))
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
-          </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-48 bg-brand-bg border-gray-200">
+                {categories.length === 0 ? (
+                  <DropdownMenuLabel className="text-brand-gray text-xs">Cargando...</DropdownMenuLabel>
+                ) : (
+                  categories.map((cat) => (
+                    <DropdownMenuItem key={cat.id} asChild className="cursor-pointer text-brand-dark">
+                      <Link href={`/buscar?categoria=${cat.slug}`}>{cat.name}</Link>
+                    </DropdownMenuItem>
+                  ))
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
         <AISearchDialog open={aiOpen} onOpenChange={setAiOpen} />
 
-        <div className="hidden md:flex items-center gap-2 justify-self-end">
+        <div className="hidden md:flex items-center gap-3 justify-self-end">
           {status === "loading" ? (
             <div className="w-9 h-9 rounded-full bg-gray-200 animate-pulse" />
           ) : isLoggedIn ? (
@@ -248,17 +246,17 @@ export default function Navbar() {
                 <button
                   onClick={handleModoProfesional}
                   disabled={checkingMode}
-                  className="text-sm font-semibold text-brand-violet relative after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-brand-green after:scale-x-0 after:origin-left hover:after:scale-x-100 after:transition-transform after:duration-300 cursor-pointer disabled:cursor-default disabled:opacity-60"
+                  className="text-base font-semibold text-brand-violet relative after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-brand-green after:scale-x-0 after:origin-left hover:after:scale-x-100 after:transition-transform after:duration-300 cursor-pointer disabled:cursor-default disabled:opacity-60"
                 >
                   Modo Profesional
                 </button>
               )}
-              <div className="flex items-center gap-7 ml-10">
+              <div className="flex items-center gap-3">
                 {role === "PROFESSIONAL" && (
                   <button
                     onClick={handleModoCliente}
                     disabled={checkingMode}
-                    className="text-sm font-semibold text-brand-violet relative after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-brand-green after:scale-x-0 after:origin-left hover:after:scale-x-100 after:transition-transform after:duration-300 cursor-pointer disabled:cursor-default disabled:opacity-60"
+                    className="text-base font-semibold text-brand-violet relative after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-brand-green after:scale-x-0 after:origin-left hover:after:scale-x-100 after:transition-transform after:duration-300 cursor-pointer disabled:cursor-default disabled:opacity-60"
                   >
                     Buscar Servicios
                   </button>
@@ -367,9 +365,9 @@ export default function Navbar() {
               <Clock size={32} className="text-brand-violet" />
             </div>
           </div>
-          <h2 className="text-xl font-bold text-brand-dark font-display">
+          <DialogTitle className="text-xl font-bold text-brand-dark font-display">
             Tu registro está en revisión
-          </h2>
+          </DialogTitle>
           <p className="text-brand-gray text-sm leading-relaxed">
             Recibimos tu solicitud y las fotos de tu DNI.
           </p>

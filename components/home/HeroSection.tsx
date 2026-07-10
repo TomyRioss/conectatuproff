@@ -125,7 +125,7 @@ export default function HeroSection({ subcategories }: Props) {
         </form>
 
         {/* Categories */}
-        <div className="relative flex items-center max-w-3xl mx-auto">
+        <div className="relative flex items-center max-w-2xl mx-auto">
           <div
             ref={scrollRef}
             className="flex-1 overflow-x-auto bg-white rounded-2xl shadow-sm border border-gray-200 select-none"

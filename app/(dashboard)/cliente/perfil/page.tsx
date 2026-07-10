@@ -13,5 +13,5 @@ export default async function ClientePerfilRedirect() {
 
   if (!user?.username) redirect("/")
 
-  redirect(`/cliente/${user.username}`)
+  redirect(`/perfil/cliente/${user.username}`)
 }

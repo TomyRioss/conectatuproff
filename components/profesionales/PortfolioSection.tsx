@@ -1,3 +1,9 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { Images } from "lucide-react";
+
 type PortfolioItem = {
   id: string;
   title: string | null;
@@ -11,77 +17,113 @@ type PortfolioItem = {
   images: { imageUrl: string }[];
 };
 
-function formatMonthYear(date: Date) {
-  return date.toLocaleDateString("es-AR", { month: "long", year: "numeric" });
-}
+export function PortfolioSection({ items, handle }: { items: PortfolioItem[]; handle: string }) {
+  const [activeIndex, setActiveIndex] = useState(0);
 
-export function PortfolioSection({ items }: { items: PortfolioItem[] }) {
   if (items.length === 0) return null;
+
+  const active = items[activeIndex];
+  const thumbItems = items.slice(0, 2);
+  const extraCount = items.length - 2;
 
   return (
     <section>
       <h2 className="text-xl font-bold text-brand-dark mb-4">Portfolio</h2>
 
-      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="snap-start shrink-0 w-full bg-white rounded-2xl border border-gray-200 p-5 flex flex-col md:flex-row gap-5"
-          >
-            <div className="md:w-2/5 aspect-video rounded-xl overflow-hidden bg-brand-bg shrink-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`/api/avatar?key=${encodeURIComponent(item.images[0]?.imageUrl ?? "")}`}
-                alt={item.title ?? "Proyecto"}
-                className="w-full h-full object-cover"
-              />
-            </div>
+      <div className="flex gap-6">
+        <Link
+          href={`/${handle}/portfolio`}
+          className="flex-1 bg-white rounded-2xl border border-gray-200 p-10 flex flex-col md:flex-row gap-10 hover:border-brand-violet/40 hover:shadow-sm transition-all"
+        >
+          <div className="md:w-3/5 aspect-video rounded-xl overflow-hidden bg-brand-bg shrink-0 relative">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/api/avatar?key=${encodeURIComponent(active.images[0]?.imageUrl ?? "")}`}
+              alt={active.title ?? "Proyecto"}
+              className="w-full h-full object-cover"
+            />
+            {active.images.length > 1 && (
+              <span className="absolute bottom-3 right-3 flex items-center gap-1 rounded-full bg-black/70 text-white text-sm px-2.5 py-1.5">
+                <Images size={14} /> {active.images.length}
+              </span>
+            )}
+          </div>
 
-            <div className="flex-1">
-              {item.startedAt && (
-                <p className="text-sm text-brand-gray">Del: {formatMonthYear(item.startedAt)}</p>
-              )}
-              <h3 className="text-lg font-bold text-brand-dark mt-0.5">{item.title || "Sin título"}</h3>
-              {item.description && (
-                <p className="text-sm text-brand-dark mt-2 line-clamp-3">{item.description}</p>
-              )}
+          <div className="flex-1">
+            <h3 className="text-2xl font-bold text-brand-dark">{active.title || "Sin título"}</h3>
+            {active.description && (
+              <p className="text-base text-brand-dark mt-3 leading-relaxed line-clamp-4">
+                {active.description}
+              </p>
+            )}
 
-              {item.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {item.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs border border-gray-200 rounded-full px-3 py-1 text-brand-dark"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+            {active.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-4">
+                {active.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-sm border border-gray-200 rounded-full px-3.5 py-1.5 text-brand-dark"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            <div className="flex gap-8 mt-4">
+              {(active.costMin || active.costMax) && (
+                <div>
+                  <p className="text-sm text-brand-gray">Costo del proyecto</p>
+                  <p className="text-lg font-bold text-brand-dark">
+                    ${(active.costMin ?? active.costMax)!.toLocaleString("es-AR")}
+                    {active.costMax && active.costMin !== active.costMax ? `-$${active.costMax.toLocaleString("es-AR")}` : ""} ARS
+                  </p>
                 </div>
               )}
-
-              <div className="flex gap-8 mt-4">
-                {(item.costMin || item.costMax) && (
-                  <div>
-                    <p className="text-xs text-brand-gray">Costo del proyecto</p>
-                    <p className="text-sm font-bold text-brand-dark">
-                      ${item.costMin ?? item.costMax}
-                      {item.costMax && item.costMin !== item.costMax ? `-$${item.costMax}` : ""}
-                    </p>
-                  </div>
-                )}
-                {(item.durationMin || item.durationMax) && (
-                  <div>
-                    <p className="text-xs text-brand-gray">Duración del proyecto</p>
-                    <p className="text-sm font-bold text-brand-dark">
-                      {item.durationMin ?? item.durationMax}
-                      {item.durationMax && item.durationMin !== item.durationMax ? `-${item.durationMax}` : ""} días
-                    </p>
-                  </div>
-                )}
-              </div>
+              {(active.durationMin || active.durationMax) && (
+                <div>
+                  <p className="text-sm text-brand-gray">Duración del proyecto</p>
+                  <p className="text-lg font-bold text-brand-dark">
+                    {active.durationMin ?? active.durationMax}
+                    {active.durationMax && active.durationMin !== active.durationMax ? `-${active.durationMax}` : ""} días
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-        ))}
+        </Link>
+
+        {items.length > 1 && (
+          <div className="hidden sm:flex flex-col gap-5 w-56 shrink-0">
+            {thumbItems.map((item, i) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setActiveIndex(i)}
+                className={`aspect-video rounded-xl overflow-hidden bg-brand-bg border-2 transition-colors ${
+                  activeIndex === i ? "border-brand-dark" : "border-transparent hover:border-gray-200"
+                }`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/api/avatar?key=${encodeURIComponent(item.images[0]?.imageUrl ?? "")}`}
+                  alt={item.title ?? "Proyecto"}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+            {extraCount > 0 && (
+              <button
+                type="button"
+                onClick={() => setActiveIndex(2)}
+                className="aspect-video rounded-xl border border-gray-200 flex flex-col items-center justify-center gap-0.5 hover:bg-brand-bg transition-colors"
+              >
+                <span className="text-base font-bold text-brand-dark">+{extraCount}</span>
+                <span className="text-xs text-brand-gray">Proyectos</span>
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );

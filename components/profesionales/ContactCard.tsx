@@ -7,11 +7,13 @@ import { FavoriteButton } from "./FavoriteButton";
 
 export function ContactCard({
   name,
+  specialty,
   avatarSrc,
   professionalId,
   initialFavorited,
 }: {
   name: string;
+  specialty: string | null;
   avatarSrc: string | null;
   professionalId: string;
   initialFavorited: boolean;
@@ -29,9 +31,9 @@ export function ContactCard({
             {name[0]?.toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <div className="flex-1">
-          <p className="text-brand-dark text-sm font-semibold">{name}</p>
-          <p className="text-brand-gray text-xs">En línea · responde en ~10 min</p>
+        <div className="flex-1 min-w-0">
+          <p className="text-brand-dark text-sm font-semibold truncate">{name}</p>
+          {specialty && <p className="text-brand-gray text-xs truncate">{specialty}</p>}
         </div>
         <FavoriteButton type="profesional" id={professionalId} initialFavorited={initialFavorited} />
       </div>

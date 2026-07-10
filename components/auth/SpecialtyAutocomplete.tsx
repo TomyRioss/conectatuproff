@@ -9,7 +9,7 @@ interface Props {
   error?: string;
 }
 
-export default function SpecialtyAutocomplete({ value, onChange, error }: Props) {
+export default function SpecialtyAutocomplete({ value = "", onChange, error }: Props) {
   const [options, setOptions] = useState<string[]>([]);
   const [query, setQuery] = useState(value);
   const [open, setOpen] = useState(false);
@@ -66,7 +66,7 @@ export default function SpecialtyAutocomplete({ value, onChange, error }: Props)
 
   return (
     <div className="flex flex-col gap-1 relative" ref={wrapperRef}>
-      <label className="text-sm font-medium text-brand-dark">Rol</label>
+      <label className="text-sm font-medium text-brand-dark">Profesión</label>
       <input
         type="text"
         value={query}

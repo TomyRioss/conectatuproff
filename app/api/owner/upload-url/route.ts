@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { requireOwner } from "@/lib/owner-auth";
-import { getPresignedUploadUrl } from "@/lib/r2";
+import { getPresignedUploadUrl, getPublicUrl } from "@/lib/storage";
 import { randomUUID } from "crypto";
 
 export async function GET(req: Request) {
@@ -15,6 +15,7 @@ export async function GET(req: Request) {
   const key = `${prefix}/${randomUUID()}.${ext}`;
 
   const uploadUrl = await getPresignedUploadUrl(key, contentType);
+  const publicUrl = getPublicUrl(key);
 
-  return NextResponse.json({ uploadUrl, key });
+  return NextResponse.json({ uploadUrl, key, publicUrl });
 }

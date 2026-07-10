@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Clock } from "lucide-react";
 import { FavoriteButton } from "./FavoriteButton";
 
@@ -6,36 +7,40 @@ type ServiceCardProps = {
     id: string;
     title: string;
     description: string | null;
-    price: { toString(): string };
+    price: { toString(): string } | null;
     currency: string;
     durationMin: number | null;
     imageUrl: string | null;
   };
+  handle: string;
   initialFavorited?: boolean;
 };
 
-export function ServiceCard({ service, initialFavorited = false }: ServiceCardProps) {
-  const price = Number(service.price.toString());
+export function ServiceCard({ service, handle, initialFavorited = false }: ServiceCardProps) {
+  const price = service.price ? Number(service.price.toString()) : 0;
+  const detailHref = `/${handle}/servicios/${service.id}`;
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col relative">
+    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden flex flex-col relative">
       <div className="absolute top-2 right-2 z-10">
         <FavoriteButton type="servicio" id={service.id} initialFavorited={initialFavorited} className="bg-white" />
       </div>
 
       {service.imageUrl && (
-        <div className="relative h-40 bg-brand-bg">
+        <Link href={detailHref} className="relative h-40 bg-brand-bg block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`/api/avatar?key=${encodeURIComponent(service.imageUrl)}`}
             alt={service.title}
             className="h-full w-full object-cover"
           />
-        </div>
+        </Link>
       )}
 
       <div className="p-4 flex flex-col flex-1">
-        <h4 className="font-semibold text-brand-dark">{service.title}</h4>
+        <Link href={detailHref} className="font-semibold text-brand-dark hover:text-brand-violet transition-colors">
+          {service.title}
+        </Link>
         {service.durationMin && (
           <p className="text-xs text-brand-gray flex items-center gap-1 mt-0.5">
             <Clock size={12} /> {service.durationMin} min
@@ -53,9 +58,9 @@ export function ServiceCard({ service, initialFavorited = false }: ServiceCardPr
             </p>
             <p className="text-[10px] uppercase text-brand-gray">por sesión</p>
           </div>
-          <button type="button" className="text-sm text-brand-violet font-medium">
+          <Link href={detailHref} className="text-sm text-brand-violet font-medium hover:underline">
             Ver detalle
-          </button>
+          </Link>
         </div>
 
         <button

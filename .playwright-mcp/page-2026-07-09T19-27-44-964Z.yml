@@ -1,0 +1,192 @@
+- generic [active] [ref=f3e1]:
+  - navigation [ref=f3e67]:
+    - generic [ref=f3e68]:
+      - link "ConectaTuProff" [ref=f3e69] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f3e71]:
+        - generic [ref=f3e72]:
+          - img
+        - searchbox "Buscar profesionales, servicios..." [ref=f3e73]
+        - button "Buscar con IA" [ref=f3e74]:
+          - img [ref=f3e75]
+      - generic [ref=f3e78]:
+        - generic [ref=f3e79]:
+          - button "Notificaciones" [ref=f3e81]:
+            - img [ref=f3e82]
+          - button "Mensajes" [ref=f3e85]:
+            - img [ref=f3e86]
+          - button "Favoritos" [ref=f3e88]:
+            - img [ref=f3e89]
+        - button "Modo Profesional" [ref=f3e91] [cursor=pointer]
+        - button "Menú de usuario" [ref=f3e92]:
+          - generic [ref=f3e93]: TU
+  - main [ref=f3e94]:
+    - generic [ref=f3e98]:
+      - heading "Encontrá al profesional ideal para lo que necesitás." [level=1] [ref=f3e99]:
+        - text: Encontrá al profesional ideal
+        - text: para lo que necesitás.
+      - paragraph [ref=f3e100]: Bienestar, oficios y más — conectamos clientes con los mejores profesionales de CABA y GBA.
+      - generic [ref=f3e101]:
+        - generic [ref=f3e102]:
+          - img [ref=f3e103]
+          - textbox "¿Qué servicio buscás?" [ref=f3e106]
+        - generic [ref=f3e107]:
+          - img [ref=f3e108]
+          - textbox "Zona" [ref=f3e111]
+        - generic [ref=f3e112]:
+          - button "Buscar" [ref=f3e113]
+          - button "Buscar con IA" [ref=f3e114]:
+            - img [ref=f3e115]
+            - text: Buscar con IA
+      - generic [ref=f3e118]:
+        - generic [ref=f3e120]:
+          - button "Artes marciales" [ref=f3e121]:
+            - img [ref=f3e122]
+            - generic [ref=f3e125]: Artes marciales
+          - button "Ver todos" [ref=f3e127]:
+            - img [ref=f3e128]
+            - generic [ref=f3e130]: Ver todos
+        - button "Ver más categorías" [ref=f3e131]:
+          - img [ref=f3e132]
+    - generic [ref=f3e135]:
+      - generic [ref=f3e136]:
+        - generic [ref=f3e137]:
+          - paragraph [ref=f3e138]: Explorá por rubro
+          - heading "¿Qué necesitás?" [level=2] [ref=f3e139]
+        - link "Ver todos →" [ref=f3e140] [cursor=pointer]:
+          - /url: /buscar
+      - generic [ref=f3e142]:
+        - link "Salud Física" [ref=f3e143] [cursor=pointer]:
+          - /url: /buscar?categoria=salud-fisica
+          - img "Salud Física" [ref=f3e145]
+        - link "Salud Física" [ref=f3e146] [cursor=pointer]:
+          - /url: /buscar?categoria=salud-fisica
+        - list [ref=f3e147]:
+          - listitem [ref=f3e148]:
+            - link "Artes marciales" [ref=f3e149] [cursor=pointer]:
+              - /url: /buscar?categoria=artes-marciales
+    - generic [ref=f3e151]:
+      - generic [ref=f3e152]:
+        - generic [ref=f3e153]:
+          - paragraph [ref=f3e154]: Destacados
+          - heading "Profesionales verificados en tu zona" [level=2] [ref=f3e155]:
+            - text: Profesionales verificados
+            - text: en tu zona
+        - link "Ver todos →" [ref=f3e156] [cursor=pointer]:
+          - /url: /buscar
+      - link "TR Tomas Rios Artes marciales Buenos Aires, Avellaneda 0 (0) Desde Consultar Verificado" [ref=f3e158] [cursor=pointer]:
+        - /url: /perfil/profesional/tomyyyp
+        - generic [ref=f3e159]:
+          - generic [ref=f3e160]: TR
+          - generic [ref=f3e161]:
+            - heading "Tomas Rios" [level=3] [ref=f3e163]
+            - paragraph [ref=f3e164]: Artes marciales
+        - generic [ref=f3e165]:
+          - generic [ref=f3e166]:
+            - img [ref=f3e167]
+            - generic [ref=f3e170]: Buenos Aires, Avellaneda
+          - generic [ref=f3e171]:
+            - img [ref=f3e172]
+            - generic [ref=f3e174]: "0"
+            - generic [ref=f3e175]: (0)
+        - generic [ref=f3e176]:
+          - generic [ref=f3e177]:
+            - text: Desde
+            - paragraph [ref=f3e178]: Consultar
+          - generic [ref=f3e179]:
+            - img [ref=f3e180]
+            - generic [ref=f3e183]: Verificado
+    - generic [ref=f3e185]:
+      - generic [ref=f3e186]:
+        - paragraph [ref=f3e187]: Simple y rápido
+        - heading "¿Cómo funciona?" [level=2] [ref=f3e188]
+        - paragraph [ref=f3e189]: Conectamos clientes con profesionales en tres pasos simples. Sin complicaciones.
+      - generic [ref=f3e190]:
+        - generic [ref=f3e191]:
+          - generic [ref=f3e192]: "01"
+          - generic [ref=f3e193]: "01"
+          - heading "Elegí al profesional" [level=3] [ref=f3e194]
+          - paragraph [ref=f3e195]: Buscá por servicio, barrio y disponibilidad. Leé reseñas de otros clientes y elegí el que mejor se adapte a vos.
+        - generic [ref=f3e196]:
+          - generic [ref=f3e197]: "02"
+          - generic [ref=f3e198]: "02"
+          - heading "Coordiná el servicio" [level=3] [ref=f3e199]
+          - paragraph [ref=f3e200]: Solicitá un turno o hacé una consulta directamente desde el perfil. Recibís confirmación por email al instante.
+        - generic [ref=f3e201]:
+          - generic [ref=f3e202]: "03"
+          - generic [ref=f3e203]: "03"
+          - heading "Servicio completado" [level=3] [ref=f3e204]
+          - paragraph [ref=f3e205]: El profesional se presenta, hace su trabajo y vos dejás una reseña para ayudar a la comunidad.
+    - generic [ref=f3e209]:
+      - paragraph [ref=f3e210]: Para profesionales
+      - heading "¿Sos experto en tu oficio? Empezá a ofrecer tus servicios." [level=2] [ref=f3e211]:
+        - text: ¿Sos experto en
+        - text: tu oficio?
+        - generic [ref=f3e212]:
+          - text: Empezá a ofrecer
+          - text: tus servicios.
+      - paragraph [ref=f3e213]: Unite a cientos de profesionales que ya usan Conecta Tu Proff para llegar a clientes en su zona. Sin costos de entrada.
+      - list [ref=f3e214]:
+        - listitem [ref=f3e215]:
+          - img [ref=f3e216]
+          - text: Perfil completo gratis para siempre
+        - listitem [ref=f3e219]:
+          - img [ref=f3e220]
+          - text: Primer mes Premium sin costo
+        - listitem [ref=f3e223]:
+          - img [ref=f3e224]
+          - text: Aparecé en búsquedas de CABA y GBA
+      - generic [ref=f3e227]:
+        - link "Crear perfil gratis" [ref=f3e228] [cursor=pointer]:
+          - /url: /registro/profesional
+          - text: Crear perfil gratis
+          - img [ref=f3e229]
+        - link "Saber más" [ref=f3e231] [cursor=pointer]:
+          - /url: "#como-funciona"
+  - contentinfo [ref=f3e232]:
+    - generic [ref=f3e233]:
+      - generic [ref=f3e234]:
+        - generic [ref=f3e235]:
+          - paragraph [ref=f3e236]: ConectaTuProff
+          - paragraph [ref=f3e237]: Marketplace de profesionales en CABA y GBA. Bienestar, oficios y más.
+        - generic [ref=f3e238]:
+          - paragraph [ref=f3e239]: Plataforma
+          - list [ref=f3e240]:
+            - listitem [ref=f3e241]:
+              - link "Buscar profesionales" [ref=f3e242] [cursor=pointer]:
+                - /url: /buscar
+            - listitem [ref=f3e243]:
+              - link "Cómo funciona" [ref=f3e244] [cursor=pointer]:
+                - /url: "#como-funciona"
+            - listitem [ref=f3e245]:
+              - link "Publicar servicio" [ref=f3e246] [cursor=pointer]:
+                - /url: /registro/profesional
+        - generic [ref=f3e247]:
+          - paragraph [ref=f3e248]: Soporte
+          - list [ref=f3e249]:
+            - listitem [ref=f3e250]:
+              - link "Centro de ayuda" [ref=f3e251] [cursor=pointer]:
+                - /url: /ayuda
+            - listitem [ref=f3e252]:
+              - link "Contacto" [ref=f3e253] [cursor=pointer]:
+                - /url: /contacto
+            - listitem [ref=f3e254]:
+              - link "Términos y condiciones" [ref=f3e255] [cursor=pointer]:
+                - /url: /terminos
+        - generic [ref=f3e256]:
+          - paragraph [ref=f3e257]: Registro
+          - list [ref=f3e258]:
+            - listitem [ref=f3e259]:
+              - link "Soy cliente" [ref=f3e260] [cursor=pointer]:
+                - /url: /registro/cliente
+            - listitem [ref=f3e261]:
+              - link "Soy profesional" [ref=f3e262] [cursor=pointer]:
+                - /url: /registro/profesional
+            - listitem [ref=f3e263]:
+              - link "Iniciar sesión" [ref=f3e264] [cursor=pointer]:
+                - /url: /login
+      - paragraph [ref=f3e266]: © 2026 ConectaTuProff. Todos los derechos reservados.
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=f3e62] [cursor=pointer]:
+    - img [ref=f3e63]
+  - alert [ref=f3e41]

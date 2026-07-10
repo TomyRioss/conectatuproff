@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
-import { uploadFile } from "@/lib/r2";
+import { uploadFile } from "@/lib/storage";
 import { professionalRegisterSchema } from "@/lib/validations/auth";
 
 export async function POST(request: Request) {
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
     const hash = await bcrypt.hash(password, 12);
 
     const user = await prisma.user.create({
-      data: { email, username, password: hash, role: "PROFESSIONAL" },
+      data: { email, username, password: hash, role: "CLIENT" },
     });
     userId = user.id;
 

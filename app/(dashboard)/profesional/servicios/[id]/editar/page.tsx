@@ -1,7 +1,8 @@
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { redirect, notFound } from "next/navigation"
-import { EditServiceForm } from "@/components/profesionales/EditServiceForm"
+import { ServiceWizard } from "@/components/profesionales/wizard/ServiceWizard"
+import type { WizardState } from "@/components/profesionales/wizard/types"
 
 export default async function EditarServicioPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
@@ -15,8 +16,35 @@ export default async function EditarServicioPage({ params }: { params: Promise<{
   if (!professional) redirect("/profesional/onboarding")
 
   const { id } = await params
-  const service = await prisma.service.findUnique({ where: { id } })
+  const service = await prisma.service.findUnique({
+    where: { id },
+    include: {
+      gallery: { orderBy: { order: "asc" } },
+      faqs: { orderBy: { order: "asc" } },
+      sessionPackages: true,
+    },
+  })
   if (!service || service.professionalId !== professional.id) notFound()
 
-  return <EditServiceForm service={JSON.parse(JSON.stringify(service))} />
+  const initialState: WizardState = {
+    title: service.title,
+    price: service.price ? String(service.price) : "",
+    durationMin: service.durationMin ? String(service.durationMin) : "",
+    frequencyType: service.frequencyType ?? "UNICA",
+    frequencyCount: service.frequencyCount ? String(service.frequencyCount) : "",
+    frequencyPeriods: service.frequencyPeriods ? String(service.frequencyPeriods) : "",
+    modality: service.modality ?? "",
+    categoryId: service.categoryId ?? "",
+    extraSessionPrice: service.extraSessionPrice ? String(service.extraSessionPrice) : "",
+    sessionPackages: service.sessionPackages.map((p) => ({
+      sessionCount: String(p.sessionCount),
+      price: String(p.price),
+      frequencyType: p.frequencyType ?? "UNICA",
+    })),
+    description: service.description ?? "",
+    faqs: service.faqs.map((f) => ({ question: f.question, answer: f.answer })),
+    gallery: service.gallery.map((g) => ({ key: g.imageUrl, type: "image" as const })),
+  }
+
+  return <ServiceWizard serviceId={service.id} initialState={initialState} initialVideoUrl={service.videoUrl ?? ""} />
 }

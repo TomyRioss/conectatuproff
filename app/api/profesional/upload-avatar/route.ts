@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
-import { uploadFile } from "@/lib/r2"
+import { uploadFile } from "@/lib/storage"
 import { randomUUID } from "crypto"
 
 const MAX_BYTES = 5 * 1024 * 1024

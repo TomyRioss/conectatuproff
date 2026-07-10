@@ -1,0 +1,48 @@
+- generic [active] [ref=f6e1]:
+  - main [ref=f6e2]:
+    - generic [ref=f6e6]:
+      - generic [ref=f6e7]:
+        - heading "Registrate como profesional" [level=1] [ref=f6e8]
+        - paragraph [ref=f6e9]: Tu cuenta será revisada antes de ser activada
+      - generic [ref=f6e10]:
+        - paragraph [ref=f6e22]: Paso 1 de 5 — Datos básicos
+        - generic [ref=f6e23]:
+          - generic [ref=f6e24]:
+            - generic [ref=f6e25]:
+              - generic [ref=f6e26]: Nombre
+              - textbox "Nombre" [ref=f6e27]:
+                - /placeholder: Ana
+            - generic [ref=f6e28]:
+              - generic [ref=f6e29]: Apellido
+              - textbox "Apellido" [ref=f6e30]:
+                - /placeholder: López
+          - generic [ref=f6e31]:
+            - generic [ref=f6e32]: Nombre de usuario
+            - textbox "Nombre de usuario" [ref=f6e33]:
+              - /placeholder: ana_lopez
+          - generic [ref=f6e34]:
+            - generic [ref=f6e35]: Email
+            - textbox "Email" [ref=f6e36]:
+              - /placeholder: tu@email.com
+          - generic [ref=f6e37]:
+            - generic [ref=f6e38]: Contraseña
+            - generic [ref=f6e39]:
+              - textbox "Contraseña" [ref=f6e40]:
+                - /placeholder: Mínimo 8 caracteres
+              - button [ref=f6e41]:
+                - img [ref=f6e42]
+          - generic [ref=f6e45]:
+            - generic [ref=f6e46]: Confirmar contraseña
+            - generic [ref=f6e47]:
+              - textbox "Confirmar contraseña" [ref=f6e48]:
+                - /placeholder: Repetí tu contraseña
+              - button [ref=f6e49]:
+                - img [ref=f6e50]
+          - button "Siguiente" [ref=f6e54]
+      - paragraph [ref=f6e55]:
+        - text: ¿Ya tenés cuenta?
+        - link "Iniciá sesión" [ref=f6e56] [cursor=pointer]:
+          - /url: /profesional/login
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=f6e62] [cursor=pointer]:
+    - img [ref=f6e63]

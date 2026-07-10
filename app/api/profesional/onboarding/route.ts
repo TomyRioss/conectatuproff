@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { uploadFile } from "@/lib/r2";
+import { uploadFile } from "@/lib/storage";
 import { randomUUID } from "crypto";
 
 async function uploadDniPhoto(file: File, userId: string, side: "front" | "back"): Promise<string> {

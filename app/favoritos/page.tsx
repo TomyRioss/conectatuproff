@@ -78,7 +78,12 @@ export default async function FavoritosPage() {
             <h2 className="text-lg font-bold text-brand-dark mb-3">Servicios</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {services.map((service) => (
-                <ServiceCard key={service.id} service={service} initialFavorited />
+                <ServiceCard
+                  key={service.id}
+                  service={service}
+                  handle={service.professional.user.username ?? ""}
+                  initialFavorited
+                />
               ))}
             </div>
           </section>

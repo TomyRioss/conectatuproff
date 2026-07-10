@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
-import { getPresignedUploadUrl } from "@/lib/r2"
+import { getPresignedUploadUrl } from "@/lib/storage"
 import { randomUUID } from "crypto"
 
 export async function GET(req: Request) {

@@ -56,11 +56,9 @@ export function CompactProfileHeader({
   const [loc, setLoc] = useState(location ?? "")
   const [tel, setTel] = useState(phone ?? "")
   const [about, setAbout] = useState(bio ?? "")
-  const [pendingFile, setPendingFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     avatarUrl ? `/api/avatar?key=${encodeURIComponent(avatarUrl)}` : null
   )
-  const [removed, setRemoved] = useState(false)
   const [saving, setSaving] = useState(false)
   const [cropSrc, setCropSrc] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
@@ -78,20 +76,47 @@ export function CompactProfileHeader({
     e.target.value = ""
   }
 
-  function handleCropSaved(blob: Blob) {
+  async function saveAvatarKey(key: string | null) {
+    setSaving(true)
+    try {
+      const res = await fetch("/api/profesional/perfil", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ avatarUrl: key }),
+      })
+      if (!res.ok) {
+        const err = await res.json()
+        throw new Error(err.error ?? "Error al guardar")
+      }
+      await updateSession({ image: key ? `/api/avatar?key=${encodeURIComponent(key)}` : null })
+      toast.success(key ? "Foto actualizada" : "Foto eliminada")
+      router.refresh()
+    } catch (e: unknown) {
+      toast.error(e instanceof Error ? e.message : "Error al guardar la foto")
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  async function handleCropSaved(blob: Blob) {
     const file = new File([blob], "avatar.jpg", { type: blob.type })
-    setPendingFile(file)
     setPreviewUrl(URL.createObjectURL(blob))
+
+    const fd = new FormData()
+    fd.append("file", file)
+    const uploadRes = await fetch("/api/profesional/upload-avatar", { method: "POST", body: fd })
+    if (!uploadRes.ok) {
+      const err = await uploadRes.json()
+      toast.error(err.error ?? "Error subiendo imagen")
+      return
+    }
+    const { key } = await uploadRes.json()
+    await saveAvatarKey(key)
   }
 
   function handleDiscard() {
-    setPendingFile(null)
-    if (pendingFile && avatarUrl) {
-      setPreviewUrl(`/api/avatar?key=${encodeURIComponent(avatarUrl)}`)
-    } else {
-      setPreviewUrl(null)
-      setRemoved(true)
-    }
+    setPreviewUrl(null)
+    saveAvatarKey(null)
   }
 
   async function handleSave() {
@@ -101,22 +126,6 @@ export function CompactProfileHeader({
     }
     setSaving(true)
     try {
-      let newAvatarKey: string | null | undefined
-
-      if (removed && !pendingFile) {
-        newAvatarKey = null
-      } else if (pendingFile) {
-        const fd = new FormData()
-        fd.append("file", pendingFile)
-        const uploadRes = await fetch("/api/profesional/upload-avatar", { method: "POST", body: fd })
-        if (!uploadRes.ok) {
-          const err = await uploadRes.json()
-          throw new Error(err.error ?? "Error subiendo imagen")
-        }
-        const { key } = await uploadRes.json()
-        newAvatarKey = key
-      }
-
       const res = await fetch("/api/profesional/perfil", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -127,7 +136,6 @@ export function CompactProfileHeader({
           location: loc.trim(),
           phone: tel.trim(),
           bio: about.trim(),
-          ...(newAvatarKey !== undefined ? { avatarUrl: newAvatarKey } : {}),
         }),
       })
 
@@ -136,11 +144,6 @@ export function CompactProfileHeader({
         throw new Error(err.error ?? "Error al guardar")
       }
 
-      if (newAvatarKey !== undefined) {
-        await updateSession({ image: newAvatarKey ? `/api/avatar?key=${encodeURIComponent(newAvatarKey)}` : null })
-      }
-
-      setRemoved(false)
       toast.success("Perfil actualizado")
       setOpen(false)
       router.refresh()
@@ -168,7 +171,7 @@ export function CompactProfileHeader({
       <div className="flex items-center gap-6">
         <div className="relative shrink-0">
           <Avatar className="h-32 w-32 sm:h-36 sm:w-36">
-            {avatarUrl && <AvatarImage src={`/api/avatar?key=${encodeURIComponent(avatarUrl)}`} alt={fullName} />}
+            {previewUrl && <AvatarImage src={previewUrl} alt={fullName} />}
             <AvatarFallback className="bg-brand-violet text-white text-4xl font-semibold">
               {initials}
             </AvatarFallback>

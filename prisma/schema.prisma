@@ -45,6 +45,18 @@ enum BlockedSlotReason {
   OTHER
 }
 
+enum ServiceStatus {
+  ACTIVE
+  DRAFT
+  PAUSED
+}
+
+enum ServiceFrequency {
+  UNICA
+  SEMANAL
+  MENSUAL
+}
+
 // ─── NextAuth ─────────────────────────────────────────────────────────────────
 
 model User {
@@ -269,18 +281,23 @@ model ProfessionalCategory {
 // ─── Services ────────────────────────────────────────────────────────────────
 
 model Service {
-  id             String    @id @default(cuid())
-  professionalId String
-  categoryId     String?
-  title          String
-  description    String?   @db.Text
-  price          Decimal   @db.Decimal(10, 2)
-  currency       String    @default("ARS")
-  durationMin    Int?
-  imageUrl       String?
-  modality       Modality?
-  isActive       Boolean   @default(true)
-  createdAt      DateTime  @default(now())
+  id                String    @id @default(cuid())
+  professionalId    String
+  categoryId        String?
+  title             String
+  description       String?   @db.Text
+  price             Decimal?  @db.Decimal(10, 2)
+  currency          String    @default("ARS")
+  durationMin       Int?
+  frequencyType     ServiceFrequency?
+  frequencyCount    Int?
+  frequencyPeriods  Int?
+  imageUrl          String?
+  videoUrl          String?
+  extraSessionPrice Decimal?  @db.Decimal(10, 2)
+  modality          Modality?
+  status            ServiceStatus @default(ACTIVE)
+  createdAt      DateTime @default(now())
   updatedAt      DateTime  @updatedAt
   version        Int       @default(0)
 
@@ -289,8 +306,46 @@ model Service {
   appointments Appointment[]
   packages     PackageService[]
   favoritedBy  Favorite[]
+  gallery      ServiceGalleryImage[]
+  faqs         ServiceFaq[]
+  sessionPackages ServiceSessionPackage[]
 
   @@map("services")
+}
+
+model ServiceGalleryImage {
+  id        String @id @default(cuid())
+  serviceId String
+  imageUrl  String
+  order     Int    @default(0)
+
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@map("service_gallery_images")
+}
+
+model ServiceFaq {
+  id        String @id @default(cuid())
+  serviceId String
+  question  String
+  answer    String @db.Text
+  order     Int    @default(0)
+
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@map("service_faqs")
+}
+
+model ServiceSessionPackage {
+  id            String            @id @default(cuid())
+  serviceId     String
+  sessionCount  Int
+  price         Decimal           @db.Decimal(10, 2)
+  frequencyType ServiceFrequency?
+
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@map("service_session_packages")
 }
 
 // ─── Packages ────────────────────────────────────────────────────────────────
