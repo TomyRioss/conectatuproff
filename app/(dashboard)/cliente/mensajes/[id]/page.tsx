@@ -28,14 +28,12 @@ export default async function ClienteMensajeThreadPage({ params }: { params: Pro
     : conversation.professional.user.image;
 
   return (
-    <main className="min-h-screen bg-brand-bg">
-      <ChatThread
-        conversationId={id}
-        currentRole="CLIENT"
-        otherName={`${conversation.professional.firstName} ${conversation.professional.lastName}`}
-        otherAvatar={otherAvatar}
-        backHref="/cliente/mensajes"
-      />
-    </main>
+    <ChatThread
+      conversationId={id}
+      currentRole="CLIENT"
+      otherName={`${conversation.professional.firstName} ${conversation.professional.lastName}`}
+      otherAvatar={otherAvatar}
+      backHref="/cliente/mensajes"
+    />
   );
 }

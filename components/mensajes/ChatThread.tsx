@@ -91,11 +91,11 @@ export default function ChatThread({ conversationId, currentRole, otherName, oth
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-5rem)] max-w-2xl mx-auto">
+    <div className="flex flex-col h-full">
       <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200 bg-white">
         <Link
           href={backHref}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-brand-dark hover:bg-gray-50 shrink-0"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-brand-dark hover:bg-gray-50 shrink-0 lg:hidden"
         >
           <ArrowLeft size={16} />
         </Link>
@@ -108,11 +108,15 @@ export default function ChatThread({ conversationId, currentRole, otherName, oth
         <p className="font-semibold text-brand-dark truncate">{otherName}</p>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-2 bg-brand-bg">
+      <div className="flex-1 overflow-y-auto px-4 py-4 flex flex-col justify-end gap-2 bg-brand-bg">
         {loading ? (
-          <p className="text-sm text-brand-gray text-center mt-6">Cargando mensajes...</p>
+          <div className="flex-1 flex items-center justify-center">
+            <p className="text-sm text-brand-gray">Cargando mensajes...</p>
+          </div>
         ) : messages.length === 0 ? (
-          <p className="text-sm text-brand-gray text-center mt-6">Todavía no hay mensajes. Escribí el primero.</p>
+          <div className="flex-1 flex items-center justify-center">
+            <p className="text-sm text-brand-gray">Todavía no hay mensajes. Escribí el primero.</p>
+          </div>
         ) : (
           messages.map((m) => {
             const mine = m.senderRole === currentRole;
