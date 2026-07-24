@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import type { ServiceFrequency } from "@/lib/generated/prisma/enums"
+import { addMinutes } from "@/lib/availability"
 
 async function getOwnProfessionalId(userId: string) {
   const pro = await prisma.professional.findUnique({ where: { userId }, select: { id: true } })
@@ -76,9 +77,13 @@ export async function POST(req: Request) {
         .filter((p) => Number(p?.sessionCount) > 0 && Number(p?.price) > 0)
         .map((p) => ({ sessionCount: Number(p.sessionCount), price: Number(p.price), frequencyType: p.frequencyType && p.frequencyType !== "UNICA" ? (p.frequencyType as ServiceFrequency) : null }))
     : []
-  const availabilityList: { dayOfWeek: number; startTime: string; endTime: string }[] = Array.isArray(availability)
-    ? availability.filter((a) => typeof a?.dayOfWeek === "number" && a?.startTime && a?.endTime)
-    : []
+  const durationMinNum = durationMin ? Number(durationMin) : null
+  const availabilityList: { dayOfWeek: number; startTime: string; endTime: string }[] =
+    Array.isArray(availability) && durationMinNum
+      ? availability
+          .filter((a) => typeof a?.dayOfWeek === "number" && a?.startTime)
+          .map((a) => ({ dayOfWeek: a.dayOfWeek, startTime: a.startTime, endTime: addMinutes(a.startTime, durationMinNum) }))
+      : []
 
   try {
     const service = await prisma.service.create({
@@ -88,7 +93,7 @@ export async function POST(req: Request) {
         description: description?.trim() || null,
         price: priceNum,
         status: isDraft ? "DRAFT" : undefined,
-        durationMin: durationMin ? Number(durationMin) : null,
+        durationMin: durationMinNum,
         frequencyType: frequencyType || null,
         frequencyCount: frequencyCount ? Number(frequencyCount) : null,
         frequencyPeriods: frequencyPeriods ? Number(frequencyPeriods) : null,

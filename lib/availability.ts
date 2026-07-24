@@ -11,6 +11,13 @@ export function toMinutes(hhmm: string): number {
   return h * 60 + m;
 }
 
+export function addMinutes(hhmm: string, minutes: number): string {
+  const total = toMinutes(hhmm) + minutes;
+  const hh = String(Math.floor(total / 60) % 24).padStart(2, "0");
+  const mm = String(total % 60).padStart(2, "0");
+  return `${hh}:${mm}`;
+}
+
 /**
  * Resuelve las ventanas horarias de cada día de la semana (0=Dom..6=Sáb).
  * Prioridad: horario propio del servicio (si tiene alguna fila configurada,

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import type { ServiceFrequency } from "@/lib/generated/prisma/enums"
+import { addMinutes } from "@/lib/availability"
 
 async function getOwnService(userId: string, serviceId: string) {
   const service = await prisma.service.findUnique({
@@ -103,9 +104,13 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       }
     }
     if (availability !== undefined) {
-      const availabilityList: { dayOfWeek: number; startTime: string; endTime: string }[] = Array.isArray(availability)
-        ? availability.filter((a) => typeof a?.dayOfWeek === "number" && a?.startTime && a?.endTime)
-        : []
+      const effectiveDurationMin = durationMin !== undefined ? (durationMin ? Number(durationMin) : null) : existing.durationMin
+      const availabilityList: { dayOfWeek: number; startTime: string; endTime: string }[] =
+        Array.isArray(availability) && effectiveDurationMin
+          ? availability
+              .filter((a) => typeof a?.dayOfWeek === "number" && a?.startTime)
+              .map((a) => ({ dayOfWeek: a.dayOfWeek, startTime: a.startTime, endTime: addMinutes(a.startTime, effectiveDurationMin) }))
+          : []
       data.availability = {
         deleteMany: {},
         create: availabilityList,
