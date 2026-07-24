@@ -1,7 +1,7 @@
 ﻿"use client"
 
 import Link from "next/link"
-import { Menu, X, LogOut, User, Search, MessageSquare, Heart, Sparkles, ChevronDown, Clock } from "lucide-react"
+import { Menu, X, LogOut, User, Search, MessageSquare, Heart, Sparkles, ChevronDown, Clock, Briefcase, Calendar, MapPin } from "lucide-react"
 import NotificationBell from "@/components/layout/NotificationBell"
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -83,11 +83,13 @@ function AvatarButton() {
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
               <Link href="/profesional/servicios" className="text-brand-dark">
+                <Briefcase size={14} />
                 Servicios
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
               <Link href="/profesional/agenda" className="text-brand-dark">
+                <Calendar size={14} />
                 Agenda
               </Link>
             </DropdownMenuItem>
@@ -162,6 +164,25 @@ export default function Navbar() {
     }
   }, [searchParams, router])
 
+  const [query, setQuery] = useState("")
+  const [barrio, setBarrio] = useState("")
+  const [zonas, setZonas] = useState<string[]>([])
+  const submitSearch = () => {
+    const q = query.trim()
+    if (!q && !barrio) return
+    const params = new URLSearchParams()
+    if (q) params.set("servicio", q)
+    if (barrio) params.set("barrio", barrio)
+    router.push(`/buscar?${params.toString()}`)
+  }
+
+  useEffect(() => {
+    fetch("https://apis.datos.gob.ar/georef/api/municipios?provincia=06&campos=nombre&max=135&orden=nombre")
+      .then((r) => r.json())
+      .then((d) => setZonas((d.municipios ?? []).map((m: { nombre: string }) => m.nombre)))
+      .catch(() => {})
+  }, [])
+
   useEffect(() => {
     if (status === "unauthenticated") {
       fetch("/api/categorias")
@@ -183,9 +204,25 @@ export default function Navbar() {
           <div className="flex items-center w-full max-w-2xl h-12 bg-white border border-gray-200 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-brand-violet/30 focus-within:border-brand-violet transition-colors">
             <input
               type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && submitSearch()}
               placeholder="¿Qué servicio estás buscando hoy?"
               className="w-full h-full pl-5 pr-2 bg-transparent text-base text-brand-dark placeholder:text-brand-gray focus:outline-none"
             />
+            <div className="flex items-center gap-1.5 pl-3 pr-2 border-l border-gray-200 shrink-0">
+              <MapPin size={16} className="text-brand-gray shrink-0" />
+              <select
+                value={barrio}
+                onChange={(e) => setBarrio(e.target.value)}
+                className="h-full bg-transparent text-sm text-brand-dark outline-none max-w-[120px] appearance-none"
+              >
+                <option value="">Zona</option>
+                {zonas.map((z) => (
+                  <option key={z} value={z}>{z}</option>
+                ))}
+              </select>
+            </div>
             <button
               onClick={() => setAiOpen(true)}
               aria-label="Buscar con IA"
@@ -194,6 +231,7 @@ export default function Navbar() {
               <Sparkles size={18} />
             </button>
             <button
+              onClick={submitSearch}
               aria-label="Buscar"
               className="h-full px-5 bg-brand-green text-white flex items-center justify-center hover:opacity-90 transition-colors shrink-0"
             >
@@ -206,9 +244,13 @@ export default function Navbar() {
           {isLoggedIn ? (
             <>
               <NotificationBell />
-              <button aria-label="Mensajes" className="text-brand-gray hover:text-brand-dark transition-colors">
+              <Link
+                href={role === "PROFESSIONAL" ? "/profesional/mensajes" : "/cliente/mensajes"}
+                aria-label="Mensajes"
+                className="text-brand-gray hover:text-brand-dark transition-colors"
+              >
                 <MessageSquare size={22} />
-              </button>
+              </Link>
               <Link href="/favoritos" aria-label="Favoritos" className="text-brand-gray hover:text-brand-dark transition-colors">
                 <Heart size={22} />
               </Link>
@@ -297,15 +339,23 @@ export default function Navbar() {
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-gray pointer-events-none" />
             <input
               type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && submitSearch()}
               placeholder="Buscar profesionales, servicios..."
               className="w-full pl-9 pr-4 py-2.5 rounded-2xl bg-white border border-gray-200 text-sm text-brand-dark placeholder:text-brand-gray focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet transition-colors"
             />
           </div>
           <div className="flex items-center gap-2">
             <NotificationBell />
-            <button aria-label="Mensajes" className="p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors">
+            <Link
+              href={role === "PROFESSIONAL" ? "/profesional/mensajes" : "/cliente/mensajes"}
+              aria-label="Mensajes"
+              className="p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors"
+              onClick={() => setOpen(false)}
+            >
               <MessageSquare size={20} />
-            </button>
+            </Link>
             <button aria-label="Favoritos" className="p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors">
               <Heart size={20} />
             </button>
