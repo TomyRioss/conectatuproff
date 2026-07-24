@@ -319,6 +319,7 @@ model Service {
   gallery      ServiceGalleryImage[]
   faqs         ServiceFaq[]
   sessionPackages ServiceSessionPackage[]
+  availability    ServiceAvailability[]
 
   @@map("services")
 }
@@ -473,6 +474,20 @@ model ProfessionalAvailability {
   professional Professional @relation(fields: [professionalId], references: [id], onDelete: Cascade)
 
   @@map("professional_availability")
+}
+
+// Horario propio de un servicio (ej: clase martes 20:00–21:00) — si tiene filas, reemplaza al horario general del profesional para ese servicio
+model ServiceAvailability {
+  id        String   @id @default(cuid())
+  serviceId String
+  dayOfWeek Int      // 0=Dom 1=Lun … 6=Sab
+  startTime String   // "HH:MM" en timezone del profesional
+  endTime   String   // "HH:MM"
+  createdAt DateTime @default(now())
+
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@map("service_availability")
 }
 
 // Ausencias, vacaciones o bloqueos puntuales
