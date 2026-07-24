@@ -39,6 +39,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     gallery,
     faqs,
     sessionPackages,
+    availability,
     status,
   } = body
 
@@ -99,6 +100,15 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       data.sessionPackages = {
         deleteMany: {},
         create: packageList,
+      }
+    }
+    if (availability !== undefined) {
+      const availabilityList: { dayOfWeek: number; startTime: string; endTime: string }[] = Array.isArray(availability)
+        ? availability.filter((a) => typeof a?.dayOfWeek === "number" && a?.startTime && a?.endTime)
+        : []
+      data.availability = {
+        deleteMany: {},
+        create: availabilityList,
       }
     }
 

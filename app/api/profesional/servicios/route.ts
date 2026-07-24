@@ -50,6 +50,7 @@ export async function POST(req: Request) {
     gallery,
     faqs,
     sessionPackages,
+    availability,
     status,
   } = body
 
@@ -75,6 +76,9 @@ export async function POST(req: Request) {
         .filter((p) => Number(p?.sessionCount) > 0 && Number(p?.price) > 0)
         .map((p) => ({ sessionCount: Number(p.sessionCount), price: Number(p.price), frequencyType: p.frequencyType && p.frequencyType !== "UNICA" ? (p.frequencyType as ServiceFrequency) : null }))
     : []
+  const availabilityList: { dayOfWeek: number; startTime: string; endTime: string }[] = Array.isArray(availability)
+    ? availability.filter((a) => typeof a?.dayOfWeek === "number" && a?.startTime && a?.endTime)
+    : []
 
   try {
     const service = await prisma.service.create({
@@ -96,6 +100,7 @@ export async function POST(req: Request) {
         gallery: { create: galleryUrls.map((imageUrl, order) => ({ imageUrl, order })) },
         faqs: { create: faqList.map((f, order) => ({ question: f.question.trim(), answer: f.answer.trim(), order })) },
         sessionPackages: { create: packageList },
+        availability: { create: availabilityList },
       },
     })
     return NextResponse.json(service, { status: 201 })

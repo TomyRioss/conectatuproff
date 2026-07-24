@@ -3,6 +3,7 @@ export type Category = { id: string; name: string; slug: string }
 export type SessionPackage = { sessionCount: string; price: string; frequencyType: FrequencyType }
 export type Faq = { question: string; answer: string }
 export type GalleryItem = { key: string; type: "image" | "video" }
+export type AvailabilityBlock = { dayOfWeek: number; startTime: string; endTime: string }
 
 export type FrequencyType = "UNICA" | "SEMANAL" | "MENSUAL"
 
@@ -20,6 +21,7 @@ export type WizardState = {
   description: string
   faqs: Faq[]
   gallery: GalleryItem[]
+  availability: AvailabilityBlock[]
 }
 
 export const initialWizardState: WizardState = {
@@ -36,6 +38,7 @@ export const initialWizardState: WizardState = {
   description: "",
   faqs: [],
   gallery: [],
+  availability: [],
 }
 
-export const STEPS = ["Nombre", "Precio y packs", "Descripción", "Galería", "Revisar"] as const
+export const STEPS = ["Nombre", "Precio y packs", "Horarios", "Descripción", "Galería", "Revisar"] as const
