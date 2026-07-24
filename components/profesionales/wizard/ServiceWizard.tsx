@@ -7,6 +7,7 @@ import { Check, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { StepNombre } from "./StepNombre"
 import { StepPrecio } from "./StepPrecio"
+import { StepDisponibilidad } from "./StepDisponibilidad"
 import { StepDescripcion } from "./StepDescripcion"
 import { StepGaleria } from "./StepGaleria"
 import { StepRevisar } from "./StepRevisar"
@@ -37,6 +38,7 @@ function buildPayload(state: WizardState, videoUrl: string) {
     sessionPackages: state.sessionPackages
       .filter((p) => Number(p.sessionCount) > 0 && Number(p.price) > 0)
       .map((p) => ({ sessionCount: Number(p.sessionCount), price: Number(p.price), frequencyType: p.frequencyType })),
+    availability: state.availability,
   }
 }
 
@@ -172,9 +174,10 @@ export function ServiceWizard({
 
       {step === 0 && <StepNombre state={state} update={update} />}
       {step === 1 && <StepPrecio state={state} update={update} />}
-      {step === 2 && <StepDescripcion state={state} update={update} />}
-      {step === 3 && <StepGaleria state={state} update={update} videoUrl={videoUrl} setVideoUrl={setVideoUrl} />}
-      {step === 4 && <StepRevisar state={state} videoUrl={videoUrl} />}
+      {step === 2 && <StepDisponibilidad state={state} update={update} />}
+      {step === 3 && <StepDescripcion state={state} update={update} />}
+      {step === 4 && <StepGaleria state={state} update={update} videoUrl={videoUrl} setVideoUrl={setVideoUrl} />}
+      {step === 5 && <StepRevisar state={state} videoUrl={videoUrl} />}
 
       <div className="max-w-2xl flex items-center justify-between mt-10 pt-6 border-t border-gray-200">
         {step > 0 ? (

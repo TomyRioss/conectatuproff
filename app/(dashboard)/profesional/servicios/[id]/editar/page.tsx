@@ -22,6 +22,7 @@ export default async function EditarServicioPage({ params }: { params: Promise<{
       gallery: { orderBy: { order: "asc" } },
       faqs: { orderBy: { order: "asc" } },
       sessionPackages: true,
+      availability: true,
     },
   })
   if (!service || service.professionalId !== professional.id) notFound()
@@ -44,6 +45,7 @@ export default async function EditarServicioPage({ params }: { params: Promise<{
     description: service.description ?? "",
     faqs: service.faqs.map((f) => ({ question: f.question, answer: f.answer })),
     gallery: service.gallery.map((g) => ({ key: g.imageUrl, type: "image" as const })),
+    availability: service.availability.map((a) => ({ dayOfWeek: a.dayOfWeek, startTime: a.startTime, endTime: a.endTime })),
   }
 
   return <ServiceWizard serviceId={service.id} initialState={initialState} initialVideoUrl={service.videoUrl ?? ""} />
