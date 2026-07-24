@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Calendar, CheckCircle2, Clock, User } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
+import { MonthAvailabilityCalendar } from "./MonthAvailabilityCalendar";
 
 type Service = {
   id: string;
@@ -24,7 +25,6 @@ type Professional = {
   avatarSrc: string | null;
 };
 
-const DOW = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 const DOW_LONG = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 const MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 
@@ -36,14 +36,21 @@ export function BookingWizard({
   username,
   professional,
   services,
+  initialServiceId,
 }: {
   username: string;
   professional: Professional;
   services: Service[];
+  initialServiceId?: string;
 }) {
   const router = useRouter();
   const [step, setStep] = useState<1 | 2>(1);
-  const [selectedService, setSelectedService] = useState<Service | null>(services[0] ?? null);
+  const [selectedService, setSelectedService] = useState<Service | null>(
+    services.find((s) => s.id === initialServiceId) ?? services[0] ?? null
+  );
+  const [visibleMonth, setVisibleMonth] = useState<Date>(() => new Date());
+  const [availableDates, setAvailableDates] = useState<Set<string>>(new Set());
+  const [loadingMonth, setLoadingMonth] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [slots, setSlots] = useState<string[]>([]);
@@ -52,22 +59,25 @@ export function BookingWizard({
   const [done, setDone] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
 
-  const days = useMemo(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return Array.from({ length: 21 }, (_, i) => {
-      const d = new Date(today);
-      d.setDate(today.getDate() + i);
-      return d;
-    });
-  }, []);
+  useEffect(() => {
+    setLoadingMonth(true);
+    const monthParam = `${visibleMonth.getFullYear()}-${String(visibleMonth.getMonth() + 1).padStart(2, "0")}`;
+    const durationMin = selectedService?.durationMin ?? 60;
+    const serviceParam = selectedService?.id ? `&serviceId=${selectedService.id}` : "";
+    fetch(`/api/profesional/${professional.id}/disponibilidad/mes?month=${monthParam}&durationMin=${durationMin}${serviceParam}`)
+      .then((r) => r.json())
+      .then((data: { dates?: string[] }) => setAvailableDates(new Set(data.dates ?? [])))
+      .catch(() => setAvailableDates(new Set()))
+      .finally(() => setLoadingMonth(false));
+  }, [visibleMonth, selectedService, professional.id]);
 
   useEffect(() => {
     if (!selectedDate) return;
     setSelectedTime(null);
     setLoadingSlots(true);
     const durationMin = selectedService?.durationMin ?? 60;
-    fetch(`/api/profesional/${professional.id}/disponibilidad?date=${toDateKey(selectedDate)}&durationMin=${durationMin}`)
+    const serviceParam = selectedService?.id ? `&serviceId=${selectedService.id}` : "";
+    fetch(`/api/profesional/${professional.id}/disponibilidad?date=${toDateKey(selectedDate)}&durationMin=${durationMin}${serviceParam}`)
       .then((r) => r.json())
       .then((data) => setSlots(data.slots ?? []))
       .catch(() => setSlots([]))
@@ -200,7 +210,10 @@ export function BookingWizard({
                   <button
                     key={s.id}
                     type="button"
-                    onClick={() => setSelectedService(s)}
+                    onClick={() => {
+                      setSelectedService(s);
+                      setSelectedDate(null);
+                    }}
                     className={`text-left rounded-xl border px-3 py-2.5 transition-colors ${
                       selectedService?.id === s.id ? "border-brand-violet bg-brand-violet/5" : "border-gray-200 hover:border-brand-violet/40"
                     }`}
@@ -217,28 +230,18 @@ export function BookingWizard({
           )}
 
           <p className="text-sm font-semibold text-brand-dark mb-2">Elegí un día</p>
-          <div className="flex gap-2 overflow-x-auto pb-2 mb-5">
-            {days.map((d) => {
-              const active = selectedDate && toDateKey(selectedDate) === toDateKey(d);
-              return (
-                <button
-                  key={toDateKey(d)}
-                  type="button"
-                  onClick={() => setSelectedDate(d)}
-                  className={`shrink-0 flex flex-col items-center justify-center w-14 h-16 rounded-xl border text-sm font-semibold transition-colors ${
-                    active ? "bg-brand-violet border-brand-violet text-white" : "bg-white border-gray-200 text-brand-dark hover:border-brand-violet/40"
-                  }`}
-                >
-                  <span className="text-[10px] uppercase opacity-80">{DOW[d.getDay()]}</span>
-                  <span className="text-base">{d.getDate()}</span>
-                </button>
-              );
-            })}
-          </div>
+          <MonthAvailabilityCalendar
+            month={visibleMonth}
+            selectedDate={selectedDate}
+            availableDates={availableDates}
+            loading={loadingMonth}
+            onMonthChange={setVisibleMonth}
+            onSelectDate={setSelectedDate}
+          />
 
           {selectedDate && (
             <>
-              <p className="text-sm font-semibold text-brand-dark mb-2">Horarios disponibles</p>
+              <p className="text-sm font-semibold text-brand-dark mt-5 mb-2">Horarios disponibles</p>
               {loadingSlots ? (
                 <p className="text-sm text-brand-gray">Cargando horarios...</p>
               ) : slots.length === 0 ? (
