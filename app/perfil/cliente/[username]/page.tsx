@@ -66,7 +66,7 @@ export default async function ClientePerfilPage({
             )}
           </div>
 
-          <div className="flex-1 min-w-0">
+          <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <h1 className="text-xl md:text-2xl font-bold text-brand-dark leading-tight">
                 {cliente.firstName} {cliente.lastName}
@@ -88,7 +88,7 @@ export default async function ClientePerfilPage({
             )}
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 md:border-l md:border-gray-100 md:pl-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 md:border-l md:border-gray-100 md:pl-6">
             <HeaderStat label="Turnos" value={String(cliente._count.appointments)} />
             <HeaderStat label="Reseñas" value={String(cliente._count.reviews)} />
             <HeaderStat label="Último login" value={ultimoLogin} />
