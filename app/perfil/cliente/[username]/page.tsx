@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { formatRelativeTime } from "@/lib/utils"
 import { redirect } from "next/navigation"
 import { Mail, Phone, CreditCard, CheckCircle, Star, CalendarDays, MapPin } from "lucide-react"
 import EditProfileModal from "@/components/cliente/EditProfileModal"
@@ -21,7 +22,7 @@ export default async function ClientePerfilPage({
   const cliente = await prisma.client.findFirst({
     where: { user: { username } },
     include: {
-      user: { select: { email: true, username: true } },
+      user: { select: { email: true, username: true, lastActivity: true } },
       _count: { select: { appointments: true, reviews: true } },
     },
   })
@@ -36,24 +37,15 @@ export default async function ClientePerfilPage({
     month: "long",
   })
 
+  const ultimoLogin = formatRelativeTime(cliente.user.lastActivity)
+
   return (
     <div className="min-h-[calc(100vh-64px)] flex flex-col bg-brand-bg overflow-x-hidden">
 
-      {/* ── Banner + Avatar wrapper ── */}
-      <div className="relative flex-shrink-0">
-        <div className="h-52 bg-brand-dark overflow-hidden">
-          <div
-            className="absolute -top-20 -right-20 w-96 h-96 rounded-full opacity-40"
-            style={{ background: "radial-gradient(circle, #6C5CE7 0%, transparent 70%)" }}
-          />
-          <div
-            className="absolute bottom-0 left-1/3 w-64 h-64 rounded-full opacity-20"
-            style={{ background: "radial-gradient(circle, #1EC97E 0%, transparent 70%)" }}
-          />
-        </div>
-
-        <div className="absolute bottom-0 left-1/2 translate-y-1/2 -translate-x-1/2">
-          <div className="w-28 h-28 rounded-full bg-brand-violet text-white text-3xl font-bold flex items-center justify-center ring-4 ring-white shadow-xl select-none overflow-hidden">
+      {/* ── Header card ── */}
+      <div className="px-4 md:px-6 pt-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-5 flex flex-col md:flex-row gap-5 md:items-center">
+          <div className="w-20 h-20 rounded-full bg-brand-violet text-white text-2xl font-bold flex items-center justify-center shadow select-none overflow-hidden flex-shrink-0">
             {avatarKey ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -65,34 +57,40 @@ export default async function ClientePerfilPage({
               initials
             )}
           </div>
-        </div>
-      </div>
 
-      {/* ── Identidad ── */}
-      <div className="pt-20 pb-4 flex flex-col items-center gap-1">
-        <div className="flex items-center gap-2">
-          <h1 className="text-2xl md:text-3xl font-bold text-brand-dark leading-tight">
-            {cliente.firstName} {cliente.lastName}
-          </h1>
-          <EditProfileModal
-            firstName={cliente.firstName}
-            lastName={cliente.lastName}
-            avatarKey={avatarKey}
-            initials={initials}
-          />
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h1 className="text-xl md:text-2xl font-bold text-brand-dark leading-tight">
+                {cliente.firstName} {cliente.lastName}
+              </h1>
+              <EditProfileModal
+                firstName={cliente.firstName}
+                lastName={cliente.lastName}
+                avatarKey={avatarKey}
+                initials={initials}
+              />
+              {cliente.isVerified && (
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700">
+                  <CheckCircle size={12} />Cuenta verificada
+                </span>
+              )}
+            </div>
+            {cliente.user.username && (
+              <p className="text-sm text-brand-gray mt-0.5">@{cliente.user.username}</p>
+            )}
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 md:border-l md:border-gray-100 md:pl-6">
+            <HeaderStat label="Turnos" value={String(cliente._count.appointments)} />
+            <HeaderStat label="Reseñas" value={String(cliente._count.reviews)} />
+            <HeaderStat label="Último login" value={ultimoLogin} />
+            <HeaderStat label="Miembro desde" value={miembroDesde} />
+          </div>
         </div>
-        {cliente.user.username && (
-          <p className="text-sm text-brand-gray">@{cliente.user.username}</p>
-        )}
-        {cliente.isVerified && (
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700 mt-1">
-            <CheckCircle size={12} />Cuenta verificada
-          </span>
-        )}
       </div>
 
       {/* ── Contenido principal ── */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-5 pb-10 px-4 md:px-6">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-5 pb-10 px-4 md:px-6 pt-5">
 
         <div className="md:col-span-2 flex flex-col gap-5">
           <Section title="Información personal">
@@ -100,7 +98,6 @@ export default async function ClientePerfilPage({
             <EditableDataRow icon={<Phone size={16} />} label="Teléfono" value={cliente.phone ?? null} field="phone" addLabel="+ Añadir Teléfono" inputType="tel" />
             <EditableDataRow icon={<MapPin size={16} />} label="Lugar" value={cliente.location ?? null} field="location" addLabel="+ Añadir Lugar" />
             <EditableDataRow icon={<CreditCard size={16} />} label="DNI" value={cliente.dni ? String(cliente.dni) : null} field="dni" addLabel="+ Añadir DNI" inputType="number" />
-            <DataRow icon={<CalendarDays size={16} />} label="Miembro desde" value={miembroDesde} />
           </Section>
         </div>
 
@@ -154,6 +151,15 @@ function StatCard({ icon, value, label }: { icon: React.ReactNode; value: string
       {icon}
       <p className="text-2xl font-bold text-brand-dark leading-none mt-1">{value}</p>
       <p className="text-xs text-brand-gray">{label}</p>
+    </div>
+  )
+}
+
+function HeaderStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex flex-col">
+      <p className="text-xs text-brand-gray">{label}</p>
+      <p className="text-sm font-semibold text-brand-dark truncate">{value}</p>
     </div>
   )
 }
