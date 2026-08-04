@@ -53,10 +53,10 @@ export default async function ClientePerfilPage({
       {/* ── Contenido principal ── */}
       <div className="flex-1 flex flex-col gap-5 pb-10 px-4 md:px-6 pt-6">
 
-        {/* Header + Información personal unificados en un solo bloque */}
-        <div className="bg-white border-y border-gray-200">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-5 p-5 border-b border-gray-100">
-            <div className="w-20 h-20 rounded-full bg-brand-violet text-white text-2xl font-bold flex items-center justify-center shadow select-none overflow-hidden flex-shrink-0">
+        {/* Header + Información personal unificados: avatar grande a la izquierda, datos a la derecha */}
+        <div className="bg-white border-y border-gray-200 flex flex-col sm:flex-row">
+          <div className="flex items-center justify-center sm:justify-start p-5 sm:pr-0 sm:border-r border-gray-100 flex-shrink-0">
+            <div className="w-32 h-32 rounded-full bg-brand-violet text-white text-4xl font-bold flex items-center justify-center shadow select-none overflow-hidden">
               {avatarKey ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -68,8 +68,10 @@ export default async function ClientePerfilPage({
                 initials
               )}
             </div>
+          </div>
 
-            <div className="min-w-0">
+          <div className="flex-1 min-w-0">
+            <div className="p-5 border-b border-gray-100">
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-xl md:text-2xl font-bold text-brand-dark leading-tight">
                   {cliente.firstName} {cliente.lastName}
@@ -89,24 +91,24 @@ export default async function ClientePerfilPage({
               {cliente.user.username && (
                 <p className="text-sm text-brand-gray mt-0.5">@{cliente.user.username}</p>
               )}
+
+              <div className="grid grid-cols-2 sm:flex sm:items-center gap-4 sm:gap-6 mt-4">
+                <HeaderStat label="Turnos" value={String(cliente._count.appointments)} />
+                <HeaderStat label="Reseñas" value={String(cliente._count.reviews)} />
+                <HeaderStat label="Último login" value={ultimoLogin} />
+                <HeaderStat label="Miembro desde" value={miembroDesde} />
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:flex sm:items-center gap-4 sm:gap-6 sm:border-l sm:border-gray-100 sm:pl-6">
-              <HeaderStat label="Turnos" value={String(cliente._count.appointments)} />
-              <HeaderStat label="Reseñas" value={String(cliente._count.reviews)} />
-              <HeaderStat label="Último login" value={ultimoLogin} />
-              <HeaderStat label="Miembro desde" value={miembroDesde} />
+            <div className="px-5 py-3 border-b border-gray-100">
+              <p className="text-xs font-semibold text-brand-gray uppercase tracking-wider">Información personal</p>
             </div>
-          </div>
-
-          <div className="px-5 py-3 border-b border-gray-100">
-            <p className="text-xs font-semibold text-brand-gray uppercase tracking-wider">Información personal</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2">
-            <DataRow icon={<Mail size={16} />} label="Email" value={cliente.user.email} />
-            <EditableDataRow icon={<Phone size={16} />} label="Teléfono" value={cliente.phone ?? null} field="phone" addLabel="+ Añadir Teléfono" inputType="tel" />
-            <EditableDataRow icon={<MapPin size={16} />} label="Lugar" value={cliente.location ?? null} field="location" addLabel="+ Añadir Lugar" />
-            <EditableDataRow icon={<CreditCard size={16} />} label="DNI" value={cliente.dni ? String(cliente.dni) : null} field="dni" addLabel="+ Añadir DNI" inputType="number" />
+            <div className="grid grid-cols-1 sm:grid-cols-2">
+              <DataRow icon={<Mail size={16} />} label="Email" value={cliente.user.email} />
+              <EditableDataRow icon={<Phone size={16} />} label="Teléfono" value={cliente.phone ?? null} field="phone" addLabel="+ Añadir Teléfono" inputType="tel" />
+              <EditableDataRow icon={<MapPin size={16} />} label="Lugar" value={cliente.location ?? null} field="location" addLabel="+ Añadir Lugar" />
+              <EditableDataRow icon={<CreditCard size={16} />} label="DNI" value={cliente.dni ? String(cliente.dni) : null} field="dni" addLabel="+ Añadir DNI" inputType="number" />
+            </div>
           </div>
         </div>
 
