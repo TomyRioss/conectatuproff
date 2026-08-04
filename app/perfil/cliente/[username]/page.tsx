@@ -52,7 +52,7 @@ export default async function ClientePerfilPage({
 
       {/* ── Header card ── */}
       <div className="px-4 md:px-6 pt-6">
-        <div className="bg-white border border-gray-200 rounded-xl p-5 flex flex-col md:flex-row gap-5 md:items-center">
+        <div className="bg-white border border-gray-200 rounded-xl p-5 flex flex-col md:inline-flex md:flex-row gap-5 md:items-center w-full md:w-fit">
           <div className="w-20 h-20 rounded-full bg-brand-violet text-white text-2xl font-bold flex items-center justify-center shadow select-none overflow-hidden flex-shrink-0">
             {avatarKey ? (
               // eslint-disable-next-line @next/next/no-img-element
