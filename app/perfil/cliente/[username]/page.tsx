@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { formatRelativeTime } from "@/lib/utils"
 import { redirect } from "next/navigation"
-import { Mail, Phone, CreditCard, CheckCircle, Star, CalendarDays, MapPin } from "lucide-react"
+import { Mail, Phone, CreditCard, CheckCircle, Star, MapPin } from "lucide-react"
 import EditProfileModal from "@/components/cliente/EditProfileModal"
 import EditableDataRow from "@/components/cliente/EditableDataRow"
 
@@ -98,9 +98,9 @@ export default async function ClientePerfilPage({
       </div>
 
       {/* ── Contenido principal ── */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-5 pb-10 px-4 md:px-6 pt-5">
+      <div className="flex-1 grid grid-cols-1 gap-5 pb-10 px-4 md:px-6 pt-5">
 
-        <div className="md:col-span-2 flex flex-col gap-5">
+        <div className="flex flex-col gap-5">
           <Section title="Información personal">
             <DataRow icon={<Mail size={16} />} label="Email" value={cliente.user.email} />
             <EditableDataRow icon={<Phone size={16} />} label="Teléfono" value={cliente.phone ?? null} field="phone" addLabel="+ Añadir Teléfono" inputType="tel" />
@@ -112,12 +112,28 @@ export default async function ClientePerfilPage({
             {misResenas.length === 0 ? (
               <p className="px-5 py-6 text-sm text-brand-gray">Aún no dejaste reseñas.</p>
             ) : (
-              misResenas.map((r) => (
+              misResenas.map((r) => {
+                const profInitials = `${r.professional.firstName[0]}${r.professional.lastName[0]}`.toUpperCase()
+                return (
                 <div key={r.id} className="px-5 py-4 flex flex-col gap-1.5">
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-sm font-semibold text-brand-dark">
-                      {r.professional.firstName} {r.professional.lastName}
-                    </p>
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-8 h-8 rounded-full bg-brand-violet text-white text-xs font-bold flex items-center justify-center shadow select-none overflow-hidden flex-shrink-0">
+                        {r.professional.avatarUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={`/api/avatar?key=${encodeURIComponent(r.professional.avatarUrl)}`}
+                            alt="avatar"
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          profInitials
+                        )}
+                      </div>
+                      <p className="text-sm font-semibold text-brand-dark truncate">
+                        {r.professional.firstName} {r.professional.lastName}
+                      </p>
+                    </div>
                     <span className="text-xs text-brand-gray flex-shrink-0">
                       {formatRelativeTime(r.createdAt)}
                     </span>
@@ -135,25 +151,9 @@ export default async function ClientePerfilPage({
                     <p className="text-sm text-brand-gray">{r.comment}</p>
                   )}
                 </div>
-              ))
+                )
+              })
             )}
-          </Section>
-        </div>
-
-        <div className="flex flex-col gap-5">
-          <Section title="Tu actividad">
-            <div className="grid grid-cols-2 gap-3 p-4">
-              <StatCard
-                icon={<CalendarDays size={18} className="text-brand-violet" />}
-                value={String(cliente._count.appointments)}
-                label="Turnos"
-              />
-              <StatCard
-                icon={<Star size={18} className="text-brand-green" />}
-                value={String(cliente._count.reviews)}
-                label="Reseñas"
-              />
-            </div>
           </Section>
         </div>
       </div>
@@ -180,16 +180,6 @@ function DataRow({ icon, label, value }: { icon: React.ReactNode; label: string;
         <p className="text-xs text-brand-gray">{label}</p>
         <p className="text-sm font-medium truncate text-brand-dark">{value}</p>
       </div>
-    </div>
-  )
-}
-
-function StatCard({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) {
-  return (
-    <div className="rounded-xl p-4 flex flex-col gap-1 items-start">
-      {icon}
-      <p className="text-2xl font-bold text-brand-dark leading-none mt-1">{value}</p>
-      <p className="text-xs text-brand-gray">{label}</p>
     </div>
   )
 }
