@@ -54,8 +54,9 @@ export function LeaveReviewButton({ professionalId, professionalName }: { profes
     <Dialog open={open} onOpenChange={setOpen}>
       <button
         onClick={() => setOpen(true)}
-        className="text-xs font-medium text-brand-violet hover:underline"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-brand-green hover:bg-brand-green/90 transition-colors px-3 py-1.5 rounded-full shadow-sm"
       >
+        <Star size={13} className="fill-white" />
         Dejar reseña
       </button>
       <DialogContent>
