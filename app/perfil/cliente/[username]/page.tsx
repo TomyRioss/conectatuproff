@@ -51,8 +51,8 @@ export default async function ClientePerfilPage({
     <div className="min-h-[calc(100vh-64px)] flex flex-col bg-brand-bg overflow-x-hidden">
 
       {/* ── Header card ── */}
-      <div className="px-4 md:px-6 pt-6">
-        <div className="bg-white border border-gray-200 rounded-xl p-5 flex flex-col md:inline-flex md:flex-row gap-5 md:items-center w-full md:w-fit">
+      <div className="px-4 md:px-6 pt-6 max-w-3xl mx-auto w-full">
+        <div className="bg-white border border-gray-200 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-5">
           <div className="w-20 h-20 rounded-full bg-brand-violet text-white text-2xl font-bold flex items-center justify-center shadow select-none overflow-hidden flex-shrink-0">
             {avatarKey ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -88,7 +88,7 @@ export default async function ClientePerfilPage({
             )}
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 md:border-l md:border-gray-100 md:pl-6">
+          <div className="grid grid-cols-2 sm:flex sm:items-center gap-4 sm:gap-6 sm:border-l sm:border-gray-100 sm:pl-6">
             <HeaderStat label="Turnos" value={String(cliente._count.appointments)} />
             <HeaderStat label="Reseñas" value={String(cliente._count.reviews)} />
             <HeaderStat label="Último login" value={ultimoLogin} />
@@ -98,14 +98,16 @@ export default async function ClientePerfilPage({
       </div>
 
       {/* ── Contenido principal ── */}
-      <div className="flex-1 grid grid-cols-1 gap-5 pb-10 px-4 md:px-6 pt-5">
+      <div className="flex-1 grid grid-cols-1 gap-5 pb-10 px-4 md:px-6 pt-5 max-w-3xl mx-auto w-full">
 
         <div className="flex flex-col gap-5">
           <Section title="Información personal">
-            <DataRow icon={<Mail size={16} />} label="Email" value={cliente.user.email} />
-            <EditableDataRow icon={<Phone size={16} />} label="Teléfono" value={cliente.phone ?? null} field="phone" addLabel="+ Añadir Teléfono" inputType="tel" />
-            <EditableDataRow icon={<MapPin size={16} />} label="Lugar" value={cliente.location ?? null} field="location" addLabel="+ Añadir Lugar" />
-            <EditableDataRow icon={<CreditCard size={16} />} label="DNI" value={cliente.dni ? String(cliente.dni) : null} field="dni" addLabel="+ Añadir DNI" inputType="number" />
+            <div className="grid grid-cols-1 sm:grid-cols-2">
+              <DataRow icon={<Mail size={16} />} label="Email" value={cliente.user.email} />
+              <EditableDataRow icon={<Phone size={16} />} label="Teléfono" value={cliente.phone ?? null} field="phone" addLabel="+ Añadir Teléfono" inputType="tel" />
+              <EditableDataRow icon={<MapPin size={16} />} label="Lugar" value={cliente.location ?? null} field="location" addLabel="+ Añadir Lugar" />
+              <EditableDataRow icon={<CreditCard size={16} />} label="DNI" value={cliente.dni ? String(cliente.dni) : null} field="dni" addLabel="+ Añadir DNI" inputType="number" />
+            </div>
           </Section>
 
           <Section title="Historial de reseñas">
