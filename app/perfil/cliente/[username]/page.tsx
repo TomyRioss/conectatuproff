@@ -29,6 +29,14 @@ export default async function ClientePerfilPage({
 
   if (!cliente || cliente.userId !== session.user.id) redirect("/login")
 
+  const misResenas = await prisma.review.findMany({
+    where: { clientId: cliente.id },
+    include: {
+      professional: { select: { firstName: true, lastName: true, avatarUrl: true } },
+    },
+    orderBy: { createdAt: "desc" },
+  })
+
   const initials = `${cliente.firstName[0]}${cliente.lastName[0]}`.toUpperCase()
   const avatarKey = cliente.avatarUrl ?? null
 
@@ -98,6 +106,37 @@ export default async function ClientePerfilPage({
             <EditableDataRow icon={<Phone size={16} />} label="Teléfono" value={cliente.phone ?? null} field="phone" addLabel="+ Añadir Teléfono" inputType="tel" />
             <EditableDataRow icon={<MapPin size={16} />} label="Lugar" value={cliente.location ?? null} field="location" addLabel="+ Añadir Lugar" />
             <EditableDataRow icon={<CreditCard size={16} />} label="DNI" value={cliente.dni ? String(cliente.dni) : null} field="dni" addLabel="+ Añadir DNI" inputType="number" />
+          </Section>
+
+          <Section title="Historial de reseñas">
+            {misResenas.length === 0 ? (
+              <p className="px-5 py-6 text-sm text-brand-gray">Aún no dejaste reseñas.</p>
+            ) : (
+              misResenas.map((r) => (
+                <div key={r.id} className="px-5 py-4 flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-semibold text-brand-dark">
+                      {r.professional.firstName} {r.professional.lastName}
+                    </p>
+                    <span className="text-xs text-brand-gray flex-shrink-0">
+                      {formatRelativeTime(r.createdAt)}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-0.5">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        size={14}
+                        className={i < r.rating ? "fill-brand-green text-brand-green" : "text-gray-300"}
+                      />
+                    ))}
+                  </div>
+                  {r.comment && (
+                    <p className="text-sm text-brand-gray">{r.comment}</p>
+                  )}
+                </div>
+              ))
+            )}
           </Section>
         </div>
 
