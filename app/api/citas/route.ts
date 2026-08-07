@@ -1,6 +1,51 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { sendMail } from "@/lib/mail";
+
+export async function GET() {
+  const session = await auth();
+  if (!session?.user?.id || (session.user as { role?: string }).role !== "CLIENT") {
+    return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+  }
+
+  try {
+    const client = await prisma.client.findUnique({ where: { userId: session.user.id }, select: { id: true } });
+    if (!client) return NextResponse.json({ error: "Perfil de cliente no encontrado" }, { status: 404 });
+
+    const appointments = await prisma.appointment.findMany({
+      where: { clientId: client.id },
+      orderBy: { startAt: "desc" },
+      select: {
+        id: true,
+        startAt: true,
+        durationMin: true,
+        status: true,
+        priceAtBooking: true,
+        currency: true,
+        service: { select: { title: true } },
+        professional: { select: { firstName: true, lastName: true, avatarUrl: true, user: { select: { image: true } } } },
+      },
+    });
+
+    const result = appointments.map((a) => ({
+      id: a.id,
+      startAt: a.startAt,
+      durationMin: a.durationMin,
+      status: a.status,
+      price: a.priceAtBooking,
+      currency: a.currency,
+      serviceName: a.service?.title ?? null,
+      professionalName: `${a.professional.firstName} ${a.professional.lastName}`,
+      professionalAvatar: a.professional.avatarUrl ? `/api/avatar?key=${encodeURIComponent(a.professional.avatarUrl)}` : a.professional.user.image,
+    }));
+
+    return NextResponse.json({ appointments: result });
+  } catch (e) {
+    console.error("GET /api/citas", e);
+    return NextResponse.json({ error: "SERVER_ERROR" }, { status: 500 });
+  }
+}
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -25,7 +70,7 @@ export async function POST(req: Request) {
     if (!client) return NextResponse.json({ error: "Perfil de cliente no encontrado" }, { status: 404 });
 
     const service = serviceId
-      ? await prisma.service.findUnique({ where: { id: serviceId }, select: { price: true, currency: true, durationMin: true, professionalId: true } })
+      ? await prisma.service.findUnique({ where: { id: serviceId }, select: { title: true, price: true, currency: true, durationMin: true, professionalId: true } })
       : null;
 
     if (serviceId && service?.professionalId !== professionalId) {
@@ -69,6 +114,24 @@ export async function POST(req: Request) {
       create: { professionalId, clientId: client.id },
       select: { id: true },
     });
+
+    const [professional, clientUser] = await Promise.all([
+      prisma.professional.findUnique({ where: { id: professionalId }, select: { firstName: true, user: { select: { email: true } } } }),
+      prisma.user.findUnique({ where: { id: session.user.id }, select: { name: true } }),
+    ]);
+
+    if (professional?.user.email) {
+      await sendMail({
+        to: professional.user.email,
+        subject: "Nuevo turno reservado",
+        html: `
+          <p>Hola ${professional.firstName},</p>
+          <p><strong>${clientUser?.name ?? "Un cliente"}</strong> reservó un turno${service ? ` para <strong>${service.title}</strong>` : ""}.</p>
+          <p>Fecha: ${start.toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" })}</p>
+          <p>Ingresá a tu agenda en Conecta Tu Proff para confirmarlo.</p>
+        `,
+      });
+    }
 
     return NextResponse.json({ ok: true, id: appointment.id, conversationId: conversation.id });
   } catch (e) {

@@ -586,12 +586,14 @@ model Review {
 enum SenderRole {
   CLIENT
   PROFESSIONAL
+  BOT
 }
 
 model Conversation {
   id             String   @id @default(cuid())
   professionalId String
   clientId       String
+  botEnabled     Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
@@ -604,11 +606,12 @@ model Conversation {
 }
 
 model Message {
-  id             String     @id @default(cuid())
-  conversationId String
-  senderRole     SenderRole
-  body           String     @db.Text
-  createdAt      DateTime   @default(now())
+  id               String     @id @default(cuid())
+  conversationId   String
+  senderRole       SenderRole
+  body             String     @db.Text
+  escalatesToHuman Boolean    @default(false)
+  createdAt        DateTime   @default(now())
 
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
@@ -621,6 +624,7 @@ model Message {
 model Notification {
   id        String   @id @default(cuid())
   userId    String
+  audience  Role     @default(CLIENT)
   type      String
   title     String
   body      String

@@ -54,9 +54,9 @@ export default async function ClientePerfilPage({
       <div className="flex-1 flex flex-col gap-5 pb-10 px-4 md:px-6 pt-6">
 
         {/* Header + Información personal unificados: avatar grande a la izquierda, datos a la derecha */}
-        <div className="bg-white border-y border-gray-200 flex flex-col sm:flex-row">
-          <div className="flex items-center justify-center sm:justify-start p-5 sm:pr-0 sm:border-r border-gray-100 flex-shrink-0">
-            <div className="w-32 h-32 rounded-full bg-brand-violet text-white text-4xl font-bold flex items-center justify-center shadow select-none overflow-hidden">
+        <div className="bg-white border-y border-gray-200 flex flex-col sm:flex-row gap-4 sm:gap-8">
+          <div className="flex items-center justify-center sm:justify-start p-5 sm:w-[30%] flex-shrink-0">
+            <div className="w-40 h-40 rounded-full bg-brand-violet text-white text-5xl font-bold flex items-center justify-center shadow select-none overflow-hidden">
               {avatarKey ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img

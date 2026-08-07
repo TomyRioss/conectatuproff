@@ -44,6 +44,7 @@ export default async function ProfesionalDashboardPerfilPage({
         email={pro.user.email}
         avatarUrl={pro.avatarUrl}
         bio={pro.bio}
+        isPro={pro.isPro}
       />
       <div className="w-full max-w-6xl mx-auto px-6 sm:px-10">
         <AboutEditSection bio={pro.bio} />

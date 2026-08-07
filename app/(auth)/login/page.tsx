@@ -10,6 +10,7 @@ import Link from "next/link";
 import FormField from "@/components/auth/FormField";
 import PasswordInput from "@/components/auth/PasswordInput";
 import AuthShell from "@/components/auth/AuthShell";
+import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 import { loginSchema, type LoginInput } from "@/lib/validations/auth";
 
 function LoginForm() {
@@ -29,6 +30,8 @@ function LoginForm() {
       toast.error("Tu cuenta está en revisión. Te avisaremos por email cuando sea aprobada.");
     } else if (error === "BANNED") {
       toast.error("Tu cuenta fue suspendida. Contactá a soporte.");
+    } else if (error === "OAuthAccountNotLinked") {
+      toast.error("Ese email ya tiene una cuenta con contraseña. Ingresá con email y contraseña.");
     } else if (error) {
       toast.error("Email o contraseña incorrectos.");
     }
@@ -95,6 +98,16 @@ function LoginForm() {
             {isSubmitting ? "Ingresando..." : "Ingresar"}
           </button>
         </form>
+
+        <div className="mt-5 flex items-center gap-3">
+          <div className="h-px flex-1 bg-gray-200" />
+          <span className="text-xs text-brand-gray">o</span>
+          <div className="h-px flex-1 bg-gray-200" />
+        </div>
+
+        <div className="mt-5">
+          <GoogleSignInButton callbackUrl="/" />
+        </div>
 
         <div className="mt-6 border-t border-gray-200 pt-5 flex flex-col gap-2 text-center text-sm text-brand-gray">
           <p>

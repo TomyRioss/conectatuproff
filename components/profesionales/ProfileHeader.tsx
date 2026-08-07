@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CheckCircle, Star, MapPin } from "lucide-react";
 import { useIsOnline } from "@/lib/hooks/use-online-users";
+import { ProBadge } from "@/components/ui/ProBadge";
 
 type ProfileHeaderProps = {
   pro: {
@@ -12,6 +13,7 @@ type ProfileHeaderProps = {
     specialty: string | null;
     location: string | null;
     isVerified: boolean;
+    isPro: boolean;
     subcategory: { name: string } | null;
   };
   username: string;
@@ -29,7 +31,7 @@ export function ProfileHeader({ pro, username, avatarSrc, avgRating, reviewCount
     <div>
       <div className="flex items-center gap-4">
         <div className="relative h-32 w-32 shrink-0">
-          <Avatar className="h-32 w-32">
+          <Avatar className={`h-32 w-32 ${pro.isPro ? "ring-2 ring-brand-violet ring-offset-2" : ""}`}>
             {avatarSrc && <AvatarImage src={avatarSrc} alt={fullName} />}
             <AvatarFallback className="bg-brand-violet text-white text-xl font-semibold">
               {initials}
@@ -47,6 +49,7 @@ export function ProfileHeader({ pro, username, avatarSrc, avgRating, reviewCount
           <div className="flex items-center gap-2 flex-wrap">
             <h1 className="text-2xl font-bold text-brand-dark">{fullName}</h1>
             <span className="text-brand-gray">@{username}</span>
+            {pro.isPro && <ProBadge />}
             <span
               className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                 isOnline ? "bg-brand-green/10 text-brand-green" : "bg-brand-bg text-brand-gray border border-gray-200"

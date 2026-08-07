@@ -1,6 +1,6 @@
 import { Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { addMinutes } from "@/lib/availability"
+import { addMinutes } from "@/lib/time"
 import type { WizardState } from "./types"
 
 const DOW_LABELS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]

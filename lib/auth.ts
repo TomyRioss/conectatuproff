@@ -1,5 +1,6 @@
 import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
@@ -24,6 +25,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   providers: [
+    Google({ allowDangerousEmailAccountLinking: true }),
     Credentials({
       async authorize(credentials) {
         const parsed = loginSchema.safeParse(credentials);
@@ -40,8 +42,31 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const valid = await bcrypt.compare(parsed.data.password, user.password);
         if (!valid) return null;
 
-        if ((credentials as { professionalOnly?: string }).professionalOnly === "true" && user.role !== "PROFESSIONAL") {
-          throw new AuthError("NOT_PROFESSIONAL");
+        // Which door was used decides the session mode — not the stored `role` —
+        // since one account can have both a Client and a Professional profile.
+        // Staff roles (ADMIN/SUPER_ADMIN/OWNER) have neither, so they bypass this.
+        const professionalOnly = (credentials as { professionalOnly?: string }).professionalOnly === "true";
+        const staffRoles = ["ADMIN", "SUPER_ADMIN", "OWNER"];
+        let effectiveRole: string = user.role;
+
+        if (!staffRoles.includes(user.role)) {
+          if (professionalOnly) {
+            if (user.role !== "PROFESSIONAL") throw new AuthError("NOT_PROFESSIONAL");
+            const pro = await prisma.professional.findUnique({
+              where: { userId: user.id },
+              select: { isVerified: true },
+            });
+            if (!pro) throw new AuthError("NOT_PROFESSIONAL");
+            if (!pro.isVerified) throw new AuthError("PENDING_REVIEW");
+            effectiveRole = "PROFESSIONAL";
+          } else {
+            const client = await prisma.client.findUnique({
+              where: { userId: user.id },
+              select: { id: true },
+            });
+            if (!client) throw new AuthError("NOT_CLIENT");
+            effectiveRole = "CLIENT";
+          }
         }
 
         await prisma.user.update({
@@ -49,16 +74,32 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           data: { lastActivity: new Date() },
         }).catch((e) => console.error("[auth] update lastActivity failed:", e));
 
-        return { id: user.id, email: user.email ?? "", name: user.name, role: user.role, image: user.image };
+        return { id: user.id, email: user.email ?? "", name: user.name, role: effectiveRole, image: user.image };
       },
     }),
   ],
   callbacks: {
-    async jwt({ token, user, trigger, session: sessionUpdate }) {
+    async signIn({ user, account }) {
+      if (account?.provider !== "google") return true;
+      if (!user.email) return false;
+
+      // New Google user: no DB row yet, nothing to check (events.createUser below
+      // creates their Client profile). Existing users: just block banned accounts —
+      // role doesn't matter, an account can be professional AND client at once.
+      const dbUser = await prisma.user.findUnique({
+        where: { email: user.email },
+        select: { isBanned: true },
+      });
+      if (dbUser?.isBanned) return "/login?error=BANNED";
+
+      return true;
+    },
+    async jwt({ token, user, trigger, session: sessionUpdate, account }) {
       if (user) {
         token.id = user.id!;
-        token.role = (user as { role: string }).role;
-        const profile = await getProfile(user.id!, (user as { role: string }).role);
+        // Google button only lives on the client login/register pages — always CLIENT.
+        token.role = account?.provider === "google" ? "CLIENT" : (user as { role: string }).role;
+        const profile = await getProfile(user.id!, token.role as string);
         token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : null;
         token.name = user.name ?? (profile ? `${profile.firstName} ${profile.lastName}` : null);
       }
@@ -88,6 +129,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.user.image = token.picture as string | null;
       session.user.name = token.name as string | null;
       return session;
+    },
+  },
+  events: {
+    async createUser({ user }) {
+      if (!user.id) return;
+      const [firstName, ...rest] = (user.name ?? "").trim().split(/\s+/);
+      await prisma.client.create({
+        data: { userId: user.id, firstName: firstName || "Usuario", lastName: rest.join(" ") },
+      }).catch((e) => console.error("[auth] create Client from Google failed:", e));
     },
   },
   pages: {

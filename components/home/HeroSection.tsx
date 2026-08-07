@@ -169,7 +169,14 @@ export default function HeroSection({ subcategories }: Props) {
         </div>
       </div>
 
-      <AISearchDialog open={aiOpen} onOpenChange={setAiOpen} />
+      <AISearchDialog
+        open={aiOpen}
+        onOpenChange={setAiOpen}
+        onResult={({ servicio, zona }) => {
+          if (servicio) setServicio(servicio)
+          if (zona) setBarrio(zona)
+        }}
+      />
     </section>
   )
 }

@@ -80,7 +80,7 @@ export async function POST(request: Request) {
         data: { userId: user.id, firstName, lastName, phone, dni, location },
       }),
       prisma.professional.create({
-        data: { userId: user.id, firstName, lastName, specialty, phone, dni, dniPhotoFront, dniPhotoBack, location },
+        data: { userId: user.id, firstName, lastName, specialty, phone, dni, dniPhotoFront, dniPhotoBack, location, isPro: true },
       }),
     ]);
 

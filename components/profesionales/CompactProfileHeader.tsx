@@ -25,6 +25,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Textarea } from "@/components/ui/textarea"
 import SpecialtyAutocomplete from "@/components/auth/SpecialtyAutocomplete"
 import { AvatarCropDialog } from "@/components/profesionales/AvatarCropDialog"
+import { ProBadge } from "@/components/ui/ProBadge"
 
 interface Props {
   username: string
@@ -36,6 +37,7 @@ interface Props {
   email: string
   avatarUrl: string | null
   bio: string | null
+  isPro: boolean
 }
 
 export function CompactProfileHeader({
@@ -48,6 +50,7 @@ export function CompactProfileHeader({
   email,
   avatarUrl,
   bio,
+  isPro,
 }: Props) {
   const [open, setOpen] = useState(false)
   const [first, setFirst] = useState(firstName)
@@ -170,7 +173,7 @@ export function CompactProfileHeader({
       <div className="w-full max-w-6xl mx-auto px-6 sm:px-10 pt-8 pb-8 flex flex-col sm:flex-row sm:items-start justify-between gap-6">
       <div className="flex items-center gap-6">
         <div className="relative shrink-0">
-          <Avatar className="h-32 w-32 sm:h-36 sm:w-36">
+          <Avatar className={`h-32 w-32 sm:h-36 sm:w-36 ${isPro ? "ring-2 ring-brand-violet ring-offset-2" : ""}`}>
             {previewUrl && <AvatarImage src={previewUrl} alt={fullName} />}
             <AvatarFallback className="bg-brand-violet text-white text-4xl font-semibold">
               {initials}
@@ -222,6 +225,7 @@ export function CompactProfileHeader({
               <Pencil size={18} className="text-brand-gray hover:text-brand-violet transition-colors" />
             </button>
             <span className="text-brand-gray text-sm">@{username}</span>
+            {isPro && <ProBadge />}
           </div>
 
           <button

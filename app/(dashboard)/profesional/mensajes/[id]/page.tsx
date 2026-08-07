@@ -18,6 +18,7 @@ export default async function ProfesionalMensajeThreadPage({ params }: { params:
     select: {
       professional: { select: { userId: true } },
       client: { select: { firstName: true, lastName: true, avatarUrl: true, user: { select: { image: true } } } },
+      botEnabled: true,
     },
   });
 
@@ -34,6 +35,7 @@ export default async function ProfesionalMensajeThreadPage({ params }: { params:
       otherName={`${conversation.client.firstName} ${conversation.client.lastName}`}
       otherAvatar={otherAvatar}
       backHref="/profesional/mensajes"
+      initialBotEnabled={conversation.botEnabled}
     />
   );
 }

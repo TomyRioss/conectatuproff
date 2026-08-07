@@ -111,12 +111,17 @@ export default function AgendaDiaModal({
             )
           })}
 
-          {dayBlocked.map((b) => (
-            <div key={b.id} className="border border-gray-200 rounded-lg p-3 bg-brand-bg">
-              <p className="text-sm font-medium text-brand-dark">Bloqueado ({b.reason})</p>
-              {b.note && <p className="text-sm text-brand-gray">{b.note}</p>}
-            </div>
-          ))}
+          {dayBlocked.map((b) => {
+            const bStart = new Date(b.startAt)
+            const bEnd = new Date(b.endAt)
+            const fmt = (d: Date) => `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`
+            return (
+              <div key={b.id} className="border border-gray-200 rounded-lg p-3 bg-brand-bg">
+                <p className="text-xs text-brand-gray mb-0.5">{fmt(bStart)} - {fmt(bEnd)}</p>
+                <p className="text-sm font-medium text-brand-dark">{b.note || "Bloqueado"}</p>
+              </div>
+            )
+          })}
 
           {showBloqueoForm ? (
             <BloqueoForm

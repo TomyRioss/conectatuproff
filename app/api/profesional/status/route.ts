@@ -8,9 +8,9 @@ export async function GET() {
 
   const pro = await prisma.professional.findUnique({
     where: { userId: session.user.id },
-    select: { isVerified: true },
+    select: { isVerified: true, isPro: true },
   });
 
   const state = !pro ? "none" : pro.isVerified ? "verified" : "pending";
-  return NextResponse.json({ state });
+  return NextResponse.json({ state, isPro: pro?.isPro ?? false });
 }

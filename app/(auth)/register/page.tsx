@@ -11,6 +11,7 @@ import FormField from "@/components/auth/FormField";
 import PasswordInput from "@/components/auth/PasswordInput";
 import AuthShell from "@/components/auth/AuthShell";
 import ArgentinaLocationSelect from "@/components/auth/ArgentinaLocationSelect";
+import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 import { clientRegisterFormSchema, type ClientRegisterFormInput } from "@/lib/validations/auth";
 
 const STEPS = ["Identidad", "Contacto", "Ubicación", "Contraseña"];
@@ -116,6 +117,17 @@ export default function RegisterPage() {
           <h1 className="text-2xl font-bold text-brand-dark font-display">Crear cuenta</h1>
           <p className="text-brand-gray text-sm mt-1">Encontrá al profesional ideal</p>
         </div>
+
+        {step === 0 && (
+          <>
+            <GoogleSignInButton callbackUrl="/" />
+            <div className="flex items-center gap-3 -mt-2">
+              <div className="h-px flex-1 bg-gray-200" />
+              <span className="text-xs text-brand-gray">o completá el formulario</span>
+              <div className="h-px flex-1 bg-gray-200" />
+            </div>
+          </>
+        )}
 
         {/* Progress */}
         <div className="flex items-center gap-1.5">

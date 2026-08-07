@@ -10,7 +10,7 @@ function initialsFor(firstName: string, lastName: string) {
 export async function getFeaturedPros(take = 6): Promise<ProfCardData[]> {
   const pros = await prisma.professional.findMany({
     where: { isActive: true, user: { username: { not: null } } },
-    orderBy: { rating: "desc" },
+    orderBy: [{ isPro: "desc" }, { rating: "desc" }],
     take,
     include: {
       user: { select: { username: true, image: true } },
@@ -32,7 +32,7 @@ export async function getFeaturedPros(take = 6): Promise<ProfCardData[]> {
     rating: pro.rating,
     reviews: pro._count.reviews,
     priceFrom: pro.services[0] ? Number(pro.services[0].price) : null,
-    premium: false,
+    premium: pro.isPro,
     verified: pro.isVerified,
     initials: initialsFor(pro.firstName, pro.lastName),
     color: AVATAR_COLORS[i % AVATAR_COLORS.length],

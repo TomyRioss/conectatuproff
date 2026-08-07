@@ -5,6 +5,8 @@ import { Clock, MapPin, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FavoriteButton } from "@/components/profesionales/FavoriteButton";
 import { ServiceGallery } from "@/components/profesionales/ServiceGallery";
+import { ProBadge } from "@/components/ui/ProBadge";
+import { ReviewsList } from "@/components/profesionales/ReviewsList";
 
 export default async function ServiceDetailPage({
   params,
@@ -29,8 +31,12 @@ export default async function ServiceDetailPage({
           avatarUrl: true,
           specialty: true,
           location: true,
+          isPro: true,
           user: { select: { username: true, image: true } },
-          reviews: { select: { rating: true } },
+          reviews: {
+            orderBy: { createdAt: "desc" },
+            include: { client: { select: { firstName: true, lastName: true } } },
+          },
         },
       },
     },
@@ -45,6 +51,7 @@ export default async function ServiceDetailPage({
   const reviewCount = pro.reviews.length;
   const avgRating = reviewCount > 0 ? pro.reviews.reduce((s, r) => s + r.rating, 0) / reviewCount : 0;
   const price = service.price ? Number(service.price.toString()) : 0;
+  const unit = service.serviceType === "CLASE" ? "clase" : "sesión";
 
   return (
     <main className="min-h-screen bg-brand-bg pb-20">
@@ -63,7 +70,10 @@ export default async function ServiceDetailPage({
               </AvatarFallback>
             </Avatar>
             <div className="min-w-0">
-              <p className="font-bold text-brand-dark">{fullName}</p>
+              <div className="flex items-center gap-2 flex-wrap">
+                <p className="font-bold text-brand-dark">{fullName}</p>
+                {pro.isPro && <ProBadge />}
+              </div>
               {pro.specialty && <p className="text-sm text-brand-gray">{pro.specialty}</p>}
               <div className="flex items-center gap-3 mt-0.5 text-sm text-brand-gray flex-wrap">
                 {reviewCount > 0 && (
@@ -93,7 +103,7 @@ export default async function ServiceDetailPage({
             <h2 className="text-lg font-bold text-brand-dark mb-3">Acerca de este servicio</h2>
             {service.durationMin && (
               <p className="text-sm text-brand-gray flex items-center gap-1 mb-3">
-                <Clock size={14} /> {service.durationMin} min por sesión
+                <Clock size={14} /> {service.durationMin} min por {unit}
               </p>
             )}
             {service.description && (
@@ -109,7 +119,7 @@ export default async function ServiceDetailPage({
               <div className="bg-white rounded-2xl border border-gray-200 divide-y divide-gray-100">
                 {service.faqs.map((faq) => (
                   <details key={faq.id} className="group p-4">
-                    <summary className="cursor-pointer list-none flex items-center justify-between font-semibold text-brand-dark text-sm">
+                    <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden flex items-center justify-between font-semibold text-brand-dark text-sm w-full">
                       {faq.question}
                       <span className="text-brand-gray transition-transform group-open:rotate-180">⌄</span>
                     </summary>
@@ -119,6 +129,11 @@ export default async function ServiceDetailPage({
               </div>
             </div>
           )}
+
+          <div className="bg-white rounded-2xl border border-gray-200 p-6">
+            <h2 className="text-lg font-bold text-brand-dark mb-3">Reseñas</h2>
+            <ReviewsList reviews={pro.reviews} />
+          </div>
         </div>
 
         <div className="lg:sticky lg:top-28 lg:self-start">
@@ -128,17 +143,17 @@ export default async function ServiceDetailPage({
                 <p className="text-2xl font-bold text-brand-violet">
                   {price.toLocaleString("es-AR", { style: "currency", currency: service.currency })}
                 </p>
-                <p className="text-xs uppercase text-brand-gray">por sesión</p>
+                <p className="text-xs uppercase text-brand-gray">por {unit}</p>
               </div>
               <FavoriteButton type="servicio" id={service.id} initialFavorited={false} />
             </div>
 
-            <button
-              type="button"
-              className="w-full bg-brand-green text-white text-sm font-semibold rounded-full py-2.5 hover:opacity-90 transition-opacity mt-4"
+            <Link
+              href={`/perfil/profesional/${username}/agendar?service=${service.id}`}
+              className="block w-full text-center bg-brand-green text-white text-sm font-semibold rounded-full py-2.5 hover:opacity-90 transition-opacity mt-4"
             >
-              Reservar este tratamiento
-            </button>
+              Agendar
+            </Link>
 
             {service.sessionPackages.length > 0 && (
               <div className="mt-5 pt-5 border-t border-gray-100 space-y-3">

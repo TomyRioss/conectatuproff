@@ -54,7 +54,7 @@ export default async function FavoritosPage() {
                   rating: pro.rating,
                   reviews: pro._count.reviews,
                   priceFrom: null,
-                  premium: false,
+                  premium: pro.isPro,
                   verified: pro.isVerified,
                   initials: `${pro.firstName[0] ?? ""}${pro.lastName[0] ?? ""}`.toUpperCase(),
                   color: "#6C5CE7",
@@ -83,6 +83,7 @@ export default async function FavoritosPage() {
                   service={service}
                   handle={service.professional.user.username ?? ""}
                   initialFavorited
+                  isPro={service.professional.isPro}
                 />
               ))}
             </div>

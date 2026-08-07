@@ -1,9 +1,0 @@
-[     135ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3003/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
-[     655ms] [LOG] [Fast Refresh] done in 620ms @ http://localhost:3003/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
-[    1487ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3003/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
-[    1536ms] [LOG] [HMR] connected @ http://localhost:3003/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
-[    1759ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3003/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
-[    1872ms] [WARNING] Image with src "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3003/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
-[    1876ms] [LOG] [Fast Refresh] done in 222ms @ http://localhost:3003/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
-[    1997ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3003/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477
-[    2346ms] [LOG] [Fast Refresh] done in 462ms @ http://localhost:3003/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js:2477

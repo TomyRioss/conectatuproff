@@ -81,6 +81,7 @@ export async function PATCH(request: Request) {
           dniPhotoFront: dniFrontKey,
           dniPhotoBack: dniBackKey,
           isActive: true,
+          isPro: true,
         },
       }),
       prisma.user.update({

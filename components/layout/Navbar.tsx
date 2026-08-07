@@ -1,8 +1,9 @@
 ﻿"use client"
 
 import Link from "next/link"
-import { Menu, X, LogOut, User, Search, MessageSquare, Heart, Sparkles, ChevronDown, Clock, Briefcase, Calendar, MapPin } from "lucide-react"
+import { Menu, X, LogOut, User, Search, MessageSquare, Heart, Sparkles, ChevronDown, Clock, Briefcase, Calendar, MapPin, Crown } from "lucide-react"
 import NotificationBell from "@/components/layout/NotificationBell"
+import MessagesInboxDropdown from "@/components/layout/MessagesInboxDropdown"
 import { useState, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useSession, signOut } from "next-auth/react"
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { AISearchDialog } from "@/components/ui/AISearchDialog"
+import { UpgradePlanDialog } from "@/components/profesionales/UpgradePlanDialog"
 
 function getInitials(name?: string | null, email?: string | null) {
   if (name) {
@@ -39,72 +41,91 @@ function AvatarButton() {
   const avatarUrl = session?.user?.image ?? null
   const isClient = role === "CLIENT"
   const isProfessional = role === "PROFESSIONAL"
+  const [upgradeOpen, setUpgradeOpen] = useState(false)
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button
-          className="w-11 h-11 rounded-full bg-brand-violet text-white text-base font-semibold flex items-center justify-center hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet ring-offset-2 overflow-hidden relative"
-          aria-label="Menú de usuario"
-        >
-          <span className="absolute inset-0 flex items-center justify-center select-none">{initials}</span>
-          {avatarUrl && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={avatarUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            className="w-11 h-11 rounded-full bg-brand-violet text-white text-base font-semibold flex items-center justify-center hover:opacity-90 transition-opacity focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet ring-offset-2 overflow-hidden relative"
+            aria-label="Menú de usuario"
+          >
+            <span className="absolute inset-0 flex items-center justify-center select-none">{initials}</span>
+            {avatarUrl && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={avatarUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            )}
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="center" className="w-52 bg-brand-bg border-gray-200">
+          <DropdownMenuLabel className="pb-1">
+            <p className="text-sm font-semibold text-brand-dark truncate">{name}</p>
+            {role && (
+              <p className="text-xs text-brand-violet font-medium truncate capitalize">{role}</p>
+            )}
+            {email && (
+              <p className="text-xs text-brand-gray font-normal truncate">{email}</p>
+            )}
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator className="bg-gray-200" />
+          {isClient && (
+            <>
+              <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
+                <Link href="/cliente/perfil" className="text-brand-dark">
+                  <User size={14} />
+                  Ver mi perfil
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
+                <Link href="/cliente/turnos" className="text-brand-dark">
+                  <Clock size={14} />
+                  Mis turnos
+                </Link>
+              </DropdownMenuItem>
+            </>
           )}
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className="w-52 bg-brand-bg border-gray-200">
-        <DropdownMenuLabel className="pb-1">
-          <p className="text-sm font-semibold text-brand-dark truncate">{name}</p>
-          {role && (
-            <p className="text-xs text-brand-violet font-medium truncate capitalize">{role}</p>
+          {isProfessional && (
+            <>
+              <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
+                <Link href="/profesional/perfil" className="text-brand-dark">
+                  <User size={14} />
+                  Perfil
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
+                <Link href="/profesional/servicios" className="text-brand-dark">
+                  <Briefcase size={14} />
+                  Servicios
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
+                <Link href="/profesional/agenda" className="text-brand-dark">
+                  <Calendar size={14} />
+                  Agenda
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer gap-2 text-brand-violet font-medium"
+                onClick={() => setUpgradeOpen(true)}
+              >
+                <Crown size={14} />
+                Mejora tu plan
+              </DropdownMenuItem>
+            </>
           )}
-          {email && (
-            <p className="text-xs text-brand-gray font-normal truncate">{email}</p>
-          )}
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator className="bg-gray-200" />
-        {isClient && (
-          <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
-            <Link href="/cliente/perfil" className="text-brand-dark">
-              <User size={14} />
-              Ver mi perfil
-            </Link>
+          <DropdownMenuSeparator className="bg-gray-200" />
+          <DropdownMenuItem
+            className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 gap-2"
+            onClick={() => signOut({ callbackUrl: "/" })}
+          >
+            <LogOut size={14} />
+            Cerrar sesión
           </DropdownMenuItem>
-        )}
-        {isProfessional && (
-          <>
-            <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
-              <Link href="/profesional/perfil" className="text-brand-dark">
-                <User size={14} />
-                Perfil
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
-              <Link href="/profesional/servicios" className="text-brand-dark">
-                <Briefcase size={14} />
-                Servicios
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
-              <Link href="/profesional/agenda" className="text-brand-dark">
-                <Calendar size={14} />
-                Agenda
-              </Link>
-            </DropdownMenuItem>
-          </>
-        )}
-        <DropdownMenuSeparator className="bg-gray-200" />
-        <DropdownMenuItem
-          className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 gap-2"
-          onClick={() => signOut({ callbackUrl: "/" })}
-        >
-          <LogOut size={14} />
-          Cerrar sesión
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      {isProfessional && <UpgradePlanDialog open={upgradeOpen} onOpenChange={setUpgradeOpen} />}
+    </>
   )
 }
 
@@ -244,13 +265,7 @@ export default function Navbar() {
           {isLoggedIn ? (
             <>
               <NotificationBell />
-              <Link
-                href={role === "PROFESSIONAL" ? "/profesional/mensajes" : "/cliente/mensajes"}
-                aria-label="Mensajes"
-                className="text-brand-gray hover:text-brand-dark transition-colors"
-              >
-                <MessageSquare size={22} />
-              </Link>
+              <MessagesInboxDropdown />
               <Link href="/favoritos" aria-label="Favoritos" className="text-brand-gray hover:text-brand-dark transition-colors">
                 <Heart size={22} />
               </Link>
@@ -277,7 +292,16 @@ export default function Navbar() {
             </DropdownMenu>
           )}
         </div>
-        <AISearchDialog open={aiOpen} onOpenChange={setAiOpen} />
+        <AISearchDialog
+          open={aiOpen}
+          onOpenChange={setAiOpen}
+          onResult={({ servicio, zona }) => {
+            const params = new URLSearchParams()
+            if (servicio) params.set("servicio", servicio)
+            if (zona) params.set("barrio", zona)
+            router.push(`/buscar?${params.toString()}`)
+          }}
+        />
 
         <div className="hidden md:flex items-center gap-3 justify-self-end">
           {status === "loading" ? (

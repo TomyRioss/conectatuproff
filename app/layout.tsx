@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Playfair_Display, DM_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 import Providers from "@/components/layout/Providers";
+import FloatingChatbot from "@/components/layout/FloatingChatbot";
+import MessengerDock from "@/components/mensajes/MessengerDock";
 import { auth } from "@/lib/auth";
 import "./globals.css";
 import "./brand.css";
@@ -38,6 +40,8 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <Providers session={session}>
           {children}
+          <MessengerDock />
+          <FloatingChatbot />
           <Toaster richColors position="top-right" />
         </Providers>
       </body>

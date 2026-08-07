@@ -9,6 +9,7 @@ import { ServiceCard } from "@/components/profesionales/ServiceCard";
 import { PackageCard } from "@/components/profesionales/PackageCard";
 import { ContactCard } from "@/components/profesionales/ContactCard";
 import { PortfolioSection } from "@/components/profesionales/PortfolioSection";
+import { ReviewsList } from "@/components/profesionales/ReviewsList";
 
 export default async function ProfesionalProfilePage({
   params,
@@ -26,7 +27,10 @@ export default async function ProfesionalProfilePage({
       services: { where: { status: "ACTIVE" }, orderBy: { createdAt: "asc" } },
       packages: { where: { isActive: true }, orderBy: { createdAt: "asc" } },
       portfolio: { orderBy: { order: "asc" }, include: { images: { orderBy: { order: "asc" } } } },
-      reviews: true,
+      reviews: {
+        orderBy: { createdAt: "desc" },
+        include: { client: { select: { firstName: true, lastName: true } } },
+      },
       _count: { select: { educations: true, certifications: true } },
     },
   });
@@ -86,17 +90,19 @@ export default async function ProfesionalProfilePage({
             <h3 className="text-xl font-bold text-brand-dark mb-4">
               Servicios disponibles
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory">
               {pro.services.map((service) => (
-                <ServiceCard
-                  key={service.id}
-                  service={{
-                    ...service,
-                    price: service.price?.toString() ?? null,
-                  }}
-                  handle={username}
-                  initialFavorited={favoritedServiceIds.has(service.id)}
-                />
+                <div key={service.id} className="w-[85%] xs:w-72 sm:w-[calc(50%-8px)] lg:w-[calc(25%-12px)] shrink-0 snap-start">
+                  <ServiceCard
+                    service={{
+                      ...service,
+                      price: service.price?.toString() ?? null,
+                    }}
+                    handle={username}
+                    initialFavorited={favoritedServiceIds.has(service.id)}
+                    isPro={pro.isPro}
+                  />
+                </div>
               ))}
             </div>
           </section>
@@ -128,6 +134,18 @@ export default async function ProfesionalProfilePage({
             </div>
           </section>
         )}
+
+        <section>
+          <h2 className="text-xs font-semibold tracking-wide uppercase text-brand-gray mb-2">
+            Reseñas
+          </h2>
+          <h3 className="text-xl font-bold text-brand-dark mb-4">
+            Opiniones de clientes
+          </h3>
+          <div className="bg-white rounded-2xl border border-gray-200 p-6">
+            <ReviewsList reviews={pro.reviews} />
+          </div>
+        </section>
       </div>
     </main>
   );

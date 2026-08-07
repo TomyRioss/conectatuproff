@@ -40,19 +40,17 @@ export default function AgendaCalendario() {
   }, [monthParam])
 
   const eventsByDay = useMemo(() => {
-    const map = new Map<string, { hasAppointment: boolean; hasBlocked: boolean }>()
+    const map = new Map<string, string[]>()
     if (!data) return map
     for (const a of data.appointments) {
       const key = toDateKey(new Date(a.startAt))
-      const entry = map.get(key) || { hasAppointment: false, hasBlocked: false }
-      entry.hasAppointment = true
-      map.set(key, entry)
+      const name = a.service?.title || `${a.client.firstName} ${a.client.lastName}`
+      map.set(key, [...(map.get(key) || []), name])
     }
     for (const b of data.blockedSlots) {
       const key = toDateKey(new Date(b.startAt))
-      const entry = map.get(key) || { hasAppointment: false, hasBlocked: false }
-      entry.hasBlocked = true
-      map.set(key, entry)
+      const name = b.note || "Bloqueado"
+      map.set(key, [...(map.get(key) || []), name])
     }
     return map
   }, [data])
@@ -93,7 +91,7 @@ export default function AgendaCalendario() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-7 gap-1 text-center text-xs font-medium text-brand-gray mb-2">
+      <div className="grid grid-cols-7 gap-1 lg:gap-2 text-center text-xs lg:text-sm font-medium text-brand-gray mb-2">
         {DIAS.map((d) => (
           <div key={d}>{d}</div>
         ))}
@@ -102,24 +100,37 @@ export default function AgendaCalendario() {
       {loading ? (
         <div className="text-center text-brand-gray py-12">Cargando...</div>
       ) : (
-        <div className="grid grid-cols-7 gap-1">
+        <div className="grid grid-cols-7 gap-1 lg:gap-2">
           {cells.map((d, i) => {
             if (!d) return <div key={i} />
             const key = toDateKey(d)
-            const ev = eventsByDay.get(key)
+            const names = eventsByDay.get(key) || []
             return (
               <button
                 key={key}
                 onClick={() => setSelectedDay(d)}
-                className={`aspect-square rounded-lg border border-gray-200 bg-white p-1 flex flex-col items-center justify-start hover:border-brand-violet transition-colors ${
+                className={`min-h-20 sm:min-h-24 lg:min-h-32 rounded-lg border border-gray-200 bg-white p-1 lg:p-2 flex flex-col items-center hover:border-brand-violet transition-colors ${
                   isToday(d) ? "ring-2 ring-brand-green" : ""
                 }`}
               >
-                <span className="text-sm text-brand-dark">{d.getDate()}</span>
-                <div className="flex gap-0.5 mt-1">
-                  {ev?.hasAppointment && <span className="h-1.5 w-1.5 rounded-full bg-brand-violet" />}
-                  {ev?.hasBlocked && <span className="h-1.5 w-1.5 rounded-full bg-brand-gray" />}
-                </div>
+                <span className="text-sm lg:text-base text-brand-dark">{d.getDate()}</span>
+                {names.length > 0 && names.length <= 3 && (
+                  <div className="mt-1 w-full space-y-0.5 lg:space-y-1">
+                    {names.map((n, idx) => (
+                      <p
+                        key={idx}
+                        className="text-[9px] sm:text-[10px] lg:text-xs leading-tight text-brand-dark truncate border border-gray-200 rounded px-1 py-0.5 bg-brand-bg"
+                      >
+                        {n}
+                      </p>
+                    ))}
+                  </div>
+                )}
+                {names.length > 3 && (
+                  <p className="mt-1 text-[9px] sm:text-[10px] lg:text-xs leading-tight text-brand-violet font-medium border border-brand-violet/30 rounded px-1 py-0.5">
+                    {names.length} agendas
+                  </p>
+                )}
               </button>
             )
           })}

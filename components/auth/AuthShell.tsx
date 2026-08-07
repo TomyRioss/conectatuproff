@@ -10,7 +10,11 @@ interface AuthShellProps {
 export default function AuthShell({ children, imageSrc, imageAlt, gradientClass }: AuthShellProps) {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
-      <div className="hidden lg:block lg:w-3/5 relative">
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-10 order-2 lg:order-1">
+        <div className="w-full max-w-md">{children}</div>
+      </div>
+
+      <div className="hidden lg:block lg:w-1/2 relative order-1 lg:order-2">
         <Image
           src={imageSrc}
           alt={imageAlt}
@@ -19,10 +23,6 @@ export default function AuthShell({ children, imageSrc, imageAlt, gradientClass 
           priority
         />
         <div className={`absolute inset-0 ${gradientClass}`} />
-      </div>
-
-      <div className="w-full lg:w-2/5 flex items-center justify-center bg-white px-10">
-        <div className="w-full">{children}</div>
       </div>
     </div>
   );

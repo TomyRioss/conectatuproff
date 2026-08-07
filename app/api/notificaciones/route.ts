@@ -6,8 +6,10 @@ export async function GET() {
   const session = await auth();
   if (!session?.user?.id) return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
 
+  const role = (session.user as { role?: string }).role === "PROFESSIONAL" ? "PROFESSIONAL" : "CLIENT";
+
   const notifications = await prisma.notification.findMany({
-    where: { userId: session.user.id },
+    where: { userId: session.user.id, audience: role },
     orderBy: { createdAt: "desc" },
     take: 30,
   });

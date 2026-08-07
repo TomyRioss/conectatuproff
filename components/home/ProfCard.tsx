@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Star, MapPin, CheckCircle } from "lucide-react"
+import { ProBadge } from "@/components/ui/ProBadge"
 
 export type ProfCardData = {
   slug: string
@@ -34,11 +35,11 @@ export function ProfCard({ pro, variant = "default" }: { pro: ProfCardData; vari
           <img
             src={pro.avatarSrc}
             alt={pro.name}
-            className="w-14 h-14 rounded-xl object-cover shrink-0"
+            className={`w-14 h-14 rounded-xl object-cover shrink-0 ${pro.premium ? "ring-2 ring-brand-violet ring-offset-2" : ""}`}
           />
         ) : (
           <div
-            className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-semibold text-lg shrink-0"
+            className={`w-14 h-14 rounded-xl flex items-center justify-center text-white font-semibold text-lg shrink-0 ${pro.premium ? "ring-2 ring-brand-violet ring-offset-2" : ""}`}
             style={{ backgroundColor: pro.color }}
           >
             {pro.initials}
@@ -50,11 +51,7 @@ export function ProfCard({ pro, variant = "default" }: { pro: ProfCardData; vari
             <h3 className={`font-semibold text-base leading-tight ${isDark ? "text-white" : "text-[#1A1A2E]"}`}>
               {pro.name}
             </h3>
-            {pro.premium && (
-              <span className="text-[10px] bg-[#6C5CE7] text-white px-2 py-0.5 rounded-full font-medium shrink-0">
-                Premium
-              </span>
-            )}
+            {pro.premium && <ProBadge className="shrink-0" />}
           </div>
           <p className={`text-sm mt-0.5 ${isDark ? "text-white/60" : "text-[#6B7280]"}`}>{pro.specialty}</p>
         </div>

@@ -184,6 +184,7 @@ export function PortfolioGalleryGrid({
                 </div>
                 <button
                   type="button"
+                  onClick={() => router.push(`/perfil/profesional/${handle}/agendar`)}
                   className="shrink-0 bg-brand-dark text-white text-sm font-semibold rounded-xl px-5 py-3 hover:opacity-90 transition-opacity"
                 >
                   Agendar cita
