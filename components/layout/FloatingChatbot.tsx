@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
-import { MessageCircle, X, Send, Bot, User, Minimize2, Headset } from "lucide-react";
+import { MessageCircle, X, Send, User, Minimize2, Headset } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import Image from "next/image";
 
 const PRIVATE_PREFIXES = ["/profesional", "/admin", "/owner", "/login", "/register", "/onboarding", "/mensajes"];
 
@@ -104,11 +105,11 @@ export default function FloatingChatbot() {
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 bg-brand-espresso text-white shrink-0">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-full bg-white/20 flex items-center justify-center">
-                <Bot size={18} />
+              <div className="h-8 w-8 rounded-full overflow-hidden shrink-0">
+                <Image src="/mora-avatar.jpg" alt="Mora" width={32} height={32} className="h-full w-full object-cover" />
               </div>
               <div>
-                <p className="text-sm font-medium">Asistente CTP</p>
+                <p className="text-sm font-medium">Mora</p>
                 <p className="text-[10px] text-white/70">Online</p>
               </div>
             </div>
@@ -143,13 +144,15 @@ export default function FloatingChatbot() {
                 }`}
               >
                 <div
-                  className={`h-7 w-7 rounded-full shrink-0 flex items-center justify-center ${
-                    m.role === "user"
-                      ? "bg-brand-rose text-white"
-                      : "bg-brand-espresso text-white"
+                  className={`h-7 w-7 rounded-full shrink-0 flex items-center justify-center overflow-hidden ${
+                    m.role === "user" ? "bg-brand-rose text-white" : ""
                   }`}
                 >
-                  {m.role === "user" ? <User size={14} /> : <Bot size={14} />}
+                  {m.role === "user" ? (
+                    <User size={14} />
+                  ) : (
+                    <Image src="/mora-avatar.jpg" alt="Mora" width={28} height={28} className="h-full w-full object-cover" />
+                  )}
                 </div>
                 <div
                   className={`max-w-[80%] text-sm px-3 py-2 rounded-xl ${
@@ -183,8 +186,8 @@ export default function FloatingChatbot() {
             ))}
             {loading && (
               <div className="flex gap-2 flex-row">
-                <div className="h-7 w-7 rounded-full bg-brand-espresso text-white shrink-0 flex items-center justify-center">
-                  <Bot size={14} />
+                <div className="h-7 w-7 rounded-full shrink-0 overflow-hidden flex items-center justify-center">
+                  <Image src="/mora-avatar.jpg" alt="Mora" width={28} height={28} className="h-full w-full object-cover" />
                 </div>
                 <div className="bg-white border border-brand-cream rounded-xl rounded-tl-none px-3 py-2 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-brand-gray rounded-full animate-bounce [animation-delay:-0.3s]" />
