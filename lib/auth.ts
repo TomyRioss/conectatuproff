@@ -101,6 +101,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const profile = await getProfile(user.id!, token.role as string);
         token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : null;
         token.name = user.name ?? (profile ? `${profile.firstName} ${profile.lastName}` : null);
+        // Google users land without username/password — force a completion step.
+        const acct = await prisma.user.findUnique({
+          where: { id: user.id! },
+          select: { username: true, password: true },
+        });
+        token.needsSetup = !acct?.username || !acct?.password;
+      }
+      if (trigger === "update") {
+        const acct = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { username: true, password: true },
+        });
+        token.needsSetup = !acct?.username || !acct?.password;
       }
       if (trigger === "update" && sessionUpdate?.image !== undefined) {
         token.picture = sessionUpdate.image;
@@ -129,6 +142,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       (session.user as { role?: string }).role = token.role as string;
       session.user.image = token.picture as string | null;
       session.user.name = token.name as string | null;
+      (session.user as { needsSetup?: boolean }).needsSetup = token.needsSetup === true;
       return session;
     },
   },

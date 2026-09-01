@@ -15,6 +15,18 @@ export const clientRegisterSchema = z.object({
   location: z.string().min(1, "Requerido"),
 });
 
+export const completeProfileSchema = z.object({
+  username: z.string().min(3, "Mínimo 3 caracteres").regex(/^[a-z0-9_]+$/, "Solo letras minúsculas, números y _"),
+  password: z.string().min(8, "Mínimo 8 caracteres"),
+});
+
+export const completeProfileFormSchema = completeProfileSchema
+  .extend({ confirmPassword: z.string().min(1, "Requerido") })
+  .refine((d) => d.password === d.confirmPassword, {
+    message: "Las contraseñas no coinciden",
+    path: ["confirmPassword"],
+  });
+
 export const professionalRegisterSchema = z.object({
   firstName: z.string().min(1, "Requerido"),
   lastName: z.string().min(1, "Requerido"),
@@ -52,6 +64,8 @@ export const professionalRegisterFormSchema = professionalRegisterSchema
   });
 
 export type LoginInput = z.infer<typeof loginSchema>;
+export type CompleteProfileInput = z.infer<typeof completeProfileSchema>;
+export type CompleteProfileFormInput = z.infer<typeof completeProfileFormSchema>;
 export type ClientRegisterInput = z.infer<typeof clientRegisterSchema>;
 export type ClientRegisterFormInput = z.infer<typeof clientRegisterFormSchema>;
 export type ProfessionalRegisterInput = z.infer<typeof professionalRegisterSchema>;

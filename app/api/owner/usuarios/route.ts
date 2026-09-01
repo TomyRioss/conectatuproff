@@ -10,8 +10,6 @@ const ROLE_MAP: Record<string, Role[]> = {
   ADMIN: ["ADMIN", "OWNER", "SUPER_ADMIN"],
 };
 
-const EDITABLE_ROLES: Role[] = ["CLIENT", "PROFESSIONAL", "ADMIN", "OWNER", "SUPER_ADMIN"];
-
 export async function GET(req: NextRequest) {
   const { error } = await requireOwner();
   if (error) return error;
@@ -78,15 +76,7 @@ export async function PATCH(req: NextRequest) {
     }
     data.isActive = body.isActive;
   }
-  if (typeof body.role === "string") {
-    if (!EDITABLE_ROLES.includes(body.role as Role)) {
-      return NextResponse.json({ error: "rol inválido" }, { status: 400 });
-    }
-    if (isSelf) {
-      return NextResponse.json({ error: "No podés cambiar tu propio rol" }, { status: 400 });
-    }
-    data.role = body.role as Role;
-  }
+  // El rol es inmutable desde este endpoint — se ignora aunque venga en el body.
 
   if (Object.keys(data).length === 0) {
     return NextResponse.json({ error: "nada para actualizar" }, { status: 400 });

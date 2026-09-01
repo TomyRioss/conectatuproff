@@ -65,7 +65,7 @@ export default function HeroSection({ subcategories }: Props) {
 
 
   return (
-    <section className="relative overflow-hidden pt-16 pb-20 px-4 min-h-[480px]">
+    <section className="relative overflow-hidden pt-16 pb-20 px-4 min-h-[480px] sm:min-h-[640px] lg:min-h-[720px] flex items-center">
       {/* Video background */}
       <video
         src="/hero.mp4"
@@ -78,19 +78,14 @@ export default function HeroSection({ subcategories }: Props) {
       {/* Overlay */}
       <div className="absolute inset-0 bg-[#1A1A2E]/60" />
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center">
+      <div className="relative z-10 w-full max-w-4xl mx-auto text-center">
         {/* Headline */}
-        <h1 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+        <h1 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-10">
           Encontrá al{" "}
           <span className="italic text-[#1EC97E]">profesional ideal</span>
           <br className="hidden sm:block" />
           {" "}para lo que necesitás.
         </h1>
-
-        <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-          Bienestar, oficios y más — conectamos clientes con los mejores
-          profesionales de CABA y GBA.
-        </p>
 
         {/* Search bar */}
         <form

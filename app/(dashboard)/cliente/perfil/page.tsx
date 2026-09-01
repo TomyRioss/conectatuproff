@@ -11,7 +11,7 @@ export default async function ClientePerfilRedirect() {
     select: { username: true },
   })
 
-  if (!user?.username) redirect("/")
+  if (!user?.username) redirect("/register/completar")
 
   redirect(`/perfil/cliente/${user.username}`)
 }

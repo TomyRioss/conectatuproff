@@ -1,7 +1,10 @@
 import Navbar from "@/components/layout/Navbar"
 import Footer from "@/components/layout/Footer"
+import { guardProfileSetup } from "@/lib/guard-setup"
 
-export default function PerfilLayout({ children }: { children: React.ReactNode }) {
+export default async function PerfilLayout({ children }: { children: React.ReactNode }) {
+  await guardProfileSetup()
+
   return (
     <>
       <Navbar />

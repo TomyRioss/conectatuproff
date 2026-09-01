@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sora, DM_Sans } from "next/font/google";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/next";
 import Providers from "@/components/layout/Providers";
 import FloatingChatbot from "@/components/layout/FloatingChatbot";
 import MessengerDock from "@/components/mensajes/MessengerDock";
@@ -44,6 +45,7 @@ export default async function RootLayout({
           <FloatingChatbot />
           <Toaster richColors position="top-right" />
         </Providers>
+        <Analytics />
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 ﻿"use client"
 
 import Link from "next/link"
-import { Menu, X, LogOut, User, Search, MessageSquare, Heart, Sparkles, ChevronDown, Clock, Briefcase, Calendar, MapPin, Crown } from "lucide-react"
+import { Menu, X, LogOut, User, Search, MessageSquare, Heart, Sparkles, ChevronDown, Clock, Briefcase, Calendar, MapPin } from "lucide-react"
 import NotificationBell from "@/components/layout/NotificationBell"
 import MessagesInboxDropdown from "@/components/layout/MessagesInboxDropdown"
 import { useState, useEffect } from "react"
@@ -105,13 +105,7 @@ function AvatarButton() {
                   Agenda
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer gap-2 text-brand-violet font-medium"
-                onClick={() => setUpgradeOpen(true)}
-              >
-                <Crown size={14} />
-                Mejora tu plan
-              </DropdownMenuItem>
+              {/* ponytail: "Mejora tu plan" oculto temporalmente a pedido */}
             </>
           )}
           <DropdownMenuSeparator className="bg-gray-200" />

@@ -23,8 +23,6 @@ export interface EditableUser {
   role: string;
 }
 
-const ROLES = ["CLIENT", "PROFESSIONAL", "ADMIN", "OWNER", "SUPER_ADMIN"] as const;
-
 export function EditUserDialog({
   user,
   open,
@@ -63,7 +61,7 @@ export function EditUserDialog({
       const res = await fetch("/api/owner/usuarios", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: user.id, name, email, username, role, isActive, isBanned }),
+        body: JSON.stringify({ id: user.id, name, email, username, isActive, isBanned }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Error al guardar");
@@ -98,16 +96,8 @@ export function EditUserDialog({
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="edit-role">Rol</Label>
-            <select
-              id="edit-role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-brand-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
-            >
-              {ROLES.map((r) => (
-                <option key={r} value={r}>{r}</option>
-              ))}
-            </select>
+            <Input id="edit-role" value={role} disabled readOnly />
+            <p className="text-xs text-brand-gray">El rol no se puede modificar desde acá.</p>
           </div>
           <div className="flex items-center gap-6">
             <label className="flex items-center gap-2 text-sm text-brand-dark">

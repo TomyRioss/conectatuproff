@@ -128,7 +128,7 @@ export default function RegisterPage() {
 
         {step === 0 && (
           <>
-            <GoogleSignInButton callbackUrl="/" />
+            <GoogleSignInButton callbackUrl="/register/completar" />
             <div className="flex items-center gap-3 -mt-2">
               <div className="h-px flex-1 bg-gray-200" />
               <span className="text-xs text-brand-gray">o completá el formulario</span>
