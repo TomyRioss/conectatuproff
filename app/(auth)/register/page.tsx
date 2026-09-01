@@ -64,7 +64,7 @@ export default function RegisterPage() {
 
   async function onSubmit(data: ClientRegisterFormInput) {
     try {
-      const { confirmPassword, province, municipality, ...rest } = data;
+      const { confirmPassword: _confirmPassword, province, municipality, ...rest } = data;
       const payload = { ...rest, location: `${province}, ${municipality}` };
       const res = await fetch("/api/register/cliente", {
         method: "POST",
@@ -111,6 +111,14 @@ export default function RegisterPage() {
       imageSrc="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2"
       imageAlt="Personas conectándose con profesionales"
       gradientClass="bg-gradient-to-br from-brand-dark/80 via-brand-dark/50 to-brand-green/60"
+      headerAction={
+        <>
+          ¿Sos profesional?{" "}
+          <Link href="/profesional/register" className="text-brand-violet font-medium hover:underline">
+            Registrate acá
+          </Link>
+        </>
+      }
     >
       <div className="flex flex-col gap-6">
         <div>
@@ -213,14 +221,10 @@ export default function RegisterPage() {
           </div>
         </form>
 
-        <div className="border-t border-gray-200 pt-5 flex flex-col gap-2 text-center text-sm text-brand-gray">
+        <div className="border-t border-gray-200 pt-5 text-center text-sm text-brand-gray">
           <p>
             ¿Ya tenés cuenta?{" "}
             <Link href="/login" className="text-brand-violet font-medium hover:underline">Iniciá sesión</Link>
-          </p>
-          <p>
-            ¿Sos profesional?{" "}
-            <Link href="/profesional/register" className="text-brand-violet font-medium hover:underline">Registrate acá</Link>
           </p>
         </div>
       </div>

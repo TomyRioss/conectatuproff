@@ -17,6 +17,12 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  // Respetar el destino original (ej. /perfil/profesional/x/agendar),
+  // validando que sea un path interno para evitar redirects abiertos.
+  const rawCallbackUrl = searchParams.get("callbackUrl");
+  const callbackUrl =
+    rawCallbackUrl && rawCallbackUrl.startsWith("/") && !rawCallbackUrl.startsWith("//") ? rawCallbackUrl : "/";
+
   const {
     register,
     handleSubmit,
@@ -32,7 +38,7 @@ function LoginForm() {
       toast.error("Tu cuenta fue suspendida. Contactá a soporte.");
     } else if (error === "OAuthAccountNotLinked") {
       toast.error("Ese email ya tiene una cuenta con contraseña. Ingresá con email y contraseña.");
-    } else if (error) {
+    } else {
       toast.error("Email o contraseña incorrectos.");
     }
   }, [searchParams]);
@@ -56,7 +62,7 @@ function LoginForm() {
         return;
       }
 
-      router.push("/");
+      router.push(callbackUrl);
       router.refresh();
     } catch {
       toast.error("Ocurrió un error, intentá de nuevo.");
@@ -68,6 +74,14 @@ function LoginForm() {
       imageSrc="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2"
       imageAlt="Personas conectándose con profesionales"
       gradientClass="bg-gradient-to-br from-brand-dark/80 via-brand-dark/50 to-brand-green/60"
+      headerAction={
+        <>
+          ¿Sos profesional?{" "}
+          <Link href="/profesional/login" className="text-brand-violet font-medium hover:underline">
+            Ingresá acá
+          </Link>
+        </>
+      }
     >
       <div>
         <div className="mb-8">
@@ -106,20 +120,14 @@ function LoginForm() {
         </div>
 
         <div className="mt-5">
-          <GoogleSignInButton callbackUrl="/" />
+          <GoogleSignInButton callbackUrl={callbackUrl} />
         </div>
 
-        <div className="mt-6 border-t border-gray-200 pt-5 flex flex-col gap-2 text-center text-sm text-brand-gray">
+        <div className="mt-6 border-t border-gray-200 pt-5 text-center text-sm text-brand-gray">
           <p>
             ¿No tenés cuenta?{" "}
             <Link href="/register" className="text-brand-violet font-medium hover:underline">
               Registrate
-            </Link>
-          </p>
-          <p>
-            ¿Sos profesional?{" "}
-            <Link href="/profesional/login" className="text-brand-violet font-medium hover:underline">
-              Ingresá acá
             </Link>
           </p>
         </div>

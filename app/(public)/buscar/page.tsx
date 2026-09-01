@@ -35,14 +35,18 @@ export default async function BuscarPage({
         }
       : {}),
     ...(categoria ? { category: { slug: categoria } } : {}),
-    ...(precioMin || precioMax
-      ? {
-          price: {
-            ...(precioMin ? { gte: Number(precioMin) } : {}),
-            ...(precioMax ? { lte: Number(precioMax) } : {}),
-          },
-        }
-      : {}),
+    // Validar numéricos: un precioMin no numérico generaría NaN y un 500 de Prisma.
+    ...(() => {
+      const min = precioMin ? Number(precioMin) : NaN;
+      const max = precioMax ? Number(precioMax) : NaN;
+      if (!Number.isFinite(min) && !Number.isFinite(max)) return {};
+      return {
+        price: {
+          ...(Number.isFinite(min) && min >= 0 ? { gte: min } : {}),
+          ...(Number.isFinite(max) && max >= 0 ? { lte: max } : {}),
+        },
+      };
+    })(),
   };
 
   const orderBy: Prisma.ServiceOrderByWithRelationInput[] = [

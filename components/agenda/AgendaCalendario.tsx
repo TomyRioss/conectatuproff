@@ -24,19 +24,22 @@ export default function AgendaCalendario() {
   const monthParam = `${year}-${String(month + 1).padStart(2, "0")}`
 
   useEffect(() => {
-    setLoading(true)
-    fetch(`/api/profesional/agenda?month=${monthParam}`)
-      .then(async (res) => {
-        if (!res.ok) throw new Error((await res.json()).error || "Error al cargar agenda")
-        return res.json()
-      })
-      .then(setData)
-      .catch((e) => {
-        console.error(e)
-        toast.error(e.message || "Error al cargar agenda")
-        setData({ appointments: [], blockedSlots: [] })
-      })
-      .finally(() => setLoading(false))
+    const t = setTimeout(() => {
+      setLoading(true)
+      fetch(`/api/profesional/agenda?month=${monthParam}`)
+        .then(async (res) => {
+          if (!res.ok) throw new Error((await res.json()).error || "Error al cargar agenda")
+          return res.json()
+        })
+        .then(setData)
+        .catch((e) => {
+          console.error(e)
+          toast.error(e.message || "Error al cargar agenda")
+          setData({ appointments: [], blockedSlots: [] })
+        })
+        .finally(() => setLoading(false))
+    }, 0)
+    return () => clearTimeout(t)
   }, [monthParam])
 
   const eventsByDay = useMemo(() => {

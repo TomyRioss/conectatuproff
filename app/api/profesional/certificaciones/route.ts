@@ -32,13 +32,19 @@ export async function POST(req: Request) {
   const { name, year } = body
 
   if (!name?.trim()) return NextResponse.json({ error: "Nombre requerido" }, { status: 400 })
+  // Año válido (evita overflow de Int con valores absurdos).
+  const yearNum = year ? Number(year) : null
+  const currentYear = new Date().getFullYear()
+  if (yearNum !== null && (!Number.isInteger(yearNum) || yearNum < 1900 || yearNum > currentYear + 1)) {
+    return NextResponse.json({ error: "Año inválido" }, { status: 400 })
+  }
 
   try {
     const certification = await prisma.certification.create({
       data: {
         professionalId,
         name: name.trim(),
-        year: year ? Number(year) : null,
+        year: yearNum,
       },
     })
     return NextResponse.json(certification, { status: 201 })

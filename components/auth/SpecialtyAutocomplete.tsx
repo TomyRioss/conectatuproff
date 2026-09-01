@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 
 interface Props {
   value: string;
@@ -23,7 +22,9 @@ export default function SpecialtyAutocomplete({ value = "", onChange, error }: P
   }, []);
 
   useEffect(() => {
-    setQuery(value);
+    // Sincronizar query con el value externo sin setState síncrono en el efecto.
+    const t = setTimeout(() => setQuery(value), 0);
+    return () => clearTimeout(t);
   }, [value]);
 
   useEffect(() => {
@@ -37,31 +38,13 @@ export default function SpecialtyAutocomplete({ value = "", onChange, error }: P
   }, []);
 
   const matches = options.filter((o) => o.toLowerCase().includes(query.trim().toLowerCase()));
-  const [requesting, setRequesting] = useState(false);
-  const [requested, setRequested] = useState(false);
+  const exactMatch = options.some((o) => o.toLowerCase() === query.trim().toLowerCase());
+  const isCustom = query.trim().length >= 3 && !exactMatch;
 
   function handleSelect(name: string) {
     setQuery(name);
     onChange(name);
     setOpen(false);
-  }
-
-  async function handleRequest() {
-    setRequesting(true);
-    try {
-      const res = await fetch("/api/subcategorias/solicitar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: query.trim() }),
-      });
-      if (!res.ok) throw new Error((await res.json()).error ?? "Error al enviar solicitud");
-      setRequested(true);
-      toast.success("Solicitud enviada, la revisaremos pronto");
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Error al enviar solicitud");
-    } finally {
-      setRequesting(false);
-    }
   }
 
   return (
@@ -72,10 +55,11 @@ export default function SpecialtyAutocomplete({ value = "", onChange, error }: P
         value={query}
         placeholder="Instructora de Pilates"
         onChange={(e) => {
+          // Se acepta la profesión tipeada tal cual: sin fricción.
+          // Si no está en el listado, el servidor registra la petición al guardar.
           setQuery(e.target.value);
-          onChange("");
+          onChange(e.target.value);
           setOpen(true);
-          setRequested(false);
         }}
         onFocus={() => setOpen(true)}
         className={`w-full rounded-xl border px-3 py-2.5 text-sm bg-white text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 transition-colors ${
@@ -83,33 +67,24 @@ export default function SpecialtyAutocomplete({ value = "", onChange, error }: P
         }`}
       />
       {!open && error && <p className="text-xs text-red-500">{error}</p>}
+      {!error && isCustom && (
+        <p className="text-xs text-brand-gray">
+          Se usará esta profesión y la revisaremos para sumarla al listado.
+        </p>
+      )}
 
-      {open && query.trim() && (
+      {open && query.trim() && matches.length > 0 && (
         <div className="absolute top-full left-0 mt-1 w-full max-h-56 overflow-y-auto rounded-xl border border-gray-200 bg-white shadow-lg z-10">
-          {matches.length === 0 ? (
-            <div className="px-3 py-2">
-              <p className="text-sm text-brand-gray mb-1.5">Sin coincidencias</p>
-              <button
-                type="button"
-                onClick={handleRequest}
-                disabled={requesting || requested}
-                className="text-sm text-brand-violet font-medium hover:underline disabled:opacity-60 disabled:no-underline"
-              >
-                {requested ? "Solicitud enviada" : requesting ? "Enviando..." : "Pedir que añadan esta profesión"}
-              </button>
-            </div>
-          ) : (
-            matches.map((name) => (
-              <button
-                key={name}
-                type="button"
-                onClick={() => handleSelect(name)}
-                className="w-full text-left px-3 py-2 text-sm text-brand-dark hover:bg-brand-bg transition-colors"
-              >
-                {name}
-              </button>
-            ))
-          )}
+          {matches.map((name) => (
+            <button
+              key={name}
+              type="button"
+              onClick={() => handleSelect(name)}
+              className="w-full text-left px-3 py-2 text-sm text-brand-dark hover:bg-brand-bg transition-colors"
+            >
+              {name}
+            </button>
+          ))}
         </div>
       )}
     </div>

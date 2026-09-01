@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { Prisma } from "@/lib/generated/prisma/client"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
@@ -49,6 +50,9 @@ export async function POST(
     })
     return NextResponse.json({ favorited: true }, { status: 201 })
   } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError && (e.code === "P2003" || e.code === "P2025")) {
+      return NextResponse.json({ error: "El profesional o servicio no existe" }, { status: 404 })
+    }
     console.error("POST /api/favoritos", e)
     return NextResponse.json({ error: "No se pudo agregar a favoritos" }, { status: 500 })
   }
@@ -70,6 +74,9 @@ export async function DELETE(
     await prisma.favorite.delete({ where: whereFor(type, session.user.id, id) })
     return NextResponse.json({ favorited: false })
   } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2025") {
+      return NextResponse.json({ favorited: false })
+    }
     console.error("DELETE /api/favoritos", e)
     return NextResponse.json({ error: "No se pudo quitar de favoritos" }, { status: 500 })
   }

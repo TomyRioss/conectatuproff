@@ -37,7 +37,7 @@ function AvatarButton() {
   const initials = getInitials(session?.user?.name, session?.user?.email)
   const name = session?.user?.name
   const email = session?.user?.email
-  const role = (session?.user as any)?.role
+  const role = (session?.user as { role?: string })?.role
   const avatarUrl = session?.user?.image ?? null
   const isClient = role === "CLIENT"
   const isProfessional = role === "PROFESSIONAL"
@@ -143,8 +143,8 @@ export default function Navbar() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const isLoggedIn = status === "authenticated"
-  const role = (session?.user as any)?.role
-  const isClient = ["cliente", "client", "CLIENT"].includes(role)
+  const role = (session?.user as { role?: string })?.role
+  const isClient = ["cliente", "client", "CLIENT"].includes(role ?? "")
 
   async function handleModoProfesional() {
     if (checkingMode) return
@@ -161,7 +161,7 @@ export default function Navbar() {
         router.push("/profesional/onboarding")
       }
     } catch {
-      router.push("/profesional/inicio")
+      router.push("/profesional/onboarding")
     } finally {
       setCheckingMode(false)
     }
@@ -180,8 +180,9 @@ export default function Navbar() {
 
   useEffect(() => {
     if (searchParams.get("pendingReview") === "1") {
-      setPendingOpen(true)
+      const t = setTimeout(() => setPendingOpen(true), 0)
       router.replace("/")
+      return () => clearTimeout(t)
     }
   }, [searchParams, router])
 
@@ -380,9 +381,14 @@ export default function Navbar() {
             >
               <MessageSquare size={20} />
             </Link>
-            <button aria-label="Favoritos" className="p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors">
+            <Link
+              href="/favoritos"
+              aria-label="Favoritos"
+              className="p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors"
+              onClick={() => setOpen(false)}
+            >
               <Heart size={20} />
-            </button>
+            </Link>
           </div>
           <hr className="border-gray-200" />
           {isLoggedIn ? (

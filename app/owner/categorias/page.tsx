@@ -64,7 +64,11 @@ export default function CategoriasPage() {
     setLoading(false);
   }
 
-  useEffect(() => { fetchCategories(); }, []);
+  useEffect(() => {
+    const t = setTimeout(fetchCategories, 0);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function openDialog(type: DialogType, opts?: { categoryId?: string; subId?: string; current?: string; currentImage?: string | null }) {
     setDialog({ type, ...opts });

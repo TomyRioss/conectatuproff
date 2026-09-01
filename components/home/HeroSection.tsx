@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useRef, useCallback } from "react"
-import { MapPin, Briefcase, ChevronDown, ChevronRight, Sparkles, Tag } from "lucide-react"
+import { useState, useRef, useCallback, useEffect } from "react"
+import { MapPin, Briefcase, ChevronRight, Sparkles, Tag, LayoutGrid } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { AISearchDialog } from "@/components/ui/AISearchDialog"
 
@@ -18,6 +18,19 @@ export default function HeroSection({ subcategories }: Props) {
   const isDragging = useRef(false)
   const startX = useRef(0)
   const scrollLeft = useRef(0)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  const checkScroll = useCallback(() => {
+    const el = scrollRef.current
+    if (!el) return
+    setCanScrollRight(el.scrollWidth - el.clientWidth - el.scrollLeft > 1)
+  }, [])
+
+  useEffect(() => {
+    checkScroll()
+    window.addEventListener("resize", checkScroll)
+    return () => window.removeEventListener("resize", checkScroll)
+  }, [checkScroll, subcategories])
 
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     isDragging.current = true
@@ -125,7 +138,7 @@ export default function HeroSection({ subcategories }: Props) {
         </form>
 
         {/* Categories */}
-        <div className="relative flex items-center max-w-2xl mx-auto">
+        <div className="relative flex items-center w-fit max-w-2xl mx-auto">
           <div
             ref={scrollRef}
             className="flex-1 overflow-x-auto bg-white rounded-2xl shadow-sm border border-gray-200 select-none"
@@ -134,6 +147,7 @@ export default function HeroSection({ subcategories }: Props) {
             onMouseMove={onMouseMove}
             onMouseUp={onMouseUp}
             onMouseLeave={onMouseUp}
+            onScroll={checkScroll}
           >
             <div className="flex items-center gap-1 px-3 py-2 w-max">
               {subcategories.map((sub) => (
@@ -151,21 +165,25 @@ export default function HeroSection({ subcategories }: Props) {
                 onClick={() => router.push("/buscar")}
                 className="flex flex-col items-center gap-1.5 text-[#6B7280] text-xs px-5 py-2.5 rounded-xl hover:bg-[#F3F4F8] hover:text-[#6C5CE7] transition-colors whitespace-nowrap min-w-[72px]"
               >
-                <ChevronDown size={18} />
+                <LayoutGrid size={18} />
                 <span>Ver todos</span>
               </button>
             </div>
           </div>
-          <div className="absolute right-0 flex items-center justify-end w-20 h-full pointer-events-none rounded-r-2xl overflow-hidden">
-            <div className="bg-gradient-to-l from-white via-white/80 to-transparent w-20 h-full" />
-          </div>
-          <button
-            onClick={scrollCategories}
-            className="absolute right-1 flex items-center justify-center w-7 h-full text-[#6B7280] hover:text-[#6C5CE7] transition-colors z-10"
-            aria-label="Ver más categorías"
-          >
-            <ChevronRight size={16} />
-          </button>
+          {canScrollRight && (
+            <>
+              <div className="absolute right-0 flex items-center justify-end w-20 h-full pointer-events-none rounded-r-2xl overflow-hidden">
+                <div className="bg-gradient-to-l from-white via-white/80 to-transparent w-20 h-full" />
+              </div>
+              <button
+                onClick={scrollCategories}
+                className="absolute right-1 flex items-center justify-center w-7 h-full text-[#6B7280] hover:text-[#6C5CE7] transition-colors z-10"
+                aria-label="Ver más categorías"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </>
+          )}
         </div>
       </div>
 

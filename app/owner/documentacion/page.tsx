@@ -34,7 +34,11 @@ export default function DocumentacionPage() {
     setLoading(false);
   }
 
-  useEffect(() => { fetchSolicitudes(); }, []);
+  useEffect(() => {
+    const t = setTimeout(fetchSolicitudes, 0);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleAction(id: string, action: "approve" | "reject") {
     setActing(id + action);

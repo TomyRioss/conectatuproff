@@ -1,6 +1,9 @@
+import { Search, CalendarCheck, CheckCircle2 } from "lucide-react"
+
 const STEPS = [
   {
     number: "01",
+    icon: Search,
     title: "Elegí al profesional",
     description:
       "Buscá por servicio, barrio y disponibilidad. Leé reseñas de otros clientes y elegí el que mejor se adapte a vos.",
@@ -8,6 +11,7 @@ const STEPS = [
   },
   {
     number: "02",
+    icon: CalendarCheck,
     title: "Coordiná el servicio",
     description:
       "Solicitá un turno o hacé una consulta directamente desde el perfil. Recibís confirmación por email al instante.",
@@ -15,6 +19,7 @@ const STEPS = [
   },
   {
     number: "03",
+    icon: CheckCircle2,
     title: "Servicio completado",
     description:
       "El profesional se presenta, hace su trabajo y vos dejás una reseña para ayudar a la comunidad.",
@@ -63,10 +68,10 @@ function StepCard({ step }: { step: Step }) {
       </span>
 
       <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center text-white text-sm font-bold mb-5"
+        className="w-10 h-10 rounded-xl flex items-center justify-center text-white mb-5"
         style={{ backgroundColor: step.color }}
       >
-        {step.number}
+        <step.icon className="w-5 h-5" strokeWidth={2.5} />
       </div>
 
       <h3 className="font-semibold text-[#1A1A2E] text-lg mb-3">

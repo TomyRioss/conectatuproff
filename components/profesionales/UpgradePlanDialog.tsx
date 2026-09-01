@@ -24,7 +24,11 @@ export function UpgradePlanDialog({ open, onOpenChange }: { open: boolean; onOpe
     try {
       const res = await fetch("/api/profesional/plan/subscribe", { method: "POST" })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? "No pudimos iniciar el pago")
+      if (!res.ok) throw new Error(data.error ?? "No pudimos activar el plan")
+      if (data.free) {
+        window.location.reload()
+        return
+      }
       window.location.href = data.init_point
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "No pudimos iniciar el pago")
@@ -72,7 +76,7 @@ export function UpgradePlanDialog({ open, onOpenChange }: { open: boolean; onOpe
               <ProBadge />
             </div>
             <p className="font-semibold text-brand-dark mt-1">Pro+</p>
-            <p className="text-xs text-brand-gray mt-0.5">$14.999/mes</p>
+            <p className="text-xs text-brand-gray mt-0.5">Gratis por tiempo limitado</p>
             <ul className="mt-4 space-y-3 flex-1">
               {FEATURES.map((f) => (
                 <li key={f.label} className="flex items-start gap-2 text-sm">
@@ -87,7 +91,7 @@ export function UpgradePlanDialog({ open, onOpenChange }: { open: boolean; onOpe
               className="w-full mt-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-brand-violet to-brand-green hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
             >
               {loading && <Loader2 size={14} className="animate-spin" />}
-              {loading ? "Redirigiendo..." : "Suscribirme con MercadoPago"}
+              {loading ? "Activando..." : "Activar Pro+ gratis"}
             </button>
             {error && <p className="text-xs text-red-600 mt-2">{error}</p>}
           </div>

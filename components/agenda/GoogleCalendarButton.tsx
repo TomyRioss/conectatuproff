@@ -16,8 +16,9 @@ export default function GoogleCalendarButton({ initialConnected }: { initialConn
     const google = searchParams.get("google")
     if (google === "connected") {
       toast.success("Google Calendar conectado")
-      setConnected(true)
+      const t = setTimeout(() => setConnected(true), 0)
       router.replace("/profesional/agenda")
+      return () => clearTimeout(t)
     } else if (google === "error") {
       toast.error("No se pudo conectar Google Calendar")
       router.replace("/profesional/agenda")
@@ -49,6 +50,8 @@ export default function GoogleCalendarButton({ initialConnected }: { initialConn
 
   return (
     <Button asChild variant="outline" size="sm">
+      {/* <a> intencional: es un endpoint de API que redirige al OAuth de Google. */}
+      {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
       <a href="/api/profesional/google-calendar/connect">
         <CalendarCheck2 className="h-4 w-4 mr-1.5" />
         Conectar Google Calendar

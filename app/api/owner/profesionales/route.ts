@@ -18,8 +18,9 @@ export async function GET() {
   const result = await Promise.all(
     profesionales.map(async (p) => ({
       ...p,
-      dniPhotoFront: p.dniPhotoFront ? await getPresignedDownloadUrl(p.dniPhotoFront, 604800) : null,
-      dniPhotoBack: p.dniPhotoBack ? await getPresignedDownloadUrl(p.dniPhotoBack, 604800) : null,
+      // URLs firmadas cortas: 15 min alcanza para que el admin las previsualice.
+      dniPhotoFront: p.dniPhotoFront ? await getPresignedDownloadUrl(p.dniPhotoFront, 900) : null,
+      dniPhotoBack: p.dniPhotoBack ? await getPresignedDownloadUrl(p.dniPhotoBack, 900) : null,
     }))
   );
 

@@ -51,12 +51,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!staffRoles.includes(user.role)) {
           if (professionalOnly) {
-            if (user.role !== "PROFESSIONAL") throw new AuthError("NOT_PROFESSIONAL");
             const pro = await prisma.professional.findUnique({
               where: { userId: user.id },
               select: { isVerified: true },
             });
-            if (!pro) throw new AuthError("NOT_PROFESSIONAL");
+            if (!pro || (user.role !== "PROFESSIONAL" && !pro.isVerified)) throw new AuthError("NOT_PROFESSIONAL");
             if (!pro.isVerified) throw new AuthError("PENDING_REVIEW");
             effectiveRole = "PROFESSIONAL";
           } else {
@@ -106,12 +105,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (trigger === "update" && sessionUpdate?.image !== undefined) {
         token.picture = sessionUpdate.image;
       }
-      if (trigger === "update" && sessionUpdate?.role !== undefined) {
-        let nextRole = sessionUpdate.role;
-        if (nextRole === "PROFESSIONAL") {
-          const dbUser = await prisma.user.findUnique({ where: { id: token.id as string }, select: { role: true } });
-          if (dbUser?.role !== "PROFESSIONAL") nextRole = token.role as string;
-        }
+      if (trigger === "update" && sessionUpdate?.role !== undefined && sessionUpdate.role !== token.role) {
+        // Never trust the client-provided role: always verify against the DB.
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { role: true },
+        });
+        let nextRole = dbUser?.role === sessionUpdate.role ? sessionUpdate.role : (token.role as string);
+        if (!nextRole || typeof nextRole !== "string") nextRole = "CLIENT";
         token.role = nextRole;
         const profile = await getProfile(token.id as string, nextRole);
         token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : null;

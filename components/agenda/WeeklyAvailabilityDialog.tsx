@@ -22,18 +22,21 @@ export function WeeklyAvailabilityDialog() {
 
   useEffect(() => {
     if (!open) return;
-    setLoading(true);
-    fetch("/api/profesional/disponibilidad")
-      .then((r) => r.json())
-      .then((data: { days?: { dayOfWeek: number; startTime: string; endTime: string }[] }) => {
-        const next = emptyWeek().map((row) => ({ ...row, enabled: false }));
-        for (const d of data.days ?? []) {
-          next[d.dayOfWeek] = { enabled: true, startTime: d.startTime, endTime: d.endTime };
-        }
-        setWeek(next);
-      })
-      .catch(() => toast.error("No se pudo cargar el horario"))
-      .finally(() => setLoading(false));
+    const t = setTimeout(() => {
+      setLoading(true);
+      fetch("/api/profesional/disponibilidad")
+        .then((r) => r.json())
+        .then((data: { days?: { dayOfWeek: number; startTime: string; endTime: string }[] }) => {
+          const next = emptyWeek().map((row) => ({ ...row, enabled: false }));
+          for (const d of data.days ?? []) {
+            next[d.dayOfWeek] = { enabled: true, startTime: d.startTime, endTime: d.endTime };
+          }
+          setWeek(next);
+        })
+        .catch(() => toast.error("No se pudo cargar el horario"))
+        .finally(() => setLoading(false));
+    }, 0);
+    return () => clearTimeout(t);
   }, [open]);
 
   function updateDay(index: number, patch: Partial<DayRow>) {

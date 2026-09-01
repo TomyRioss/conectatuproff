@@ -19,11 +19,25 @@ export default async function ProfesionalProfilePage({
   const { username: rawUsername } = await params;
   const username = rawUsername.replace(/^@/, "");
 
+  // Explicit select: NEVER serialize the whole Professional row to the client —
+  // it contains googleAccessToken/RefreshToken, dni, dniPhotoFront/Back, phone, mpPreapprovalId.
   const pro = await prisma.professional.findFirst({
     where: { isActive: true, user: { username } },
-    include: {
+    select: {
+      id: true,
+      userId: true,
+      firstName: true,
+      lastName: true,
+      avatarUrl: true,
+      bio: true,
+      videoUrl: true,
+      specialty: true,
+      location: true,
+      isVerified: true,
+      isPro: true,
+      rating: true,
       user: { select: { image: true } },
-      subcategory: true,
+      subcategory: { select: { name: true } },
       services: { where: { status: "ACTIVE" }, orderBy: { createdAt: "asc" } },
       packages: { where: { isActive: true }, orderBy: { createdAt: "asc" } },
       portfolio: { orderBy: { order: "asc" }, include: { images: { orderBy: { order: "asc" } } } },
@@ -77,6 +91,7 @@ export default async function ProfesionalProfilePage({
             avatarSrc={avatarSrc}
             professionalId={pro.id}
             initialFavorited={isFavorited}
+            username={username}
           />
         </div>
       </div>

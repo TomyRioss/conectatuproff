@@ -27,9 +27,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 })
   }
 
-  const professional = await prisma.professional.findUnique({ where: { userId: session.user.id } })
+  const professional = await prisma.professional.findUnique({
+    where: { userId: session.user.id },
+    select: { id: true, isVerified: true },
+  })
   if (!professional) {
     return NextResponse.json({ error: "Perfil profesional no encontrado" }, { status: 404 })
+  }
+  // Solo profesionales verificados pueden publicar contenido.
+  if (!professional.isVerified) {
+    return NextResponse.json({ error: "Cuenta en revisión" }, { status: 403 })
   }
 
   const body = await req.json()
@@ -43,6 +50,13 @@ export async function POST(req: Request) {
   }
   if (typeof price !== "number" || price <= 0 || typeof originalPrice !== "number" || originalPrice <= 0) {
     return NextResponse.json({ error: "Precios invalidos" }, { status: 400 })
+  }
+  // El precio "tachado" no puede ser menor que el real.
+  if (originalPrice < price) {
+    return NextResponse.json({ error: "El precio original debe ser mayor o igual al precio actual" }, { status: 400 })
+  }
+  if (validityDays !== undefined && validityDays !== null && (!Number.isInteger(validityDays) || validityDays < 1)) {
+    return NextResponse.json({ error: "Validez inválida" }, { status: 400 })
   }
 
   try {

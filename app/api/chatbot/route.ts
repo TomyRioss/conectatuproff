@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 
 const SYSTEM_PROMPT = `Sos el asistente virtual de Conecta Tu Proff, una plataforma argentina que conecta profesionales con clientes.
 
@@ -13,11 +14,37 @@ Reglas estrictas:
 - Las rutas principales son: / (inicio), /login, /register, /perfil/profesional/[usuario], /favoritos
 `;
 
-export async function POST(req: NextRequest) {
-  try {
-    const { messages } = await req.json();
+const MAX_MESSAGES = 20;
+const MAX_MESSAGE_LENGTH = 2000;
 
-    if (!Array.isArray(messages)) {
+export async function POST(req: NextRequest) {
+  const rl = rateLimit(`chatbot:${clientIp(req)}`, 10, 60_000);
+  if (!rl.ok) return tooManyRequests(rl.retryAfterSec);
+
+  try {
+    const body = await req.json().catch(() => null);
+    const rawMessages = body?.messages;
+
+    if (!Array.isArray(rawMessages)) {
+      return NextResponse.json({ error: "Invalid messages format" }, { status: 400 });
+    }
+
+    // Solo aceptamos user/assistant con contenido acotado: evita jailbreak por
+    // role:"system" inyectado y cuerpos gigantes que encarecen el upstream.
+    const messages = rawMessages
+      .slice(-MAX_MESSAGES)
+      .filter(
+        (m: unknown): m is { role: "user" | "assistant"; content: string } =>
+          typeof m === "object" &&
+          m !== null &&
+          "role" in m &&
+          "content" in m &&
+          ((m as { role?: string }).role === "user" || (m as { role?: string }).role === "assistant") &&
+          typeof (m as { content?: unknown }).content === "string"
+      )
+      .map((m) => ({ role: m.role, content: m.content.slice(0, MAX_MESSAGE_LENGTH) }));
+
+    if (messages.length === 0) {
       return NextResponse.json({ error: "Invalid messages format" }, { status: 400 });
     }
 
@@ -33,7 +60,7 @@ export async function POST(req: NextRequest) {
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "deepseek-v4-flash",
+        model: process.env.DEEPSEEK_MODEL ?? "deepseek-v4-flash",
         messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
         temperature: 0.5,
         max_tokens: 1000,
@@ -42,10 +69,8 @@ export async function POST(req: NextRequest) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      return NextResponse.json(
-        { error: "DeepSeek API error", details: errorText },
-        { status: 502 }
-      );
+      console.error("Chatbot upstream error:", response.status, errorText.slice(0, 500));
+      return NextResponse.json({ error: "El asistente no está disponible en este momento." }, { status: 502 });
     }
 
     const data = await response.json();

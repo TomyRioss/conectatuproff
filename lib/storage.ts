@@ -7,7 +7,10 @@ const supabase = createClient(
 
 const PRIVATE_PREFIXES = ["dni-docs/", "dni/"]
 
-function bucketForKey(key: string) {
+// Buckets que el proxy público /api/avatar nunca debe servir.
+export const PRIVATE_BUCKETS = new Set(["documentos-privados"])
+
+export function bucketForKey(key: string) {
   if (PRIVATE_PREFIXES.some((p) => key.startsWith(p))) return "documentos-privados"
   if (key.startsWith("profesionales/portfolio/")) return "portfolio"
   if (key.startsWith("profesionales/servicios/")) return "servicios"
@@ -30,7 +33,7 @@ export async function deleteFile(key: string) {
   await supabase.storage.from(bucket).remove([key])
 }
 
-export async function getPresignedUploadUrl(key: string, _contentType: string, expiresIn = 300) {
+export async function getPresignedUploadUrl(key: string, _contentType: string, _expiresIn = 300) {
   const bucket = bucketForKey(key)
   const { data, error } = await supabase.storage.from(bucket).createSignedUploadUrl(key, { upsert: true })
   if (error) throw error

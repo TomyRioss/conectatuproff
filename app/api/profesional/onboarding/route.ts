@@ -3,9 +3,14 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { uploadFile } from "@/lib/storage";
 import { randomUUID } from "crypto";
+import { validateImageFile, extForImageType } from "@/lib/file-validation";
+import { createPetitionIfNew } from "@/lib/subcategorias";
+
+const DNI_RE = /^\d{7,8}$/;
 
 async function uploadDniPhoto(file: File, userId: string, side: "front" | "back"): Promise<string> {
-  const ext = file.type.split("/")[1] ?? "jpg";
+  // Extensión fija derivada del MIME validado, nunca del input del cliente.
+  const ext = extForImageType(file.type);
   const key = `dni-docs/${userId}/${side}-${randomUUID()}.${ext}`;
   const buffer = Buffer.from(await file.arrayBuffer());
   await uploadFile(key, buffer, file.type);
@@ -46,9 +51,15 @@ export async function PATCH(request: Request) {
     }
 
     const dniNum = parseInt(dni, 10);
-    if (isNaN(dniNum)) {
+    if (isNaN(dniNum) || !DNI_RE.test(dni)) {
       return NextResponse.json({ error: "INVALID_DNI" }, { status: 400 });
     }
+
+    // Validación server-side de las imágenes (el check del cliente es evitable).
+    const frontError = validateImageFile(dniFrontFile);
+    if (frontError) return NextResponse.json({ error: "INVALID_DNI_FRONT", detail: frontError }, { status: 400 });
+    const backError = validateImageFile(dniBackFile);
+    if (backError) return NextResponse.json({ error: "INVALID_DNI_BACK", detail: backError }, { status: 400 });
 
     const userId = session.user.id;
     const [dniFrontKey, dniBackKey] = await Promise.all([
@@ -89,6 +100,9 @@ export async function PATCH(request: Request) {
         data: { role: "PROFESSIONAL" },
       }),
     ]);
+
+    // Si la profesión no está en el listado, se registra como petición.
+    await createPetitionIfNew(userId, specialty);
 
     return NextResponse.json({ ok: true });
   } catch (err) {

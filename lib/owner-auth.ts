@@ -5,7 +5,7 @@ export async function requireOwner() {
   const session = await auth();
   const role = (session?.user as { role?: string })?.role;
   if (!session || (role !== "OWNER" && role !== "SUPER_ADMIN")) {
-    return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
+    return { session: null, error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
   }
-  return { session };
+  return { session, error: null };
 }

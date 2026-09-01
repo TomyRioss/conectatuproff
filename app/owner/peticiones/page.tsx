@@ -81,7 +81,7 @@ export default function PeticionesPage() {
               <Button
                 size="sm"
                 onClick={() => handleUpdate(p.id, "RESOLVED")}
-                className="gap-1.5 bg-brand-green text-white hover:bg-brand-green/90"
+                className="gap-1.5 bg-brand-green text-brand-dark hover:bg-brand-green/90"
               >
                 <Check size={14} />
                 Resolver

@@ -135,6 +135,18 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
   const existing = await getOwnService(session.user.id, id)
   if (!existing) return NextResponse.json({ error: "Servicio no encontrado" }, { status: 404 })
 
+  // No permitir borrar un servicio con turnos activos: los appointments
+  // quedarían sin servicio (SetNull) y el cliente pierde el contexto.
+  const activeAppointments = await prisma.appointment.count({
+    where: { serviceId: id, status: { in: ["PENDING", "CONFIRMED"] } },
+  })
+  if (activeAppointments > 0) {
+    return NextResponse.json(
+      { error: `Tenés ${activeAppointments} turno(s) activo(s) con este servicio. Cancelalos o pausá el servicio.` },
+      { status: 409 }
+    )
+  }
+
   try {
     await prisma.service.delete({ where: { id } })
     return NextResponse.json({ ok: true })

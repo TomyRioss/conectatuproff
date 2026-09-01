@@ -1,0 +1,21 @@
+
+> conectatuproff@0.1.0 dev
+> next dev
+
+⚠ Port 3000 is in use by an unknown process, using available port 3003 instead.
+▲ Next.js 16.2.7 (Turbopack)
+- Local:         http://localhost:3003
+- Network:       http://172.31.0.1:3003
+- Environments: .env
+✓ Ready in 2.1s
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          9308
+- Dir:          C:\Users\Pc\Desktop\clientes\conectatuproff
+- Log:          .next\dev\logs\next-development.log
+
+Run taskkill /PID 9308 /F to stop it.
+[?25h
+
+C:\Users\Pc\Desktop\clientes\conectatuproff>

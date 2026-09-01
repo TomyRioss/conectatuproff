@@ -47,7 +47,12 @@ export default function PaquetesPage() {
       .finally(() => setLoading(false))
   }
 
-  useEffect(load, [])
+  useEffect(() => {
+    // Diferido: setLoading síncrono dentro del efecto dispara renders en cascada.
+    const t = setTimeout(load, 0)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const toggleActive = async (paquete: Paquete) => {
     const res = await fetch(`/api/profesional/paquetes/${paquete.id}`, {

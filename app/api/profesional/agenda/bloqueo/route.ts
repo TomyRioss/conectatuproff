@@ -35,14 +35,47 @@ export async function POST(req: Request) {
     })
     if (!pro) return NextResponse.json({ error: "Perfil no encontrado" }, { status: 404 })
 
+    // Cap de ocurrencias para que una recurrencia lejana no genere miles de filas.
+    const MAX_OCCURRENCES = 52
     const occurrences: { startAt: Date; endAt: Date }[] = []
     let curStart = start
     let curEnd = end
     do {
-      occurrences.push({ startAt: curStart, endAt: curEnd })
+      occurrences.push({ startAt: new Date(curStart), endAt: new Date(curEnd) })
+      if (occurrences.length >= MAX_OCCURRENCES) {
+        return NextResponse.json(
+          { error: `La repetición semanal permite un máximo de ${MAX_OCCURRENCES} semanas` },
+          { status: 400 }
+        )
+      }
       curStart = new Date(curStart.getTime() + 7 * 24 * 60 * 60 * 1000)
       curEnd = new Date(curEnd.getTime() + 7 * 24 * 60 * 60 * 1000)
     } while (until && curStart <= until)
+
+    // No permitir bloquear encima de turnos activos: el pro debe cancelarlos antes.
+    for (const o of occurrences) {
+      const candidates = await prisma.appointment.findMany({
+        where: {
+          professionalId: pro.id,
+          status: { in: ["PENDING", "CONFIRMED"] },
+          // Ventana ancha: turnos que empiezan hasta endAt y hasta 24h antes
+          // (la duración máxima real se filtra en memoria).
+          startAt: { gte: new Date(o.startAt.getTime() - 24 * 3600000), lt: o.endAt },
+        },
+        select: { id: true, startAt: true, durationMin: true },
+      })
+      const active = candidates.find(
+        (a) => a.startAt < o.endAt && new Date(a.startAt.getTime() + (a.durationMin ?? 60) * 60000) > o.startAt
+      )
+      if (active) {
+        return NextResponse.json(
+          {
+            error: `Tenés un turno activo el ${active.startAt.toLocaleDateString("es-AR", { day: "numeric", month: "short", timeZone: "America/Argentina/Buenos_Aires" })} en ese rango. Cancelalo antes de bloquear.`,
+          },
+          { status: 409 }
+        )
+      }
+    }
 
     await prisma.blockedSlot.createMany({
       data: occurrences.map((o) => ({

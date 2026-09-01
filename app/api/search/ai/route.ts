@@ -1,12 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
+
+const MAX_TEXT_LENGTH = 500;
 
 export async function POST(req: NextRequest) {
+  const rl = rateLimit(`search-ai:${clientIp(req)}`, 10, 60_000);
+  if (!rl.ok) return tooManyRequests(rl.retryAfterSec);
+
   try {
-    const { text } = await req.json();
+    const body = await req.json().catch(() => null);
+    const text = body?.text;
     if (!text || typeof text !== "string") {
       return NextResponse.json({ error: "Invalid text" }, { status: 400 });
     }
+    const trimmed = text.slice(0, MAX_TEXT_LENGTH);
 
     const apiKey = process.env.DEEPSEEK_API_KEY;
     if (!apiKey) {
@@ -31,10 +39,10 @@ Respondé SOLO con JSON válido, sin texto extra, con esta forma exacta:
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "deepseek-v4-flash",
+        model: process.env.DEEPSEEK_MODEL ?? "deepseek-v4-flash",
         messages: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: text },
+          { role: "user", content: trimmed },
         ],
         temperature: 0.2,
         max_tokens: 5000,
@@ -44,7 +52,8 @@ Respondé SOLO con JSON válido, sin texto extra, con esta forma exacta:
 
     if (!response.ok) {
       const errorText = await response.text();
-      return NextResponse.json({ error: "DeepSeek API error", details: errorText }, { status: 502 });
+      console.error("AI search upstream error:", response.status, errorText.slice(0, 500));
+      return NextResponse.json({ error: "La búsqueda IA no está disponible en este momento." }, { status: 502 });
     }
 
     const data = await response.json();
@@ -56,7 +65,7 @@ Respondé SOLO con JSON válido, sin texto extra, con esta forma exacta:
       : [];
 
     return NextResponse.json({
-      keywords: keywords.length > 0 ? keywords : [text],
+      keywords: keywords.length > 0 ? keywords : [trimmed],
       categoriaSlug: typeof parsed.categoriaSlug === "string" ? parsed.categoriaSlug : null,
       zona: typeof parsed.zona === "string" && parsed.zona.trim() ? parsed.zona.trim() : null,
       precioMin: typeof parsed.precioMin === "number" ? parsed.precioMin : null,

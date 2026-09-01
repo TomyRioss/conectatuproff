@@ -60,28 +60,34 @@ export function BookingWizard({
   const [conversationId, setConversationId] = useState<string | null>(null);
 
   useEffect(() => {
-    setLoadingMonth(true);
-    const monthParam = `${visibleMonth.getFullYear()}-${String(visibleMonth.getMonth() + 1).padStart(2, "0")}`;
-    const durationMin = selectedService?.durationMin ?? 60;
-    const serviceParam = selectedService?.id ? `&serviceId=${selectedService.id}` : "";
-    fetch(`/api/profesional/${professional.id}/disponibilidad/mes?month=${monthParam}&durationMin=${durationMin}${serviceParam}`)
-      .then((r) => r.json())
-      .then((data: { dates?: string[] }) => setAvailableDates(new Set(data.dates ?? [])))
-      .catch(() => setAvailableDates(new Set()))
-      .finally(() => setLoadingMonth(false));
+    const t = setTimeout(() => {
+      setLoadingMonth(true);
+      const monthParam = `${visibleMonth.getFullYear()}-${String(visibleMonth.getMonth() + 1).padStart(2, "0")}`;
+      const durationMin = selectedService?.durationMin ?? 60;
+      const serviceParam = selectedService?.id ? `&serviceId=${selectedService.id}` : "";
+      fetch(`/api/profesional/${professional.id}/disponibilidad/mes?month=${monthParam}&durationMin=${durationMin}${serviceParam}`)
+        .then((r) => r.json())
+        .then((data: { dates?: string[] }) => setAvailableDates(new Set(data.dates ?? [])))
+        .catch(() => setAvailableDates(new Set()))
+        .finally(() => setLoadingMonth(false));
+    }, 0);
+    return () => clearTimeout(t);
   }, [visibleMonth, selectedService, professional.id]);
 
   useEffect(() => {
     if (!selectedDate) return;
-    setSelectedTime(null);
-    setLoadingSlots(true);
-    const durationMin = selectedService?.durationMin ?? 60;
-    const serviceParam = selectedService?.id ? `&serviceId=${selectedService.id}` : "";
-    fetch(`/api/profesional/${professional.id}/disponibilidad?date=${toDateKey(selectedDate)}&durationMin=${durationMin}${serviceParam}`)
-      .then((r) => r.json())
-      .then((data) => setSlots(data.slots ?? []))
-      .catch(() => setSlots([]))
-      .finally(() => setLoadingSlots(false));
+    const t = setTimeout(() => {
+      setSelectedTime(null);
+      setLoadingSlots(true);
+      const durationMin = selectedService?.durationMin ?? 60;
+      const serviceParam = selectedService?.id ? `&serviceId=${selectedService.id}` : "";
+      fetch(`/api/profesional/${professional.id}/disponibilidad?date=${toDateKey(selectedDate)}&durationMin=${durationMin}${serviceParam}`)
+        .then((r) => r.json())
+        .then((data) => setSlots(data.slots ?? []))
+        .catch(() => setSlots([]))
+        .finally(() => setLoadingSlots(false));
+    }, 0);
+    return () => clearTimeout(t);
   }, [selectedDate, selectedService, professional.id]);
 
   async function confirmar() {

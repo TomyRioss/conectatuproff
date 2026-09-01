@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { Prisma } from "@/lib/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { clientRegisterSchema } from "@/lib/validations/auth";
+import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
+  const rl = rateLimit(`register:${clientIp(request)}`, 5, 60 * 60_000);
+  if (!rl.ok) return tooManyRequests(rl.retryAfterSec);
+
   try {
     const body = await request.json();
     const parsed = clientRegisterSchema.safeParse(body);
@@ -17,29 +22,28 @@ export async function POST(request: Request) {
 
     const { firstName, lastName, username, email, password, phone, location } = parsed.data;
 
-    const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) {
-      return NextResponse.json({ error: "EMAIL_TAKEN" }, { status: 409 });
+    // Check-then-create no es atómico: bajo concurrencia el unique de DB
+    // dispara P2002 y lo mapeamos a 409 amigable.
+    try {
+      await prisma.user.create({
+        data: {
+          email,
+          username,
+          name: `${firstName} ${lastName}`,
+          password: await bcrypt.hash(password, 12),
+          role: "CLIENT",
+          isActive: true,
+          client: { create: { firstName, lastName, phone, location } },
+        },
+      });
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
+        const target = e.meta?.target;
+        const isUsername = Array.isArray(target) ? target.includes("username") : String(target ?? "").includes("username");
+        return NextResponse.json({ error: isUsername ? "USERNAME_TAKEN" : "EMAIL_TAKEN" }, { status: 409 });
+      }
+      throw e;
     }
-
-    const existingUsername = await prisma.user.findUnique({ where: { username } });
-    if (existingUsername) {
-      return NextResponse.json({ error: "USERNAME_TAKEN" }, { status: 409 });
-    }
-
-    const hash = await bcrypt.hash(password, 12);
-
-    await prisma.user.create({
-      data: {
-        email,
-        username,
-        name: `${firstName} ${lastName}`,
-        password: hash,
-        role: "CLIENT",
-        isActive: true,
-        client: { create: { firstName, lastName, phone, location } },
-      },
-    });
 
     return NextResponse.json({ ok: true });
   } catch (err) {

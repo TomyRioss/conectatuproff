@@ -35,9 +35,13 @@ export default function MessagesInboxDropdown() {
 
   useEffect(() => {
     if (status !== "authenticated") return;
-    fetchConversations();
+    // Diferido para no llamar setState de forma síncrona dentro del efecto.
+    const initial = setTimeout(fetchConversations, 0);
     const interval = setInterval(fetchConversations, 30000);
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(initial);
+      clearInterval(interval);
+    };
   }, [status]);
 
   useEffect(() => {

@@ -1,11 +1,19 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { Prisma } from "@/lib/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
-import { uploadFile } from "@/lib/storage";
+import { uploadFile, deleteFile } from "@/lib/storage";
 import { professionalRegisterSchema } from "@/lib/validations/auth";
+import { createPetitionIfNew } from "@/lib/subcategorias";
+import { validateImageFile, extForImageType } from "@/lib/file-validation";
+import { clientIp, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
+  const rl = rateLimit(`register-pro:${clientIp(request)}`, 5, 60 * 60_000);
+  if (!rl.ok) return tooManyRequests(rl.retryAfterSec);
+
   let userId: string | null = null;
+  const uploadedKeys: string[] = [];
 
   try {
     const formData = await request.formData();
@@ -42,47 +50,77 @@ export async function POST(request: Request) {
       );
     }
 
-    const existing = await prisma.user.findUnique({ where: { email } });
-    if (existing) {
-      return NextResponse.json({ error: "EMAIL_TAKEN" }, { status: 409 });
+    // Validación server-side de las imágenes (el check del cliente es evitable).
+    const frontError = validateImageFile(dniFront);
+    if (frontError) {
+      return NextResponse.json({ error: "VALIDATION", issues: { fieldErrors: { dniFront: [frontError] } } }, { status: 400 });
     }
-
-    const existingUsername = await prisma.user.findUnique({ where: { username } });
-    if (existingUsername) {
-      return NextResponse.json({ error: "USERNAME_TAKEN" }, { status: 409 });
+    const backError = validateImageFile(dniBack);
+    if (backError) {
+      return NextResponse.json({ error: "VALIDATION", issues: { fieldErrors: { dniBack: [backError] } } }, { status: 400 });
     }
 
     const hash = await bcrypt.hash(password, 12);
 
-    const user = await prisma.user.create({
-      data: { email, username, password: hash, role: "CLIENT" },
-    });
+    let user;
+    try {
+      user = await prisma.user.create({
+        data: {
+          email,
+          username,
+          name: `${firstName} ${lastName}`,
+          password: hash,
+          role: "CLIENT",
+        },
+      });
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
+        const target = e.meta?.target;
+        const isUsername =
+          Array.isArray(target) ? target.includes("username") : String(target ?? "").includes("username");
+        return NextResponse.json({ error: isUsername ? "USERNAME_TAKEN" : "EMAIL_TAKEN" }, { status: 409 });
+      }
+      throw e;
+    }
     userId = user.id;
 
-    const frontExt = dniFront.name.split(".").pop() ?? "jpg";
-    const backExt = dniBack.name.split(".").pop() ?? "jpg";
+    // Extensión fija derivada del MIME validado (nunca del filename del cliente).
+    const frontExt = extForImageType(dniFront.type);
+    const backExt = extForImageType(dniBack.type);
 
+    const frontKey = `dni/${user.id}/front.${frontExt}`;
+    const backKey = `dni/${user.id}/back.${backExt}`;
+
+    // Se sube antes de la tx y se registran las keys para poder limpiar
+    // los archivos si algo falla después (no dejar DNIs huérfanos).
     const [dniPhotoFront, dniPhotoBack] = await Promise.all([
-      uploadFile(
-        `dni/${user.id}/front.${frontExt}`,
-        Buffer.from(await dniFront.arrayBuffer()),
-        dniFront.type
-      ),
-      uploadFile(
-        `dni/${user.id}/back.${backExt}`,
-        Buffer.from(await dniBack.arrayBuffer()),
-        dniBack.type
-      ),
+      uploadFile(frontKey, Buffer.from(await dniFront.arrayBuffer()), dniFront.type),
+      uploadFile(backKey, Buffer.from(await dniBack.arrayBuffer()), dniBack.type),
     ]);
+    uploadedKeys.push(dniPhotoFront, dniPhotoBack);
 
     await prisma.$transaction([
       prisma.client.create({
         data: { userId: user.id, firstName, lastName, phone, dni, location },
       }),
       prisma.professional.create({
-        data: { userId: user.id, firstName, lastName, specialty, phone, dni, dniPhotoFront, dniPhotoBack, location, isPro: true },
+        data: {
+          userId: user.id,
+          firstName,
+          lastName,
+          specialty,
+          phone,
+          dni,
+          dniPhotoFront,
+          dniPhotoBack,
+          location,
+          isPro: true,
+        },
       }),
     ]);
+
+    // Si la profesión no está en el listado, se registra como petición.
+    await createPetitionIfNew(user.id, specialty);
 
     return NextResponse.json({ ok: true });
   } catch (err) {
@@ -90,6 +128,8 @@ export async function POST(request: Request) {
     if (userId) {
       await prisma.user.delete({ where: { id: userId } }).catch(() => {});
     }
+    // Limpieza de archivos huérfanos si la transacción falló.
+    await Promise.all(uploadedKeys.map((k) => deleteFile(k).catch(() => {})));
     return NextResponse.json({ error: "SERVER_ERROR" }, { status: 500 });
   }
 }

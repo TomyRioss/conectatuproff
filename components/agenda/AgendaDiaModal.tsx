@@ -41,6 +41,7 @@ export default function AgendaDiaModal({
 }) {
   const [showBloqueoForm, setShowBloqueoForm] = useState(false)
   const [updatingId, setUpdatingId] = useState<string | null>(null)
+  const [deletingBloqueoId, setDeletingBloqueoId] = useState<string | null>(null)
 
   const dayAppointments = data.appointments.filter((a) => sameDay(new Date(a.startAt), day))
   const dayBlocked = data.blockedSlots.filter((b) => sameDay(new Date(b.startAt), day))
@@ -61,6 +62,23 @@ export default function AgendaDiaModal({
       toast.error(e instanceof Error ? e.message : "Error al actualizar turno")
     } finally {
       setUpdatingId(null)
+    }
+  }
+
+  const deleteBloqueo = async (id: string) => {
+    setDeletingBloqueoId(id)
+    try {
+      const res = await fetch(`/api/profesional/agenda/bloqueo?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      })
+      if (!res.ok) throw new Error((await res.json()).error || "Error al eliminar el bloqueo")
+      toast.success("Bloqueo eliminado")
+      onChanged()
+    } catch (e) {
+      console.error(e)
+      toast.error(e instanceof Error ? e.message : "Error al eliminar el bloqueo")
+    } finally {
+      setDeletingBloqueoId(null)
     }
   }
 
@@ -91,17 +109,22 @@ export default function AgendaDiaModal({
                 <p className="text-sm text-brand-dark">{a.client.firstName} {a.client.lastName}</p>
                 {a.service && <p className="text-sm text-brand-gray">{a.service.title}</p>}
                 <div className="flex gap-2 mt-2 flex-wrap">
-                  {a.status !== "CONFIRMED" && (
+                  {a.status === "PENDING" && (
                     <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "CONFIRMED")}>
                       Confirmar
                     </Button>
                   )}
-                  {a.status !== "COMPLETED" && (
-                    <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "COMPLETED")}>
-                      Completar
-                    </Button>
+                  {a.status === "CONFIRMED" && (
+                    <>
+                      <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "COMPLETED")}>
+                        Completar
+                      </Button>
+                      <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "NO_SHOW")}>
+                        No asistió
+                      </Button>
+                    </>
                   )}
-                  {a.status !== "CANCELLED" && (
+                  {(a.status === "PENDING" || a.status === "CONFIRMED") && (
                     <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "CANCELLED")}>
                       Cancelar
                     </Button>
@@ -117,8 +140,20 @@ export default function AgendaDiaModal({
             const fmt = (d: Date) => `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`
             return (
               <div key={b.id} className="border border-gray-200 rounded-lg p-3 bg-brand-bg">
-                <p className="text-xs text-brand-gray mb-0.5">{fmt(bStart)} - {fmt(bEnd)}</p>
-                <p className="text-sm font-medium text-brand-dark">{b.note || "Bloqueado"}</p>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="text-xs text-brand-gray mb-0.5">{fmt(bStart)} - {fmt(bEnd)}</p>
+                    <p className="text-sm font-medium text-brand-dark">{b.note || "Bloqueado"}</p>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={deletingBloqueoId === b.id}
+                    onClick={() => deleteBloqueo(b.id)}
+                  >
+                    {deletingBloqueoId === b.id ? "..." : "Eliminar"}
+                  </Button>
+                </div>
               </div>
             )
           })}

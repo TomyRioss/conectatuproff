@@ -8,6 +8,14 @@ export default function ProfesionalRegisterPage() {
       imageSrc="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2"
       imageAlt="Profesional en su trabajo"
       gradientClass="bg-gradient-to-br from-brand-dark/80 via-brand-dark/50 to-brand-violet/60"
+      headerAction={
+        <>
+          ¿Sos cliente?{" "}
+          <Link href="/register" className="text-brand-violet font-medium hover:underline">
+            Registrate acá
+          </Link>
+        </>
+      }
     >
       <div>
         <div className="mb-8">

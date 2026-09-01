@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function getSuggestedServices(take = 6) {
   return prisma.service.findMany({
-    where: { status: "ACTIVE" },
+    where: { status: "ACTIVE", professional: { isActive: true, isVerified: true } },
     orderBy: [{ professional: { isPro: "desc" } }, { createdAt: "desc" }],
     take,
     include: { professional: { include: { user: { select: { username: true } } } } },
@@ -27,7 +27,7 @@ export async function getTopCategoriesWithServices(categoriesCount = 3, perCateg
       .map(async (category) => ({
         category,
         services: await prisma.service.findMany({
-          where: { status: "ACTIVE", categoryId: category.id },
+          where: { status: "ACTIVE", categoryId: category.id, professional: { isActive: true, isVerified: true } },
           orderBy: [{ professional: { isPro: "desc" } }, { createdAt: "desc" }],
           take: perCategory,
           include: { professional: { include: { user: { select: { username: true } } } } },

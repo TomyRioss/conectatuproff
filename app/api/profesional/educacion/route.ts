@@ -34,6 +34,13 @@ export async function POST(req: Request) {
   if (!institution?.trim()) return NextResponse.json({ error: "Institución requerida" }, { status: 400 })
   if (!degree?.trim()) return NextResponse.json({ error: "Título requerido" }, { status: 400 })
 
+  // Año válido (evita overflow de Int con valores absurdos).
+  const yearNum = year ? Number(year) : null
+  const currentYear = new Date().getFullYear()
+  if (yearNum !== null && (!Number.isInteger(yearNum) || yearNum < 1900 || yearNum > currentYear + 1)) {
+    return NextResponse.json({ error: "Año inválido" }, { status: 400 })
+  }
+
   try {
     const education = await prisma.education.create({
       data: {
@@ -42,7 +49,7 @@ export async function POST(req: Request) {
         degree: degree.trim(),
         fieldOfStudy: fieldOfStudy?.trim() || null,
         location: location?.trim() || null,
-        year: year ? Number(year) : null,
+        year: yearNum,
         graduated: graduated !== undefined ? Boolean(graduated) : true,
       },
     })

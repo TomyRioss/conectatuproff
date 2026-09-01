@@ -5,23 +5,23 @@ const COLUMNS = [
     title: "Plataforma",
     links: [
       { href: "/buscar", label: "Buscar profesionales" },
-      { href: "#como-funciona", label: "Cómo funciona" },
-      { href: "/registro/profesional", label: "Publicar servicio" },
+      { href: "/#como-funciona", label: "Cómo funciona" },
+      { href: "/register/profesional", label: "Publicar servicio" },
     ],
   },
   {
     title: "Soporte",
     links: [
-      { href: "/ayuda", label: "Centro de ayuda" },
-      { href: "/contacto", label: "Contacto" },
-      { href: "/terminos", label: "Términos y condiciones" },
+      { href: "/#como-funciona", label: "Cómo funciona" },
+      { href: "/login", label: "Ingresar" },
+      { href: "/register/profesional", label: "Quiero ser profesional" },
     ],
   },
   {
     title: "Registro",
     links: [
-      { href: "/registro/cliente", label: "Soy cliente" },
-      { href: "/registro/profesional", label: "Soy profesional" },
+      { href: "/register", label: "Soy cliente" },
+      { href: "/register/profesional", label: "Soy profesional" },
       { href: "/login", label: "Iniciar sesión" },
     ],
   },

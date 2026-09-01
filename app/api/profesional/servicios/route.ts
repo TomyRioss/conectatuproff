@@ -5,8 +5,8 @@ import type { ServiceFrequency } from "@/lib/generated/prisma/enums"
 import { addMinutes } from "@/lib/availability"
 
 async function getOwnProfessionalId(userId: string) {
-  const pro = await prisma.professional.findUnique({ where: { userId }, select: { id: true } })
-  return pro?.id ?? null
+  const pro = await prisma.professional.findUnique({ where: { userId }, select: { id: true, isVerified: true } })
+  return pro ?? null
 }
 
 export async function GET() {
@@ -15,11 +15,11 @@ export async function GET() {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 })
   }
 
-  const professionalId = await getOwnProfessionalId(session.user.id)
-  if (!professionalId) return NextResponse.json({ error: "Perfil no encontrado" }, { status: 404 })
+  const pro = await getOwnProfessionalId(session.user.id)
+  if (!pro) return NextResponse.json({ error: "Perfil no encontrado" }, { status: 404 })
 
   const services = await prisma.service.findMany({
-    where: { professionalId },
+    where: { professionalId: pro.id },
     orderBy: { createdAt: "desc" },
   })
   return NextResponse.json(services)
@@ -31,8 +31,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 })
   }
 
-  const professionalId = await getOwnProfessionalId(session.user.id)
-  if (!professionalId) return NextResponse.json({ error: "Perfil no encontrado" }, { status: 404 })
+  const pro = await getOwnProfessionalId(session.user.id)
+  if (!pro) return NextResponse.json({ error: "Perfil no encontrado" }, { status: 404 })
+  // Solo profesionales verificados pueden publicar contenido.
+  if (!pro.isVerified) return NextResponse.json({ error: "Cuenta en revisión" }, { status: 403 })
 
   const body = await req.json()
   const {
@@ -88,7 +90,7 @@ export async function POST(req: Request) {
   try {
     const service = await prisma.service.create({
       data: {
-        professionalId,
+        professionalId: pro.id,
         title: title.trim(),
         description: description?.trim() || null,
         price: priceNum,

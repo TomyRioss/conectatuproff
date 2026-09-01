@@ -3,16 +3,24 @@ import { prisma } from "@/lib/prisma";
 
 const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
 
-export function getOAuthClient() {
+// redirect_uri debe coincidir exacto entre connect y callback. Si hay origin del
+// request lo usamos (cualquier puerto); si no, cae al env (scripts/cron).
+function redirectUri(origin?: string) {
+  return origin
+    ? `${origin}/api/profesional/google-calendar/callback`
+    : process.env.GOOGLE_CALENDAR_REDIRECT_URI;
+}
+
+export function getOAuthClient(origin?: string) {
   return new google.auth.OAuth2(
     process.env.GOOGLE_CALENDAR_CLIENT_ID,
     process.env.GOOGLE_CALENDAR_CLIENT_SECRET,
-    process.env.GOOGLE_CALENDAR_REDIRECT_URI
+    redirectUri(origin)
   );
 }
 
-export function getAuthUrl(state: string) {
-  const client = getOAuthClient();
+export function getAuthUrl(state: string, origin?: string) {
+  const client = getOAuthClient(origin);
   return client.generateAuthUrl({
     access_type: "offline",
     prompt: "consent",

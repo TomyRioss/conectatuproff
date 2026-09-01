@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -9,7 +9,16 @@ const MIN_CANCEL_NOTICE_MS = 24 * 60 * 60 * 1000;
 export function CancelAppointmentButton({ id, startAt }: { id: string; startAt: string }) {
   const router = useRouter();
   const [cancelling, setCancelling] = useState(false);
-  const canCancel = new Date(startAt).getTime() - Date.now() >= MIN_CANCEL_NOTICE_MS;
+  const [now, setNow] = useState<number | null>(null);
+
+  // El reloj se lee fuera del render (Date.now es impuro durante el mismo).
+  useEffect(() => {
+    const t = setTimeout(() => setNow(Date.now()), 0);
+    return () => clearTimeout(t);
+  }, []);
+
+  const canCancel =
+    now === null ? true : new Date(startAt).getTime() - now >= MIN_CANCEL_NOTICE_MS;
 
   if (!canCancel) {
     return (

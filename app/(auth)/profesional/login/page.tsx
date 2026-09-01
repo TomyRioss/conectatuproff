@@ -31,7 +31,8 @@ function ProfesionalLoginForm() {
     } else if (error === "BANNED") {
       toast.error("Tu cuenta fue suspendida. Contactá a soporte.");
     } else if (error === "NOT_PROFESSIONAL") {
-      setNotProfessional(true);
+      const t = setTimeout(() => setNotProfessional(true), 0);
+      return () => clearTimeout(t);
     } else if (error) {
       toast.error("Email o contraseña incorrectos.");
     }
@@ -72,6 +73,14 @@ function ProfesionalLoginForm() {
       imageSrc="https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1260&h=900&dpr=2"
       imageAlt="Profesional en su trabajo"
       gradientClass="bg-gradient-to-br from-brand-dark/80 via-brand-dark/50 to-brand-violet/60"
+      headerAction={
+        <>
+          ¿Sos cliente?{" "}
+          <Link href="/login" className="text-brand-violet font-medium hover:underline">
+            Ingresá acá
+          </Link>
+        </>
+      }
     >
       <div>
         <div className="mb-8">
@@ -105,14 +114,10 @@ function ProfesionalLoginForm() {
           </button>
         </form>
 
-        <div className="mt-6 border-t border-gray-200 pt-5 flex flex-col gap-2 text-center text-sm text-brand-gray">
+        <div className="mt-6 border-t border-gray-200 pt-5 text-center text-sm text-brand-gray">
           <p>
             ¿No tenés cuenta?{" "}
             <Link href="/profesional/register" className="text-brand-violet font-medium hover:underline">Registrate como profesional</Link>
-          </p>
-          <p>
-            ¿Sos cliente?{" "}
-            <Link href="/login" className="text-brand-violet font-medium hover:underline">Ingresá acá</Link>
           </p>
         </div>
       </div>

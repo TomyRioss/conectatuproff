@@ -21,4 +21,9 @@
   --color-brand-bg:         #F3F4F8;
   --color-brand-cream:      #E3DDD9;
   --color-brand-cream-light:#F2EDE8;
+
+  /* Estados de agenda / alertas — no forman parte de la paleta de marca */
+  --color-status-pending:      #B45309;
+  --color-status-pending-soft: #FEF3E2;
+  --color-status-noshow:       #AB737B;
 }

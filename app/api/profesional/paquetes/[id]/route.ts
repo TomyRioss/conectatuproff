@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { Prisma } from "@/lib/generated/prisma/client"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
@@ -80,6 +81,13 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     await prisma.servicePackage.delete({ where: { id } })
     return NextResponse.json({ ok: true })
   } catch (e) {
+    // El paquete tiene compras asociadas (ClientPackage, FK restrictiva).
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2003") {
+      return NextResponse.json(
+        { error: "El paquete tiene compras asociadas. Desactivalo en lugar de eliminarlo." },
+        { status: 409 }
+      )
+    }
     console.error("DELETE /api/profesional/paquetes/[id]", e)
     return NextResponse.json({ error: "Error al eliminar" }, { status: 500 })
   }

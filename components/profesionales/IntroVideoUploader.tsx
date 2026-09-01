@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function IntroVideoUploader({ name }: { name?: string }) {
+export function IntroVideoUploader({ name: _name }: { name?: string }) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);

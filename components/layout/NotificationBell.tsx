@@ -36,9 +36,13 @@ export default function NotificationBell() {
 
   useEffect(() => {
     if (status !== "authenticated") return;
-    fetchNotifications();
+    // Diferido para no llamar setState de forma síncrona dentro del efecto.
+    const initial = setTimeout(fetchNotifications, 0);
     const interval = setInterval(fetchNotifications, 30000);
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(initial);
+      clearInterval(interval);
+    };
   }, [status]);
 
   useEffect(() => {

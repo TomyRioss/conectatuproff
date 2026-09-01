@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CalendarDays } from "lucide-react";
+import Link from "next/link";
 import { FavoriteButton } from "./FavoriteButton";
 
 export function ContactCard({
@@ -11,17 +12,15 @@ export function ContactCard({
   avatarSrc,
   professionalId,
   initialFavorited,
+  username,
 }: {
   name: string;
   specialty: string | null;
   avatarSrc: string | null;
   professionalId: string;
   initialFavorited: boolean;
+  username: string;
 }) {
-  const scrollToChat = () => {
-    document.getElementById("chat-widget")?.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
-
   return (
     <div className="bg-white rounded-2xl border border-gray-200 p-5">
       <div className="flex items-center gap-3">
@@ -40,10 +39,12 @@ export function ContactCard({
 
       <Button
         type="button"
-        onClick={scrollToChat}
+        asChild
         className="w-full mt-4 bg-brand-dark hover:bg-brand-dark/90 text-white"
       >
-        <CalendarDays size={14} className="mr-2" /> Agenda tú cita
+        <Link href={`/perfil/profesional/${username}/agendar`}>
+          <CalendarDays size={14} className="mr-2" /> Agenda tú cita
+        </Link>
       </Button>
     </div>
   );

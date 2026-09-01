@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, Users, FileText, Inbox } from "lucide-react";
+import { LayoutGrid, Users, FileText, Inbox, LayoutDashboard } from "lucide-react";
 
 const links = [
+  { href: "/owner/dashboard", label: "Inicio", icon: LayoutDashboard },
   { href: "/owner/categorias", label: "Categorías", icon: LayoutGrid },
   { href: "/owner/peticiones", label: "Peticiones", icon: Inbox },
   { href: "/owner/usuarios", label: "Usuarios", icon: Users },

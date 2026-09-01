@@ -46,16 +46,16 @@ export default function ArgentinaLocationSelect({
   }
 
   useEffect(() => {
-    if (!selectedId) {
-      setMunicipios([]);
-      return;
-    }
-    setLoadingMun(true);
-    fetch(`${GEOREF}/municipios?provincia=${selectedId}&campos=id,nombre&max=600&orden=nombre`)
-      .then((r) => r.json())
-      .then((d) => setMunicipios(d.municipios ?? []))
-      .catch(() => setMunicipios([]))
-      .finally(() => setLoadingMun(false));
+    if (!selectedId) return;
+    const t = setTimeout(() => {
+      setLoadingMun(true);
+      fetch(`${GEOREF}/municipios?provincia=${selectedId}&campos=id,nombre&max=600&orden=nombre`)
+        .then((r) => r.json())
+        .then((d) => setMunicipios(d.municipios ?? []))
+        .catch(() => setMunicipios([]))
+        .finally(() => setLoadingMun(false));
+    }, 0);
+    return () => clearTimeout(t);
   }, [selectedId]);
 
   const selectClass = (hasError: boolean) =>

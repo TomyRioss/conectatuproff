@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
+import { arDayStart } from "@/lib/time"
 
 export async function GET(req: Request) {
   const session = await auth()
@@ -22,8 +23,10 @@ export async function GET(req: Request) {
     if (!pro) return NextResponse.json({ error: "Perfil no encontrado" }, { status: 404 })
 
     const [year, monthNum] = month.split("-").map(Number)
-    const start = new Date(year, monthNum - 1, 1)
-    const end = new Date(year, monthNum, 1)
+    // Límites de mes en hora de pared argentina (UTC-3), no TZ del server.
+    const daysInMonth = new Date(Date.UTC(year, monthNum, 0)).getUTCDate()
+    const start = arDayStart(`${month}-01`)
+    const end = new Date(start.getTime() + daysInMonth * 24 * 3600000)
 
     const [appointments, blockedSlots] = await Promise.all([
       prisma.appointment.findMany({

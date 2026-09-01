@@ -6,14 +6,12 @@ import { MessageCircle, X, Send, User, Minimize2, Headset } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
 
-const PRIVATE_PREFIXES = ["/profesional", "/admin", "/owner", "/login", "/register", "/onboarding", "/mensajes"];
+const PRIVATE_PREFIXES = ["/profesional", "/admin", "/owner", "/login", "/register", "/onboarding", "/mensajes", "/cliente/mensajes"];
 
 type Msg = {
   role: "user" | "assistant";
   content: string;
 };
-
-const STORAGE_KEY = "ctp-chatbot-open";
 
 const WELCOME_MSG: Msg = {
   role: "assistant",
