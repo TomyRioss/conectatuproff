@@ -119,12 +119,25 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.picture = sessionUpdate.image;
       }
       if (trigger === "update" && sessionUpdate?.role !== undefined && sessionUpdate.role !== token.role) {
-        // Never trust the client-provided role: always verify against the DB.
-        const dbUser = await prisma.user.findUnique({
-          where: { id: token.id as string },
-          select: { role: true },
-        });
-        let nextRole = dbUser?.role === sessionUpdate.role ? sessionUpdate.role : (token.role as string);
+        // Never trust the client-provided role: verify the matching profile exists.
+        // An account can be Client AND Professional at once, so gate on profile
+        // existence/verification — not the single `user.role` column.
+        const requested = sessionUpdate.role;
+        let allowed = false;
+        if (requested === "PROFESSIONAL") {
+          const pro = await prisma.professional.findUnique({
+            where: { userId: token.id as string },
+            select: { isVerified: true },
+          });
+          allowed = pro?.isVerified === true;
+        } else if (requested === "CLIENT") {
+          const client = await prisma.client.findUnique({
+            where: { userId: token.id as string },
+            select: { id: true },
+          });
+          allowed = client !== null;
+        }
+        let nextRole = allowed ? requested : (token.role as string);
         if (!nextRole || typeof nextRole !== "string") nextRole = "CLIENT";
         token.role = nextRole;
         const profile = await getProfile(token.id as string, nextRole);

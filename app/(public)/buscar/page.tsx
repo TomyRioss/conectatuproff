@@ -22,6 +22,14 @@ export default async function BuscarPage({
 }) {
   const { barrio, servicio, categoria, precioMin, precioMax, sort = "relevancia" } = await searchParams;
 
+  // `categoria` puede ser slug de Category (padre) o de Subcategory. Los links de
+  // subcategoría en el home mandan el slug de la subcategoría, pero Service solo
+  // linkea a Category. Subcategoría ↔ profesional se resuelve por specialty (igual
+  // que CategoriesSection). ponytail: match por nombre, no hay professional.subcategoryId poblado.
+  const sub = categoria
+    ? await prisma.subcategory.findUnique({ where: { slug: categoria }, select: { name: true } })
+    : null;
+
   const where: Prisma.ServiceWhereInput = {
     status: "ACTIVE",
     ...(barrio ? { professional: { location: { contains: barrio, mode: "insensitive" } } } : {}),
@@ -34,7 +42,11 @@ export default async function BuscarPage({
           ],
         }
       : {}),
-    ...(categoria ? { category: { slug: categoria } } : {}),
+    ...(categoria
+      ? sub
+        ? { AND: [{ professional: { specialty: { equals: sub.name, mode: "insensitive" } } }] }
+        : { category: { slug: categoria } }
+      : {}),
     // Validar numéricos: un precioMin no numérico generaría NaN y un 500 de Prisma.
     ...(() => {
       const min = precioMin ? Number(precioMin) : NaN;

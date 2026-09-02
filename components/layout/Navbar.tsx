@@ -18,6 +18,7 @@ import {
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { AISearchDialog } from "@/components/ui/AISearchDialog"
 import { UpgradePlanDialog } from "@/components/profesionales/UpgradePlanDialog"
+import { toast } from "sonner"
 
 function getInitials(name?: string | null, email?: string | null) {
   if (name) {
@@ -38,6 +39,8 @@ function AvatarButton() {
   const name = session?.user?.name
   const email = session?.user?.email
   const role = (session?.user as { role?: string })?.role
+  const roleLabel =
+    role === "PROFESSIONAL" ? "Profesional" : role === "CLIENT" ? "Cliente" : role === "OWNER" ? "Dueño" : role
   const avatarUrl = session?.user?.image ?? null
   const isClient = role === "CLIENT"
   const isProfessional = role === "PROFESSIONAL"
@@ -62,7 +65,7 @@ function AvatarButton() {
           <DropdownMenuLabel className="pb-1">
             <p className="text-sm font-semibold text-brand-dark truncate">{name}</p>
             {role && (
-              <p className="text-xs text-brand-violet font-medium truncate capitalize">{role}</p>
+              <p className="text-xs text-brand-violet font-medium truncate">{roleLabel}</p>
             )}
             {email && (
               <p className="text-xs text-brand-gray font-normal truncate">{email}</p>
@@ -147,15 +150,22 @@ export default function Navbar() {
       const res = await fetch("/api/profesional/status")
       const data = await res.json()
       if (data.state === "verified") {
-        if (role !== "PROFESSIONAL") await update({ role: "PROFESSIONAL" })
+        if (role !== "PROFESSIONAL") {
+          const updated = await update({ role: "PROFESSIONAL" })
+          if ((updated?.user as { role?: string })?.role !== "PROFESSIONAL") {
+            toast.error("No pudimos cambiar a modo profesional. Intentá de nuevo.")
+            return
+          }
+        }
         router.push("/profesional/perfil")
+        router.refresh()
       } else if (data.state === "pending") {
         setPendingOpen(true)
       } else {
         router.push("/profesional/onboarding")
       }
     } catch {
-      router.push("/profesional/onboarding")
+      toast.error("No pudimos verificar tu estado de profesional. Intentá de nuevo.")
     } finally {
       setCheckingMode(false)
     }
@@ -165,8 +175,15 @@ export default function Navbar() {
     if (checkingMode) return
     setCheckingMode(true)
     try {
-      await update({ role: "CLIENT" })
+      const updated = await update({ role: "CLIENT" })
+      if ((updated?.user as { role?: string })?.role !== "CLIENT") {
+        toast.error("No pudimos cambiar a modo cliente. Tu cuenta no tiene perfil de cliente.")
+        return
+      }
       router.push("/")
+      router.refresh()
+    } catch {
+      toast.error("No pudimos cambiar de modo. Intentá de nuevo.")
     } finally {
       setCheckingMode(false)
     }
@@ -439,15 +456,16 @@ export default function Navbar() {
               <Clock size={32} className="text-brand-violet" />
             </div>
           </div>
-          <DialogTitle className="text-xl font-bold text-brand-dark font-display">
-            Tu registro está en revisión
+          <DialogTitle className="text-xl font-bold text-brand-dark font-display leading-snug">
+            ¡Ya casi sos parte de ConectaTuProff!
           </DialogTitle>
           <p className="text-brand-gray text-sm leading-relaxed">
-            Recibimos tu solicitud y las fotos de tu DNI.
+            Recibimos tu solicitud y tus fotos del DNI. Gracias por sumarte 💚
           </p>
           <p className="text-brand-gray text-sm leading-relaxed">
-            Revisaremos tu información y te notificaremos por email en{" "}
-            <span className="font-medium text-brand-dark">24–48 horas</span>.
+            Estamos revisando tus datos y te escribimos por email dentro de las{" "}
+            <span className="font-medium text-brand-dark">24 a 48 horas</span>. En breve
+            vas a poder empezar a recibir clientes.
           </p>
         </DialogContent>
       </Dialog>

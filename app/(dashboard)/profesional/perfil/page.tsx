@@ -8,7 +8,7 @@ export default async function ProfesionalPerfilRedirect() {
 
   const { hasProfessional, username } = await getOwnUsername(session.user.id);
   if (!hasProfessional) redirect("/profesional/onboarding");
-  if (!username) redirect("/profesional/dashboard");
+  if (!username) redirect("/");
 
   redirect(`/profesional/dashboard/perfil/${username}`);
 }

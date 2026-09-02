@@ -14,7 +14,8 @@ export default async function HomePage() {
       orderBy: { name: "asc" },
     }),
     prisma.professional.findMany({
-      where: { isActive: true },
+      // Solo pros activos con al menos un servicio ACTIVE => chip con servicio disponible real
+      where: { isActive: true, services: { some: { status: "ACTIVE" } } },
       select: { specialty: true },
     }),
   ])

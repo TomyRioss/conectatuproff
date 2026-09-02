@@ -96,7 +96,7 @@ export default function OnboardingWizard({
 
       toast.success("¡Perfil profesional activado!");
       await update({ role: "PROFESSIONAL" });
-      router.push("/profesional/dashboard");
+      router.push("/?pendingReview=1");
     } catch {
       toast.error("Ocurrió un error, intentá de nuevo.");
     } finally {
