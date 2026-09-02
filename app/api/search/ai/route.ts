@@ -23,14 +23,20 @@ export async function POST(req: NextRequest) {
 
     const categories = await prisma.category.findMany({ select: { name: true, slug: true } });
 
-    const systemPrompt = `Traducís un pedido en lenguaje natural al tipo de profesional o servicio que lo resuelve, para una plataforma de servicios profesionales (Argentina).
+    const systemPrompt = `Traducís un pedido en lenguaje natural a los datos de búsqueda de una plataforma de servicios profesionales (Argentina).
 No repitas literalmente las palabras del cliente: pensá qué profesión/rubro/servicio resuelve su necesidad.
-Ejemplos: "quiero hacerme las uñas" -> manicurista, manicura, uñas. "se me rompió la canilla" -> plomero, plomería, gasista. "quiero aprender a tocar la guitarra" -> profesor de guitarra, clases de música, guitarra.
 Categorías disponibles (usá el slug exacto si aplica, si no aplica ninguna dejá null): ${categories.map((c) => `${c.name}=${c.slug}`).join(", ")}.
 Respondé SOLO con JSON válido, sin texto extra, con esta forma exacta:
 {"keywords": string[], "categoriaSlug": string | null, "zona": string | null, "precioMin": number | null, "precioMax": number | null}
-"keywords" son 2 a 5 términos cortos (profesión, rubro, servicio, sinónimos) que un profesional pondría en el título de su servicio para este pedido. Nunca vacío.
-"zona" es el barrio, localidad o zona (CABA/GBA) que haya mencionado el cliente, tal cual la nombró. Si no mencionó ninguna zona, null.`;
+
+"keywords": 2 a 5 términos, SIEMPRE de UNA sola palabra cada uno. El PRIMERO es el término único más probable de aparecer en el título del servicio de un profesional para este pedido (normalmente la profesión: "plomero", "masajista", "profesor"); el resto son alternativas/sinónimos. Nada de artículos ni verbos ("quiero", "necesito", "un", "de"). Nunca vacío.
+Ejemplos:
+- "quiero hacerme las uñas" -> ["manicura","manicurista","uñas","esmaltado","semipermanente"]
+- "se me rompió la canilla" -> ["plomero","plomería","gasista","canilla","cañería"]
+- "quiero aprender a tocar la guitarra" -> ["guitarra","profesor","clases","música"]
+- "necesito quien me cuide a mi mamá mayor" -> ["cuidador","enfermería","acompañante","geriátrico"]
+
+"zona": barrio, localidad, partido o zona que mencione el cliente. Extraela SIEMPRE que haya cualquier referencia geográfica, aunque sea informal ("por Caballito", "soy de Quilmes", "acá en zona norte"). Devolvela normalizada y sola: "Palermo", "La Plata", "Quilmes", "CABA", "Zona Norte". Sin preposiciones ("en", "por", "de"). Si no hay ninguna referencia geográfica, o dice cosas como "a domicilio"/"cerca mío" sin nombrar lugar, null.`;
 
     const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
       method: "POST",

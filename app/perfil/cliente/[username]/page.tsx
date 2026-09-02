@@ -20,7 +20,7 @@ export default async function ClientePerfilPage({
   }
 
   const cliente = await prisma.client.findFirst({
-    where: { user: { username } },
+    where: { user: { username, isActive: true } },
     include: {
       user: { select: { email: true, username: true, lastActivity: true } },
       _count: { select: { appointments: true, reviews: true } },

@@ -1,18 +1,26 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import FormField from "@/components/auth/FormField";
 import PasswordInput from "@/components/auth/PasswordInput";
 import AuthShell from "@/components/auth/AuthShell";
 import { completeProfileFormSchema, type CompleteProfileFormInput } from "@/lib/validations/auth";
 
-export default function CompletarPerfilPage() {
+// Solo rutas internas: evita open-redirect vía ?next=
+function safeNext(value: string | null): string {
+  if (!value || !value.startsWith("/") || value.startsWith("//")) return "/";
+  return value;
+}
+
+function CompletarPerfilForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = safeNext(searchParams.get("next"));
   const { data: session, status, update } = useSession();
   const [usernameStatus, setUsernameStatus] = useState<"idle" | "checking" | "available" | "taken">("idle");
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -29,8 +37,8 @@ export default function CompletarPerfilPage() {
 
   useEffect(() => {
     if (status === "unauthenticated") router.replace("/login");
-    if (status === "authenticated" && session?.user?.needsSetup === false) router.replace("/");
-  }, [status, session, router]);
+    if (status === "authenticated" && session?.user?.needsSetup === false) router.replace(next);
+  }, [status, session, router, next]);
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -73,7 +81,7 @@ export default function CompletarPerfilPage() {
       }
 
       await update({});
-      router.push("/");
+      router.push(next);
       router.refresh();
     } catch {
       toast.error("Ocurrió un error, intentá de nuevo.");
@@ -115,5 +123,13 @@ export default function CompletarPerfilPage() {
         </form>
       </div>
     </AuthShell>
+  );
+}
+
+export default function CompletarPerfilPage() {
+  return (
+    <Suspense>
+      <CompletarPerfilForm />
+    </Suspense>
   );
 }

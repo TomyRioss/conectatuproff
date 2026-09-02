@@ -35,7 +35,6 @@ export const professionalRegisterSchema = z.object({
   password: z.string().min(8, "Mínimo 8 caracteres"),
   specialty: z.string().min(3, "Mínimo 3 caracteres"),
   phone: z.string().min(1, "Requerido"),
-  dni: z.string().regex(/^\d{7,8}$/, "DNI inválido (7 u 8 dígitos)"),
   location: z.string().min(1, "Requerido"),
 });
 
@@ -70,4 +69,3 @@ export type ClientRegisterInput = z.infer<typeof clientRegisterSchema>;
 export type ClientRegisterFormInput = z.infer<typeof clientRegisterFormSchema>;
 export type ProfessionalRegisterInput = z.infer<typeof professionalRegisterSchema>;
 export type ProfessionalRegisterFormInput = z.infer<typeof professionalRegisterFormSchema>;
-export type ProfessionalRegisterOutput = Omit<ProfessionalRegisterInput, "dni"> & { dni: number };

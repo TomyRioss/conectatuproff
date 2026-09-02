@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ProfessionalRegisterForm from "@/components/auth/ProfessionalRegisterForm";
 import AuthShell from "@/components/auth/AuthShell";
+import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 
 export default function ProfesionalRegisterPage() {
   return (
@@ -20,7 +21,16 @@ export default function ProfesionalRegisterPage() {
       <div>
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-brand-dark font-display">Registrate como profesional</h1>
-          <p className="text-brand-gray text-sm mt-1">Tu cuenta será revisada antes de ser activada</p>
+          <p className="text-brand-gray text-sm mt-1">Creá tu cuenta y empezá a recibir clientes al instante</p>
+        </div>
+
+        <div className="mb-6 flex flex-col gap-4">
+          <GoogleSignInButton callbackUrl="/register/completar?next=/profesional/onboarding" />
+          <div className="flex items-center gap-3">
+            <div className="h-px flex-1 bg-gray-200" />
+            <span className="text-xs text-brand-gray">o completá el formulario</span>
+            <div className="h-px flex-1 bg-gray-200" />
+          </div>
         </div>
 
         <ProfessionalRegisterForm />

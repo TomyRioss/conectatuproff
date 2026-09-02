@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const pros = await prisma.professional.findMany({
     where: {
       isActive: true,
-      user: { username: { not: null } },
+      user: { isActive: true, username: { not: null } },
       location: { contains: city, mode: "insensitive" },
     },
     orderBy: { rating: "desc" },

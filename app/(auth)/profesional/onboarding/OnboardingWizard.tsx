@@ -9,17 +9,18 @@ import { z } from "zod";
 import { toast } from "sonner";
 import AuthShell from "@/components/auth/AuthShell";
 import FormField from "@/components/auth/FormField";
-import DniUpload from "@/components/auth/DniUpload";
+import ArgentinaLocationSelect from "@/components/auth/ArgentinaLocationSelect";
 import SpecialtyAutocomplete from "@/components/auth/SpecialtyAutocomplete";
 
 const schema = z.object({
   specialty: z.string().min(3, "Mínimo 3 caracteres"),
   phone: z.string().min(8, "Mínimo 8 caracteres"),
-  dni: z.string().regex(/^\d{7,8}$/, "DNI inválido"),
+  province: z.string().min(1, "Requerido"),
+  municipality: z.string().min(1, "Requerido"),
 });
 type FormInput = z.infer<typeof schema>;
 
-const STEPS = ["Rol", "Teléfono", "DNI", "Foto frente", "Foto reverso"];
+const STEPS = ["Profesión", "Teléfono", "Ubicación"];
 
 export default function OnboardingWizard({
   initialPhone,
@@ -33,9 +34,6 @@ export default function OnboardingWizard({
   const router = useRouter();
   const { update } = useSession();
   const [step, setStep] = useState(initialStep);
-  const [dniFront, setDniFront] = useState<File | null>(null);
-  const [dniBack, setDniBack] = useState<File | null>(null);
-  const [dniErrors, setDniErrors] = useState({ front: "", back: "" });
   const [loading, setLoading] = useState(false);
 
   const {
@@ -47,42 +45,26 @@ export default function OnboardingWizard({
     formState: { errors },
   } = useForm<FormInput>({
     resolver: zodResolver(schema),
-    defaultValues: { phone: initialPhone ?? "", specialty: initialSpecialty ?? "" },
+    defaultValues: { phone: initialPhone ?? "", specialty: initialSpecialty ?? "", province: "", municipality: "" },
   });
 
   async function next() {
-    if (step === 0) {
-      const ok = await trigger("specialty");
-      if (!ok) return;
-    }
-    if (step === 1) {
-      const ok = await trigger("phone");
-      if (!ok) return;
-    }
-    if (step === 2) {
-      const ok = await trigger("dni");
-      if (!ok) return;
-    }
-    if (step === 3) {
-      if (!dniFront) { setDniErrors((e) => ({ ...e, front: "Requerido" })); return; }
-      setDniErrors((e) => ({ ...e, front: "" }));
-    }
+    if (step === 0 && !(await trigger("specialty"))) return;
+    if (step === 1 && !(await trigger("phone"))) return;
     setStep((s) => s + 1);
   }
 
   async function submit() {
-    if (!dniBack) { setDniErrors((e) => ({ ...e, back: "Requerido" })); return; }
-    setDniErrors((e) => ({ ...e, back: "" }));
+    // Valida todo: si initialStep saltó pasos, specialty/phone podrían venir vacíos.
+    if (!(await trigger())) return;
 
     setLoading(true);
     try {
-      const { specialty, phone, dni } = getValues();
+      const { specialty, phone, province, municipality } = getValues();
       const formData = new FormData();
       formData.append("specialty", specialty);
       formData.append("phone", phone);
-      formData.append("dni", dni);
-      formData.append("dniFront", dniFront!);
-      formData.append("dniBack", dniBack);
+      formData.append("location", `${province}, ${municipality}`);
 
       const res = await fetch("/api/profesional/onboarding", {
         method: "PATCH",
@@ -96,7 +78,7 @@ export default function OnboardingWizard({
 
       toast.success("¡Perfil profesional activado!");
       await update({ role: "PROFESSIONAL" });
-      router.push("/?pendingReview=1");
+      router.push("/profesional/perfil");
     } catch {
       toast.error("Ocurrió un error, intentá de nuevo.");
     } finally {
@@ -148,27 +130,14 @@ export default function OnboardingWizard({
           )}
 
           {step === 2 && (
-            <FormField
-              label="DNI"
-              type="text"
-              placeholder="12345678"
-              error={errors.dni?.message}
-              {...register("dni")}
+            <ArgentinaLocationSelect
+              provinciaValue={watch("province") ?? ""}
+              municipioValue={watch("municipality") ?? ""}
+              onProvinciaChange={(v) => setValue("province", v, { shouldValidate: true })}
+              onMunicipioChange={(v) => setValue("municipality", v, { shouldValidate: true })}
+              provinciaError={errors.province?.message}
+              municipioError={errors.municipality?.message}
             />
-          )}
-
-          {step === 3 && (
-            <div className="flex flex-col gap-2">
-              <p className="text-xs text-brand-gray">Sacá una foto clara del frente de tu DNI.</p>
-              <DniUpload label="DNI — Frente" onChange={setDniFront} error={dniErrors.front} />
-            </div>
-          )}
-
-          {step === 4 && (
-            <div className="flex flex-col gap-2">
-              <p className="text-xs text-brand-gray">Ahora el reverso de tu DNI.</p>
-              <DniUpload label="DNI — Reverso" onChange={setDniBack} error={dniErrors.back} />
-            </div>
           )}
 
           <div className={`flex gap-3 mt-2 ${step > initialStep ? "justify-between" : "justify-end"}`}>

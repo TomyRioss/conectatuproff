@@ -96,8 +96,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async jwt({ token, user, trigger, session: sessionUpdate, account }) {
       if (user) {
         token.id = user.id!;
-        // Google button only lives on the client login/register pages — always CLIENT.
-        token.role = account?.provider === "google" ? "CLIENT" : (user as { role: string }).role;
+        // El botón de Google vive tanto en la puerta de cliente como en la de
+        // profesional. Resolver el rol contra la DB: cliente si tiene ese perfil,
+        // si no profesional verificado, si no cliente (usuario nuevo).
+        if (account?.provider === "google") {
+          const gClient = await prisma.client.findUnique({ where: { userId: user.id! }, select: { id: true } });
+          if (gClient) {
+            token.role = "CLIENT";
+          } else {
+            const gPro = await prisma.professional.findUnique({ where: { userId: user.id! }, select: { isVerified: true } });
+            token.role = gPro?.isVerified ? "PROFESSIONAL" : "CLIENT";
+          }
+        } else {
+          token.role = (user as { role: string }).role;
+        }
         const profile = await getProfile(user.id!, token.role as string);
         token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : null;
         token.name = user.name ?? (profile ? `${profile.firstName} ${profile.lastName}` : null);
@@ -148,11 +160,52 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const profile = await getProfile(token.id as string, token.role as string);
         if (profile) token.name = `${profile.firstName} ${profile.lastName}`;
       }
+
+      // El JWT no se entera si el equipo archiva/banea la cuenta después del login.
+      // Revalidar contra la DB de forma periódica y marcar el token como bloqueado.
+      // ponytail: recheck cada 60s; bajar el intervalo si se necesita cortar antes.
+      if (token.id) {
+        const RECHECK_MS = 60_000;
+        const lastCheck = typeof token.checkedAt === "number" ? token.checkedAt : 0;
+        if (Date.now() - lastCheck > RECHECK_MS) {
+          const acct = await prisma.user.findUnique({
+            where: { id: token.id as string },
+            select: { isActive: true, isBanned: true, client: { select: { id: true } } },
+          });
+          token.checkedAt = Date.now();
+          const proHit = !acct || acct.isBanned ? "BANNED" : !acct.isActive ? "PENDING_REVIEW" : null;
+          const hasClient = !!acct?.client;
+
+          if (!proHit) {
+            token.blocked = null;
+            token.proBlocked = null;
+          } else if (hasClient && (token.role === "PROFESSIONAL" || token.proBlocked)) {
+            // Cuenta profesional bloqueada/archivada pero existe perfil de cliente:
+            // continuar la sesión como cliente y avisar con un modal en "/".
+            token.role = "CLIENT";
+            token.blocked = null;
+            token.proBlocked = proHit;
+            const profile = await getProfile(token.id as string, "CLIENT");
+            if (profile) {
+              token.picture = profile.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : null;
+              token.name = `${profile.firstName} ${profile.lastName}`;
+            }
+          } else {
+            token.blocked = proHit;
+            token.proBlocked = null;
+          }
+        }
+      }
       return token;
     },
     session({ session, token }) {
       session.user.id = token.id as string;
-      (session.user as { role?: string }).role = token.role as string;
+      const blocked = (token.blocked as string | null) ?? null;
+      (session.user as { blocked?: string | null }).blocked = blocked;
+      (session.user as { proBlocked?: string | null }).proBlocked = (token.proBlocked as string | null) ?? null;
+      // Cuenta archivada/baneada sin perfil de cliente: se le quita el rol para que
+      // toda ruta protegida (páginas y APIs que chequean role) la rechace.
+      (session.user as { role?: string }).role = blocked ? "BLOCKED" : (token.role as string);
       session.user.image = token.picture as string | null;
       session.user.name = token.name as string | null;
       (session.user as { needsSetup?: boolean }).needsSetup = token.needsSetup === true;

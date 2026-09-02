@@ -38,8 +38,10 @@ export async function GET() {
       price: a.priceAtBooking,
       currency: a.currency,
       serviceName: a.service?.title ?? null,
-      professionalName: `${a.professional.firstName} ${a.professional.lastName}`,
-      professionalAvatar: a.professional.avatarUrl ? `/api/avatar?key=${encodeURIComponent(a.professional.avatarUrl)}` : a.professional.user.image,
+      professionalName: a.professional ? `${a.professional.firstName} ${a.professional.lastName}` : "Usuario no encontrado",
+      professionalAvatar: a.professional?.avatarUrl
+        ? `/api/avatar?key=${encodeURIComponent(a.professional.avatarUrl)}`
+        : a.professional?.user.image ?? null,
     }));
 
     return NextResponse.json({ appointments: result });
@@ -85,7 +87,7 @@ export async function POST(req: Request) {
     if (!client) return NextResponse.json({ error: "Perfil de cliente no encontrado" }, { status: 404 });
 
     const professional = await prisma.professional.findFirst({
-      where: { id: professionalId, isActive: true, isVerified: true },
+      where: { id: professionalId, isActive: true, isVerified: true, user: { isActive: true } },
       select: { id: true, firstName: true, user: { select: { email: true } } },
     });
     if (!professional) {

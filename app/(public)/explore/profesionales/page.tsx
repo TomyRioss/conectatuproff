@@ -10,7 +10,7 @@ const AVATAR_COLORS = ["#1EC97E", "#6C5CE7", "#1A1A2E"];
 
 export default async function ExploreProfesionalesPage() {
   const pros = await prisma.professional.findMany({
-    where: { isActive: true, user: { username: { not: null } } },
+    where: { isActive: true, user: { isActive: true, username: { not: null } } },
     orderBy: { rating: "desc" },
     include: {
       user: { select: { username: true, image: true } },

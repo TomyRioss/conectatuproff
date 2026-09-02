@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Star, MapPin, CheckCircle } from "lucide-react"
 import { ProBadge } from "@/components/ui/ProBadge"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export type ProfCardData = {
   slug: string
@@ -30,21 +31,19 @@ export function ProfCard({ pro, variant = "default" }: { pro: ProfCardData; vari
       }`}
     >
       <div className="flex items-start gap-4 mb-4">
-        {pro.avatarSrc ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={pro.avatarSrc}
-            alt={pro.name}
-            className={`w-14 h-14 rounded-xl object-cover shrink-0 ${pro.premium ? "ring-2 ring-brand-violet ring-offset-2" : ""}`}
-          />
-        ) : (
-          <div
-            className={`w-14 h-14 rounded-xl flex items-center justify-center text-white font-semibold text-lg shrink-0 ${pro.premium ? "ring-2 ring-brand-violet ring-offset-2" : ""}`}
+        <Avatar
+          className={`h-14 w-14 rounded-xl shrink-0 ${pro.premium ? "ring-2 ring-brand-violet ring-offset-2" : ""}`}
+        >
+          {pro.avatarSrc && (
+            <AvatarImage src={pro.avatarSrc} alt={pro.name} className="object-cover" />
+          )}
+          <AvatarFallback
+            className="rounded-xl text-white font-semibold text-lg"
             style={{ backgroundColor: pro.color }}
           >
             {pro.initials}
-          </div>
-        )}
+          </AvatarFallback>
+        </Avatar>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
@@ -57,12 +56,12 @@ export function ProfCard({ pro, variant = "default" }: { pro: ProfCardData; vari
         </div>
       </div>
 
-      <div className="flex items-center justify-between text-sm">
-        <div className={`flex items-center gap-1 ${isDark ? "text-white/60" : "text-[#6B7280]"}`}>
-          <MapPin size={13} />
-          <span className="truncate">{pro.zone}</span>
+      <div className="flex items-center justify-between gap-2 text-sm">
+        <div className={`flex items-center gap-1 min-w-0 ${isDark ? "text-white/60" : "text-[#6B7280]"}`}>
+          <MapPin size={13} className="shrink-0" />
+          <span className="truncate" title={pro.zone}>{pro.zone}</span>
         </div>
-        <div className={`flex items-center gap-1 font-medium ${isDark ? "text-white" : "text-[#6C5CE7]"}`}>
+        <div className={`flex items-center gap-1 font-medium shrink-0 ${isDark ? "text-white" : "text-[#6C5CE7]"}`}>
           <Star size={13} className={isDark ? "fill-white" : "fill-[#6C5CE7]"} />
           <span>{pro.rating}</span>
           <span className={`font-normal ${isDark ? "text-white/40" : "text-gray-300"}`}>({pro.reviews})</span>

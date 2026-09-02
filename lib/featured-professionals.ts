@@ -9,7 +9,7 @@ function initialsFor(firstName: string, lastName: string) {
 
 export async function getFeaturedPros(take = 6): Promise<ProfCardData[]> {
   const pros = await prisma.professional.findMany({
-    where: { isActive: true, isVerified: true, user: { username: { not: null } } },
+    where: { isActive: true, isVerified: true, user: { isActive: true, username: { not: null } } },
     orderBy: [{ isPro: "desc" }, { rating: "desc" }],
     take,
     include: {

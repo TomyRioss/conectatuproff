@@ -1,21 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { uploadFile } from "@/lib/storage";
-import { randomUUID } from "crypto";
-import { validateImageFile, extForImageType } from "@/lib/file-validation";
 import { createPetitionIfNew } from "@/lib/subcategorias";
-
-const DNI_RE = /^\d{7,8}$/;
-
-async function uploadDniPhoto(file: File, userId: string, side: "front" | "back"): Promise<string> {
-  // Extensión fija derivada del MIME validado, nunca del input del cliente.
-  const ext = extForImageType(file.type);
-  const key = `dni-docs/${userId}/${side}-${randomUUID()}.${ext}`;
-  const buffer = Buffer.from(await file.arrayBuffer());
-  await uploadFile(key, buffer, file.type);
-  return key;
-}
 
 export async function GET() {
   try {
@@ -42,30 +28,13 @@ export async function PATCH(request: Request) {
     const formData = await request.formData();
     const specialty = formData.get("specialty") as string | null;
     const phone = formData.get("phone") as string | null;
-    const dni = formData.get("dni") as string | null;
-    const dniFrontFile = formData.get("dniFront") as File | null;
-    const dniBackFile = formData.get("dniBack") as File | null;
+    const location = formData.get("location") as string | null;
 
-    if (!specialty || !phone || !dni || !dniFrontFile || !dniBackFile) {
+    if (!specialty || !phone || !location) {
       return NextResponse.json({ error: "MISSING_FIELDS" }, { status: 400 });
     }
 
-    const dniNum = parseInt(dni, 10);
-    if (isNaN(dniNum) || !DNI_RE.test(dni)) {
-      return NextResponse.json({ error: "INVALID_DNI" }, { status: 400 });
-    }
-
-    // Validación server-side de las imágenes (el check del cliente es evitable).
-    const frontError = validateImageFile(dniFrontFile);
-    if (frontError) return NextResponse.json({ error: "INVALID_DNI_FRONT", detail: frontError }, { status: 400 });
-    const backError = validateImageFile(dniBackFile);
-    if (backError) return NextResponse.json({ error: "INVALID_DNI_BACK", detail: backError }, { status: 400 });
-
     const userId = session.user.id;
-    const [dniFrontKey, dniBackKey] = await Promise.all([
-      uploadDniPhoto(dniFrontFile, userId, "front"),
-      uploadDniPhoto(dniBackFile, userId, "back"),
-    ]);
 
     const user = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
     const [firstName, ...rest] = (user?.name ?? "").split(" ");
@@ -77,10 +46,9 @@ export async function PATCH(request: Request) {
         update: {
           specialty,
           phone,
-          dni: dniNum,
-          dniPhotoFront: dniFrontKey,
-          dniPhotoBack: dniBackKey,
+          location,
           isActive: true,
+          isVerified: true,
         },
         create: {
           userId,
@@ -88,11 +56,11 @@ export async function PATCH(request: Request) {
           lastName: lastName || "N",
           specialty,
           phone,
-          dni: dniNum,
-          dniPhotoFront: dniFrontKey,
-          dniPhotoBack: dniBackKey,
+          location,
           isActive: true,
           isPro: true,
+          // Auto-activación: el pro queda verificado y operativo al instante.
+          isVerified: true,
         },
       }),
       prisma.user.update({

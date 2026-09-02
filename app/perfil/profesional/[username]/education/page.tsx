@@ -13,7 +13,7 @@ export default async function EducationPage({
   const username = rawUsername.replace(/^@/, "");
 
   const pro = await prisma.professional.findFirst({
-    where: { isActive: true, user: { username } },
+    where: { isActive: true, user: { username, isActive: true } },
     select: {
       firstName: true,
       lastName: true,

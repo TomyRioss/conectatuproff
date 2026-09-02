@@ -10,6 +10,8 @@ declare module "next-auth" {
       name?: string | null;
       image?: string | null;
       needsSetup?: boolean;
+      blocked?: string | null;
+      proBlocked?: string | null;
     };
   }
 }
@@ -19,5 +21,8 @@ declare module "next-auth/jwt" {
     id: string;
     role: string;
     needsSetup?: boolean;
+    blocked?: string | null;
+    proBlocked?: string | null;
+    checkedAt?: number;
   }
 }

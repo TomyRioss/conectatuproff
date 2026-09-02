@@ -28,7 +28,11 @@ async function mutate(method: "PATCH" | "DELETE", body: object) {
     body: JSON.stringify(body),
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error ?? "Error");
+  if (!res.ok) {
+    const err = new Error(data.error ?? "Error") as Error & { canForce?: boolean };
+    err.canForce = data.canForce === true;
+    throw err;
+  }
 }
 
 function UsersTable({
@@ -44,6 +48,7 @@ function UsersTable({
   const [editing, setEditing] = useState<UserRow | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const [forceDelete, setForceDelete] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
 
   const load = useCallback(() => {
@@ -70,12 +75,19 @@ function UsersTable({
     try {
       await action();
       toast.success(okMsg);
+      setConfirmDelete(null);
+      setForceDelete(null);
       load();
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Error");
+      if ((e as { canForce?: boolean }).canForce) {
+        setForceDelete(id);
+      } else {
+        setConfirmDelete(null);
+        setForceDelete(null);
+      }
     } finally {
       setBusy(null);
-      setConfirmDelete(null);
     }
   }
 
@@ -104,7 +116,7 @@ function UsersTable({
               <TableCell>{u.email}</TableCell>
               <TableCell>{u.username ?? "—"}</TableCell>
               <TableCell>
-                <Badge variant="outline" className="text-xs">{u.role}</Badge>
+                <Badge variant="outline" className="text-xs">{role ?? u.role}</Badge>
               </TableCell>
               <TableCell>
                 {u.isBanned ? (
@@ -146,11 +158,28 @@ function UsersTable({
                       size="sm"
                       variant="destructive"
                       disabled={busy === u.id}
-                      onClick={() => run(u.id, () => mutate("DELETE", { id: u.id }), "Usuario eliminado")}
+                      onClick={() =>
+                        run(
+                          u.id,
+                          () =>
+                            mutate("DELETE", {
+                              id: u.id,
+                              ...(forceDelete === u.id ? { force: true } : {}),
+                            }),
+                          "Usuario eliminado",
+                        )
+                      }
                     >
-                      Confirmar
+                      {forceDelete === u.id ? "Eliminar todo permanentemente" : "Confirmar"}
                     </Button>
-                    <Button size="sm" variant="ghost" onClick={() => setConfirmDelete(null)}>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        setConfirmDelete(null);
+                        setForceDelete(null);
+                      }}
+                    >
                       Cancelar
                     </Button>
                   </div>

@@ -54,10 +54,13 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     const updated = await prisma.appointment.update({ where: { id }, data: { status } })
 
     // Notificar al cliente para que quede enterado del cambio.
-    const clientUser = await prisma.client.findUnique({
-      where: { id: updated.clientId },
-      select: { userId: true },
-    })
+    // clientId null = cuenta eliminada: no hay a quién notificar.
+    const clientUser = updated.clientId
+      ? await prisma.client.findUnique({
+          where: { id: updated.clientId },
+          select: { userId: true },
+        })
+      : null
     if (clientUser) {
       const labels: Record<string, string> = {
         CONFIRMED: "confirmado",

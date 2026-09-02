@@ -30,7 +30,7 @@ export default async function AgendarPage({
   }
 
   const pro = await prisma.professional.findFirst({
-    where: { isActive: true, user: { username } },
+    where: { isActive: true, user: { username, isActive: true } },
     select: {
       id: true,
       firstName: true,

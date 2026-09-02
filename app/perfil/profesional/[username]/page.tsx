@@ -22,7 +22,7 @@ export default async function ProfesionalProfilePage({
   // Explicit select: NEVER serialize the whole Professional row to the client —
   // it contains googleAccessToken/RefreshToken, dni, dniPhotoFront/Back, phone, mpPreapprovalId.
   const pro = await prisma.professional.findFirst({
-    where: { isActive: true, user: { username } },
+    where: { isActive: true, user: { username, isActive: true } },
     select: {
       id: true,
       userId: true,

@@ -109,7 +109,8 @@ type AppointmentRow = {
   priceAtBooking: unknown;
   currency: string;
   service: { title: string } | null;
-  professional: { id: string; firstName: string; lastName: string; user: { username: string | null } };
+  // null = cuenta del profesional eliminada; el turno queda en el historial.
+  professional: { id: string; firstName: string; lastName: string; user: { username: string | null } } | null;
 };
 
 function AppointmentCard({
@@ -119,15 +120,16 @@ function AppointmentCard({
   appointment: AppointmentRow;
   reviewedProfessionalIds: Set<string>;
 }) {
-  const username = a.professional.user.username;
+  const username = a.professional?.user.username ?? null;
+  const proName = a.professional ? `${a.professional.firstName} ${a.professional.lastName}` : "Usuario no encontrado";
   const StatusIcon = STATUS_ICON[a.status];
 
   const info = (
     <div className="min-w-0">
       <p className="font-semibold text-brand-dark truncate">
         {a.service?.title ?? "Turno"} —{" "}
-        <span className={username ? "underline decoration-brand-violet decoration-2 underline-offset-2" : ""}>
-          {a.professional.firstName} {a.professional.lastName}
+        <span className={username ? "underline decoration-brand-violet decoration-2 underline-offset-2" : "text-brand-gray"}>
+          {proName}
         </span>
       </p>
       <p className="text-sm text-brand-gray mt-0.5">
@@ -160,7 +162,7 @@ function AppointmentCard({
         {(a.status === "PENDING" || a.status === "CONFIRMED") && (
           <CancelAppointmentButton id={a.id} startAt={a.startAt.toISOString()} />
         )}
-        {a.status === "COMPLETED" && !reviewedProfessionalIds.has(a.professional.id) && (
+        {a.status === "COMPLETED" && a.professional && !reviewedProfessionalIds.has(a.professional.id) && (
           <LeaveReviewButton
             professionalId={a.professional.id}
             professionalName={`${a.professional.firstName} ${a.professional.lastName}`}

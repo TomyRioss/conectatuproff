@@ -54,8 +54,8 @@ export async function GET() {
         status: a.status,
         price: a.priceAtBooking ? Number(a.priceAtBooking) : null,
         currency: a.currency,
-        professional: `${a.professional.firstName} ${a.professional.lastName}`,
-        client: `${a.client.firstName} ${a.client.lastName}`,
+        professional: a.professional ? `${a.professional.firstName} ${a.professional.lastName}` : "Usuario no encontrado",
+        client: a.client ? `${a.client.firstName} ${a.client.lastName}` : "Usuario no encontrado",
         service: a.service?.title ?? null,
       })),
     });

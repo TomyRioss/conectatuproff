@@ -48,7 +48,13 @@ export async function GET(req: Request) {
       }),
     ])
 
-    return NextResponse.json({ appointments, blockedSlots })
+    // client null = cuenta del cliente eliminada; el turno sigue en la agenda.
+    const normalized = appointments.map((a) => ({
+      ...a,
+      client: a.client ?? { firstName: "Usuario no encontrado", lastName: "" },
+    }))
+
+    return NextResponse.json({ appointments: normalized, blockedSlots })
   } catch (e) {
     console.error("GET /api/profesional/agenda", e)
     return NextResponse.json({ error: "Error al cargar agenda" }, { status: 500 })

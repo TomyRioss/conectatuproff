@@ -7,16 +7,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
 import Link from "next/link";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Ban, Clock } from "lucide-react";
 import FormField from "@/components/auth/FormField";
 import PasswordInput from "@/components/auth/PasswordInput";
 import AuthShell from "@/components/auth/AuthShell";
+import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 import { loginSchema, type LoginInput } from "@/lib/validations/auth";
 
 function ProfesionalLoginForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [notProfessional, setNotProfessional] = useState(false);
+  const [accountStatus, setAccountStatus] = useState<null | "review" | "disabled">(null);
 
   const {
     register,
@@ -27,9 +29,9 @@ function ProfesionalLoginForm() {
   useEffect(() => {
     const error = searchParams.get("error");
     if (error === "PENDING_REVIEW") {
-      toast.warning("Tu cuenta está en revisión. Te avisaremos por email cuando sea aprobada.");
+      setAccountStatus("review");
     } else if (error === "BANNED") {
-      toast.error("Tu cuenta fue suspendida. Contactá a soporte.");
+      setAccountStatus("disabled");
     } else if (error === "NOT_PROFESSIONAL") {
       const t = setTimeout(() => setNotProfessional(true), 0);
       return () => clearTimeout(t);
@@ -40,6 +42,7 @@ function ProfesionalLoginForm() {
 
   async function onSubmit(data: LoginInput) {
     setNotProfessional(false);
+    setAccountStatus(null);
     try {
       const result = await signIn("credentials", {
         email: data.email,
@@ -52,9 +55,9 @@ function ProfesionalLoginForm() {
         if (result.code === "NOT_PROFESSIONAL") {
           setNotProfessional(true);
         } else if (result.code === "PENDING_REVIEW") {
-          toast.warning("Tu cuenta está en revisión. Te avisaremos por email cuando sea aprobada.");
+          setAccountStatus("review");
         } else if (result.code === "BANNED") {
-          toast.error("Tu cuenta fue suspendida. Contactá a soporte.");
+          setAccountStatus("disabled");
         } else {
           toast.error("Email o contraseña incorrectos.");
         }
@@ -88,6 +91,34 @@ function ProfesionalLoginForm() {
           <p className="text-brand-gray text-sm mt-1">Ingresá a tu panel profesional</p>
         </div>
 
+        {accountStatus === "review" && (
+          <div className="mb-4 flex gap-3 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3">
+            <Clock className="mt-0.5 shrink-0 text-amber-500" size={18} />
+            <div className="text-sm text-amber-800 leading-snug">
+              <p className="font-semibold">Tu cuenta profesional está siendo revisada</p>
+              <p className="mt-1">
+                Tu cuenta Profesional está siendo revisada por el equipo de ConectaTuProff, tendrás
+                novedades en breves. Te avisaremos por email apenas se resuelva. Si creés que es un
+                error, escribinos a soporte.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {accountStatus === "disabled" && (
+          <div className="mb-4 flex gap-3 rounded-xl border border-red-300 bg-red-50 px-4 py-3">
+            <Ban className="mt-0.5 shrink-0 text-red-500" size={18} />
+            <div className="text-sm text-red-800 leading-snug">
+              <p className="font-semibold">Cuenta deshabilitada</p>
+              <p className="mt-1">
+                Tu cuenta de profesional fue deshabilitada por el equipo de ConectaTuProff. Ya no
+                podés acceder al panel profesional. Si querés más información o apelar la decisión,
+                contactá a soporte.
+              </p>
+            </div>
+          </div>
+        )}
+
         {notProfessional && (
           <div className="mb-4 flex gap-3 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3">
             <AlertTriangle className="mt-0.5 shrink-0 text-amber-500" size={18} />
@@ -100,6 +131,15 @@ function ProfesionalLoginForm() {
             </p>
           </div>
         )}
+
+        <div className="mb-6 flex flex-col gap-4">
+          <GoogleSignInButton callbackUrl="/profesional/onboarding" />
+          <div className="flex items-center gap-3">
+            <div className="h-px flex-1 bg-gray-200" />
+            <span className="text-xs text-brand-gray">o con tu email</span>
+            <div className="h-px flex-1 bg-gray-200" />
+          </div>
+        </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <FormField label="Email" type="email" placeholder="tu@email.com" error={errors.email?.message} {...register("email")} />

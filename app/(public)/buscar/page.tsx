@@ -22,6 +22,25 @@ export default async function BuscarPage({
 }) {
   const { barrio, servicio, categoria, precioMin, precioMax, sort = "relevancia" } = await searchParams;
 
+  // El servicio puede venir como frase libre o como varias keywords de la búsqueda IA.
+  // Se parte en términos y cada uno matchea por separado (OR): una sola keyword que
+  // pegue en título/descripción/especialidad ya trae el resultado. Sin esto, la frase
+  // completa "manicura uñas esmaltado" casi nunca matchea como substring único.
+  const STOPWORDS = new Set(["de", "la", "el", "en", "para", "con", "y", "o", "un", "una", "que", "del", "al", "mi", "me"]);
+  const servicioTerms = (servicio ?? "")
+    .toLowerCase()
+    .split(/[\s,]+/)
+    .map((t) => t.trim())
+    .filter((t) => t.length >= 3 && !STOPWORDS.has(t))
+    .slice(0, 6);
+  const servicioClauses: Prisma.ServiceWhereInput[] = (servicioTerms.length > 0 ? servicioTerms : servicio ? [servicio] : []).flatMap(
+    (term) => [
+      { title: { contains: term, mode: "insensitive" as const } },
+      { description: { contains: term, mode: "insensitive" as const } },
+      { professional: { specialty: { contains: term, mode: "insensitive" as const } } },
+    ]
+  );
+
   // `categoria` puede ser slug de Category (padre) o de Subcategory. Los links de
   // subcategoría en el home mandan el slug de la subcategoría, pero Service solo
   // linkea a Category. Subcategoría ↔ profesional se resuelve por specialty (igual
@@ -30,18 +49,14 @@ export default async function BuscarPage({
     ? await prisma.subcategory.findUnique({ where: { slug: categoria }, select: { name: true } })
     : null;
 
+  // Pro archivado (pre-baneo del owner): isActive=false oculta sus servicios de la búsqueda.
+  const professionalFilter: Prisma.ProfessionalWhereInput = { isActive: true, user: { isActive: true } };
+  if (barrio) professionalFilter.location = { contains: barrio, mode: "insensitive" };
+
   const where: Prisma.ServiceWhereInput = {
     status: "ACTIVE",
-    ...(barrio ? { professional: { location: { contains: barrio, mode: "insensitive" } } } : {}),
-    ...(servicio
-      ? {
-          OR: [
-            { title: { contains: servicio, mode: "insensitive" } },
-            { description: { contains: servicio, mode: "insensitive" } },
-            { professional: { specialty: { contains: servicio, mode: "insensitive" } } },
-          ],
-        }
-      : {}),
+    professional: professionalFilter,
+    ...(servicioClauses.length > 0 ? { OR: servicioClauses } : {}),
     ...(categoria
       ? sub
         ? { AND: [{ professional: { specialty: { equals: sub.name, mode: "insensitive" } } }] }

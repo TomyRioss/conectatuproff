@@ -5,9 +5,14 @@ import CategoriesSection from "@/components/home/CategoriesSection"
 import ProfessionalsSection from "@/components/home/ProfessionalsSection"
 import HowItWorks from "@/components/home/HowItWorks"
 import CTABanner from "@/components/home/CTABanner"
+import ProAccountNoticeModal from "@/components/home/ProAccountNoticeModal"
+import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 export default async function HomePage() {
+  const session = await auth()
+  const proBlocked = session?.user?.proBlocked ?? null
+
   const [allSubcategories, activePros] = await Promise.all([
     prisma.subcategory.findMany({
       select: { name: true, slug: true },
@@ -26,6 +31,7 @@ export default async function HomePage() {
   return (
     <>
       <Navbar />
+      {proBlocked && <ProAccountNoticeModal reason={proBlocked} />}
       <main>
         <HeroSection subcategories={subcategories} />
         <CategoriesSection />

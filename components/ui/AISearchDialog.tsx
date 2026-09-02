@@ -29,7 +29,7 @@ export function AISearchDialog({ open, onOpenChange, onResult }: Props) {
       if (!res.ok) throw new Error("AI search failed")
       const data = await res.json()
       onResult({
-        servicio: Array.isArray(data.keywords) ? data.keywords.join(" ") : "",
+        servicio: Array.isArray(data.keywords) && data.keywords[0] ? String(data.keywords[0]) : "",
         zona: typeof data.zona === "string" ? data.zona : "",
       })
       setQuery("")

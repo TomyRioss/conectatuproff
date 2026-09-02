@@ -8,34 +8,24 @@ import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import FormField from "@/components/auth/FormField";
 import PasswordInput from "@/components/auth/PasswordInput";
-import DniUpload from "@/components/auth/DniUpload";
 import ArgentinaLocationSelect from "@/components/auth/ArgentinaLocationSelect";
 import SpecialtyAutocomplete from "@/components/auth/SpecialtyAutocomplete";
 import { professionalRegisterFormSchema, type ProfessionalRegisterFormInput } from "@/lib/validations/auth";
 
 const STEPS = [
   { label: "Datos básicos" },
-  { label: "Teléfono" },
-  { label: "DNI" },
-  { label: "Foto frente" },
-  { label: "Foto reverso" },
+  { label: "Teléfono y ubicación" },
 ];
 
 const STEP_FIELDS: (keyof ProfessionalRegisterFormInput)[][] = [
   ["firstName", "lastName", "username", "email", "password", "confirmPassword", "specialty"],
   ["phone", "province", "municipality"],
-  ["dni"],
-  [],
-  [],
 ];
 
 export default function ProfessionalRegisterForm() {
   const router = useRouter();
   const { update } = useSession();
   const [step, setStep] = useState(0);
-  const [dniFront, setDniFront] = useState<File | null>(null);
-  const [dniBack, setDniBack] = useState<File | null>(null);
-  const [dniErrors, setDniErrors] = useState({ front: "", back: "" });
 
   const {
     register,
@@ -49,12 +39,6 @@ export default function ProfessionalRegisterForm() {
 
   async function next() {
     const fields = STEP_FIELDS[step];
-    if (step === 3) {
-      if (!dniFront) { setDniErrors((e) => ({ ...e, front: "Requerido" })); return; }
-      setDniErrors((e) => ({ ...e, front: "" }));
-      setStep((s) => s + 1);
-      return;
-    }
     if (fields.length > 0) {
       const valid = await trigger(fields);
       if (!valid) return;
@@ -76,9 +60,6 @@ export default function ProfessionalRegisterForm() {
   }
 
   async function onSubmit(data: ProfessionalRegisterFormInput) {
-    if (!dniBack) { setDniErrors((e) => ({ ...e, back: "Requerido" })); return; }
-    setDniErrors((e) => ({ ...e, back: "" }));
-
     try {
       const formData = new FormData();
       formData.append("firstName", data.firstName);
@@ -88,10 +69,7 @@ export default function ProfessionalRegisterForm() {
       formData.append("password", data.password);
       formData.append("specialty", data.specialty);
       formData.append("phone", data.phone);
-      formData.append("dni", String(data.dni));
       formData.append("location", `${data.province}, ${data.municipality}`);
-      formData.append("dniFront", dniFront!);
-      formData.append("dniBack", dniBack);
 
       const res = await fetch("/api/register/profesional", {
         method: "POST",
@@ -113,9 +91,7 @@ export default function ProfessionalRegisterForm() {
       if (res.status === 400 && body.issues) {
         const fields = body.issues.fieldErrors as Record<string, string[]>;
         for (const [field, msgs] of Object.entries(fields)) {
-          if (field === "dniFront") setDniErrors((e) => ({ ...e, front: msgs[0] }));
-          else if (field === "dniBack") setDniErrors((e) => ({ ...e, back: msgs[0] }));
-          else setError(field as keyof ProfessionalRegisterFormInput, { message: msgs[0] });
+          setError(field as keyof ProfessionalRegisterFormInput, { message: msgs[0] });
         }
         return;
       }
@@ -126,8 +102,9 @@ export default function ProfessionalRegisterForm() {
       }
 
       await signIn("credentials", { email: data.email, password: data.password, redirect: false });
-      await update({ role: "CLIENT" });
-      router.push("/?pendingReview=1");
+      await update({ role: "PROFESSIONAL" });
+      toast.success("¡Tu perfil profesional ya está activo!");
+      router.push("/profesional/perfil");
     } catch {
       toast.error("Ocurrió un error, intentá de nuevo.");
     }
@@ -202,7 +179,7 @@ export default function ProfessionalRegisterForm() {
           </>
         )}
 
-        {/* Step 1: teléfono + ubicación */}
+        {/* Step 1: teléfono + ubicación (último paso) */}
         {step === 1 && (
           <>
             <FormField
@@ -221,45 +198,6 @@ export default function ProfessionalRegisterForm() {
               municipioError={errors.municipality?.message}
             />
           </>
-        )}
-
-        {/* Step 2: DNI número */}
-        {step === 2 && (
-          <FormField
-            label="DNI"
-            type="text"
-            placeholder="12345678"
-            error={errors.dni?.message}
-            {...register("dni")}
-          />
-        )}
-
-        {/* Step 3: foto frente */}
-        {step === 3 && (
-          <div className="flex flex-col gap-2">
-            <p className="text-xs text-brand-gray">
-              Sacá una foto clara del frente de tu DNI.
-            </p>
-            <DniUpload
-              label="DNI — Frente"
-              onChange={setDniFront}
-              error={dniErrors.front}
-            />
-          </div>
-        )}
-
-        {/* Step 4: foto reverso */}
-        {step === 4 && (
-          <div className="flex flex-col gap-2">
-            <p className="text-xs text-brand-gray">
-              Ahora el reverso de tu DNI.
-            </p>
-            <DniUpload
-              label="DNI — Reverso"
-              onChange={setDniBack}
-              error={dniErrors.back}
-            />
-          </div>
         )}
 
         {/* Navigation */}
@@ -288,7 +226,7 @@ export default function ProfessionalRegisterForm() {
               disabled={isSubmitting}
               className="flex-1 rounded-xl bg-brand-violet py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
             >
-              {isSubmitting ? "Enviando solicitud..." : "Solicitar registro"}
+              {isSubmitting ? "Creando cuenta..." : "Crear cuenta profesional"}
             </button>
           )}
         </div>
