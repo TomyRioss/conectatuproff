@@ -70,6 +70,13 @@ enum ServiceType {
   CLASE
 }
 
+enum DniStatus {
+  NONE
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 // ─── NextAuth ─────────────────────────────────────────────────────────────────
 
 model User {
@@ -81,6 +88,10 @@ model User {
   image         String?
   password      String?   @db.Text
   role          Role      @default(CLIENT)
+  dniPhotoFront String?
+  dniPhotoBack  String?
+  dniStatus     DniStatus @default(NONE)
+  dniSubmittedAt DateTime?
   isActive      Boolean   @default(true)
   isBanned      Boolean   @default(false)
   lastActivity  DateTime?

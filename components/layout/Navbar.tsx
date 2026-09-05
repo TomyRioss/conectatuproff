@@ -1,7 +1,7 @@
 ﻿"use client"
 
 import Link from "next/link"
-import { Menu, X, LogOut, User, Search, MessageSquare, Heart, Sparkles, ChevronDown, Clock, Briefcase, Calendar, MapPin } from "lucide-react"
+import { Menu, X, LogOut, User, Search, MessageSquare, Heart, Sparkles, ChevronDown, Clock, Briefcase, Calendar, MapPin, Settings } from "lucide-react"
 import NotificationBell from "@/components/layout/NotificationBell"
 import MessagesInboxDropdown from "@/components/layout/MessagesInboxDropdown"
 import { useState, useEffect } from "react"
@@ -110,6 +110,14 @@ function AvatarButton() {
               </DropdownMenuItem>
               {/* ponytail: "Mejora tu plan" oculto temporalmente a pedido */}
             </>
+          )}
+          {(isClient || isProfessional) && (
+            <DropdownMenuItem asChild className="cursor-pointer gap-2 text-brand-dark">
+              <Link href="/configuracion" className="text-brand-dark">
+                <Settings size={14} />
+                Configuración
+              </Link>
+            </DropdownMenuItem>
           )}
           <DropdownMenuSeparator className="bg-gray-200" />
           <DropdownMenuItem
@@ -414,6 +422,14 @@ export default function Navbar() {
                   Ver mi perfil
                 </Link>
               )}
+              <Link
+                href="/configuracion"
+                className="text-[#1A1A2E] text-sm flex items-center gap-2"
+                onClick={() => setOpen(false)}
+              >
+                <Settings size={14} />
+                Configuración
+              </Link>
               <button
                 className="text-sm text-red-600 text-left"
                 onClick={() => { setOpen(false); signOut({ callbackUrl: "/" }) }}

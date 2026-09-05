@@ -36,7 +36,7 @@ export default async function ProfesionalProfilePage({
       isVerified: true,
       isPro: true,
       rating: true,
-      user: { select: { image: true } },
+      user: { select: { image: true, dniStatus: true } },
       subcategory: { select: { name: true } },
       services: { where: { status: "ACTIVE" }, orderBy: { createdAt: "asc" } },
       packages: { where: { isActive: true }, orderBy: { createdAt: "asc" } },
@@ -79,7 +79,13 @@ export default async function ProfesionalProfilePage({
     <main className="min-h-screen bg-brand-bg pb-28">
       <div className="max-w-7xl mx-auto px-4 mt-6 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
         <div className="space-y-6">
-          <ProfileHeader pro={pro} username={username} avatarSrc={avatarSrc} avgRating={avgRating} reviewCount={reviewCount} />
+          <ProfileHeader
+            pro={{ ...pro, dniVerified: pro.user.dniStatus === "APPROVED" }}
+            username={username}
+            avatarSrc={avatarSrc}
+            avgRating={avgRating}
+            reviewCount={reviewCount}
+          />
           <AboutSection bio={pro.bio} />
           <IntroVideo name={pro.firstName} videoUrl={pro.videoUrl} />
         </div>
