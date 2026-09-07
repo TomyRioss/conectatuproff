@@ -41,7 +41,7 @@ export default function GoogleCalendarButton({ initialConnected }: { initialConn
 
   if (connected) {
     return (
-      <Button variant="outline" size="sm" onClick={disconnect} disabled={loading}>
+      <Button variant="outline" size="sm" onClick={disconnect} disabled={loading} className="w-full sm:w-auto justify-center min-h-[48px] sm:min-h-0">
         <Unlink className="h-4 w-4 mr-1.5" />
         Desconectar Google Calendar
       </Button>
@@ -49,7 +49,7 @@ export default function GoogleCalendarButton({ initialConnected }: { initialConn
   }
 
   return (
-    <Button asChild variant="outline" size="sm">
+    <Button asChild variant="outline" size="sm" className="w-full sm:w-auto justify-center min-h-[48px] sm:min-h-0">
       {/* <a> intencional: es un endpoint de API que redirige al OAuth de Google. */}
       {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
       <a href="/api/profesional/google-calendar/connect">

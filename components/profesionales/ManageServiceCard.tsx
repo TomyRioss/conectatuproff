@@ -99,8 +99,8 @@ export function ManageServiceCard({
   }
 
   return (
-    <div className="grid grid-cols-[1fr_auto_auto_auto_auto] items-center gap-4 px-4 py-3 hover:bg-brand-bg transition-colors">
-      <div className="flex items-center gap-3 min-w-0">
+    <div className="relative grid grid-cols-1 sm:grid-cols-[1fr_auto_auto_auto_auto] sm:items-center gap-2 sm:gap-4 p-4 sm:px-4 sm:py-3 hover:bg-brand-bg transition-colors">
+      <div className="flex items-center gap-3 min-w-0 pr-8 sm:pr-0">
         <div className="w-12 h-12 rounded-lg bg-gray-200 relative shrink-0 overflow-hidden">
           {service.imageUrl && (
             // eslint-disable-next-line @next/next/no-img-element
@@ -122,15 +122,17 @@ export function ManageServiceCard({
         </div>
       </div>
 
-      <span className="w-20 text-right font-bold text-brand-dark text-sm">
-        {service.price !== null && service.price !== undefined ? `$${String(service.price)}` : "—"}
-      </span>
-      <span className="w-20 text-right text-xs text-brand-gray">{service.durationMin ? `${service.durationMin} min` : "—"}</span>
-      <span className="w-24 text-right text-xs text-brand-gray">{service.modality ? MODALIDAD_LABEL[service.modality] : "—"}</span>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 sm:contents">
+        <span className="font-bold text-brand-dark text-sm sm:w-20 sm:text-right">
+          {service.price !== null && service.price !== undefined ? `$${String(service.price)}` : "—"}
+        </span>
+        <span className="text-xs text-brand-gray sm:w-20 sm:text-right">{service.durationMin ? `${service.durationMin} min` : "—"}</span>
+        <span className="text-xs text-brand-gray sm:w-24 sm:text-right">{service.modality ? MODALIDAD_LABEL[service.modality] : "—"}</span>
+      </div>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button disabled={busy} className="w-8 text-brand-gray hover:text-brand-dark shrink-0 flex justify-end" aria-label="Opciones">
+          <button disabled={busy} className="absolute top-4 right-3 sm:static w-8 min-h-[44px] sm:min-h-0 text-brand-gray hover:text-brand-dark shrink-0 flex sm:justify-end items-center justify-center" aria-label="Opciones">
             <MoreVertical size={18} />
           </button>
         </DropdownMenuTrigger>

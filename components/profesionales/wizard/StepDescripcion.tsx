@@ -26,7 +26,7 @@ export function StepDescripcion({
 
   return (
     <div className="max-w-2xl">
-      <h2 className="text-2xl font-bold text-brand-dark">Descripción</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-brand-dark">Descripción</h2>
       <p className="text-brand-gray text-sm mt-1">Contá en detalle qué incluye tu servicio.</p>
 
       <div className="mt-6">
@@ -42,12 +42,12 @@ export function StepDescripcion({
       </div>
 
       <div className="mt-8 pt-6 border-t border-gray-200">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
             <Label>Preguntas frecuentes</Label>
             <p className="text-xs text-brand-gray">Agregá preguntas y respuestas para tus clientes.</p>
           </div>
-          <Button type="button" variant="outline" onClick={addFaq} className="gap-1.5 border-gray-200 text-brand-dark">
+          <Button type="button" variant="outline" onClick={addFaq} className="gap-1.5 border-gray-200 text-brand-dark justify-center min-h-[44px] sm:min-h-0">
             <Plus size={14} /> Agregar FAQ
           </Button>
         </div>

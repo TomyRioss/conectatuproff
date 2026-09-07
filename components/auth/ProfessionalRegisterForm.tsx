@@ -111,7 +111,7 @@ export default function ProfessionalRegisterForm() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-5 sm:gap-6">
       {/* Progress bar */}
       <div className="flex items-center gap-1.5">
         {STEPS.map((s, i) => (
@@ -128,11 +128,11 @@ export default function ProfessionalRegisterForm() {
         Paso {step + 1} de {STEPS.length} — {STEPS[step].label}
       </p>
 
-      <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="flex flex-col gap-3 sm:gap-4">
         {/* Step 0: datos básicos */}
         {step === 0 && (
           <>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-3">
               <FormField
                 label="Nombre"
                 placeholder="Ana"
@@ -201,12 +201,12 @@ export default function ProfessionalRegisterForm() {
         )}
 
         {/* Navigation */}
-        <div className={`flex gap-3 mt-2 ${step > 0 ? "justify-between" : "justify-end"}`}>
+        <div className="sticky bottom-0 -mx-1 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 pt-2 pb-1 lg:static lg:bg-transparent lg:p-0 flex gap-3 mt-2 justify-between">
           {step > 0 && (
             <button
               type="button"
               onClick={prev}
-              className="rounded-xl border border-gray-200 px-5 py-3 text-sm font-medium text-brand-dark hover:bg-gray-50 transition-colors cursor-pointer"
+              className="rounded-xl border border-gray-200 px-5 py-3.5 lg:py-3 min-h-[48px] lg:min-h-0 text-[15px] lg:text-sm font-medium text-brand-dark hover:bg-gray-50 active:bg-gray-100 transition-colors cursor-pointer shrink-0"
             >
               Anterior
             </button>
@@ -216,7 +216,7 @@ export default function ProfessionalRegisterForm() {
             <button
               type="button"
               onClick={next}
-              className="flex-1 rounded-xl bg-brand-violet py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity cursor-pointer"
+              className="flex-1 rounded-xl bg-brand-violet py-3.5 lg:py-3 min-h-[48px] lg:min-h-0 text-[15px] lg:text-sm font-semibold text-white hover:opacity-90 active:scale-[0.99] transition cursor-pointer"
             >
               Siguiente
             </button>
@@ -224,7 +224,7 @@ export default function ProfessionalRegisterForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 rounded-xl bg-brand-violet py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed"
+              className="flex-1 rounded-xl bg-brand-violet py-3.5 lg:py-3 min-h-[48px] lg:min-h-0 text-[15px] lg:text-sm font-semibold text-white hover:opacity-90 active:scale-[0.99] transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting ? "Creando cuenta..." : "Crear cuenta profesional"}
             </button>

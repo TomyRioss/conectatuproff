@@ -20,8 +20,8 @@ export function IntroVideo({
   if (!videoUrl && !isOwner) return null;
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-5 flex items-start justify-between gap-6">
-      <div>
+    <div className="bg-white rounded-2xl border border-gray-200 p-5 flex items-start justify-between gap-4 sm:gap-6">
+      <div className="min-w-0">
         <h2 className="text-lg font-bold text-brand-dark mb-1">Video de introducción</h2>
         <p className="text-brand-gray text-sm">Preséntate y conecta con potenciales clientes.</p>
         <p className="text-brand-gray text-xs mt-1">Duración: entre 20 y 60 segundos.</p>

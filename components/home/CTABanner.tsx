@@ -54,7 +54,7 @@ export default async function CTABanner() {
 
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
-                href="/registro/profesional"
+                href="/profesional/login"
                 className="flex items-center justify-center gap-2 bg-[#1EC97E] text-white px-6 py-3 rounded-xl text-sm font-medium hover:opacity-90 transition-colors"
               >
                 Crear perfil gratis

@@ -3,6 +3,13 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Check, X } from "lucide-react";
 
 interface Peticion {
@@ -12,10 +19,19 @@ interface Peticion {
   user: { name: string | null; email: string };
 }
 
+interface Category {
+  id: string;
+  name: string;
+}
+
 export default function PeticionesPage() {
   const [peticiones, setPeticiones] = useState<Peticion[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Peticion | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [categoryId, setCategoryId] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     fetch("/api/owner/peticiones")
@@ -28,19 +44,42 @@ export default function PeticionesPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  async function handleUpdate(id: string, status: "RESOLVED" | "REJECTED") {
+  async function handleUpdate(id: string, status: "RESOLVED" | "REJECTED", opts?: { categoryId?: string }) {
     try {
+      setSaving(true);
       const res = await fetch("/api/owner/peticiones", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, status }),
+        body: JSON.stringify({ id, status, categoryId: opts?.categoryId }),
       });
-      if (!res.ok) throw new Error((await res.json()).error ?? "Error al actualizar petición");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error ?? "Error al actualizar petición");
       setPeticiones((prev) => prev.filter((p) => p.id !== id));
-      toast.success(status === "RESOLVED" ? "Petición resuelta" : "Petición rechazada");
+      setSelected(null);
+      setCategoryId("");
+      toast.success(
+        status === "RESOLVED"
+          ? data.created
+            ? "Subcategoría creada y petición resuelta"
+            : "Petición resuelta"
+          : "Petición rechazada"
+      );
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Error al actualizar petición");
+    } finally {
+      setSaving(false);
     }
+  }
+
+  function openResolve(p: Peticion) {
+    setSelected(p);
+    setCategoryId("");
+    fetch("/api/owner/categorias")
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data)) setCategories(data);
+      })
+      .catch(() => {});
   }
 
   return (
@@ -80,16 +119,55 @@ export default function PeticionesPage() {
               </Button>
               <Button
                 size="sm"
-                onClick={() => handleUpdate(p.id, "RESOLVED")}
+                onClick={() => openResolve(p)}
                 className="gap-1.5 bg-brand-green text-brand-dark hover:bg-brand-green/90"
               >
                 <Check size={14} />
-                Resolver
+                Aceptar
               </Button>
             </div>
           </div>
         ))}
       </div>
+
+      <Dialog open={!!selected} onOpenChange={(o) => !o && setSelected(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Aceptar “{selected?.name}”</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-brand-gray">
+            Elegí a qué categoría se agrega como subcategoría. Sin categoría no se crea nada.
+          </p>
+          <select
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+            className="w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-green"
+          >
+            <option value="">Seleccioná categoría…</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              disabled={saving}
+              onClick={() => selected && handleUpdate(selected.id, "RESOLVED")}
+            >
+              Solo resolver
+            </Button>
+            <Button
+              disabled={saving || !categoryId}
+              onClick={() => selected && handleUpdate(selected.id, "RESOLVED", { categoryId })}
+              className="bg-brand-green text-brand-dark hover:bg-brand-green/90"
+            >
+              {saving ? "Guardando…" : "Crear y resolver"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

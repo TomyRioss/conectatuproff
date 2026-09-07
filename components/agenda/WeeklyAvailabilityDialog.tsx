@@ -70,7 +70,7 @@ export function WeeklyAvailabilityDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button type="button" variant="outline" className="gap-2 border-gray-200 text-brand-dark">
+        <Button type="button" variant="outline" className="gap-2 border-gray-200 text-brand-dark w-full sm:w-auto justify-center min-h-[48px] sm:min-h-0">
           <Settings size={14} /> Configurar horario
         </Button>
       </DialogTrigger>
@@ -83,13 +83,13 @@ export function WeeklyAvailabilityDialog() {
         ) : (
           <div className="flex flex-col gap-3 py-2">
             {DOW_LABELS.map((label, i) => (
-              <div key={label} className="flex items-center gap-3">
-                <label className="flex items-center gap-2 w-32 shrink-0">
+              <div key={label} className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <label className="flex items-center gap-2 w-full sm:w-32 shrink-0 min-h-[44px] sm:min-h-0">
                   <input
                     type="checkbox"
                     checked={week[i].enabled}
                     onChange={(e) => updateDay(i, { enabled: e.target.checked })}
-                    className="h-4 w-4 rounded border-gray-300 text-brand-violet focus:ring-brand-violet/30"
+                    className="h-5 w-5 sm:h-4 sm:w-4 rounded border-gray-300 text-brand-violet focus:ring-brand-violet/30 shrink-0"
                   />
                   <span className="text-sm text-brand-dark">{label}</span>
                 </label>
@@ -98,7 +98,7 @@ export function WeeklyAvailabilityDialog() {
                   disabled={!week[i].enabled}
                   value={week[i].startTime}
                   onChange={(e) => updateDay(i, { startTime: e.target.value })}
-                  className="h-9 rounded-md border border-gray-200 bg-white px-2 text-sm text-brand-dark disabled:opacity-40 disabled:bg-brand-bg"
+                  className="h-11 sm:h-9 flex-1 sm:flex-none min-w-0 rounded-md border border-gray-200 bg-white px-2 text-base sm:text-sm text-brand-dark disabled:opacity-40 disabled:bg-brand-bg"
                 />
                 <span className="text-brand-gray text-sm">a</span>
                 <input
@@ -106,14 +106,14 @@ export function WeeklyAvailabilityDialog() {
                   disabled={!week[i].enabled}
                   value={week[i].endTime}
                   onChange={(e) => updateDay(i, { endTime: e.target.value })}
-                  className="h-9 rounded-md border border-gray-200 bg-white px-2 text-sm text-brand-dark disabled:opacity-40 disabled:bg-brand-bg"
+                  className="h-11 sm:h-9 flex-1 sm:flex-none min-w-0 rounded-md border border-gray-200 bg-white px-2 text-base sm:text-sm text-brand-dark disabled:opacity-40 disabled:bg-brand-bg"
                 />
               </div>
             ))}
           </div>
         )}
         <DialogFooter>
-          <Button type="button" onClick={save} disabled={saving || loading} className="bg-brand-green text-white hover:opacity-90">
+          <Button type="button" onClick={save} disabled={saving || loading} className="bg-brand-green text-white hover:opacity-90 w-full sm:w-auto min-h-[48px] sm:min-h-0">
             {saving ? "Guardando..." : "Guardar horario"}
           </Button>
         </DialogFooter>

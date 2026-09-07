@@ -94,15 +94,15 @@ function CompletarPerfilForm() {
       imageAlt="Personas conectándose con profesionales"
       gradientClass="bg-gradient-to-br from-brand-dark/80 via-brand-dark/50 to-brand-green/60"
     >
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-5 sm:gap-6">
         <div>
-          <h1 className="text-2xl font-bold text-brand-dark font-display">Completá tu cuenta</h1>
+          <h1 className="text-[22px] leading-tight sm:text-2xl font-bold text-brand-dark font-display">Completá tu cuenta</h1>
           <p className="text-brand-gray text-sm mt-1">
             Elegí un nombre de usuario y una contraseña para terminar de crear tu cuenta.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 sm:gap-4">
           <div className="flex flex-col gap-1">
             <FormField label="Nombre de usuario" placeholder="juan_garcia" error={errors.username?.message} {...register("username")} />
             {usernameStatus === "checking" && <p className="text-xs text-brand-gray">Verificando...</p>}
@@ -116,7 +116,7 @@ function CompletarPerfilForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="mt-2 rounded-xl bg-brand-green py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-60"
+            className="mt-2 w-full rounded-xl bg-brand-green py-3.5 lg:py-3 min-h-[48px] text-[15px] lg:text-sm font-semibold text-white hover:opacity-90 active:scale-[0.99] transition disabled:opacity-60"
           >
             {isSubmitting ? "Guardando..." : "Terminar"}
           </button>

@@ -92,9 +92,9 @@ export default function OnboardingWizard({
       imageAlt="Profesional en su trabajo"
       gradientClass="bg-gradient-to-br from-brand-dark/80 via-brand-dark/50 to-brand-violet/60"
     >
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-5 sm:gap-6">
         <div>
-          <h1 className="text-2xl font-bold text-brand-dark font-display">Modo Profesional</h1>
+          <h1 className="text-[22px] leading-tight sm:text-2xl font-bold text-brand-dark font-display">Modo Profesional</h1>
           <p className="text-brand-gray text-sm mt-1">Completá tu perfil para activarlo</p>
         </div>
 
@@ -110,7 +110,7 @@ export default function OnboardingWizard({
           Paso {step + 1} de {STEPS.length} — {STEPS[step]}
         </p>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3 sm:gap-4">
           {step === 0 && (
             <SpecialtyAutocomplete
               value={watch("specialty")}
@@ -140,12 +140,12 @@ export default function OnboardingWizard({
             />
           )}
 
-          <div className={`flex gap-3 mt-2 ${step > initialStep ? "justify-between" : "justify-end"}`}>
+          <div className="sticky bottom-0 -mx-1 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 pt-2 pb-1 lg:static lg:bg-transparent lg:p-0 flex gap-3 mt-2 justify-between">
             {step > initialStep && (
               <button
                 type="button"
                 onClick={() => setStep((s) => Math.max(s - 1, initialStep))}
-                className="rounded-xl border border-gray-200 px-5 py-3 text-sm font-medium text-brand-dark hover:bg-gray-50 transition-colors"
+                className="rounded-xl border border-gray-200 px-5 py-3.5 lg:py-3 min-h-[48px] lg:min-h-0 text-[15px] lg:text-sm font-medium text-brand-dark hover:bg-gray-50 active:bg-gray-100 transition-colors shrink-0"
               >
                 Anterior
               </button>
@@ -155,7 +155,7 @@ export default function OnboardingWizard({
               <button
                 type="button"
                 onClick={next}
-                className="flex-1 rounded-xl bg-brand-violet py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+                className="flex-1 rounded-xl bg-brand-violet py-3.5 lg:py-3 min-h-[48px] lg:min-h-0 text-[15px] lg:text-sm font-semibold text-white hover:opacity-90 active:scale-[0.99] transition"
               >
                 Siguiente
               </button>
@@ -164,7 +164,7 @@ export default function OnboardingWizard({
                 type="button"
                 onClick={submit}
                 disabled={loading}
-                className="flex-1 rounded-xl bg-brand-green py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-60"
+                className="flex-1 rounded-xl bg-brand-green py-3.5 lg:py-3 min-h-[48px] lg:min-h-0 text-[15px] lg:text-sm font-semibold text-white hover:opacity-90 active:scale-[0.99] transition disabled:opacity-60"
               >
                 {loading ? "Activando..." : "Activar perfil profesional"}
               </button>

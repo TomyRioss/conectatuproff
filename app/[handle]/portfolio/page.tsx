@@ -19,6 +19,7 @@ export default async function PortfolioGalleryPage({
   const user = await prisma.user.findUnique({
     where: { username },
     select: {
+      image: true,
       professional: {
         select: {
           id: true,
@@ -41,28 +42,31 @@ export default async function PortfolioGalleryPage({
   const isOwner = session?.user?.id === pro.userId;
   const fullName = `${pro.firstName} ${pro.lastName}`;
   const initials = `${pro.firstName[0] ?? ""}${pro.lastName[0] ?? ""}`.toUpperCase();
+  const avatarSrc = pro.avatarUrl
+    ? `/api/avatar?key=${encodeURIComponent(pro.avatarUrl)}`
+    : (user.image?.startsWith("http") ? user.image : null);
 
   return (
     <main className="min-h-screen bg-brand-bg">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 py-12">
-        <div className="flex items-center justify-between mb-10">
-          <div className="flex items-center gap-5">
-            <Avatar className="h-20 w-20">
-              {pro.avatarUrl && (
-                <AvatarImage src={`/api/avatar?key=${encodeURIComponent(pro.avatarUrl)}`} alt={fullName} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-10 py-8 sm:py-12">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 mb-6 sm:mb-10">
+          <div className="flex flex-col items-center text-center sm:flex-row sm:text-left sm:items-center gap-4 sm:gap-5 min-w-0">
+            <Avatar className="h-24 w-24 sm:h-20 sm:w-20 shrink-0">
+              {avatarSrc && (
+                <AvatarImage src={avatarSrc} alt={fullName} />
               )}
               <AvatarFallback className="bg-brand-violet text-white text-2xl font-semibold">
                 {initials}
               </AvatarFallback>
             </Avatar>
-            <div>
-              <h1 className="text-2xl font-bold text-brand-dark">{fullName}</h1>
-              {pro.specialty && <p className="text-base text-brand-gray mt-1">{pro.specialty}</p>}
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl font-bold text-brand-dark truncate">{fullName}</h1>
+              {pro.specialty && <p className="text-sm sm:text-base text-brand-gray mt-1 truncate">{pro.specialty}</p>}
             </div>
           </div>
           <Button
             disabled={isOwner}
-            className="bg-brand-green text-white hover:opacity-90 disabled:opacity-50 text-base px-6 py-6"
+            className="bg-brand-green text-white hover:opacity-90 disabled:opacity-50 text-base px-6 min-h-[48px] sm:py-6 w-full sm:w-auto"
           >
             Ponte en contacto
           </Button>
@@ -71,10 +75,10 @@ export default async function PortfolioGalleryPage({
         <hr className="border-gray-200 mb-8" />
 
         {isOwner && (
-          <div className="flex justify-end mb-8">
+          <div className="flex sm:justify-end mb-6 sm:mb-8">
             <Link
               href={`/${handle}/portfolio/new`}
-              className="inline-flex items-center gap-2 rounded-xl bg-brand-green text-white px-5 py-3 text-base font-semibold hover:opacity-90 transition-opacity"
+              className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-brand-green text-white px-5 py-3 min-h-[48px] sm:min-h-0 text-base font-semibold hover:opacity-90 transition-opacity"
             >
               <Plus size={18} /> Agregar proyecto
             </Link>

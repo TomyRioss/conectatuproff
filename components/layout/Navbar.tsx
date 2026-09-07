@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
 import { AISearchDialog } from "@/components/ui/AISearchDialog"
+import ZonaSelect from "@/components/search/ZonaSelect"
 import { UpgradePlanDialog } from "@/components/profesionales/UpgradePlanDialog"
 import { toast } from "sonner"
 
@@ -57,7 +58,7 @@ function AvatarButton() {
             <span className="absolute inset-0 flex items-center justify-center select-none">{initials}</span>
             {avatarUrl && (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={avatarUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
+              <img src={avatarUrl} alt="" onError={(e) => { e.currentTarget.style.display = "none" }} className="absolute inset-0 w-full h-full object-cover" />
             )}
           </button>
         </DropdownMenuTrigger>
@@ -207,7 +208,6 @@ export default function Navbar() {
 
   const [query, setQuery] = useState("")
   const [barrio, setBarrio] = useState("")
-  const [zonas, setZonas] = useState<string[]>([])
   const submitSearch = () => {
     const q = query.trim()
     if (!q && !barrio) return
@@ -216,13 +216,6 @@ export default function Navbar() {
     if (barrio) params.set("barrio", barrio)
     router.push(`/buscar?${params.toString()}`)
   }
-
-  useEffect(() => {
-    fetch("https://apis.datos.gob.ar/georef/api/municipios?provincia=06&campos=nombre&max=135&orden=nombre")
-      .then((r) => r.json())
-      .then((d) => setZonas((d.municipios ?? []).map((m: { nombre: string }) => m.nombre)))
-      .catch(() => {})
-  }, [])
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -235,13 +228,13 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-20 grid grid-cols-[auto_1fr_auto_auto] md:grid-cols-[auto_1fr_auto_auto] items-center gap-6">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 h-16 lg:h-20 flex items-center justify-between gap-2 lg:grid lg:grid-cols-[auto_1fr_auto_auto] lg:gap-6">
 
-        <Link href="/" className="text-2xl font-bold text-[#1A1A2E] font-[family-name:var(--font-display)] shrink-0">
+        <Link href="/" className="text-[15px] lg:text-2xl font-bold text-[#1A1A2E] font-[family-name:var(--font-display)] shrink-0 leading-none">
           Conecta<span className="text-[#6C5CE7]">Tu</span>Proff
         </Link>
 
-        <div className="hidden md:flex items-center justify-center w-full">
+        <div className="hidden lg:flex items-center justify-center w-full">
           <div className="flex items-center w-full max-w-2xl h-12 bg-white border border-gray-200 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-brand-violet/30 focus-within:border-brand-violet transition-colors">
             <input
               type="search"
@@ -251,18 +244,12 @@ export default function Navbar() {
               placeholder="¿Qué servicio estás buscando hoy?"
               className="w-full h-full pl-5 pr-2 bg-transparent text-base text-brand-dark placeholder:text-brand-gray focus:outline-none"
             />
-            <div className="flex items-center gap-1.5 pl-3 pr-2 border-l border-gray-200 shrink-0">
-              <MapPin size={16} className="text-brand-gray shrink-0" />
-              <select
+            <div className="flex items-center pl-1 pr-2 border-l border-gray-200 shrink-0">
+              <ZonaSelect
                 value={barrio}
-                onChange={(e) => setBarrio(e.target.value)}
-                className="h-full bg-transparent text-sm text-brand-dark outline-none max-w-[120px] appearance-none"
-              >
-                <option value="">Zona</option>
-                {zonas.map((z) => (
-                  <option key={z} value={z}>{z}</option>
-                ))}
-              </select>
+                onChange={setBarrio}
+                className="bg-transparent max-w-[140px]"
+              />
             </div>
             <button
               onClick={() => setAiOpen(true)}
@@ -281,7 +268,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="hidden md:flex items-center gap-4 shrink-0">
+        <div className="hidden lg:flex items-center gap-4 shrink-0">
           {isLoggedIn ? (
             <>
               <NotificationBell />
@@ -323,7 +310,7 @@ export default function Navbar() {
           }}
         />
 
-        <div className="hidden md:flex items-center gap-3 justify-self-end">
+        <div className="hidden lg:flex items-center gap-3 justify-self-end">
           {status === "loading" ? (
             <div className="w-9 h-9 rounded-full bg-gray-200 animate-pulse" />
           ) : isLoggedIn ? (
@@ -368,34 +355,67 @@ export default function Navbar() {
           )}
         </div>
 
-        <button
-          className="md:hidden text-[#1A1A2E] p-1 col-start-3 justify-self-end"
-          onClick={() => setOpen(!open)}
-          aria-label="Menú"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        {isLoggedIn ? (
+          <button
+            className="lg:hidden text-[#1A1A2E] p-1 shrink-0 ml-auto"
+            onClick={() => setOpen(!open)}
+            aria-label="Menú"
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        ) : (
+          <div className="lg:hidden flex items-center gap-1.5 shrink-0 ml-auto">
+            <Link
+              href="/profesional/login"
+              className="text-[11px] text-[#1A1A2E] hover:text-[#6C5CE7] transition-colors underline decoration-[#1EC97E] underline-offset-2 whitespace-nowrap shrink-0"
+            >
+              ¿Sos profesional?
+            </Link>
+            <Link
+              href="/register"
+              className="text-[11px] font-medium bg-[#1EC97E] text-white px-2.5 py-1.5 rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
+            >
+              Busca ahora
+            </Link>
+          </div>
+        )}
       </div>
 
       {open && (
-        <div className="md:hidden bg-[#F3F4F8] border-t border-gray-200 px-4 py-5 flex flex-col gap-5">
-          <div className="relative w-full">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-gray pointer-events-none" />
-            <input
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && submitSearch()}
-              placeholder="Buscar profesionales, servicios..."
-              className="w-full pl-9 pr-4 py-2.5 rounded-2xl bg-white border border-gray-200 text-sm text-brand-dark placeholder:text-brand-gray focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet transition-colors"
-            />
+        <div className="lg:hidden absolute top-full inset-x-0 z-50 bg-[#F3F4F8] border-t border-gray-200 shadow-xl px-4 py-5 flex flex-col gap-5 max-h-[calc(100dvh-4rem)] overflow-y-auto overflow-x-hidden">
+          <div className="flex items-center gap-2 w-full">
+            <div className="relative flex-1">
+              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-gray pointer-events-none" />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && submitSearch()}
+                placeholder="Buscar profesionales, servicios..."
+                className="w-full pl-9 pr-4 py-3 min-h-[48px] rounded-2xl bg-white border border-gray-200 text-base text-brand-dark placeholder:text-brand-gray focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet transition-colors"
+              />
+            </div>
+            <div className="flex items-center shrink-0 min-h-[48px] px-1 rounded-2xl bg-white border border-gray-200">
+              <ZonaSelect
+                value={barrio}
+                onChange={setBarrio}
+                className="bg-transparent max-w-[130px]"
+              />
+            </div>
+            <button
+              onClick={submitSearch}
+              aria-label="Buscar"
+              className="shrink-0 w-12 min-h-[48px] rounded-2xl bg-brand-green text-white flex items-center justify-center hover:opacity-90 active:scale-[0.98] transition"
+            >
+              <Search size={18} />
+            </button>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="relative flex items-center gap-1">
             <NotificationBell />
             <Link
               href={role === "PROFESSIONAL" ? "/profesional/mensajes" : "/cliente/mensajes"}
               aria-label="Mensajes"
-              className="p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors"
+              className="inline-flex min-w-[44px] min-h-[44px] items-center justify-center p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors"
               onClick={() => setOpen(false)}
             >
               <MessageSquare size={20} />
@@ -403,64 +423,113 @@ export default function Navbar() {
             <Link
               href="/favoritos"
               aria-label="Favoritos"
-              className="p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors"
+              className="inline-flex min-w-[44px] min-h-[44px] items-center justify-center p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors"
               onClick={() => setOpen(false)}
             >
               <Heart size={20} />
             </Link>
+            {isClient ? (
+              <button
+                onClick={() => { setOpen(false); handleModoProfesional(); }}
+                disabled={checkingMode}
+                className="ml-auto inline-flex items-center gap-1.5 min-h-[44px] px-3 rounded-xl bg-brand-violet/10 text-brand-violet text-[13px] font-semibold hover:bg-brand-violet/15 active:scale-[0.98] transition disabled:opacity-60 whitespace-nowrap"
+              >
+                <Briefcase size={15} className="shrink-0" />
+                {checkingMode ? "Verificando…" : "Modo Profesional"}
+              </button>
+            ) : role === "PROFESSIONAL" ? (
+              <button
+                onClick={() => { setOpen(false); handleModoCliente(); }}
+                disabled={checkingMode}
+                className="ml-auto inline-flex items-center gap-1.5 min-h-[44px] px-3 rounded-xl bg-brand-violet/10 text-brand-violet text-[13px] font-semibold hover:bg-brand-violet/15 active:scale-[0.98] transition disabled:opacity-60 whitespace-nowrap"
+              >
+                <Search size={15} className="shrink-0" />
+                {checkingMode ? "Verificando…" : "Buscar Servicios"}
+              </button>
+            ) : null}
           </div>
           <hr className="border-gray-200" />
           {isLoggedIn ? (
-            <>
+            <div className="flex flex-col">
+              <p className="px-1 pb-1 text-xs font-semibold uppercase tracking-wider text-brand-gray">Mi cuenta</p>
               {isClient && (
                 <Link
                   href="/cliente/perfil"
-                  className="text-[#1A1A2E] text-sm flex items-center gap-2"
+                  className="text-[#1A1A2E] text-[15px] flex items-center gap-2.5 min-h-[48px] py-2"
                   onClick={() => setOpen(false)}
                 >
-                  <User size={14} />
+                  <User size={16} className="shrink-0 text-brand-gray" />
                   Ver mi perfil
                 </Link>
               )}
+              {role === "PROFESSIONAL" && (
+                <>
+                  <Link
+                    href="/profesional/perfil"
+                    className="text-[#1A1A2E] text-[15px] flex items-center gap-2.5 min-h-[48px] py-2"
+                    onClick={() => setOpen(false)}
+                  >
+                    <User size={16} className="shrink-0 text-brand-gray" />
+                    Mi perfil
+                  </Link>
+                  <Link
+                    href="/profesional/servicios"
+                    className="text-[#1A1A2E] text-[15px] flex items-center gap-2.5 min-h-[48px] py-2"
+                    onClick={() => setOpen(false)}
+                  >
+                    <Briefcase size={16} className="shrink-0 text-brand-gray" />
+                    Servicios
+                  </Link>
+                  <Link
+                    href="/profesional/agenda"
+                    className="text-[#1A1A2E] text-[15px] flex items-center gap-2.5 min-h-[48px] py-2"
+                    onClick={() => setOpen(false)}
+                  >
+                    <Calendar size={16} className="shrink-0 text-brand-gray" />
+                    Agenda
+                  </Link>
+                </>
+              )}
               <Link
                 href="/configuracion"
-                className="text-[#1A1A2E] text-sm flex items-center gap-2"
+                className="text-[#1A1A2E] text-[15px] flex items-center gap-2.5 min-h-[48px] py-2"
                 onClick={() => setOpen(false)}
               >
-                <Settings size={14} />
+                <Settings size={16} className="shrink-0 text-brand-gray" />
                 Configuración
               </Link>
               <button
-                className="text-sm text-red-600 text-left"
+                className="text-sm font-medium text-red-600 flex items-center gap-2.5 min-h-[48px] py-2 text-left"
                 onClick={() => { setOpen(false); signOut({ callbackUrl: "/" }) }}
               >
+                <LogOut size={16} className="shrink-0" />
                 Cerrar sesión
               </button>
-            </>
+            </div>
           ) : (
-            <>
+            <div className="flex flex-col gap-1">
               <Link
                 href="/login"
-                className="text-[#1A1A2E] text-sm"
+                className="text-[#1A1A2E] text-[15px] flex items-center min-h-[48px] py-2"
                 onClick={() => setOpen(false)}
               >
                 Iniciar sesión
               </Link>
               <Link
                 href="/profesional/login"
-                className="text-[#1A1A2E] text-sm underline decoration-[#1EC97E] underline-offset-2"
+                className="text-[#1A1A2E] text-[15px] underline decoration-[#1EC97E] underline-offset-2 flex items-center min-h-[48px] py-2"
                 onClick={() => setOpen(false)}
               >
                 ¿Sos profesional?
               </Link>
               <Link
                 href="/register"
-                className="text-sm bg-[#1EC97E] text-white px-4 py-2.5 rounded-xl text-center hover:opacity-90 transition-opacity"
+                className="text-[15px] font-semibold bg-[#1EC97E] text-white px-4 min-h-[48px] rounded-xl flex items-center justify-center hover:opacity-90 active:scale-[0.99] transition"
                 onClick={() => setOpen(false)}
               >
                 Busca ahora
               </Link>
-            </>
+            </div>
           )}
         </div>
       )}

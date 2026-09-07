@@ -1,0 +1,28 @@
+- generic [active] [ref=f4e1]:
+  - main [ref=f4e2]:
+    - generic [ref=f4e4]:
+      - generic [ref=f4e5]:
+        - generic [ref=f4e6]:
+          - generic [ref=f4e7]: TR
+          - button "Cambiar foto" [ref=f4e9] [cursor=pointer]
+        - generic [ref=f4e13]:
+          - generic [ref=f4e14]:
+            - heading "Tomas Rios" [level=1] [ref=f4e15]
+            - button "Editar nombre" [ref=f4e16]
+          - generic [ref=f4e20]: "@zukkodev"
+          - button "Editar especialidad" [ref=f4e22]:
+            - paragraph [ref=f4e23]: Instructor de Boxeo
+          - generic [ref=f4e27]:
+            - button "Editar ubicación" [ref=f4e28]:
+              - generic [ref=f4e32]: Ciudad Autónoma de Buenos Aires, Comuna 15
+            - button "Editar teléfono" [ref=f4e33]:
+              - generic [ref=f4e36]: "1134083140"
+      - generic [ref=f4e37]:
+        - button "Compartir" [ref=f4e38]
+        - link [ref=f4e39] [cursor=pointer]:
+          - /url: /perfil/profesional/zukkodev
+          - button "Vista previa" [ref=f4e40]
+  - button "Abrir asistente" [ref=f4e42]:
+    - generic [ref=f4e46]: Ayuda
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=f4e52] [cursor=pointer]

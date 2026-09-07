@@ -19,7 +19,7 @@ export default async function ProfesionalDashboardPerfilPage({
   const pro = await prisma.professional.findFirst({
     where: { user: { username } },
     include: {
-      user: { select: { id: true, email: true, username: true } },
+      user: { select: { id: true, email: true, username: true, image: true } },
       reviews: {
         include: { client: { select: { firstName: true, lastName: true } } },
         orderBy: { createdAt: "desc" },
@@ -43,6 +43,7 @@ export default async function ProfesionalDashboardPerfilPage({
         phone={pro.phone}
         email={pro.user.email}
         avatarUrl={pro.avatarUrl}
+        userImage={pro.user.image}
         bio={pro.bio}
         isPro={pro.isPro}
       />

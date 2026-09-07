@@ -59,7 +59,7 @@ export function ProfCard({ pro, variant = "default" }: { pro: ProfCardData; vari
       <div className="flex items-center justify-between gap-2 text-sm">
         <div className={`flex items-center gap-1 min-w-0 ${isDark ? "text-white/60" : "text-[#6B7280]"}`}>
           <MapPin size={13} className="shrink-0" />
-          <span className="truncate" title={pro.zone}>{pro.zone}</span>
+          <span className="whitespace-normal break-words sm:truncate" title={pro.zone}>{pro.zone}</span>
         </div>
         <div className={`flex items-center gap-1 font-medium shrink-0 ${isDark ? "text-white" : "text-[#6C5CE7]"}`}>
           <Star size={13} className={isDark ? "fill-white" : "fill-[#6C5CE7]"} />

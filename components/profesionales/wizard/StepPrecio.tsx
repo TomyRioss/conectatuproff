@@ -44,10 +44,10 @@ export function StepPrecio({
 
   return (
     <div className="max-w-xl">
-      <h2 className="text-2xl font-bold text-brand-dark">Precio y duración</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-brand-dark">Precio y duración</h2>
       <p className="text-brand-gray text-sm mt-1">Definí el precio base, packs de sesiones y sesiones extra.</p>
 
-      <div className="grid grid-cols-2 gap-4 mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
         <div>
           <Label htmlFor="price">Precio (ARS)</Label>
           <Input
@@ -65,14 +65,14 @@ export function StepPrecio({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
         <div>
           <Label htmlFor="frequencyType">Frecuencia</Label>
           <select
             id="frequencyType"
             value={state.frequencyType}
             onChange={(e) => update({ frequencyType: e.target.value as WizardState["frequencyType"] })}
-            className="w-full h-9 mt-1 rounded-md border border-gray-200 bg-white px-3 pr-8 text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
+            className="w-full h-12 sm:h-9 mt-1 rounded-md border border-gray-200 bg-white px-3 pr-8 text-base sm:text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
           >
             <option value="UNICA">Sesión única</option>
             <option value="SEMANAL">Veces por semana</option>
@@ -98,7 +98,7 @@ export function StepPrecio({
       </div>
 
       {state.frequencyType !== "UNICA" && (
-        <div className="grid grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
           <div>
             <Label htmlFor="frequencyPeriods">
               {state.frequencyType === "SEMANAL" ? "Duración (semanas)" : "Duración (meses)"}
@@ -116,14 +116,14 @@ export function StepPrecio({
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
         <div>
           <Label htmlFor="modality">Modalidad</Label>
           <select
             id="modality"
             value={state.modality}
             onChange={(e) => update({ modality: e.target.value })}
-            className="w-full h-9 mt-1 rounded-md border border-gray-200 bg-white px-3 pr-8 text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
+            className="w-full h-12 sm:h-9 mt-1 rounded-md border border-gray-200 bg-white px-3 pr-8 text-base sm:text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
           >
             <option value="">Sin especificar</option>
             <option value="ONLINE">Online</option>
@@ -137,7 +137,7 @@ export function StepPrecio({
             id="categoryId"
             value={state.categoryId}
             onChange={(e) => update({ categoryId: e.target.value })}
-            className="w-full h-9 mt-1 rounded-md border border-gray-200 bg-white px-3 pr-8 text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
+            className="w-full h-12 sm:h-9 mt-1 rounded-md border border-gray-200 bg-white px-3 pr-8 text-base sm:text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
           >
             <option value="">Sin categoría</option>
             {categories.map((c) => (
@@ -160,31 +160,31 @@ export function StepPrecio({
       </div>
 
       <div className="mt-6 pt-6 border-t border-gray-200">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
             <Label>Packs de sesiones</Label>
             <p className="text-xs text-brand-gray">Opcional. Ej: 3, 5 o 10 sesiones con precio especial.</p>
           </div>
-          <Button type="button" variant="outline" onClick={addPackage} className="gap-1.5 border-gray-200 text-brand-dark">
+          <Button type="button" variant="outline" onClick={addPackage} className="gap-1.5 border-gray-200 text-brand-dark justify-center min-h-[44px] sm:min-h-0">
             <Plus size={14} /> Agregar pack
           </Button>
         </div>
 
         <div className="flex flex-col gap-3 mt-4">
           {state.sessionPackages.map((pkg, i) => (
-            <div key={i} className="flex items-center gap-3">
+            <div key={i} className="flex flex-wrap items-center gap-2 sm:gap-3">
               <Input
                 type="number"
                 min="1"
                 placeholder="Cant. sesiones"
                 value={pkg.sessionCount}
                 onChange={(e) => updatePackage(i, { sessionCount: e.target.value })}
-                className="w-32"
+                className="flex-1 min-w-[110px] sm:w-32 sm:flex-none"
               />
               <select
                 value={pkg.frequencyType}
                 onChange={(e) => updatePackage(i, { frequencyType: e.target.value as WizardState["frequencyType"] })}
-                className="h-9 rounded-md border border-gray-200 bg-white px-3 pr-8 text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
+                className="h-10 rounded-md border border-gray-200 bg-white px-3 pr-8 text-base sm:text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet flex-1 min-w-[130px] sm:flex-none"
               >
                 <option value="UNICA">Sesión única</option>
                 <option value="SEMANAL">Semanales</option>
@@ -195,9 +195,9 @@ export function StepPrecio({
                 placeholder="Precio (ARS)"
                 value={formatMiles(pkg.price)}
                 onChange={(e) => updatePackage(i, { price: onlyDigits(e.target.value) })}
-                className="w-32"
+                className="flex-1 min-w-[110px] sm:w-32 sm:flex-none"
               />
-              <button type="button" onClick={() => removePackage(i)} aria-label="Quitar pack" className="text-brand-gray hover:text-red-600">
+              <button type="button" onClick={() => removePackage(i)} aria-label="Quitar pack" className="text-brand-gray hover:text-red-600 min-h-[44px] min-w-[44px] flex items-center justify-center">
                 <Trash2 size={16} />
               </button>
             </div>

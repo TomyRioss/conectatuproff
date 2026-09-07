@@ -38,13 +38,13 @@ export function ServicesList({ initialServices }: { initialServices: Service[] }
   const filtered = services.filter((s) => s.status === tab)
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-brand-dark font-display">Servicios</h1>
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-brand-dark font-display">Servicios</h1>
       </div>
 
-      <div className="flex items-center justify-between gap-1 border-b border-gray-200 mb-6">
-        <div className="flex items-center gap-1">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-gray-200 mb-6">
+        <div className="flex items-center gap-1 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
         {TABS.map((t) => {
           const count = services.filter((s) => s.status === t.key).length
           const active = tab === t.key
@@ -53,7 +53,7 @@ export function ServicesList({ initialServices }: { initialServices: Service[] }
               key={t.key}
               type="button"
               onClick={() => setTab(t.key)}
-              className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold border-b-2 transition-colors ${
+              className={`flex items-center gap-2 px-3 sm:px-4 py-2.5 min-h-[44px] text-sm font-semibold whitespace-nowrap border-b-2 transition-colors ${
                 active
                   ? "border-brand-green text-brand-dark"
                   : "border-transparent text-brand-gray hover:text-brand-dark"
@@ -73,7 +73,7 @@ export function ServicesList({ initialServices }: { initialServices: Service[] }
           )
         })}
         </div>
-        <Button asChild className="bg-brand-green text-white hover:opacity-90 gap-2 mb-2">
+        <Button asChild className="bg-brand-green text-white hover:opacity-90 gap-2 mb-3 sm:mb-2 w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-center">
           <Link href="/profesional/servicios/nuevo">
             <Plus size={16} /> Nuevo servicio
           </Link>
@@ -84,7 +84,7 @@ export function ServicesList({ initialServices }: { initialServices: Service[] }
         <p className="text-brand-gray text-sm">No hay servicios en este estado.</p>
       ) : (
         <div className="border border-gray-200 rounded-xl overflow-hidden bg-white">
-          <div className="grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 px-4 py-2.5 border-b border-gray-200 text-[11px] font-semibold uppercase tracking-wide text-brand-gray">
+          <div className="hidden sm:grid grid-cols-[1fr_auto_auto_auto_auto] gap-4 px-4 py-2.5 border-b border-gray-200 text-[11px] font-semibold uppercase tracking-wide text-brand-gray">
             <span>Servicio</span>
             <span className="w-20 text-right">Precio</span>
             <span className="w-20 text-right">Duración</span>

@@ -111,7 +111,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           token.role = (user as { role: string }).role;
         }
         const profile = await getProfile(user.id!, token.role as string);
-        token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : null;
+        const externalImage = typeof user.image === "string" && user.image.startsWith("http") ? user.image : null;
+        token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : externalImage;
         token.name = user.name ?? (profile ? `${profile.firstName} ${profile.lastName}` : null);
         // Google users land without username/password — force a completion step.
         const acct = await prisma.user.findUnique({
@@ -123,9 +124,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (trigger === "update") {
         const acct = await prisma.user.findUnique({
           where: { id: token.id as string },
-          select: { username: true, password: true },
+          select: { username: true, password: true, image: true },
         });
         token.needsSetup = !acct?.username || !acct?.password;
+        if (!token.picture) {
+          const profile = await getProfile(token.id as string, token.role as string);
+          const updExternal = acct?.image?.startsWith("http") ? acct.image : null;
+          token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : updExternal;
+        }
       }
       if (trigger === "update" && sessionUpdate?.image !== undefined) {
         token.picture = sessionUpdate.image;
@@ -153,7 +159,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!nextRole || typeof nextRole !== "string") nextRole = "CLIENT";
         token.role = nextRole;
         const profile = await getProfile(token.id as string, nextRole);
-        token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : null;
+        const roleUser = await prisma.user.findUnique({ where: { id: token.id as string }, select: { image: true } });
+        const roleExternal = roleUser?.image?.startsWith("http") ? roleUser.image : null;
+        token.picture = profile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : roleExternal;
         if (!token.name && profile) token.name = `${profile.firstName} ${profile.lastName}`;
       }
       if (!token.name && token.id) {
@@ -170,7 +178,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (Date.now() - lastCheck > RECHECK_MS) {
           const acct = await prisma.user.findUnique({
             where: { id: token.id as string },
-            select: { isActive: true, isBanned: true, client: { select: { id: true } } },
+            select: { isActive: true, isBanned: true, image: true, client: { select: { id: true } } },
           });
           token.checkedAt = Date.now();
           const proHit = !acct || acct.isBanned ? "BANNED" : !acct.isActive ? "PENDING_REVIEW" : null;
@@ -179,6 +187,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           if (!proHit) {
             token.blocked = null;
             token.proBlocked = null;
+            const currentProfile = await getProfile(token.id as string, token.role as string);
+            const freshExternal = acct?.image?.startsWith("http") ? acct.image : null;
+            const fresh = currentProfile?.avatarUrl ? `/api/avatar?key=${encodeURIComponent(currentProfile.avatarUrl)}` : freshExternal;
+            if (fresh !== token.picture) token.picture = fresh;
           } else if (hasClient && (token.role === "PROFESSIONAL" || token.proBlocked)) {
             // Cuenta profesional bloqueada/archivada pero existe perfil de cliente:
             // continuar la sesión como cliente y avisar con un modal en "/".
@@ -187,7 +199,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             token.proBlocked = proHit;
             const profile = await getProfile(token.id as string, "CLIENT");
             if (profile) {
-              token.picture = profile.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : null;
+              const acctExternal = acct?.image?.startsWith("http") ? acct.image : null;
+              token.picture = profile.avatarUrl ? `/api/avatar?key=${encodeURIComponent(profile.avatarUrl)}` : acctExternal;
               token.name = `${profile.firstName} ${profile.lastName}`;
             }
           } else {

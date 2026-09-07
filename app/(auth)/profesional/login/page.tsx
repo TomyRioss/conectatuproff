@@ -86,8 +86,8 @@ function ProfesionalLoginForm() {
       }
     >
       <div>
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-brand-dark font-display">Acceso profesionales</h1>
+        <div className="mb-6 lg:mb-8">
+          <h1 className="text-[22px] leading-tight sm:text-2xl font-bold text-brand-dark font-display">Acceso profesionales</h1>
           <p className="text-brand-gray text-sm mt-1">Ingresá a tu panel profesional</p>
         </div>
 
@@ -132,29 +132,29 @@ function ProfesionalLoginForm() {
           </div>
         )}
 
-        <div className="mb-6 flex flex-col gap-4">
+        <div className="mb-5 sm:mb-6 flex flex-col gap-3 sm:gap-4">
           <GoogleSignInButton callbackUrl="/profesional/onboarding" />
           <div className="flex items-center gap-3">
             <div className="h-px flex-1 bg-gray-200" />
-            <span className="text-xs text-brand-gray">o con tu email</span>
+            <span className="text-xs text-brand-gray whitespace-nowrap">o con tu email</span>
             <div className="h-px flex-1 bg-gray-200" />
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 sm:gap-4">
           <FormField label="Email" type="email" placeholder="tu@email.com" error={errors.email?.message} {...register("email")} />
           <PasswordInput label="Contraseña" placeholder="Mínimo 8 caracteres" error={errors.password?.message} {...register("password")} />
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="mt-2 w-full rounded-xl bg-brand-violet py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-60"
+            className="mt-2 w-full rounded-xl bg-brand-violet py-3.5 lg:py-3 min-h-[48px] text-[15px] lg:text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-60 active:scale-[0.99]"
           >
             {isSubmitting ? "Ingresando..." : "Ingresar"}
           </button>
         </form>
 
-        <div className="mt-6 border-t border-gray-200 pt-5 text-center text-sm text-brand-gray">
+        <div className="mt-6 border-t border-gray-200 pt-5 pb-2 text-center text-sm text-brand-gray">
           <p>
             ¿No tenés cuenta?{" "}
             <Link href="/profesional/register" className="text-brand-violet font-medium hover:underline">Registrate como profesional</Link>

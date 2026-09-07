@@ -75,7 +75,7 @@ export default function NotificationBell() {
     return (
       <button
         aria-label="Notificaciones"
-        className="relative p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors"
+        className="inline-flex min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 items-center justify-center p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors"
         disabled
       >
         <Bell size={20} />
@@ -84,11 +84,11 @@ export default function NotificationBell() {
   }
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="sm:relative">
       <button
         aria-label="Notificaciones"
         onClick={() => setOpen((o) => !o)}
-        className="relative p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors"
+        className="relative inline-flex min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 items-center justify-center p-2 rounded-xl text-brand-gray hover:text-brand-dark hover:bg-white transition-colors"
       >
         <Bell size={20} />
         {unread > 0 && (
@@ -99,7 +99,7 @@ export default function NotificationBell() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-80 bg-white border border-gray-200 rounded-2xl shadow-lg z-50 overflow-hidden">
+        <div className="absolute left-0 right-0 top-full mt-2 sm:left-auto sm:right-0 sm:top-full sm:mt-2 sm:w-80 bg-white border border-gray-200 rounded-2xl shadow-lg z-50 overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
             <p className="text-sm font-semibold text-brand-dark">Notificaciones</p>
             {unread > 0 && (
@@ -109,7 +109,7 @@ export default function NotificationBell() {
             )}
           </div>
 
-          <div className="max-h-80 overflow-y-auto divide-y divide-gray-50">
+          <div className="max-h-[60dvh] sm:max-h-80 overflow-y-auto divide-y divide-gray-50">
             {notifications.length === 0 ? (
               <p className="text-sm text-brand-gray text-center py-8">Sin notificaciones</p>
             ) : (

@@ -140,14 +140,14 @@ export function ServiceWizard({
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-      <div className="relative flex items-center justify-between mb-10">
-        <div className="flex items-center gap-2 flex-1">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+      <div className="relative flex items-center justify-between mb-8 sm:mb-10">
+        <div className="flex items-center gap-1 sm:gap-2 flex-1">
           {STEPS.map((label, i) => (
-            <div key={label} className="flex items-center gap-2 flex-1">
+            <div key={label} className="flex items-center gap-1 sm:gap-2 flex-1">
               <div className="flex items-center gap-2">
                 <div
-                  className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 ${
+                  className={`h-7 w-7 sm:h-8 sm:w-8 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 ${
                     i < step
                       ? "bg-brand-green text-white"
                       : i === step
@@ -179,24 +179,24 @@ export function ServiceWizard({
       {step === 4 && <StepGaleria state={state} update={update} videoUrl={videoUrl} setVideoUrl={setVideoUrl} />}
       {step === 5 && <StepRevisar state={state} videoUrl={videoUrl} />}
 
-      <div className="max-w-2xl flex items-center justify-between mt-10 pt-6 border-t border-gray-200">
+      <div className="max-w-2xl flex items-center justify-between gap-2 mt-8 sm:mt-10 pt-4 sm:pt-6 border-t border-gray-200 sticky bottom-0 -mx-4 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:mx-0 sm:px-0 sm:pb-0 sm:static bg-brand-bg">
         {step > 0 ? (
-          <Button type="button" variant="outline" onClick={goBack} className="border-gray-200 text-brand-dark">
+          <Button type="button" variant="outline" onClick={goBack} className="border-gray-200 text-brand-dark min-h-[48px] sm:min-h-0">
             Atrás
           </Button>
         ) : (
           <span />
         )}
-        <div className="flex items-center gap-3">
-          <Button type="button" variant="ghost" onClick={() => router.push("/profesional/servicios")} className="text-brand-gray hover:text-brand-dark">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Button type="button" variant="ghost" onClick={() => router.push("/profesional/servicios")} className="text-brand-gray hover:text-brand-dark min-h-[48px] sm:min-h-0">
             Cancelar
           </Button>
           {step < STEPS.length - 1 ? (
-            <Button type="button" onClick={goNext} className="bg-brand-dark text-white hover:opacity-90">
+            <Button type="button" onClick={goNext} className="bg-brand-dark text-white hover:opacity-90 min-h-[48px] sm:min-h-0">
               Continuar
             </Button>
           ) : (
-            <Button type="button" onClick={publish} disabled={publishing} className="bg-brand-green text-white hover:opacity-90">
+            <Button type="button" onClick={publish} disabled={publishing} className="bg-brand-green text-white hover:opacity-90 min-h-[48px] sm:min-h-0">
               {publishing ? "Publicando..." : "Publicar servicio"}
             </Button>
           )}

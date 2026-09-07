@@ -1,0 +1,154 @@
+- generic:
+  - navigation [aria-hidden]:
+    - generic:
+      - link:
+        - /url: /
+        - text: ConectaTuProff
+      - button
+  - main [aria-hidden]:
+    - main:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic: TR
+              - button
+            - generic:
+              - generic:
+                - heading [level=1]: Tomas Rios
+                - button
+              - generic:
+                - generic: "@zukkodev"
+                - generic: Perfil Pro+
+              - button:
+                - paragraph: Instructor de Boxeo
+              - generic:
+                - button:
+                  - generic: Ciudad Autónoma de Buenos Aires, Comuna 12
+                - button:
+                  - generic: "1134083140"
+          - generic:
+            - button: Compartir
+            - link:
+              - /url: /perfil/profesional/zukkodev
+              - button: Vista previa
+      - generic:
+        - generic:
+          - generic:
+            - heading [level=2]: Acerca de
+            - button
+          - paragraph: Todavía no agregaste una biografía.
+      - generic:
+        - generic:
+          - generic:
+            - heading [level=2]: Portfolio
+            - paragraph: Todavía no agregaste proyectos.
+            - link:
+              - /url: /zukkodev/portfolio
+              - text: Revisar portfolio
+        - generic:
+          - generic:
+            - heading [level=2]: Video de introducción
+            - paragraph: Preséntate y conecta con potenciales clientes.
+            - paragraph: "Duración: entre 20 y 60 segundos."
+            - generic:
+              - generic:
+                - button: Agregar video de introducción
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - heading [level=2]: Educación
+              - button: Añadir nuevo
+            - generic:
+              - generic:
+                - heading [level=2]: Certificaciones
+              - button: Añadir nuevo
+  - contentinfo [aria-hidden]:
+    - generic:
+      - generic:
+        - generic:
+          - paragraph: ConectaTuProff
+          - paragraph: Marketplace de profesionales en CABA y GBA. Bienestar, oficios y más.
+        - generic:
+          - paragraph: Plataforma
+          - list:
+            - listitem:
+              - link:
+                - /url: /buscar
+                - text: Buscar profesionales
+            - listitem:
+              - link:
+                - /url: /#como-funciona
+                - text: Cómo funciona
+            - listitem:
+              - link:
+                - /url: /register/profesional
+                - text: Publicar servicio
+        - generic:
+          - paragraph: Soporte
+          - list:
+            - listitem:
+              - link:
+                - /url: /#como-funciona
+                - text: Cómo funciona
+            - listitem:
+              - link:
+                - /url: /login
+                - text: Ingresar
+            - listitem:
+              - link:
+                - /url: /register/profesional
+                - text: Quiero ser profesional
+        - generic:
+          - paragraph: Registro
+          - list:
+            - listitem:
+              - link:
+                - /url: /register
+                - text: Soy cliente
+            - listitem:
+              - link:
+                - /url: /register/profesional
+                - text: Soy profesional
+            - listitem:
+              - link:
+                - /url: /login
+                - text: Iniciar sesión
+      - generic:
+        - paragraph: © 2026 ConectaTuProff. Todos los derechos reservados.
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=f1e133] [cursor=pointer]
+  - alert
+  - dialog [ref=f1e139]:
+    - heading "Editar perfil" [level=2] [ref=f1e141]
+    - generic [ref=f1e142]:
+      - generic [ref=f1e143]:
+        - img "avatar" [ref=f1e145]
+        - button "Cambiar foto" [active] [ref=f1e146]
+      - paragraph [ref=f1e150]: JPG, PNG o WebP · máx 5 MB
+    - generic [ref=f1e151]:
+      - generic [ref=f1e152]:
+        - generic [ref=f1e153]: Nombre
+        - textbox "Nombre" [ref=f1e154]: Tomas
+      - generic [ref=f1e155]:
+        - generic [ref=f1e156]: Apellido
+        - textbox "Apellido" [ref=f1e157]: Rios
+    - generic [ref=f1e158]:
+      - generic [ref=f1e159]: Profesión
+      - textbox "Instructora de Pilates" [ref=f1e160]: Instructor de Boxeo
+      - paragraph [ref=f1e161]: Se usará esta profesión y la revisaremos para sumarla al listado.
+    - generic [ref=f1e162]:
+      - generic [ref=f1e163]:
+        - generic [ref=f1e164]: Ubicación
+        - textbox "Ubicación" [ref=f1e165]: Ciudad Autónoma de Buenos Aires, Comuna 12
+      - generic [ref=f1e166]:
+        - generic [ref=f1e167]: Teléfono
+        - textbox "Teléfono" [ref=f1e168]: "1134083140"
+    - generic [ref=f1e169]:
+      - generic [ref=f1e170]: Biografía
+      - textbox "Biografía" [ref=f1e171]
+    - generic [ref=f1e172]:
+      - button "Cancelar" [ref=f1e173]
+      - button "Guardar" [ref=f1e174]
+    - button "Close" [ref=f1e175]

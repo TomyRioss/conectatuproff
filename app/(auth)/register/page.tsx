@@ -120,9 +120,9 @@ export default function RegisterPage() {
         </>
       }
     >
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-5 sm:gap-6">
         <div>
-          <h1 className="text-2xl font-bold text-brand-dark font-display">Crear cuenta</h1>
+          <h1 className="text-[22px] leading-tight sm:text-2xl font-bold text-brand-dark font-display">Crear cuenta</h1>
           <p className="text-brand-gray text-sm mt-1">Encontrá al profesional ideal</p>
         </div>
 
@@ -131,7 +131,7 @@ export default function RegisterPage() {
             <GoogleSignInButton callbackUrl="/register/completar" />
             <div className="flex items-center gap-3 -mt-2">
               <div className="h-px flex-1 bg-gray-200" />
-              <span className="text-xs text-brand-gray">o completá el formulario</span>
+              <span className="text-xs text-brand-gray whitespace-nowrap">o completá el formulario</span>
               <div className="h-px flex-1 bg-gray-200" />
             </div>
           </>
@@ -150,10 +150,10 @@ export default function RegisterPage() {
           Paso {step + 1} de {STEPS.length} — {STEPS[step]}
         </p>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 sm:gap-4">
           {step === 0 && (
             <>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-3">
                 <FormField label="Nombre" placeholder="Juan" error={errors.firstName?.message} {...register("firstName")} />
                 <FormField label="Apellido" placeholder="García" error={errors.lastName?.message} {...register("lastName")} />
               </div>
@@ -191,12 +191,12 @@ export default function RegisterPage() {
             </>
           )}
 
-          <div className={`flex gap-3 mt-2 ${step > 0 ? "justify-between" : "justify-end"}`}>
+          <div className="sticky bottom-0 -mx-1 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 pt-2 pb-1 lg:static lg:bg-transparent lg:p-0 flex gap-3 mt-2 justify-between">
             {step > 0 && (
               <button
                 type="button"
                 onClick={() => setStep((s) => s - 1)}
-                className="rounded-xl border border-gray-200 px-5 py-3 text-sm font-medium text-brand-dark hover:bg-gray-50 transition-colors"
+                className="rounded-xl border border-gray-200 px-5 py-3.5 lg:py-3 min-h-[48px] lg:min-h-0 text-[15px] lg:text-sm font-medium text-brand-dark hover:bg-gray-50 active:bg-gray-100 transition-colors shrink-0"
               >
                 Anterior
               </button>
@@ -205,7 +205,7 @@ export default function RegisterPage() {
               <button
                 type="button"
                 onClick={next}
-                className="flex-1 rounded-xl bg-brand-green py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
+                className="flex-1 rounded-xl bg-brand-green py-3.5 lg:py-3 min-h-[48px] lg:min-h-0 text-[15px] lg:text-sm font-semibold text-white hover:opacity-90 active:scale-[0.99] transition disabled:opacity-60"
               >
                 Siguiente
               </button>
@@ -213,7 +213,7 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 rounded-xl bg-brand-green py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity disabled:opacity-60"
+                className="flex-1 rounded-xl bg-brand-green py-3.5 lg:py-3 min-h-[48px] lg:min-h-0 text-[15px] lg:text-sm font-semibold text-white hover:opacity-90 active:scale-[0.99] transition disabled:opacity-60"
               >
                 {isSubmitting ? "Creando cuenta..." : "Crear cuenta"}
               </button>
@@ -221,7 +221,7 @@ export default function RegisterPage() {
           </div>
         </form>
 
-        <div className="border-t border-gray-200 pt-5 text-center text-sm text-brand-gray">
+        <div className="border-t border-gray-200 pt-5 pb-2 text-center text-sm text-brand-gray">
           <p>
             ¿Ya tenés cuenta?{" "}
             <Link href="/login" className="text-brand-violet font-medium hover:underline">Iniciá sesión</Link>

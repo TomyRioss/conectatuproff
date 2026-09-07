@@ -4,6 +4,7 @@ import { useState, useRef, useCallback, useEffect } from "react"
 import { MapPin, Briefcase, ChevronRight, Sparkles, Tag, LayoutGrid } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { AISearchDialog } from "@/components/ui/AISearchDialog"
+import ZonaSelect from "@/components/search/ZonaSelect"
 
 type Props = {
   subcategories: { name: string; slug: string }[]
@@ -103,14 +104,13 @@ export default function HeroSection({ subcategories }: Props) {
             />
           </div>
 
-          <div className="flex items-center gap-2 w-full sm:w-[160px] shrink-0 px-3 py-2 rounded-xl bg-[#F3F4F8]">
+          <div className="flex items-center gap-2 w-full sm:w-[180px] shrink-0 px-3 py-2 rounded-xl bg-[#F3F4F8]">
             <MapPin size={16} className="text-[#1EC97E] shrink-0" />
-            <input
-              type="text"
-              placeholder="Zona"
+            <ZonaSelect
               value={barrio}
-              onChange={(e) => setBarrio(e.target.value)}
-              className="bg-transparent text-[#1A1A2E] placeholder:text-gray-300 text-sm outline-none w-full"
+              onChange={setBarrio}
+              hideIcon
+              className="bg-transparent text-[#1A1A2E] w-full"
             />
           </div>
 

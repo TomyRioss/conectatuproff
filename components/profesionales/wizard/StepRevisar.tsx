@@ -7,7 +7,7 @@ export function StepRevisar({ state, videoUrl }: { state: WizardState; videoUrl:
 
   return (
     <div className="max-w-2xl">
-      <h2 className="text-2xl font-bold text-brand-dark">Revisá y publicá</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-brand-dark">Revisá y publicá</h2>
       <p className="text-brand-gray text-sm mt-1">Así se va a ver tu servicio para los clientes.</p>
 
       <div className="mt-6 rounded-2xl border border-gray-200 overflow-hidden bg-white">

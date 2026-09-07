@@ -95,7 +95,7 @@ export function PortfolioGalleryGrid({
                 </span>
               )}
               {isOwner && (
-                <div className="absolute top-3 right-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+                <div className="absolute top-3 right-3 flex items-center gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100 transition-opacity duration-300 ease-in-out">
                   <Link
                     href={`/${handle}/portfolio/edit/${item.id}`}
                     onClick={(e) => e.stopPropagation()}
@@ -175,12 +175,12 @@ export function PortfolioGalleryGrid({
             </div>
 
             <div className="p-6 sm:p-8">
-              <div className="flex items-start justify-between gap-4">
-                <div>
+              <div className="flex items-start justify-between gap-3 sm:gap-4">
+                <div className="min-w-0">
                   {selected.startedAt && (
                     <p className="text-sm text-brand-gray">Del: {formatMonthYear(selected.startedAt)}</p>
                   )}
-                  <h2 className="text-3xl font-bold text-brand-dark mt-1">{selected.title || "Sin título"}</h2>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-brand-dark mt-1 text-balance">{selected.title || "Sin título"}</h2>
                 </div>
                 <button
                   type="button"
@@ -197,7 +197,7 @@ export function PortfolioGalleryGrid({
                 </p>
               )}
 
-              <div className="flex flex-wrap gap-10 mt-6 pt-6 border-t border-gray-100">
+              <div className="flex flex-wrap gap-x-6 gap-y-4 sm:gap-10 mt-6 pt-6 border-t border-gray-100">
                 {(selected.costMin || selected.costMax) && (
                   <div>
                     <p className="text-sm text-brand-gray">Precio</p>

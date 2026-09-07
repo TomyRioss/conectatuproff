@@ -72,11 +72,11 @@ export function AvatarCropDialog({
           />
         </div>
 
-        <div className="flex justify-end gap-2 pt-2">
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={saving}>
+        <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-2">
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={saving} className="w-full sm:w-auto min-h-[48px] sm:min-h-0">
             Cancelar
           </Button>
-          <Button onClick={handleSave} disabled={saving} className="bg-brand-green text-white hover:opacity-90">
+          <Button onClick={handleSave} disabled={saving} className="bg-brand-green text-white hover:opacity-90 w-full sm:w-auto min-h-[48px] sm:min-h-0">
             {saving ? "Aplicando..." : "Aplicar"}
           </Button>
         </div>

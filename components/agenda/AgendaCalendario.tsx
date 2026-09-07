@@ -82,19 +82,19 @@ export default function AgendaCalendario() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <Button variant="outline" size="icon" onClick={() => setCursor(new Date(year, month - 1, 1))}>
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
+        <Button variant="outline" size="icon" onClick={() => setCursor(new Date(year, month - 1, 1))} className="min-h-[44px] min-w-[44px]" aria-label="Mes anterior">
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <h2 className="text-lg font-semibold text-brand-dark capitalize">
+        <h2 className="text-base sm:text-lg font-semibold text-brand-dark capitalize">
           {cursor.toLocaleDateString("es-AR", { month: "long", year: "numeric" })}
         </h2>
-        <Button variant="outline" size="icon" onClick={() => setCursor(new Date(year, month + 1, 1))}>
+        <Button variant="outline" size="icon" onClick={() => setCursor(new Date(year, month + 1, 1))} className="min-h-[44px] min-w-[44px]" aria-label="Mes siguiente">
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
 
-      <div className="grid grid-cols-7 gap-1 lg:gap-2 text-center text-xs lg:text-sm font-medium text-brand-gray mb-2">
+      <div className="grid grid-cols-7 gap-1 lg:gap-2 text-center text-[11px] sm:text-xs lg:text-sm font-medium text-brand-gray mb-2">
         {DIAS.map((d) => (
           <div key={d}>{d}</div>
         ))}
@@ -112,26 +112,33 @@ export default function AgendaCalendario() {
               <button
                 key={key}
                 onClick={() => setSelectedDay(d)}
-                className={`min-h-20 sm:min-h-24 lg:min-h-32 rounded-lg border border-gray-200 bg-white p-1 lg:p-2 flex flex-col items-center hover:border-brand-violet transition-colors ${
+                className={`min-h-[56px] sm:min-h-24 lg:min-h-32 rounded-lg border border-gray-200 bg-white p-0.5 sm:p-1 lg:p-2 flex flex-col items-center hover:border-brand-violet active:bg-brand-bg transition-colors min-w-0 ${
                   isToday(d) ? "ring-2 ring-brand-green" : ""
                 }`}
               >
-                <span className="text-sm lg:text-base text-brand-dark">{d.getDate()}</span>
+                <span className="text-[13px] sm:text-sm lg:text-base text-brand-dark">{d.getDate()}</span>
                 {names.length > 0 && names.length <= 3 && (
-                  <div className="mt-1 w-full space-y-0.5 lg:space-y-1">
-                    {names.map((n, idx) => (
-                      <p
-                        key={idx}
-                        className="text-[9px] sm:text-[10px] lg:text-xs leading-tight text-brand-dark truncate border border-gray-200 rounded px-1 py-0.5 bg-brand-bg"
-                      >
-                        {n}
-                      </p>
-                    ))}
-                  </div>
+                  <>
+                    <div className="mt-1 hidden sm:block w-full space-y-0.5 lg:space-y-1">
+                      {names.map((n, idx) => (
+                        <p
+                          key={idx}
+                          className="text-[10px] lg:text-xs leading-tight text-brand-dark truncate border border-gray-200 rounded px-1 py-0.5 bg-brand-bg"
+                        >
+                          {n}
+                        </p>
+                      ))}
+                    </div>
+                    <div className="mt-1 flex sm:hidden items-center gap-1" aria-hidden>
+                      {names.map((_, idx) => (
+                        <span key={idx} className="h-1.5 w-1.5 rounded-full bg-brand-violet" />
+                      ))}
+                    </div>
+                  </>
                 )}
                 {names.length > 3 && (
-                  <p className="mt-1 text-[9px] sm:text-[10px] lg:text-xs leading-tight text-brand-violet font-medium border border-brand-violet/30 rounded px-1 py-0.5">
-                    {names.length} agendas
+                  <p className="mt-1 text-[10px] sm:text-[10px] lg:text-xs leading-tight text-brand-violet font-medium border border-brand-violet/30 rounded px-1 py-0.5 max-w-full truncate">
+                    {names.length} turnos
                   </p>
                 )}
               </button>

@@ -91,7 +91,7 @@ export default function BloqueoForm({
           id="reason"
           value={reason}
           onChange={(e) => setReason(e.target.value as BlockedSlotReason)}
-          className="w-full border border-gray-300 rounded-md h-9 px-3 text-sm bg-white"
+          className="w-full border border-gray-300 rounded-md h-12 sm:h-9 px-3 text-base sm:text-sm bg-white"
         >
           {REASONS.map((r) => (
             <option key={r.value} value={r.value}>{r.label}</option>
@@ -104,13 +104,13 @@ export default function BloqueoForm({
         <Input id="note" value={note} onChange={(e) => setNote(e.target.value)} />
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 min-h-[44px]">
         <input
           id="repeatWeekly"
           type="checkbox"
           checked={repeatWeekly}
           onChange={(e) => setRepeatWeekly(e.target.checked)}
-          className="h-4 w-4"
+          className="h-5 w-5 shrink-0"
         />
         <Label htmlFor="repeatWeekly" className="cursor-pointer">
           Repetir todos los {day.toLocaleDateString("es-AR", { weekday: "long" })}
@@ -131,10 +131,10 @@ export default function BloqueoForm({
       )}
 
       <div className="flex gap-2">
-        <Button className="flex-1" disabled={saving} onClick={submit}>
+        <Button className="flex-1 min-h-[48px] sm:min-h-0" disabled={saving} onClick={submit}>
           {saving ? "Guardando..." : "Guardar bloqueo"}
         </Button>
-        <Button variant="outline" onClick={onClose} disabled={saving}>
+        <Button variant="outline" onClick={onClose} disabled={saving} className="min-h-[48px] sm:min-h-0">
           Cancelar
         </Button>
       </div>

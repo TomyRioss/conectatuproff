@@ -25,8 +25,8 @@ export default function NewPortfolioItemPage({
   if (!authorized) return null
 
   return (
-    <main className="min-h-screen bg-brand-bg">
-      <div className="max-w-5xl mx-auto px-6 sm:px-10 py-10">
+    <main className="min-h-screen bg-brand-bg pb-24 sm:pb-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-10 py-6 sm:py-10">
         <PortfolioForm onSaved={() => router.push(`/${handle}/portfolio`)} />
       </div>
     </main>

@@ -97,9 +97,9 @@ export default function FloatingChatbot() {
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
+    <div className="fixed inset-x-3 bottom-3 z-50 flex flex-col items-end gap-3 sm:inset-x-auto sm:bottom-5 sm:right-5">
       {isOpen && (
-        <div className="w-[340px] sm:w-[380px] h-[520px] bg-white rounded-2xl shadow-2xl border border-brand-cream flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
+        <div className="w-full sm:w-[380px] h-[70dvh] min-h-[380px] max-h-[520px] sm:h-[520px] bg-white rounded-2xl shadow-2xl border border-brand-cream flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 bg-brand-espresso text-white shrink-0">
             <div className="flex items-center gap-2">
@@ -132,7 +132,7 @@ export default function FloatingChatbot() {
           {/* Messages */}
           <div
             ref={scrollRef}
-            className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-brand-bg"
+            className="flex-1 overflow-y-auto px-3 sm:px-4 py-3 space-y-3 bg-brand-bg"
           >
             {messages.map((m, i) => (
               <div
@@ -153,7 +153,7 @@ export default function FloatingChatbot() {
                   )}
                 </div>
                 <div
-                  className={`max-w-[80%] text-sm px-3 py-2 rounded-xl ${
+                  className={`max-w-[85%] sm:max-w-[80%] text-sm px-3 py-2 rounded-xl ${
                     m.role === "user"
                       ? "bg-brand-rose text-white rounded-tr-none"
                       : "bg-white text-brand-dark border border-brand-cream rounded-tl-none"
@@ -197,7 +197,7 @@ export default function FloatingChatbot() {
           </div>
 
           {/* Input */}
-          <div className="px-3 py-3 bg-white border-t border-brand-cream shrink-0">
+          <div className="px-3 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-white border-t border-brand-cream shrink-0">
             <div className="flex items-center gap-2">
               <input
                 type="text"
@@ -205,15 +205,15 @@ export default function FloatingChatbot() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Escribí tu consulta..."
-                className="flex-1 bg-brand-bg text-brand-dark placeholder:text-brand-gray text-sm rounded-full px-4 py-2.5 outline-none focus:ring-2 focus:ring-brand-rose/30"
+                className="flex-1 bg-brand-bg text-brand-dark placeholder:text-brand-gray text-[16px] sm:text-sm rounded-full px-4 py-3 sm:py-2.5 outline-none focus:ring-2 focus:ring-brand-rose/30"
               />
               <button
                 onClick={sendMessage}
                 disabled={!input.trim() || loading}
-                className="h-9 w-9 rounded-full bg-brand-green text-white flex items-center justify-center shrink-0 disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-110 transition-all"
+                className="h-11 w-11 sm:h-9 sm:w-9 rounded-full bg-brand-green text-white flex items-center justify-center shrink-0 disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-110 transition-all"
                 aria-label="Enviar"
               >
-                <Send size={15} />
+                <Send size={17} />
               </button>
             </div>
           </div>

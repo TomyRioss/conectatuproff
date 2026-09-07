@@ -59,12 +59,12 @@ export default function ArgentinaLocationSelect({
   }, [selectedId]);
 
   const selectClass = (hasError: boolean) =>
-    `w-full rounded-xl border px-3 py-2.5 text-sm bg-white text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 transition-colors appearance-none ${
+    `w-full rounded-xl border px-3 py-3 lg:py-2.5 min-h-[44px] lg:min-h-0 text-base lg:text-sm bg-white text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 transition-colors appearance-none ${
       hasError ? "border-red-400" : "border-gray-200 focus:border-brand-violet"
     }`;
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-3">
       <div className="flex flex-col gap-1">
         <label className="text-sm font-medium text-brand-dark">Provincia</label>
         <select

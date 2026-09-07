@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { formatRelativeTime } from "@/lib/utils"
 import { redirect } from "next/navigation"
-import { Mail, Phone, CreditCard, CheckCircle, Star, MapPin } from "lucide-react"
+import { Mail, Phone, CheckCircle, Star, MapPin } from "lucide-react"
 import EditProfileModal from "@/components/cliente/EditProfileModal"
 import EditableDataRow from "@/components/cliente/EditableDataRow"
 
@@ -104,7 +104,6 @@ export default async function ClientePerfilPage({
             <DataRow icon={<Mail size={16} />} label="Email" value={cliente.user.email} />
             <EditableDataRow icon={<Phone size={16} />} label="Teléfono" value={cliente.phone ?? null} field="phone" addLabel="+ Añadir Teléfono" inputType="tel" />
             <EditableDataRow icon={<MapPin size={16} />} label="Lugar" value={cliente.location ?? null} field="location" addLabel="+ Añadir Lugar" />
-            <EditableDataRow icon={<CreditCard size={16} />} label="DNI" value={cliente.dni ? String(cliente.dni) : null} field="dni" addLabel="+ Añadir DNI" inputType="number" />
           </div>
         </aside>
 

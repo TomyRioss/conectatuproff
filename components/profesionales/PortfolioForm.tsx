@@ -174,11 +174,11 @@ export function PortfolioForm({
   }
 
   const inputClass =
-    "h-14 rounded-xl border-gray-200 px-4 text-brand-dark placeholder:text-brand-gray/60 focus-visible:ring-brand-violet/30 focus-visible:border-brand-violet"
+    "min-h-[48px] h-12 sm:h-14 rounded-xl border-gray-200 px-4 text-base text-brand-dark placeholder:text-brand-gray/60 focus-visible:ring-brand-violet/30 focus-visible:border-brand-violet"
 
   return (
-    <div className="flex flex-col gap-7">
-      <h1 className="text-3xl font-bold text-brand-dark">
+    <div className="flex flex-col gap-6 sm:gap-7">
+      <h1 className="text-2xl sm:text-3xl font-bold text-brand-dark leading-tight tracking-tight">
         {isEdit ? "Editá tu proyecto" : "Agregá un nuevo proyecto a tu portfolio"}
       </h1>
 
@@ -190,12 +190,12 @@ export function PortfolioForm({
           maxLength={50}
           placeholder="Ej: División Nike Mujer: campaña de marketing de otoño."
           onChange={(e) => setTitle(e.target.value)}
-          className={`${inputClass} w-1/2`}
+          className={`${inputClass} w-full sm:w-1/2 mt-1.5`}
         />
-        <p className="text-sm text-brand-gray text-right mt-1 w-1/2">{title.length}/50 Caracteres</p>
+        <p className="text-sm text-brand-gray text-right mt-1 w-full sm:w-1/2">{title.length}/50 Caracteres</p>
       </div>
 
-      <div className="w-1/2">
+      <div className="w-full sm:w-1/2">
         <Label className="text-brand-dark font-semibold text-base">Categoría del proyecto</Label>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -211,7 +211,7 @@ export function PortfolioForm({
               <ChevronDown size={16} className="text-brand-gray shrink-0" />
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-64 bg-white border-gray-200 max-h-64 overflow-y-auto">
+          <DropdownMenuContent align="start" className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-40 max-w-[calc(100vw-2rem)] bg-white border-gray-200 max-h-64 overflow-y-auto">
             {categories.map((c) => (
               <DropdownMenuCheckboxItem
                 key={c.id}
@@ -227,7 +227,7 @@ export function PortfolioForm({
         </DropdownMenu>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div>
           <Label className="text-brand-dark font-semibold text-base">Duración del proyecto</Label>
           <DropdownMenu>
@@ -242,7 +242,7 @@ export function PortfolioForm({
                 <ChevronDown size={16} className="text-brand-gray shrink-0" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-64 bg-white border-gray-200">
+            <DropdownMenuContent align="start" className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-40 max-w-[calc(100vw-2rem)] bg-white border-gray-200">
               {DURATION_RANGES.map((r) => (
                 <DropdownMenuItem
                   key={r.label}
@@ -276,7 +276,7 @@ export function PortfolioForm({
 
       <div>
         <Label className="text-brand-dark font-semibold text-base">Proyecto iniciado el</Label>
-        <div className="grid grid-cols-2 gap-3 w-1/2">
+        <div className="grid grid-cols-2 gap-3 w-full sm:w-1/2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
@@ -289,7 +289,7 @@ export function PortfolioForm({
                 <ChevronDown size={16} className="text-brand-gray shrink-0" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-56 bg-white border-gray-200">
+            <DropdownMenuContent align="start" className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-32 max-w-[calc(100vw-2rem)] max-h-64 overflow-y-auto bg-white border-gray-200">
               {MONTHS.map((m, i) => (
                 <DropdownMenuItem
                   key={m}
@@ -314,7 +314,7 @@ export function PortfolioForm({
                 <ChevronDown size={16} className="text-brand-gray shrink-0" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-40 bg-white border-gray-200">
+            <DropdownMenuContent align="start" className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-24 max-w-[calc(100vw-2rem)] max-h-64 overflow-y-auto bg-white border-gray-200">
               {years.map((y) => (
                 <DropdownMenuItem
                   key={y}
@@ -337,7 +337,7 @@ export function PortfolioForm({
           value={description ?? ""}
           maxLength={1400}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full min-h-40 rounded-xl border border-gray-200 bg-white px-4 py-3 text-base text-brand-dark placeholder:text-brand-gray/60 focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
+          className="w-full min-h-32 sm:min-h-40 rounded-xl border border-gray-200 bg-white px-4 py-3 mt-1.5 text-base text-brand-dark placeholder:text-brand-gray/60 focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
         />
         <p className="text-sm text-brand-gray text-right mt-1">{(description ?? "").length}/1400 Caracteres</p>
       </div>
@@ -346,16 +346,16 @@ export function PortfolioForm({
         <Label className="text-brand-dark font-semibold text-base">Archivos adjuntos</Label>
 
         {imageKeys.length > 0 && (
-          <div className="flex flex-wrap gap-4 mb-3">
+          <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-3 sm:gap-4 mb-3">
             {imageKeys.map((key, index) => {
               const isCover = index === 0
               return (
-                <div key={key} className="group relative w-28 h-28">
+                <div key={key} className="group relative w-full sm:w-28 aspect-square sm:h-28 sm:aspect-auto">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`/api/avatar?key=${encodeURIComponent(key)}`}
                     alt=""
-                    className={`w-28 h-28 rounded-xl object-cover border ${isCover ? "border-brand-violet ring-2 ring-brand-violet/40" : "border-gray-200"}`}
+                    className={`w-full h-full rounded-xl object-cover border ${isCover ? "border-brand-violet ring-2 ring-brand-violet/40" : "border-gray-200"}`}
                   />
 
                   {isCover ? (
@@ -389,14 +389,14 @@ export function PortfolioForm({
         )}
 
         {imageKeys.length < MAX_IMAGES && (
-          <label className="flex flex-col items-center justify-center gap-3 py-10 rounded-xl border border-dashed border-gray-300 cursor-pointer hover:bg-brand-bg/50 transition-colors">
+          <label className="flex flex-col items-center justify-center gap-3 px-4 py-8 sm:py-10 text-center rounded-xl border border-dashed border-gray-300 cursor-pointer hover:bg-brand-bg/50 active:bg-brand-bg transition-colors">
             <span className="text-brand-dark text-sm">Arrastrá y soltá los archivos o</span>
-            <span className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-brand-dark">
+            <span className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 min-h-[44px] text-sm font-medium text-brand-dark">
               {uploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
               Seleccioná los archivos
             </span>
-            <span className="text-xs text-brand-gray">
-              .jpg, .jpeg, .png, .webp · tamaño máximo: 5 MB · máximo de archivos: {MAX_IMAGES}
+            <span className="text-xs text-brand-gray leading-relaxed">
+              .jpg, .jpeg, .png, .webp · máximo 5 MB · máximo {MAX_IMAGES} archivos
             </span>
             <input
               type="file"
@@ -412,7 +412,7 @@ export function PortfolioForm({
         )}
       </div>
 
-      <Button onClick={handleSubmit} disabled={saving || uploading} className="bg-brand-green text-white hover:opacity-90 h-11 rounded-xl">
+      <Button onClick={handleSubmit} disabled={saving || uploading} className="bg-brand-green text-white hover:opacity-90 min-h-[48px] h-12 sm:h-11 rounded-xl text-base sm:text-sm font-semibold sticky bottom-[max(0.75rem,env(safe-area-inset-bottom))] sm:static shadow-lg sm:shadow-none">
         {saving ? "Guardando..." : isEdit ? "Guardar cambios" : "Crear proyecto"}
       </Button>
     </div>

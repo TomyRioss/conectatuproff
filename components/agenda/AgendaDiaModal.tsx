@@ -110,22 +110,22 @@ export default function AgendaDiaModal({
                 {a.service && <p className="text-sm text-brand-gray">{a.service.title}</p>}
                 <div className="flex gap-2 mt-2 flex-wrap">
                   {a.status === "PENDING" && (
-                    <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "CONFIRMED")}>
+                    <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "CONFIRMED")} className="min-h-[44px]">
                       Confirmar
                     </Button>
                   )}
                   {a.status === "CONFIRMED" && (
                     <>
-                      <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "COMPLETED")}>
+                      <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "COMPLETED")} className="min-h-[44px]">
                         Completar
                       </Button>
-                      <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "NO_SHOW")}>
+                      <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "NO_SHOW")} className="min-h-[44px]">
                         No asistió
                       </Button>
                     </>
                   )}
                   {(a.status === "PENDING" || a.status === "CONFIRMED") && (
-                    <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "CANCELLED")}>
+                    <Button size="sm" variant="outline" disabled={updatingId === a.id} onClick={() => changeStatus(a.id, "CANCELLED")} className="min-h-[44px]">
                       Cancelar
                     </Button>
                   )}
@@ -150,6 +150,7 @@ export default function AgendaDiaModal({
                     variant="outline"
                     disabled={deletingBloqueoId === b.id}
                     onClick={() => deleteBloqueo(b.id)}
+                    className="min-h-[44px] shrink-0"
                   >
                     {deletingBloqueoId === b.id ? "..." : "Eliminar"}
                   </Button>
@@ -168,7 +169,7 @@ export default function AgendaDiaModal({
               }}
             />
           ) : (
-            <Button variant="secondary" className="w-full" onClick={() => setShowBloqueoForm(true)}>
+            <Button variant="secondary" className="w-full min-h-[48px]" onClick={() => setShowBloqueoForm(true)}>
               Bloquear horario
             </Button>
           )}

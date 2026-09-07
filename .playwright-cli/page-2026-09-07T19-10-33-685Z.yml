@@ -1,0 +1,63 @@
+- generic:
+  - main [aria-hidden]:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic: TR
+            - button
+          - generic:
+            - generic:
+              - heading [level=1]: Tomas Rios
+              - button
+            - generic: "@zukkodev"
+            - button:
+              - paragraph: Instructor de Boxeo
+            - generic:
+              - button:
+                - generic: Ciudad Autónoma de Buenos Aires, Comuna 15
+              - button:
+                - generic: "1134083140"
+        - generic:
+          - button: Compartir
+          - link:
+            - /url: /perfil/profesional/zukkodev
+            - button: Vista previa
+  - generic [aria-hidden]:
+    - button:
+      - generic: Ayuda
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=f4e52] [cursor=pointer]
+  - alert
+  - dialog [ref=f4e58]:
+    - heading "Editar perfil" [level=2] [ref=f4e60]
+    - generic [ref=f4e61]:
+      - generic [ref=f4e62]:
+        - generic [ref=f4e63]: TR
+        - button "Cambiar foto" [active] [ref=f4e64]
+      - paragraph [ref=f4e68]: JPG, PNG o WebP · máx 5 MB
+    - generic [ref=f4e69]:
+      - generic [ref=f4e70]:
+        - generic [ref=f4e71]: Nombre
+        - textbox "Nombre" [ref=f4e72]: Tomas
+      - generic [ref=f4e73]:
+        - generic [ref=f4e74]: Apellido
+        - textbox "Apellido" [ref=f4e75]: Rios
+    - generic [ref=f4e76]:
+      - generic [ref=f4e77]: Profesión
+      - textbox "Instructora de Pilates" [ref=f4e78]: Instructor de Boxeo
+      - paragraph [ref=f4e79]: Se usará esta profesión y la revisaremos para sumarla al listado.
+    - generic [ref=f4e80]:
+      - generic [ref=f4e81]:
+        - generic [ref=f4e82]: Ubicación
+        - textbox "Ubicación" [ref=f4e83]: Ciudad Autónoma de Buenos Aires, Comuna 15
+      - generic [ref=f4e84]:
+        - generic [ref=f4e85]: Teléfono
+        - textbox "Teléfono" [ref=f4e86]: "1134083140"
+    - generic [ref=f4e87]:
+      - generic [ref=f4e88]: Biografía
+      - textbox "Biografía" [ref=f4e89]
+    - generic [ref=f4e90]:
+      - button "Cancelar" [ref=f4e91]
+      - button "Guardar" [ref=f4e92]
+    - button "Close" [ref=f4e93]

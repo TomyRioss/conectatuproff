@@ -11,7 +11,7 @@ export function StepNombre({
 }) {
   return (
     <div className="max-w-xl">
-      <h2 className="text-2xl font-bold text-brand-dark">¿Cómo se llama tu servicio?</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-brand-dark">¿Cómo se llama tu servicio?</h2>
       <p className="text-brand-gray text-sm mt-1">
         Un título claro y directo ayuda a que los clientes lo encuentren fácil.
       </p>

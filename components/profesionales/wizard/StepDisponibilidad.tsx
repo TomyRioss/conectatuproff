@@ -34,7 +34,7 @@ export function StepDisponibilidad({
 
   return (
     <div className="max-w-xl">
-      <h2 className="text-2xl font-bold text-brand-dark">Horarios de este servicio</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-brand-dark">Horarios de este servicio</h2>
       <p className="text-brand-gray text-sm mt-1">
         Opcional. Si no agregás horarios, el cliente reserva dentro de tu horario general de atención. Si agregás al
         menos uno, solo esos días y horas quedan disponibles para reservar este servicio. Cada bloque dura exactamente
@@ -45,9 +45,9 @@ export function StepDisponibilidad({
         <p className="text-sm text-red-600 mt-6">Definí la duración del servicio en el paso anterior antes de agregar horarios.</p>
       ) : (
         <>
-          <div className="flex items-center justify-between mt-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mt-6">
             <p className="text-sm font-semibold text-brand-dark">Bloques configurados</p>
-            <Button type="button" variant="outline" onClick={addBlock} className="gap-1.5 border-gray-200 text-brand-dark">
+            <Button type="button" variant="outline" onClick={addBlock} className="gap-1.5 border-gray-200 text-brand-dark justify-center min-h-[44px] sm:min-h-0">
               <Plus size={14} /> Agregar horario
             </Button>
           </div>
@@ -57,11 +57,11 @@ export function StepDisponibilidad({
               <p className="text-sm text-brand-gray">Sin horarios propios configurados.</p>
             )}
             {state.availability.map((block, i) => (
-              <div key={i} className="flex items-center gap-3">
+              <div key={i} className="flex flex-wrap items-center gap-2 sm:gap-3">
                 <select
                   value={block.dayOfWeek}
                   onChange={(e) => updateDay(i, Number(e.target.value))}
-                  className="h-9 rounded-md border border-gray-200 bg-white px-3 pr-8 text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
+                  className="h-11 sm:h-9 rounded-md border border-gray-200 bg-white px-3 pr-8 text-base sm:text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet flex-1 min-w-[130px] sm:flex-none"
                 >
                   {DOW_LABELS.map((label, dow) => (
                     <option key={dow} value={dow}>{label}</option>
@@ -71,10 +71,10 @@ export function StepDisponibilidad({
                   type="time"
                   value={block.startTime}
                   onChange={(e) => updateStart(i, e.target.value)}
-                  className="h-9 rounded-md border border-gray-200 bg-white px-2 text-sm text-brand-dark"
+                  className="h-11 sm:h-9 rounded-md border border-gray-200 bg-white px-2 text-base sm:text-sm text-brand-dark"
                 />
                 <span className="text-sm text-brand-gray">a {addMinutes(block.startTime, durationMin)}</span>
-                <button type="button" onClick={() => removeBlock(i)} aria-label="Quitar horario" className="text-brand-gray hover:text-red-600">
+                <button type="button" onClick={() => removeBlock(i)} aria-label="Quitar horario" className="text-brand-gray hover:text-red-600 min-h-[44px] min-w-[44px] flex items-center justify-center">
                   <Trash2 size={16} />
                 </button>
               </div>

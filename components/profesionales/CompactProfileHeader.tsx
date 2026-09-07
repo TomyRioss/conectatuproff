@@ -36,6 +36,7 @@ interface Props {
   phone: string | null
   email: string
   avatarUrl: string | null
+  userImage: string | null
   bio: string | null
   isPro: boolean
 }
@@ -49,6 +50,7 @@ export function CompactProfileHeader({
   phone,
   email,
   avatarUrl,
+  userImage,
   bio,
   isPro,
 }: Props) {
@@ -62,6 +64,7 @@ export function CompactProfileHeader({
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     avatarUrl ? `/api/avatar?key=${encodeURIComponent(avatarUrl)}` : null
   )
+  const displayUrl = previewUrl ?? (userImage?.startsWith("http") ? userImage : null)
   const [saving, setSaving] = useState(false)
   const [cropSrc, setCropSrc] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
@@ -91,7 +94,7 @@ export function CompactProfileHeader({
         const err = await res.json()
         throw new Error(err.error ?? "Error al guardar")
       }
-      await updateSession({ image: key ? `/api/avatar?key=${encodeURIComponent(key)}` : null })
+      await updateSession({ image: key ? `/api/avatar?key=${encodeURIComponent(key)}` : (userImage?.startsWith("http") ? userImage : null) })
       toast.success(key ? "Foto actualizada" : "Foto eliminada")
       router.refresh()
     } catch (e: unknown) {
@@ -170,19 +173,19 @@ export function CompactProfileHeader({
 
   return (
     <div>
-      <div className="w-full max-w-6xl mx-auto px-6 sm:px-10 pt-8 pb-8 flex flex-col sm:flex-row sm:items-start justify-between gap-6">
-      <div className="flex items-center gap-6">
+      <div className="w-full max-w-6xl mx-auto px-5 sm:px-10 pt-10 pb-8 sm:pt-8 flex flex-col sm:flex-row sm:items-start justify-between gap-8 sm:gap-6">
+      <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-6 text-center sm:text-left">
         <div className="relative shrink-0">
-          <Avatar className={`h-32 w-32 sm:h-36 sm:w-36 ${isPro ? "ring-2 ring-brand-violet ring-offset-2" : ""}`}>
-            {previewUrl && <AvatarImage src={previewUrl} alt={fullName} />}
-            <AvatarFallback className="bg-brand-violet text-white text-4xl font-semibold">
+          <Avatar className={`h-28 w-28 sm:h-36 sm:w-36 ${isPro ? "ring-2 ring-brand-violet ring-offset-2" : ""}`}>
+            {displayUrl && <AvatarImage src={displayUrl} alt={fullName} />}
+            <AvatarFallback className="bg-brand-violet text-white text-3xl sm:text-4xl font-semibold">
               {initials}
             </AvatarFallback>
           </Avatar>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
-                className="absolute bottom-0 right-0 w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow cursor-pointer hover:bg-brand-bg transition-colors"
+                className="absolute bottom-0 right-0 w-11 h-11 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow cursor-pointer hover:bg-brand-bg transition-colors"
                 aria-label="Cambiar foto"
               >
                 <Upload size={18} className="text-brand-gray" />
@@ -218,53 +221,55 @@ export function CompactProfileHeader({
           />
         </div>
 
-        <div>
-          <div className="flex items-center gap-2.5 flex-wrap">
-            <h1 className="text-3xl font-bold text-brand-dark">{fullName}</h1>
-            <button onClick={() => setOpen(true)} aria-label="Editar nombre">
+        <div className="min-w-0">
+          <div className="flex items-center justify-center sm:justify-start gap-2">
+            <h1 className="text-[26px] sm:text-3xl font-bold tracking-tight text-balance text-brand-dark">{fullName}</h1>
+            <button onClick={() => setOpen(true)} aria-label="Editar nombre" className="p-2 -m-2 shrink-0">
               <Pencil size={18} className="text-brand-gray hover:text-brand-violet transition-colors" />
             </button>
+          </div>
+          <div className="flex items-center justify-center sm:justify-start gap-2 mt-1.5">
             <span className="text-brand-gray text-sm">@{username}</span>
             {isPro && <ProBadge />}
           </div>
 
           <button
             onClick={() => setOpen(true)}
-            className="flex items-center gap-2 mt-1 text-left"
+            className="flex items-center justify-center sm:justify-start gap-1.5 mt-2.5 w-full sm:w-auto text-center sm:text-left"
             aria-label="Editar especialidad"
           >
-            <p className="text-brand-dark text-base font-medium">{specialty || "Agregá tu especialidad"}</p>
-            <Pencil size={14} className="text-brand-gray" />
+            <p className="text-brand-dark text-[15px] sm:text-base font-medium">{specialty || "Agregá tu especialidad"}</p>
+            <Pencil size={14} className="text-brand-gray shrink-0" />
           </button>
 
-          <div className="flex items-center gap-5 mt-2 flex-wrap">
+          <div className="flex items-center justify-center sm:justify-start gap-x-5 gap-y-1.5 mt-2.5 flex-wrap">
             <button
               onClick={() => setOpen(true)}
-              className="flex items-center gap-1.5 text-base text-brand-gray"
+              className="flex items-center gap-1.5 text-[15px] sm:text-base text-brand-gray"
               aria-label="Editar ubicación"
             >
-              <MapPin size={18} />
+              <MapPin size={16} className="shrink-0" />
               <span>{location || "Sin ubicación"}</span>
             </button>
             <button
               onClick={() => setOpen(true)}
-              className="flex items-center gap-1.5 text-base text-brand-gray"
+              className="flex items-center gap-1.5 text-[15px] sm:text-base text-brand-gray"
               aria-label="Editar teléfono"
             >
-              {phone ? <Phone size={18} /> : <Mail size={18} />}
+              {phone ? <Phone size={16} className="shrink-0" /> : <Mail size={16} className="shrink-0" />}
               <span>{phone || email}</span>
             </button>
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 shrink-0">
-        <Button variant="outline" onClick={handleShare} className="gap-1.5 text-base h-10 px-4">
+      <div className="flex items-center justify-center sm:justify-start gap-3 shrink-0 w-full sm:w-auto border-t border-gray-100 pt-5 sm:border-0 sm:pt-0">
+        <Button variant="outline" onClick={handleShare} className="gap-1.5 text-[15px] sm:text-base h-11 sm:h-10 px-4 flex-1 sm:flex-none">
           {copied ? <Check size={16} /> : <Share2 size={16} />}
           {copied ? "Copiado" : "Compartir"}
         </Button>
-        <Link href={`/perfil/profesional/${username}`} target="_blank">
-          <Button variant="outline" className="gap-1.5 text-base h-10 px-4">
+        <Link href={`/perfil/profesional/${username}`} target="_blank" className="flex-1 sm:flex-none">
+          <Button variant="outline" className="gap-1.5 text-[15px] sm:text-base h-11 sm:h-10 px-4 w-full">
             <ExternalLink size={16} />
             Vista previa
           </Button>
@@ -273,17 +278,17 @@ export function CompactProfileHeader({
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-md bg-brand-bg border-gray-200">
+        <DialogContent className="sm:max-w-md bg-brand-bg border-gray-200 gap-3 sm:gap-4">
           <DialogHeader>
             <DialogTitle className="text-brand-dark">Editar perfil</DialogTitle>
           </DialogHeader>
 
-          <div className="flex flex-col items-center gap-3 py-2">
+          <div className="flex flex-col items-center gap-2 py-1 sm:gap-3 sm:py-2">
             <div className="relative">
-              <div className="w-20 h-20 rounded-full bg-brand-violet text-white text-xl font-bold flex items-center justify-center ring-4 ring-white shadow-md overflow-hidden select-none">
-                {previewUrl ? (
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-brand-violet text-white text-xl font-bold flex items-center justify-center ring-4 ring-white shadow-md overflow-hidden select-none">
+                {displayUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={previewUrl} alt="avatar" className="w-full h-full object-cover" />
+                  <img src={displayUrl} alt="avatar" className="w-full h-full object-cover" />
                 ) : (
                   initials
                 )}
@@ -323,11 +328,11 @@ export function CompactProfileHeader({
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1.5 min-w-0">
               <Label htmlFor="firstName" className="text-xs text-brand-gray">Nombre</Label>
               <Input id="firstName" value={first} onChange={(e) => setFirst(e.target.value)} className="bg-white border-gray-200 text-brand-dark" />
             </div>
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1.5 min-w-0">
               <Label htmlFor="lastName" className="text-xs text-brand-gray">Apellido</Label>
               <Input id="lastName" value={last} onChange={(e) => setLast(e.target.value)} className="bg-white border-gray-200 text-brand-dark" />
             </div>
@@ -335,27 +340,27 @@ export function CompactProfileHeader({
 
           <SpecialtyAutocomplete value={tagline} onChange={setTagline} />
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="flex flex-col gap-1.5">
+          <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3">
+            <div className="flex flex-col gap-1.5 min-w-0">
               <Label htmlFor="location" className="text-xs text-brand-gray">Ubicación</Label>
               <Input id="location" value={loc} onChange={(e) => setLoc(e.target.value)} className="bg-white border-gray-200 text-brand-dark" />
             </div>
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1.5 min-w-0">
               <Label htmlFor="phone" className="text-xs text-brand-gray">Teléfono</Label>
               <Input id="phone" value={tel} onChange={(e) => setTel(e.target.value)} className="bg-white border-gray-200 text-brand-dark" />
             </div>
           </div>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1.5 min-w-0">
             <Label htmlFor="bio" className="text-xs text-brand-gray">Biografía</Label>
-            <Textarea id="bio" value={about} onChange={(e) => setAbout(e.target.value)} className="bg-white border-gray-200 text-brand-dark" rows={4} />
+            <Textarea id="bio" value={about} onChange={(e) => setAbout(e.target.value)} className="bg-white border-gray-200 text-brand-dark" rows={3} />
           </div>
 
-          <div className="flex justify-end gap-2 pt-2">
-            <Button variant="outline" onClick={() => setOpen(false)} disabled={saving}>
+          <div className="sticky bottom-[-1.25rem] -mx-5 -mb-5 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-3 bg-brand-bg/95 backdrop-blur border-t border-gray-200 flex flex-col-reverse gap-2 sm:static sm:mx-0 sm:mb-0 sm:px-0 sm:pb-0 sm:pt-2 sm:bg-transparent sm:border-0 sm:flex-row sm:justify-end">
+            <Button variant="outline" onClick={() => setOpen(false)} disabled={saving} className="w-full sm:w-auto min-h-[48px] sm:min-h-0">
               Cancelar
             </Button>
-            <Button onClick={handleSave} disabled={saving} className="bg-brand-green text-white hover:opacity-90">
+            <Button onClick={handleSave} disabled={saving} className="bg-brand-green text-white hover:opacity-90 w-full sm:w-auto min-h-[48px] sm:min-h-0">
               {saving ? "Guardando..." : "Guardar"}
             </Button>
           </div>

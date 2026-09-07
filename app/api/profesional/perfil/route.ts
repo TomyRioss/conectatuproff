@@ -59,9 +59,8 @@ export async function PATCH(req: Request) {
 
     const userUpdate: Record<string, unknown> = {}
     if (firstNameStr !== undefined) userUpdate.name = `${firstNameStr} ${(lastName as string).trim()}`
-    if (avatarUrl !== undefined)
-      userUpdate.image =
-        typeof avatarUrl === "string" && avatarUrl ? `/api/avatar?key=${encodeURIComponent(avatarUrl)}` : null
+    // No pisar users.image con el proxy /api/avatar: esa columna guarda la foto
+    // externa (Google) y es el fallback cuando no hay avatarUrl.
 
     if (Object.keys(userUpdate).length > 0) {
       await prisma.user.update({ where: { id: session.user.id }, data: userUpdate })

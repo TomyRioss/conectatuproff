@@ -67,16 +67,16 @@ export function StepGaleria({
 
   return (
     <div className="max-w-2xl">
-      <h2 className="text-2xl font-bold text-brand-dark">Galería</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-brand-dark">Galería</h2>
       <p className="text-brand-gray text-sm mt-1">
         La primera imagen es la portada del servicio. Máximo {MAX_IMAGES} imágenes y 1 video.
       </p>
 
       <div className="mt-6">
         <p className="text-sm font-medium text-brand-dark mb-2">Imágenes</p>
-        <div className="flex flex-wrap gap-4">
+        <div className="grid grid-cols-3 gap-2.5 sm:flex sm:flex-wrap sm:gap-4">
           {state.gallery.map((item, i) => (
-            <div key={item.key} className="relative w-32 h-32 rounded-xl overflow-hidden border border-gray-200 bg-brand-bg">
+            <div key={item.key} className="relative w-full aspect-square sm:w-32 sm:h-32 sm:aspect-auto rounded-xl overflow-hidden border border-gray-200 bg-brand-bg">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`/api/avatar?key=${encodeURIComponent(item.key)}`}
@@ -100,7 +100,7 @@ export function StepGaleria({
           ))}
 
           {state.gallery.length < MAX_IMAGES && (
-            <label className="w-32 h-32 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-1.5 text-brand-gray hover:border-brand-violet hover:text-brand-violet cursor-pointer transition-colors">
+            <label className="w-full aspect-square sm:w-32 sm:h-32 sm:aspect-auto rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-1.5 text-brand-gray hover:border-brand-violet hover:text-brand-violet cursor-pointer transition-colors min-h-[96px]">
               {uploadingImage ? <Loader2 size={20} className="animate-spin" /> : <Upload size={20} />}
               <span className="text-xs">{uploadingImage ? "Subiendo..." : "Subir imagen"}</span>
               <input
@@ -122,7 +122,7 @@ export function StepGaleria({
       <div className="mt-8">
         <p className="text-sm font-medium text-brand-dark mb-2">Video (opcional)</p>
         {videoUrl ? (
-          <div className="relative w-56 aspect-video rounded-xl overflow-hidden border border-gray-200 bg-black">
+          <div className="relative w-full max-w-56 aspect-video rounded-xl overflow-hidden border border-gray-200 bg-black">
             <video src={`/api/avatar?key=${encodeURIComponent(videoUrl)}`} className="w-full h-full object-cover" muted />
             <button
               type="button"
@@ -134,7 +134,7 @@ export function StepGaleria({
             </button>
           </div>
         ) : (
-          <label className="w-56 aspect-video rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-1.5 text-brand-gray hover:border-brand-violet hover:text-brand-violet cursor-pointer transition-colors">
+          <label className="w-full max-w-56 aspect-video rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-1.5 text-brand-gray hover:border-brand-violet hover:text-brand-violet cursor-pointer transition-colors">
             {uploadingVideo ? <Loader2 size={20} className="animate-spin" /> : <VideoIcon size={20} />}
             <span className="text-xs">{uploadingVideo ? "Subiendo..." : "Subir video"}</span>
             <input
