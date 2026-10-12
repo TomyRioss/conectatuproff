@@ -158,7 +158,17 @@ export default function RegisterPage() {
                 <FormField label="Apellido" placeholder="García" error={errors.lastName?.message} {...register("lastName")} />
               </div>
               <div className="flex flex-col gap-1">
-                <FormField label="Nombre de usuario" placeholder="juan_garcia" error={errors.username?.message} {...register("username")} />
+                <FormField
+                  label="Nombre de usuario"
+                  placeholder="juan_garcia"
+                  error={errors.username?.message}
+                  {...register("username", {
+                    setValueAs: (value: string) => value.toLowerCase(),
+                    onChange: (event) => {
+                      event.currentTarget.value = event.currentTarget.value.toLowerCase();
+                    },
+                  })}
+                />
                 {usernameStatus === "checking" && <p className="text-xs text-brand-gray">Verificando...</p>}
                 {usernameStatus === "available" && <p className="text-xs text-brand-green font-medium">✓ Usuario disponible</p>}
                 {usernameStatus === "taken" && <p className="text-xs text-red-500 font-medium">✗ Usuario no disponible</p>}

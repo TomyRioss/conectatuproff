@@ -150,7 +150,12 @@ export default function ProfessionalRegisterForm() {
               label="Nombre de usuario"
               placeholder="ana_lopez"
               error={errors.username?.message}
-              {...register("username")}
+              {...register("username", {
+                setValueAs: (value: string) => value.toLowerCase(),
+                onChange: (event) => {
+                  event.currentTarget.value = event.currentTarget.value.toLowerCase();
+                },
+              })}
             />
             <FormField
               label="Email"

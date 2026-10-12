@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+const usernameSchema = z
+  .string()
+  .toLowerCase()
+  .min(3, "Mínimo 3 caracteres")
+  .regex(/^[a-z0-9_]+$/, "Solo letras, números y _");
+
 export const loginSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Mínimo 8 caracteres"),
@@ -8,7 +14,7 @@ export const loginSchema = z.object({
 export const clientRegisterSchema = z.object({
   firstName: z.string().min(1, "Requerido"),
   lastName: z.string().min(1, "Requerido"),
-  username: z.string().min(3, "Mínimo 3 caracteres").regex(/^[a-z0-9_]+$/, "Solo letras minúsculas, números y _"),
+  username: usernameSchema,
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Mínimo 8 caracteres"),
   phone: z.string().optional(),
@@ -16,7 +22,7 @@ export const clientRegisterSchema = z.object({
 });
 
 export const completeProfileSchema = z.object({
-  username: z.string().min(3, "Mínimo 3 caracteres").regex(/^[a-z0-9_]+$/, "Solo letras minúsculas, números y _"),
+  username: usernameSchema,
   password: z.string().min(8, "Mínimo 8 caracteres"),
 });
 
@@ -30,7 +36,7 @@ export const completeProfileFormSchema = completeProfileSchema
 export const professionalRegisterSchema = z.object({
   firstName: z.string().min(1, "Requerido"),
   lastName: z.string().min(1, "Requerido"),
-  username: z.string().min(3, "Mínimo 3 caracteres").regex(/^[a-z0-9_]+$/, "Solo letras minúsculas, números y _"),
+  username: usernameSchema,
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Mínimo 8 caracteres"),
   specialty: z.string().min(3, "Mínimo 3 caracteres"),
