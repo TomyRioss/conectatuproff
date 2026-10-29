@@ -11,7 +11,16 @@ export default async function EditarServicioPage({ params }: { params: Promise<{
 
   const professional = await prisma.professional.findUnique({
     where: { userId: session.user.id },
-    select: { id: true },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      avatarUrl: true,
+      specialty: true,
+      location: true,
+      isPro: true,
+      user: { select: { username: true, image: true } },
+    },
   })
   if (!professional) redirect("/profesional/onboarding")
 
@@ -21,32 +30,49 @@ export default async function EditarServicioPage({ params }: { params: Promise<{
     include: {
       gallery: { orderBy: { order: "asc" } },
       faqs: { orderBy: { order: "asc" } },
-      sessionPackages: true,
       availability: true,
     },
   })
   if (!service || service.professionalId !== professional.id) notFound()
 
+  const professionalServices = await prisma.service.findMany({
+    where: { professionalId: professional.id, status: "ACTIVE" },
+    select: { id: true, title: true, imageUrl: true },
+    orderBy: { createdAt: "asc" },
+  })
+
   const initialState: WizardState = {
     title: service.title,
     price: service.price ? String(service.price) : "",
     durationMin: service.durationMin ? String(service.durationMin) : "",
-    frequencyType: service.frequencyType ?? "UNICA",
+    frequencyType: service.frequencyType ?? "",
     frequencyCount: service.frequencyCount ? String(service.frequencyCount) : "",
     frequencyPeriods: service.frequencyPeriods ? String(service.frequencyPeriods) : "",
     modality: service.modality ?? "",
     categoryId: service.categoryId ?? "",
-    extraSessionPrice: service.extraSessionPrice ? String(service.extraSessionPrice) : "",
-    sessionPackages: service.sessionPackages.map((p) => ({
-      sessionCount: String(p.sessionCount),
-      price: String(p.price),
-      frequencyType: p.frequencyType ?? "UNICA",
-    })),
+    extraSessionPrice: service.extraSessionPrice ? String(service.price ?? service.extraSessionPrice) : "",
     description: service.description ?? "",
     faqs: service.faqs.map((f) => ({ question: f.question, answer: f.answer })),
-    gallery: service.gallery.map((g) => ({ key: g.imageUrl, type: "image" as const })),
+    gallery: service.gallery.map((g) => ({ key: g.imageUrl, type: "image" as const, description: g.description ?? "" })),
     availability: service.availability.map((a) => ({ dayOfWeek: a.dayOfWeek, startTime: a.startTime, endTime: a.endTime })),
   }
 
-  return <ServiceWizard serviceId={service.id} initialState={initialState} initialVideoUrl={service.videoUrl ?? ""} />
+  return (
+    <ServiceWizard
+      serviceId={service.id}
+      initialState={initialState}
+      initialVideoUrl={service.videoUrl ?? ""}
+      professionalPreview={{
+        firstName: professional.firstName,
+        lastName: professional.lastName,
+        avatarUrl: professional.avatarUrl,
+        specialty: professional.specialty,
+        location: professional.location,
+        isPro: professional.isPro,
+        username: professional.user.username,
+        image: professional.user.image,
+      }}
+      professionalServicesPreview={professionalServices}
+    />
+  )
 }

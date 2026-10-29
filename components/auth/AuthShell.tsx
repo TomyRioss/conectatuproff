@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 interface AuthShellProps {
@@ -27,12 +26,12 @@ export default function AuthShell({ children, imageSrc, imageAlt, gradientClass,
       </div>
 
       <div className="hidden lg:block lg:w-1/2 relative order-1 lg:order-2">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={imageSrc}
           alt={imageAlt}
-          fill
-          className="object-cover"
-          priority
+          fetchPriority="high"
+          className="absolute inset-0 h-full w-full object-cover"
         />
         <div className={`absolute inset-0 ${gradientClass}`} />
       </div>

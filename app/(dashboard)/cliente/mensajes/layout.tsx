@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { avatarProxySrc } from "@/lib/avatar";
 import { redirect } from "next/navigation";
 import MessagesShell from "@/components/mensajes/MessagesShell";
 import type { ConversationListItem } from "@/components/mensajes/ConversationList";
@@ -30,7 +31,7 @@ export default async function ClienteMensajesLayout({ children }: { children: Re
     otherName: `${c.professional.firstName} ${c.professional.lastName}`,
     otherAvatar: c.professional.avatarUrl
       ? `/api/avatar?key=${encodeURIComponent(c.professional.avatarUrl)}`
-      : c.professional.user.image,
+      : avatarProxySrc(c.professional.user.image),
     lastMessage: c.messages[0]?.body ?? null,
     lastMessageAt: c.messages[0]?.createdAt.toISOString() ?? null,
   }));

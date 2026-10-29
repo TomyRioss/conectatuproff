@@ -1,64 +1,73 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import Link from "next/link"
+import { useCallback, useEffect, useState } from "react"
 import { toast } from "sonner"
-import { SquareArrowOutUpRight } from "lucide-react"
+import { Loader2, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { PortfolioFormDialog } from "@/components/profesionales/PortfolioFormDialog"
+import { PortfolioCard } from "@/components/profesionales/PortfolioCard"
 import type { PortfolioFormValue } from "@/components/profesionales/PortfolioForm"
 
-export function PortfolioManageSection({ username }: { username: string }) {
+export function PortfolioManageSection() {
   const [items, setItems] = useState<PortfolioFormValue[]>([])
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editing, setEditing] = useState<PortfolioFormValue | undefined>(undefined)
+  const [loading, setLoading] = useState(true)
 
-  function load() {
-    fetch("/api/profesional/portfolio")
-      .then((r) => r.json())
-      .then((data) => setItems(Array.isArray(data) ? data : []))
-      .catch(() => toast.error("No se pudo cargar el portfolio"))
-  }
-
-  useEffect(() => {
-    load()
+  const load = useCallback(async () => {
+    setLoading(true)
+    try {
+      const response = await fetch("/api/profesional/portfolio")
+      if (!response.ok) throw new Error("No se pudo cargar")
+      const data = await response.json()
+      setItems(Array.isArray(data) ? data : [])
+    } catch {
+      toast.error("No se pudieron cargar tus publicaciones")
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
-  return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-5">
-      <h2 className="text-lg font-bold text-brand-dark font-display mb-3">Portfolio</h2>
+  useEffect(() => {
+    void load()
+  }, [load])
 
-      {items.length === 0 ? (
-        <p className="text-sm text-brand-gray mb-4">Todavía no agregaste proyectos.</p>
+  return (
+    <section className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6" aria-labelledby="portfolio-heading">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 id="portfolio-heading" className="text-lg font-bold text-brand-dark font-display">Mis publicaciones</h2>
+          <p className="mt-1 text-sm text-brand-gray">Administrá los trabajos que compartís en tu perfil.</p>
+        </div>
+        <Button
+          type="button"
+          onClick={() => { setEditing(undefined); setDialogOpen(true) }}
+          className="min-h-11 gap-2 bg-brand-green text-white hover:opacity-90"
+        >
+          <Plus size={16} /> Nueva publicación
+        </Button>
+      </div>
+
+      {loading ? (
+        <div className="flex min-h-24 items-center justify-center text-brand-gray" role="status" aria-label="Cargando publicaciones">
+          <Loader2 size={20} className="animate-spin" />
+        </div>
+      ) : items.length === 0 ? (
+        <p className="rounded-xl bg-brand-bg px-4 py-6 text-center text-sm text-brand-gray">
+          Todavía no agregaste publicaciones.
+        </p>
       ) : (
-        <div className="flex gap-2 overflow-x-auto mb-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
-            <button
+            <PortfolioCard
               key={item.id}
-              type="button"
-              onClick={() => { setEditing(item); setDialogOpen(true) }}
-              className="shrink-0 w-28 aspect-video rounded-lg overflow-hidden border border-gray-200 bg-brand-bg"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`/api/avatar?key=${encodeURIComponent(item.images[0]?.imageUrl ?? "")}`}
-                alt={item.title ?? "Proyecto"}
-                className="w-full h-full object-cover"
-              />
-            </button>
+              item={item}
+              onEdit={() => { setEditing(item); setDialogOpen(true) }}
+              onChanged={load}
+            />
           ))}
         </div>
       )}
-
-      <Button
-        variant="outline"
-        className="border-gray-200 text-brand-dark gap-2"
-        asChild
-      >
-        <Link href={`/${username}/portfolio`}>
-          <SquareArrowOutUpRight size={16} /> Revisar portfolio
-        </Link>
-      </Button>
 
       <PortfolioFormDialog
         open={dialogOpen}
@@ -66,6 +75,6 @@ export function PortfolioManageSection({ username }: { username: string }) {
         item={editing}
         onSaved={load}
       />
-    </div>
+    </section>
   )
 }

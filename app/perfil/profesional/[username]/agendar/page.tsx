@@ -19,7 +19,9 @@ export default async function AgendarPage({
 
   const session = await auth();
   if (!session?.user?.id) {
-    redirect(`/login?callbackUrl=/perfil/profesional/${username}/agendar`);
+    const serviceQuery = preselectedServiceId ? `?service=${encodeURIComponent(preselectedServiceId)}` : "";
+    const callbackUrl = `/perfil/profesional/${username}/agendar${serviceQuery}`;
+    redirect(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
   }
   if ((session.user as { role?: string }).role !== "CLIENT") {
     return (
@@ -42,7 +44,7 @@ export default async function AgendarPage({
       services: {
         where: { status: "ACTIVE" },
         orderBy: { createdAt: "asc" },
-        select: { id: true, title: true, price: true, currency: true, durationMin: true, serviceType: true },
+        select: { id: true, title: true, imageUrl: true, price: true, currency: true, durationMin: true, serviceType: true },
       },
     },
   });

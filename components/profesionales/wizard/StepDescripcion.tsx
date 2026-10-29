@@ -8,9 +8,11 @@ import type { WizardState } from "./types"
 export function StepDescripcion({
   state,
   update,
+  showFaqs = true,
 }: {
   state: WizardState
   update: (patch: Partial<WizardState>) => void
+  showFaqs?: boolean
 }) {
   function addFaq() {
     update({ faqs: [...state.faqs, { question: "", answer: "" }] })
@@ -41,7 +43,7 @@ export function StepDescripcion({
         <p className="text-xs text-brand-gray mt-1 text-right">{state.description.length}/1200 caracteres</p>
       </div>
 
-      <div className="mt-8 pt-6 border-t border-gray-200">
+      {showFaqs && <div className="mt-8 pt-6 border-t border-gray-200">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
             <Label>Preguntas frecuentes</Label>
@@ -75,7 +77,7 @@ export function StepDescripcion({
             </div>
           ))}
         </div>
-      </div>
+      </div>}
     </div>
   )
 }

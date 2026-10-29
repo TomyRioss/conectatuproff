@@ -20,6 +20,19 @@ export function addMinutes(hhmm: string, minutes: number): string {
   return `${hh}:${mm}`;
 }
 
+export function formatDuration(minutes: number | null | undefined): string {
+  if (!minutes || minutes <= 0) return "";
+
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  const parts: string[] = [];
+
+  if (hours > 0) parts.push(`${hours} ${hours === 1 ? "hora" : "horas"}`);
+  if (remainingMinutes > 0) parts.push(`${remainingMinutes} min`);
+
+  return parts.join(" ");
+}
+
 export type ArParts = {
   year: number;
   month: number; // 1-12

@@ -48,7 +48,6 @@ export async function POST(req: Request) {
     body as Record<string, unknown>
 
   const keys: string[] = Array.isArray(imageKeys) ? (imageKeys as unknown[]).filter((k): k is string => !!k) : []
-  if (keys.length === 0) return NextResponse.json({ error: "Al menos una imagen requerida" }, { status: 400 })
   if (keys.length > MAX_IMAGES) return NextResponse.json({ error: `Máximo ${MAX_IMAGES} imágenes` }, { status: 400 })
 
   const catIds: string[] = Array.isArray(categoryIds)
@@ -81,7 +80,7 @@ export async function POST(req: Request) {
         professionalId: pro.id,
         title: typeof title === "string" ? title.trim() || null : null,
         description: typeof description === "string" ? description.trim() || null : null,
-        imageUrl: keys[0],
+        imageUrl: keys[0] ?? null,
         costMin: cMin,
         costMax: cMax,
         durationMin: dMin,

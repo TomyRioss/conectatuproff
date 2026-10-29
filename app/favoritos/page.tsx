@@ -1,4 +1,6 @@
 import { redirect } from "next/navigation";
+
+import { avatarProxySrc } from "@/lib/avatar"
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { ServiceCard } from "@/components/profesionales/ServiceCard";
@@ -45,7 +47,7 @@ export default async function FavoritosPage() {
               {professionals.map((pro) => {
                 const avatarSrc = pro.avatarUrl
                   ? `/api/avatar?key=${encodeURIComponent(pro.avatarUrl)}`
-                  : pro.user.image;
+                  : avatarProxySrc(pro.user.image);
                 const data: ProfCardData = {
                   slug: pro.user.username ?? "",
                   name: `${pro.firstName} ${pro.lastName}`,

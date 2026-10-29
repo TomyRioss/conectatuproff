@@ -361,6 +361,7 @@ model ServiceGalleryImage {
   id        String @id @default(cuid())
   serviceId String
   imageUrl  String
+  description String? @db.Text
   order     Int    @default(0)
 
   service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)

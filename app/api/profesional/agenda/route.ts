@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { arDayStart } from "@/lib/time"
+import { syncGoogleEventsToBlockedSlots } from "@/lib/googleCalendar"
 
 export async function GET(req: Request) {
   const session = await auth()
@@ -18,7 +19,15 @@ export async function GET(req: Request) {
   try {
     const pro = await prisma.professional.findUnique({
       where: { userId: session.user.id },
-      select: { id: true },
+      select: {
+        id: true,
+        googleAccessToken: true,
+        googleRefreshToken: true,
+        googleTokenExpiry: true,
+        googleCalendarId: true,
+        googleConnected: true,
+        googleLastSyncAt: true,
+      },
     })
     if (!pro) return NextResponse.json({ error: "Perfil no encontrado" }, { status: 404 })
 
@@ -27,6 +36,13 @@ export async function GET(req: Request) {
     const daysInMonth = new Date(Date.UTC(year, monthNum, 0)).getUTCDate()
     const start = arDayStart(`${month}-01`)
     const end = new Date(start.getTime() + daysInMonth * 24 * 3600000)
+
+    try {
+      await syncGoogleEventsToBlockedSlots(pro, start, end)
+    } catch (error) {
+      // Keep showing locally stored appointments and events if Google is unavailable.
+      console.error("Google Calendar sync failed while loading agenda", error)
+    }
 
     const [appointments, blockedSlots] = await Promise.all([
       prisma.appointment.findMany({

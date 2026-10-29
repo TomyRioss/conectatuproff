@@ -1,6 +1,7 @@
 import { Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { addMinutes } from "@/lib/time"
+import { SelectNative } from "@/components/ui/select-native"
 import type { WizardState } from "./types"
 
 const DOW_LABELS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
@@ -34,11 +35,10 @@ export function StepDisponibilidad({
 
   return (
     <div className="max-w-xl">
-      <h2 className="text-xl sm:text-2xl font-bold text-brand-dark">Horarios de este servicio</h2>
-      <p className="text-brand-gray text-sm mt-1">
-        Opcional. Si no agregás horarios, el cliente reserva dentro de tu horario general de atención. Si agregás al
-        menos uno, solo esos días y horas quedan disponibles para reservar este servicio. Cada bloque dura exactamente
-        lo que definiste en el paso anterior ({durationMin || "?"} min) — podés agregar varios bloques el mismo día.
+      <h2 className="text-xl sm:text-2xl font-bold text-brand-dark">Horarios de este servicio (opcional)</h2>
+      <p className="mt-2 border-b border-gray-200 pb-3 text-base leading-relaxed text-brand-dark">
+        Tocá «Agregar horario» y elegí un día y la hora de inicio. Cada bloque dura {durationMin || "?"} min; podés
+        agregar varios. Si no agregás ninguno, se usará tu horario general.
       </p>
 
       {durationMin <= 0 ? (
@@ -46,7 +46,7 @@ export function StepDisponibilidad({
       ) : (
         <>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mt-6">
-            <p className="text-sm font-semibold text-brand-dark">Bloques configurados</p>
+            <p className="text-sm font-semibold text-brand-dark">Días y horario (opcional)</p>
             <Button type="button" variant="outline" onClick={addBlock} className="gap-1.5 border-gray-200 text-brand-dark justify-center min-h-[44px] sm:min-h-0">
               <Plus size={14} /> Agregar horario
             </Button>
@@ -54,19 +54,20 @@ export function StepDisponibilidad({
 
           <div className="flex flex-col gap-3 mt-4">
             {state.availability.length === 0 && (
-              <p className="text-sm text-brand-gray">Sin horarios propios configurados.</p>
+              <p className="text-sm text-brand-gray">Si no agregás horarios, se usará el horario general de tu perfil profesional.</p>
             )}
             {state.availability.map((block, i) => (
               <div key={i} className="flex flex-wrap items-center gap-2 sm:gap-3">
-                <select
+                <SelectNative
                   value={block.dayOfWeek}
                   onChange={(e) => updateDay(i, Number(e.target.value))}
-                  className="h-11 sm:h-9 rounded-md border border-gray-200 bg-white px-3 pr-8 text-base sm:text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet flex-1 min-w-[130px] sm:flex-none"
+                  wrapperClassName="flex-1 min-w-[130px] sm:flex-none"
+                  className="w-full h-11 sm:h-9 rounded-md border border-gray-200 bg-white px-3 text-base sm:text-sm text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-violet/30 focus:border-brand-violet"
                 >
                   {DOW_LABELS.map((label, dow) => (
                     <option key={dow} value={dow}>{label}</option>
                   ))}
-                </select>
+                </SelectNative>
                 <input
                   type="time"
                   value={block.startTime}

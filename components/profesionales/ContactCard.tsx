@@ -40,10 +40,10 @@ export function ContactCard({
       <Button
         type="button"
         asChild
-        className="w-full mt-4 bg-brand-dark hover:bg-brand-dark/90 text-white"
+        className="mt-4 w-full bg-brand-green text-white hover:bg-brand-green/90"
       >
         <Link href={`/perfil/profesional/${username}/agendar`}>
-          <CalendarDays size={14} className="mr-2" /> Agenda tú cita
+          <CalendarDays size={14} className="mr-2" /> Agendá tu cita
         </Link>
       </Button>
     </div>

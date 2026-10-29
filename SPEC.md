@@ -54,6 +54,7 @@ Marketplace conecta clientes con profesionales bienestar (reflexología, masajes
 | V13 | Consulta anónima requiere nombre + (email o teléfono); no requiere cuenta |
 | V14 | Responsive: todos los componentes funcionales en 375px (mobile) y 1280px (desktop) |
 | V15 | shadcn/ui para todos los componentes prefabricados generales |
+| V16 | `npm run dev` genera Prisma Client desde `schema.prisma`; cambios de schema requieren reiniciar Next antes de writes |
 
 ---
 
@@ -86,3 +87,4 @@ Marketplace conecta clientes con profesionales bienestar (reflexología, masajes
 
 | id | date | cause | fix |
 |----|------|-------|-----|
+| B1 | 2026-10-29 | Servidor Next conservó Prisma Client previo a `ServiceGalleryImage.description` | V16, predev regenera cliente, migración aplicada y servidor reiniciado |

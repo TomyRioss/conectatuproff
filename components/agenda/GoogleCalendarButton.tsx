@@ -4,11 +4,11 @@ import { useEffect, useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
-import { CalendarCheck2, Unlink } from "lucide-react"
+import { CalendarCheck2, RefreshCw, Unlink } from "lucide-react"
 
 export default function GoogleCalendarButton({ initialConnected }: { initialConnected: boolean }) {
   const [connected, setConnected] = useState(initialConnected)
-  const [loading, setLoading] = useState(false)
+  const [action, setAction] = useState<"sync" | "disconnect" | null>(null)
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -26,7 +26,7 @@ export default function GoogleCalendarButton({ initialConnected }: { initialConn
   }, [searchParams, router])
 
   const disconnect = async () => {
-    setLoading(true)
+    setAction("disconnect")
     try {
       const res = await fetch("/api/profesional/google-calendar/disconnect", { method: "POST" })
       if (!res.ok) throw new Error()
@@ -35,16 +35,51 @@ export default function GoogleCalendarButton({ initialConnected }: { initialConn
     } catch {
       toast.error("Error al desconectar Google Calendar")
     } finally {
-      setLoading(false)
+      setAction(null)
+    }
+  }
+
+  const syncAppointments = async () => {
+    setAction("sync")
+    try {
+      const res = await fetch("/api/profesional/google-calendar/sync", { method: "POST" })
+      const result = await res.json()
+      if (!res.ok) throw new Error(result.error || "Error al actualizar los turnos")
+      toast.success(
+        `Google Calendar actualizado: ${result.created} turnos nuevos, ${result.updated} sincronizados y ${result.deleted} cancelados quitados`
+      )
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Error al actualizar Google Calendar")
+    } finally {
+      setAction(null)
     }
   }
 
   if (connected) {
     return (
-      <Button variant="outline" size="sm" onClick={disconnect} disabled={loading} className="w-full sm:w-auto justify-center min-h-[48px] sm:min-h-0">
-        <Unlink className="h-4 w-4 mr-1.5" />
-        Desconectar Google Calendar
-      </Button>
+      <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+        <Button
+          type="button"
+          size="sm"
+          onClick={syncAppointments}
+          disabled={action !== null}
+          className="min-h-[48px] w-full justify-center gap-1.5 bg-brand-violet text-white hover:opacity-90 sm:w-auto sm:min-h-0"
+        >
+          <RefreshCw className={`h-4 w-4 ${action === "sync" ? "animate-spin" : ""}`} />
+          {action === "sync" ? "Actualizando turnos..." : "Actualizar turnos"}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={disconnect}
+          disabled={action !== null}
+          className="min-h-[48px] w-full justify-center sm:w-auto sm:min-h-0"
+        >
+          <Unlink className="mr-1.5 h-4 w-4" />
+          {action === "disconnect" ? "Desconectando..." : "Desconectar Google Calendar"}
+        </Button>
+      </div>
     )
   }
 

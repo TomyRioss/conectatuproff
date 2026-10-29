@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Send, Bot, BotOff, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Send, Bot, BotOff, CheckCircle2, DollarSign } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
@@ -47,35 +47,36 @@ export default function ChatThread({
   const inputRef = useRef<HTMLInputElement>(null);
   const lastCreatedAtRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    async function fetchNew() {
-      const since = lastCreatedAtRef.current;
-      const url = since
-        ? `/api/mensajes/${conversationId}?since=${encodeURIComponent(since)}`
-        : `/api/mensajes/${conversationId}`;
-      try {
-        const res = await fetch(url);
-        if (!res.ok) return;
-        const data = await res.json();
-        if (typeof data.botEnabled === "boolean") setBotEnabled(data.botEnabled);
-        const newMessages: Message[] = data.messages ?? [];
-        if (newMessages.length > 0) {
-          setMessages((prev) => {
-            const existingIds = new Set(prev.map((m) => m.id));
-            return [...prev, ...newMessages.filter((m) => !existingIds.has(m.id))];
-          });
-          lastCreatedAtRef.current = newMessages[newMessages.length - 1].createdAt;
-        }
-      } catch (e) {
-        console.error("fetchNew mensajes", e);
-      } finally {
-        setLoading(false);
+  async function fetchNew() {
+    const since = lastCreatedAtRef.current;
+    const url = since
+      ? `/api/mensajes/${conversationId}?since=${encodeURIComponent(since)}`
+      : `/api/mensajes/${conversationId}`;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (typeof data.botEnabled === "boolean") setBotEnabled(data.botEnabled);
+      const newMessages: Message[] = data.messages ?? [];
+      if (newMessages.length > 0) {
+        setMessages((prev) => {
+          const existingIds = new Set(prev.map((m) => m.id));
+          return [...prev, ...newMessages.filter((m) => !existingIds.has(m.id))];
+        });
+        lastCreatedAtRef.current = newMessages[newMessages.length - 1].createdAt;
       }
+    } catch (e) {
+      console.error("fetchNew mensajes", e);
+    } finally {
+      setLoading(false);
     }
+  }
 
+  useEffect(() => {
     fetchNew();
     const interval = setInterval(fetchNew, POLL_MS);
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conversationId]);
 
   useEffect(() => {
@@ -184,8 +185,63 @@ export default function ChatThread({
     }
   }
 
+  // El profesional envía al cliente un link de pago MercadoPago del turno
+  // acordado, como mensaje en el chat (el cliente lo abre y paga en la app).
+  const [pagoSelectorOpen, setPagoSelectorOpen] = useState(false);
+  const [citasParaPago, setCitasParaPago] = useState<{ id: string; label: string }[]>([]);
+  const [loadingCitasPago, setLoadingCitasPago] = useState(false);
+  const [sendingPago, setSendingPago] = useState<string | null>(null);
+
+  async function openPagoSelector() {
+    setPagoSelectorOpen(true);
+    setLoadingCitasPago(true);
+    try {
+      const res = await fetch(`/api/mensajes/${conversationId}/citas-pago`);
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        toast.error(data?.error ?? "No se pudieron cargar los turnos.");
+        setPagoSelectorOpen(false);
+        return;
+      }
+      if ((data.citas ?? []).length === 0) {
+        toast.error("No hay turnos pendientes de pago con este cliente.");
+        setPagoSelectorOpen(false);
+        return;
+      }
+      setCitasParaPago(data.citas);
+    } catch {
+      toast.error("No se pudieron cargar los turnos.");
+      setPagoSelectorOpen(false);
+    } finally {
+      setLoadingCitasPago(false);
+    }
+  }
+
+  async function enviarLinkPago(appointmentId: string) {
+    setSendingPago(appointmentId);
+    try {
+      const res = await fetch(`/api/mensajes/${conversationId}/pago`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appointmentId }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        toast.error(data?.error ?? "No se pudo generar el link de pago.");
+        return;
+      }
+      toast.success("Link de pago enviado al chat");
+      setPagoSelectorOpen(false);
+      fetchNew();
+    } catch {
+      toast.error("No se pudo generar el link de pago.");
+    } finally {
+      setSendingPago(null);
+    }
+  }
+
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full relative">
       {!hideHeader && (
       <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200 bg-white">
         <Link
@@ -202,19 +258,28 @@ export default function ChatThread({
         </Avatar>
         <p className="font-semibold text-brand-dark truncate flex-1">{otherName}</p>
         {currentRole === "PROFESSIONAL" && (
-          <button
-            type="button"
-            onClick={toggleBot}
-            disabled={togglingBot}
-            className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium shrink-0 disabled:opacity-50 ${
-              botEnabled
-                ? "border-brand-violet/30 bg-brand-violet/10 text-brand-violet"
-                : "border-gray-200 bg-gray-50 text-brand-gray"
-            }`}
-          >
-            {botEnabled ? <Bot size={14} /> : <BotOff size={14} />}
-            {botEnabled ? "Asistente activo" : "Asistente apagado"}
-          </button>
+          <>
+            <button
+              type="button"
+              onClick={openPagoSelector}
+              className="flex items-center gap-1.5 rounded-full border border-brand-green/30 bg-brand-green/10 text-brand-green px-3 py-1.5 text-xs font-medium shrink-0"
+            >
+              <DollarSign size={14} /> Link de pago
+            </button>
+            <button
+              type="button"
+              onClick={toggleBot}
+              disabled={togglingBot}
+              className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium shrink-0 disabled:opacity-50 ${
+                botEnabled
+                  ? "border-brand-violet/30 bg-brand-violet/10 text-brand-violet"
+                  : "border-gray-200 bg-gray-50 text-brand-gray"
+              }`}
+            >
+              {botEnabled ? <Bot size={14} /> : <BotOff size={14} />}
+              {botEnabled ? "Asistente activo" : "Asistente apagado"}
+            </button>
+          </>
         )}
       </div>
       )}
@@ -318,6 +383,42 @@ export default function ChatThread({
           <button onClick={askForProfessional} className="text-xs font-medium text-brand-violet hover:underline">
             Hablar con el profesional
           </button>
+        </div>
+      )}
+
+      {pagoSelectorOpen && (
+        <div className="absolute inset-0 z-50 bg-black/40 flex items-end sm:items-center justify-center p-4" onClick={() => setPagoSelectorOpen(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-md max-h-[70vh] overflow-y-auto p-4" onClick={(e) => e.stopPropagation()}>
+            <p className="font-semibold text-brand-dark mb-1">Enviar link de pago</p>
+            <p className="text-xs text-brand-gray mb-3">Elegí el turno que querés cobrar con MercadoPago:</p>
+            {loadingCitasPago ? (
+              <p className="text-sm text-brand-gray py-4 text-center">Cargando turnos...</p>
+            ) : (
+              <div className="flex flex-col gap-2">
+                {citasParaPago.map((c) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    disabled={sendingPago === c.id}
+                    onClick={() => enviarLinkPago(c.id)}
+                    className="text-left rounded-xl border border-gray-200 px-3 py-2.5 hover:border-brand-violet transition-colors disabled:opacity-50"
+                  >
+                    <p className="text-sm font-semibold text-brand-dark">{c.label}</p>
+                    <p className="text-xs text-brand-green font-medium mt-0.5">
+                      {sendingPago === c.id ? "Generando link..." : "Enviar link de MercadoPago"}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => setPagoSelectorOpen(false)}
+              className="w-full mt-3 text-sm text-brand-gray hover:text-brand-dark py-2"
+            >
+              Cancelar
+            </button>
+          </div>
         </div>
       )}
 

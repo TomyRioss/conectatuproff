@@ -11,6 +11,7 @@ import { StepDisponibilidad } from "./StepDisponibilidad"
 import { StepDescripcion } from "./StepDescripcion"
 import { StepGaleria } from "./StepGaleria"
 import { StepRevisar } from "./StepRevisar"
+import type { ServiceProfessionalHeaderData } from "@/components/profesionales/ServiceProfessionalHeader"
 import { STEPS, initialWizardState, type WizardState } from "./types"
 
 function validateStep(step: number, state: WizardState) {
@@ -25,19 +26,17 @@ function buildPayload(state: WizardState, videoUrl: string) {
     description: state.description || undefined,
     price: state.price ? Number(state.price) : undefined,
     durationMin: state.durationMin ? Number(state.durationMin) : undefined,
-    frequencyType: state.frequencyType,
-    frequencyCount: state.frequencyType !== "UNICA" && state.frequencyCount ? Number(state.frequencyCount) : undefined,
-    frequencyPeriods: state.frequencyType !== "UNICA" && state.frequencyPeriods ? Number(state.frequencyPeriods) : undefined,
-    modality: state.modality || undefined,
+    frequencyType: state.frequencyType || null,
+    frequencyCount: state.frequencyType && state.frequencyType !== "UNICA" && state.frequencyCount ? Number(state.frequencyCount) : null,
+    frequencyPeriods: state.frequencyType && state.frequencyType !== "UNICA" && state.frequencyPeriods ? Number(state.frequencyPeriods) : null,
+    modality: state.modality || null,
     categoryId: state.categoryId || undefined,
-    imageUrl: state.gallery[0]?.key || undefined,
-    videoUrl: videoUrl || undefined,
-    extraSessionPrice: state.extraSessionPrice ? Number(state.extraSessionPrice) : undefined,
-    gallery: state.gallery.map((g) => g.key),
+    imageUrl: state.gallery[0]?.key || null,
+    videoUrl: videoUrl || null,
+    extraSessionPrice: state.extraSessionPrice ? Number(state.extraSessionPrice) : null,
+    gallery: state.gallery.map(({ key, description }) => ({ key, description })),
     faqs: state.faqs.filter((f) => f.question.trim() && f.answer.trim()),
-    sessionPackages: state.sessionPackages
-      .filter((p) => Number(p.sessionCount) > 0 && Number(p.price) > 0)
-      .map((p) => ({ sessionCount: Number(p.sessionCount), price: Number(p.price), frequencyType: p.frequencyType })),
+    sessionPackages: [],
     availability: state.availability,
   }
 }
@@ -46,10 +45,14 @@ export function ServiceWizard({
   serviceId,
   initialState,
   initialVideoUrl,
+  professionalPreview,
+  professionalServicesPreview,
 }: {
   serviceId?: string
   initialState?: WizardState
   initialVideoUrl?: string
+  professionalPreview?: ServiceProfessionalHeaderData | null
+  professionalServicesPreview?: { id: string; title: string; imageUrl: string | null }[]
 } = {}) {
   const router = useRouter()
   const [step, setStep] = useState(0)
@@ -57,12 +60,16 @@ export function ServiceWizard({
   const [videoUrl, setVideoUrl] = useState(initialVideoUrl ?? "")
   const [publishing, setPublishing] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [durationError, setDurationError] = useState(false)
   const [draftId, setDraftId] = useState<string | null>(serviceId ?? null)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const skipNextAutosave = useRef(true)
 
   function update(patch: Partial<WizardState>) {
     setState((s) => ({ ...s, ...patch }))
+    if (patch.durationMin !== undefined && Number(patch.durationMin) > 0) {
+      setDurationError(false)
+    }
   }
 
   useEffect(() => {
@@ -101,6 +108,14 @@ export function ServiceWizard({
   }, [state, videoUrl])
 
   function goNext() {
+    if (step === 1 && !(Number(state.durationMin) > 0)) {
+      setDurationError(true)
+      const durationSelect = document.getElementById("durationMin")
+      durationSelect?.focus()
+      durationSelect?.scrollIntoView({ behavior: "smooth", block: "center" })
+      return
+    }
+
     if (!validateStep(step, state)) {
       toast.error(step === 0 ? "Ponele un nombre al servicio" : "Ingresá un precio válido")
       return
@@ -140,8 +155,8 @@ export function ServiceWizard({
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
-      <div className="relative flex items-center justify-between mb-8 sm:mb-10">
+    <div className={`mx-auto px-4 py-6 sm:px-6 sm:py-10 ${step === STEPS.length - 1 ? "max-w-7xl" : "max-w-4xl"}`}>
+      <div className={`relative mx-auto flex w-full items-center justify-between mb-8 sm:mb-10 ${step === STEPS.length - 1 ? "max-w-4xl" : ""}`}>
         <div className="flex items-center gap-1 sm:gap-2 flex-1">
           {STEPS.map((label, i) => (
             <div key={label} className="flex items-center gap-1 sm:gap-2 flex-1">
@@ -173,13 +188,21 @@ export function ServiceWizard({
       </div>
 
       {step === 0 && <StepNombre state={state} update={update} />}
-      {step === 1 && <StepPrecio state={state} update={update} />}
+      {step === 1 && <StepPrecio state={state} update={update} durationError={durationError} />}
       {step === 2 && <StepDisponibilidad state={state} update={update} />}
-      {step === 3 && <StepDescripcion state={state} update={update} />}
+      {step === 3 && <StepDescripcion state={state} update={update} showFaqs={Boolean(serviceId)} />}
       {step === 4 && <StepGaleria state={state} update={update} videoUrl={videoUrl} setVideoUrl={setVideoUrl} />}
-      {step === 5 && <StepRevisar state={state} videoUrl={videoUrl} />}
+      {step === 5 && (
+        <StepRevisar
+          state={state}
+          videoUrl={videoUrl}
+          professional={professionalPreview}
+          serviceId={draftId ?? undefined}
+          otherServices={professionalServicesPreview}
+        />
+      )}
 
-      <div className="max-w-2xl flex items-center justify-between gap-2 mt-8 sm:mt-10 pt-4 sm:pt-6 border-t border-gray-200 sticky bottom-0 -mx-4 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:mx-0 sm:px-0 sm:pb-0 sm:static bg-brand-bg">
+      <div className={`flex items-center justify-between gap-2 mt-8 sm:mt-10 pt-4 sm:pt-6 border-t border-gray-200 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-brand-bg ${step === STEPS.length - 1 ? "mx-auto max-w-7xl" : "max-w-2xl sticky bottom-0 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 sm:static"}`}>
         {step > 0 ? (
           <Button type="button" variant="outline" onClick={goBack} className="border-gray-200 text-brand-dark min-h-[48px] sm:min-h-0">
             Atrás
@@ -192,7 +215,7 @@ export function ServiceWizard({
             Cancelar
           </Button>
           {step < STEPS.length - 1 ? (
-            <Button type="button" onClick={goNext} className="bg-brand-dark text-white hover:opacity-90 min-h-[48px] sm:min-h-0">
+            <Button type="button" onClick={goNext} className="bg-brand-green text-white hover:opacity-90 disabled:opacity-40 min-h-[48px] sm:min-h-0">
               Continuar
             </Button>
           ) : (

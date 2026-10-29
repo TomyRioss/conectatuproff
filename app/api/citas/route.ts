@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+
+import { avatarProxySrc } from "@/lib/avatar"
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { sendMail } from "@/lib/mail";
@@ -41,7 +43,7 @@ export async function GET() {
       professionalName: a.professional ? `${a.professional.firstName} ${a.professional.lastName}` : "Usuario no encontrado",
       professionalAvatar: a.professional?.avatarUrl
         ? `/api/avatar?key=${encodeURIComponent(a.professional.avatarUrl)}`
-        : a.professional?.user.image ?? null,
+        : avatarProxySrc(a.professional?.user.image ?? null),
     }));
 
     return NextResponse.json({ appointments: result });

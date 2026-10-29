@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     }
     const trimmed = text.slice(0, MAX_TEXT_LENGTH);
 
-    const apiKey = process.env.DEEPSEEK_API_KEY;
+    const apiKey = process.env.OPENROUTER_API_KEY;
     if (!apiKey) {
       return NextResponse.json({ error: "API key not configured" }, { status: 500 });
     }
@@ -38,14 +38,14 @@ Ejemplos:
 
 "zona": barrio, localidad, partido o zona que mencione el cliente. Extraela SIEMPRE que haya cualquier referencia geográfica, aunque sea informal ("por Caballito", "soy de Quilmes", "acá en zona norte"). Devolvela normalizada y sola: "Palermo", "La Plata", "Quilmes", "CABA", "Zona Norte". Sin preposiciones ("en", "por", "de"). Si no hay ninguna referencia geográfica, o dice cosas como "a domicilio"/"cerca mío" sin nombrar lugar, null.`;
 
-    const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: process.env.DEEPSEEK_MODEL ?? "deepseek-v4-flash",
+        model: process.env.OPENROUTER_MODEL ?? "deepseek/deepseek-v4.1-flash",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: trimmed },

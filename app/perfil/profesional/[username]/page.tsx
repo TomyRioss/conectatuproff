@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { avatarProxySrc } from "@/lib/avatar";
 import { auth } from "@/lib/auth";
 import { notFound } from "next/navigation";
 import { ProfileHeader } from "@/components/profesionales/ProfileHeader";
@@ -8,7 +9,7 @@ import { FormacionSection } from "@/components/profesionales/FormacionSection";
 import { ServiceCard } from "@/components/profesionales/ServiceCard";
 import { PackageCard } from "@/components/profesionales/PackageCard";
 import { ContactCard } from "@/components/profesionales/ContactCard";
-import { PortfolioSection } from "@/components/profesionales/PortfolioSection";
+import { ChatWidget } from "@/components/profesionales/ChatWidget";
 import { ReviewsList } from "@/components/profesionales/ReviewsList";
 
 export default async function ProfesionalProfilePage({
@@ -40,7 +41,6 @@ export default async function ProfesionalProfilePage({
       subcategory: { select: { name: true } },
       services: { where: { status: "ACTIVE" }, orderBy: { createdAt: "asc" } },
       packages: { where: { isActive: true }, orderBy: { createdAt: "asc" } },
-      portfolio: { orderBy: { order: "asc" }, include: { images: { orderBy: { order: "asc" } } } },
       reviews: {
         orderBy: { createdAt: "desc" },
         include: { client: { select: { firstName: true, lastName: true } } },
@@ -67,7 +67,7 @@ export default async function ProfesionalProfilePage({
 
   const avatarSrc = pro.avatarUrl
     ? `/api/avatar?key=${encodeURIComponent(pro.avatarUrl)}`
-    : pro.user.image;
+    : avatarProxySrc(pro.user.image);
 
   const reviewCount = pro.reviews.length;
   const avgRating =
@@ -102,6 +102,13 @@ export default async function ProfesionalProfilePage({
         </div>
       </div>
 
+      <ChatWidget
+        name={`${pro.firstName} ${pro.lastName}`}
+        professionalId={pro.id}
+        username={username}
+        avatarSrc={avatarSrc}
+      />
+
       <div className="max-w-7xl mx-auto px-4 mt-6 space-y-6">
         {pro.services.length > 0 && (
           <section>
@@ -128,8 +135,6 @@ export default async function ProfesionalProfilePage({
             </div>
           </section>
         )}
-
-        <PortfolioSection items={pro.portfolio} handle={username} />
 
         <FormacionSection
           username={username}

@@ -1,5 +1,6 @@
 import { google } from "googleapis";
 import { prisma } from "@/lib/prisma";
+import { arDayStart } from "@/lib/time";
 
 const SCOPES = ["https://www.googleapis.com/auth/calendar.events"];
 
@@ -106,13 +107,15 @@ export async function updateGoogleEvent(
 
 export async function deleteGoogleEvent(pro: ProTokens, eventId: string) {
   const client = await getValidClient(pro);
-  if (!client) return;
+  if (!client) return false;
 
   const calendar = google.calendar({ version: "v3", auth: client });
   try {
     await calendar.events.delete({ calendarId: pro.googleCalendarId ?? "primary", eventId });
+    return true;
   } catch (e) {
     console.error("deleteGoogleEvent", e);
+    return false;
   }
 }
 
@@ -128,10 +131,13 @@ export async function listGoogleEvents(pro: ProTokens, timeMin: Date, timeMax: D
     singleEvents: true,
     orderBy: "startTime",
   });
-  return (res.data.items ?? []).filter((ev) => ev.start?.dateTime && ev.end?.dateTime);
+  return (res.data.items ?? []).filter(
+    (ev) =>
+      ev.id &&
+      (ev.start?.dateTime || ev.start?.date) &&
+      (ev.end?.dateTime || ev.end?.date)
+  );
 }
-
-const SYNC_INTERVAL_MS = 60_000;
 
 export async function syncGoogleEventsToBlockedSlots(
   pro: ProTokens & { googleConnected: boolean; googleLastSyncAt: Date | null },
@@ -139,20 +145,25 @@ export async function syncGoogleEventsToBlockedSlots(
   end: Date
 ) {
   if (!pro.googleConnected) return;
-  if (pro.googleLastSyncAt && Date.now() - pro.googleLastSyncAt.getTime() < SYNC_INTERVAL_MS) return;
+  if (!pro.googleRefreshToken) throw new Error("Google Calendar necesita reconectarse");
 
   const events = await listGoogleEvents(pro, start, end);
 
   await prisma.$transaction([
     prisma.blockedSlot.deleteMany({
-      where: { professionalId: pro.id, googleEventId: { not: null }, startAt: { gte: start, lt: end } },
+      where: {
+        professionalId: pro.id,
+        googleEventId: { not: null },
+        startAt: { lt: end },
+        endAt: { gt: start },
+      },
     }),
     ...events.map((ev) =>
       prisma.blockedSlot.create({
         data: {
           professionalId: pro.id,
-          startAt: new Date(ev.start!.dateTime!),
-          endAt: new Date(ev.end!.dateTime!),
+          startAt: ev.start!.dateTime ? new Date(ev.start!.dateTime) : arDayStart(ev.start!.date!),
+          endAt: ev.end!.dateTime ? new Date(ev.end!.dateTime) : arDayStart(ev.end!.date!),
           reason: "OTHER",
           note: ev.summary || "Evento de Google Calendar",
           googleEventId: ev.id,
@@ -161,4 +172,91 @@ export async function syncGoogleEventsToBlockedSlots(
     ),
     prisma.professional.update({ where: { id: pro.id }, data: { googleLastSyncAt: new Date() } }),
   ]);
+}
+
+export async function syncProfessionalAppointmentsToGoogleCalendar(professionalId: string) {
+  const pro = await prisma.professional.findUnique({
+    where: { id: professionalId },
+    select: {
+      id: true,
+      googleAccessToken: true,
+      googleRefreshToken: true,
+      googleTokenExpiry: true,
+      googleCalendarId: true,
+      googleConnected: true,
+    },
+  });
+  if (!pro || !pro.googleConnected || !pro.googleRefreshToken) {
+    throw new Error("Google Calendar no está conectado");
+  }
+
+  const now = new Date();
+  const appointments = await prisma.appointment.findMany({
+    where: {
+      professionalId,
+      OR: [
+        { status: { in: ["PENDING", "CONFIRMED"] }, startAt: { gte: now } },
+        { googleEventId: { not: null } },
+      ],
+    },
+    select: {
+      id: true,
+      startAt: true,
+      durationMin: true,
+      status: true,
+      googleEventId: true,
+      client: { select: { firstName: true, lastName: true } },
+      service: { select: { title: true } },
+    },
+    orderBy: { startAt: "asc" },
+  });
+
+  let created = 0;
+  let updated = 0;
+  let deleted = 0;
+
+  for (const appointment of appointments) {
+    const isActive =
+      (appointment.status === "PENDING" || appointment.status === "CONFIRMED") &&
+      appointment.startAt >= now;
+
+    if (!isActive) {
+      if (appointment.googleEventId) {
+        const removed = await deleteGoogleEvent(pro, appointment.googleEventId);
+        if (!removed) throw new Error("No se pudo quitar un turno cancelado de Google Calendar");
+        await prisma.appointment.update({
+          where: { id: appointment.id },
+          data: { googleEventId: null },
+        });
+        deleted += 1;
+      }
+      continue;
+    }
+
+    const clientName = appointment.client
+      ? `${appointment.client.firstName} ${appointment.client.lastName}`.trim()
+      : "Cliente";
+    const event = {
+      summary: `${appointment.service?.title ?? "Turno"} · ${clientName}`,
+      description: "Turno agendado desde Conecta Tu Proff",
+      start: appointment.startAt,
+      end: new Date(appointment.startAt.getTime() + (appointment.durationMin ?? 60) * 60_000),
+    };
+
+    if (appointment.googleEventId) {
+      await updateGoogleEvent(pro, appointment.googleEventId, event);
+      updated += 1;
+    } else {
+      const eventId = await createGoogleEvent(pro, event);
+      if (eventId) {
+        await prisma.appointment.update({
+          where: { id: appointment.id },
+          data: { googleEventId: eventId },
+        });
+        created += 1;
+      }
+    }
+  }
+
+  return { created, updated, deleted };
 }

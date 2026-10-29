@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma"
 import type { ServiceFrequency } from "@/lib/generated/prisma/enums"
 import { addMinutes } from "@/lib/availability"
 
+const MAX_GALLERY_IMAGES = 5
+
 async function getOwnProfessionalId(userId: string) {
   const pro = await prisma.professional.findUnique({ where: { userId }, select: { id: true, isVerified: true } })
   return pro ?? null
@@ -70,7 +72,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Precio inválido" }, { status: 400 })
   }
 
-  const galleryUrls: string[] = Array.isArray(gallery) ? gallery.filter(Boolean).slice(0, 3) : []
+  const galleryItems = Array.isArray(gallery)
+    ? gallery.map((item) => typeof item === "string"
+      ? { imageUrl: item, description: null }
+      : { imageUrl: item?.key, description: typeof item?.description === "string" ? item.description.trim() || null : null })
+      .filter((item) => typeof item.imageUrl === "string" && item.imageUrl)
+    : []
+  if (galleryItems.length > MAX_GALLERY_IMAGES) {
+    return NextResponse.json({ error: `Máximo ${MAX_GALLERY_IMAGES} fotos` }, { status: 400 })
+  }
   const faqList: { question: string; answer: string }[] = Array.isArray(faqs)
     ? faqs.filter((f) => f?.question?.trim() && f?.answer?.trim())
     : []
@@ -104,7 +114,7 @@ export async function POST(req: Request) {
         imageUrl: imageUrl || null,
         videoUrl: videoUrl || null,
         extraSessionPrice: extraSessionPrice ? Number(extraSessionPrice) : null,
-        gallery: { create: galleryUrls.map((imageUrl, order) => ({ imageUrl, order })) },
+        gallery: { create: galleryItems.map(({ imageUrl, description }, order) => ({ imageUrl, description, order })) },
         faqs: { create: faqList.map((f, order) => ({ question: f.question.trim(), answer: f.answer.trim(), order })) },
         sessionPackages: { create: packageList },
         availability: { create: availabilityList },

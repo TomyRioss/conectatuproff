@@ -21,9 +21,39 @@ async function getProfile(userId: string, role: string) {
     : null;
 }
 
+// Auth.js writes the same default cookie name (`authjs.session-token`) for the
+// host `localhost` regardless of port, so session cookies from the other
+// Auth.js projects on this machine collide here: the JWT can't be decrypted
+// with this app's secret and every request logged a JWTSessionError. A unique,
+// app-scoped cookie name makes foreign cookies simply unreadable instead of
+// erroring. The __Secure- prefix mirrors Auth.js semantics (https only).
+const secureCookies =
+  process.env.NODE_ENV === "production" ||
+  (process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? "").startsWith("https");
+const cookiePrefix = secureCookies ? "__Secure-" : "";
+const cookieOptions = (maxAge?: number) => ({
+  httpOnly: true,
+  sameSite: "lax" as const,
+  path: "/",
+  secure: secureCookies,
+  ...(maxAge ? { maxAge } : {}),
+});
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
+  cookies: {
+    sessionToken: { name: `${cookiePrefix}conectatuproff.session-token`, options: cookieOptions() },
+    callbackUrl: { name: `${cookiePrefix}conectatuproff.callback-url`, options: cookieOptions() },
+    // __Host- (not __Secure-) for CSRF, matching Auth.js defaults.
+    csrfToken: {
+      name: `${secureCookies ? "__Host-" : ""}conectatuproff.csrf-token`,
+      options: cookieOptions(),
+    },
+    pkceCodeVerifier: { name: `${cookiePrefix}conectatuproff.pkce.code_verifier`, options: cookieOptions(60 * 15) },
+    state: { name: `${cookiePrefix}conectatuproff.state`, options: cookieOptions(60 * 15) },
+    nonce: { name: `${cookiePrefix}conectatuproff.nonce`, options: cookieOptions() },
+  },
   providers: [
     Google({ allowDangerousEmailAccountLinking: true }),
     Credentials({

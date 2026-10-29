@@ -4,9 +4,11 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { MessageCircle, X, Send, User, Minimize2, Headset } from "lucide-react";
 import ReactMarkdown from "react-markdown";
-import Image from "next/image";
 
-const PRIVATE_PREFIXES = ["/profesional", "/admin", "/owner", "/login", "/register", "/onboarding", "/mensajes", "/cliente/mensajes"];
+// El chatbot general de orientación (Mora) debe estar disponible para el
+// cliente logueado también dentro del dashboard: solo se oculta en back-office
+// (admin/owner) y flujos de registro/login.
+const PRIVATE_PREFIXES = ["/admin", "/owner", "/login", "/register", "/onboarding"];
 
 type Msg = {
   role: "user" | "assistant";
@@ -18,6 +20,17 @@ const WELCOME_MSG: Msg = {
   content:
     "¡Hola! Soy el asistente de Conecta Tu Proff. ¿En qué puedo ayudarte?",
 };
+
+const SUGGESTED_QUESTIONS = [
+  "¿Cómo encuentro un profesional?",
+  "¿Cómo reservo un turno?",
+  "¿Cómo funciona Conecta Tu Proff?",
+];
+
+function MoraAvatar({ size, className }: { size: number; className: string }) {
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src="/mora-avatar.jpg" alt="Mora" width={size} height={size} className={className} />;
+}
 
 export default function FloatingChatbot() {
   const pathname = usePathname();
@@ -34,8 +47,8 @@ export default function FloatingChatbot() {
     }
   }, [messages, loading]);
 
-  const sendMessage = useCallback(async () => {
-    const text = input.trim();
+  const sendMessage = useCallback(async (suggestion?: string) => {
+    const text = (suggestion ?? input).trim();
     if (!text || loading) return;
 
     const userMsg: Msg = { role: "user", content: text };
@@ -96,15 +109,18 @@ export default function FloatingChatbot() {
     );
   }
 
+  // pointer-events-none en el contenedor: es fijo y full-width, y sin esto bloquea
+  // los clics de dropdowns/modales que quedan debajo (el z-50 del dropdown del
+  // hero vive en el stacking context z-10 del hero, por debajo de este z-40).
   return (
-    <div className="fixed inset-x-3 bottom-3 z-50 flex flex-col items-end gap-3 sm:inset-x-auto sm:bottom-5 sm:right-5">
+    <div className="pointer-events-none fixed inset-x-3 bottom-3 z-40 flex flex-col items-end gap-3 sm:inset-x-auto sm:bottom-5 sm:right-5">
       {isOpen && (
-        <div className="w-full sm:w-[380px] h-[70dvh] min-h-[380px] max-h-[520px] sm:h-[520px] bg-white rounded-2xl shadow-2xl border border-brand-cream flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
+        <div className="pointer-events-auto w-full sm:w-[480px] h-[70dvh] min-h-[380px] max-h-[70vh] sm:h-[520px] bg-white rounded-2xl shadow-2xl border border-brand-cream flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 bg-brand-espresso text-white shrink-0">
             <div className="flex items-center gap-2">
               <div className="h-8 w-8 rounded-full overflow-hidden shrink-0">
-                <Image src="/mora-avatar.jpg" alt="Mora" width={32} height={32} className="h-full w-full object-cover" />
+                <MoraAvatar size={32} className="h-full w-full object-cover" />
               </div>
               <div>
                 <p className="text-sm font-medium">Mora</p>
@@ -149,7 +165,7 @@ export default function FloatingChatbot() {
                   {m.role === "user" ? (
                     <User size={14} />
                   ) : (
-                    <Image src="/mora-avatar.jpg" alt="Mora" width={28} height={28} className="h-full w-full object-cover" />
+                    <MoraAvatar size={28} className="h-full w-full object-cover" />
                   )}
                 </div>
                 <div
@@ -182,10 +198,27 @@ export default function FloatingChatbot() {
                 </div>
               </div>
             ))}
+            {messages.length === 1 && !loading && (
+              <div className="pl-9 pt-1">
+                <p className="mb-2 text-xs text-brand-gray">Preguntas recomendadas</p>
+                <div className="flex flex-wrap gap-2">
+                  {SUGGESTED_QUESTIONS.map((question) => (
+                    <button
+                      key={question}
+                      type="button"
+                      onClick={() => sendMessage(question)}
+                      className="rounded-full border border-brand-cream bg-white px-3 py-2 text-left text-xs text-brand-espresso transition-colors hover:border-brand-rose hover:bg-brand-rose/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-rose/50"
+                    >
+                      {question}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
             {loading && (
               <div className="flex gap-2 flex-row">
                 <div className="h-7 w-7 rounded-full shrink-0 overflow-hidden flex items-center justify-center">
-                  <Image src="/mora-avatar.jpg" alt="Mora" width={28} height={28} className="h-full w-full object-cover" />
+                  <MoraAvatar size={28} className="h-full w-full object-cover" />
                 </div>
                 <div className="bg-white border border-brand-cream rounded-xl rounded-tl-none px-3 py-2 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-brand-gray rounded-full animate-bounce [animation-delay:-0.3s]" />
@@ -223,7 +256,7 @@ export default function FloatingChatbot() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="h-14 pl-4 pr-5 rounded-full bg-brand-espresso text-white shadow-xl flex items-center gap-2 hover:bg-brand-mauve transition-all hover:scale-105"
+          className="pointer-events-auto h-14 pl-4 pr-5 rounded-full bg-brand-espresso text-white shadow-xl flex items-center gap-2 hover:bg-brand-mauve transition-all hover:scale-105"
           aria-label="Abrir asistente"
         >
           <Headset size={22} />

@@ -6,6 +6,7 @@ import { toast } from "sonner"
 import Link from "next/link"
 import { MoreVertical, Pencil, Trash2, Play, Pause } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { formatDuration } from "@/lib/time"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -126,8 +127,12 @@ export function ManageServiceCard({
         <span className="font-bold text-brand-dark text-sm sm:w-20 sm:text-right">
           {service.price !== null && service.price !== undefined ? `$${String(service.price)}` : "—"}
         </span>
-        <span className="text-xs text-brand-gray sm:w-20 sm:text-right">{service.durationMin ? `${service.durationMin} min` : "—"}</span>
-        <span className="text-xs text-brand-gray sm:w-24 sm:text-right">{service.modality ? MODALIDAD_LABEL[service.modality] : "—"}</span>
+        <span className="text-xs text-brand-gray sm:w-20 sm:text-right">{formatDuration(service.durationMin) || "—"}</span>
+        {service.modality ? (
+          <span className="text-xs text-brand-gray sm:w-24 sm:text-right">{MODALIDAD_LABEL[service.modality]}</span>
+        ) : (
+          <span className="sm:w-24" aria-hidden="true" />
+        )}
       </div>
 
       <DropdownMenu>

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { avatarProxySrc } from "@/lib/avatar"
 import type { ProfCardData } from "@/components/home/ProfCard"
 
 const AVATAR_COLORS = ["#1EC97E", "#6C5CE7", "#1A1A2E"]
@@ -38,6 +39,6 @@ export async function getFeaturedPros(take = 6): Promise<ProfCardData[]> {
     color: AVATAR_COLORS[i % AVATAR_COLORS.length],
     avatarSrc: pro.avatarUrl
       ? `/api/avatar?key=${encodeURIComponent(pro.avatarUrl)}`
-      : pro.user.image,
+      : avatarProxySrc(pro.user.image),
   }))
 }

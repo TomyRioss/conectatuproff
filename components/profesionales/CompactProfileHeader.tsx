@@ -238,7 +238,7 @@ export function CompactProfileHeader({
             className="flex items-center justify-center sm:justify-start gap-1.5 mt-2.5 w-full sm:w-auto text-center sm:text-left"
             aria-label="Editar especialidad"
           >
-            <p className="text-brand-dark text-[15px] sm:text-base font-medium">{specialty || "Agregá tu especialidad"}</p>
+            <p className="text-brand-dark text-[15px] sm:text-base font-medium">{specialty || "AgregÃ¡ tu especialidad"}</p>
             <Pencil size={14} className="text-brand-gray shrink-0" />
           </button>
 
@@ -246,15 +246,15 @@ export function CompactProfileHeader({
             <button
               onClick={() => setOpen(true)}
               className="flex items-center gap-1.5 text-[15px] sm:text-base text-brand-gray"
-              aria-label="Editar ubicación"
+              aria-label="Editar ubicaciÃ³n"
             >
               <MapPin size={16} className="shrink-0" />
-              <span>{location || "Sin ubicación"}</span>
+              <span>{location || "Sin ubicaciÃ³n"}</span>
             </button>
             <button
               onClick={() => setOpen(true)}
               className="flex items-center gap-1.5 text-[15px] sm:text-base text-brand-gray"
-              aria-label="Editar teléfono"
+              aria-label="Editar telÃ©fono"
             >
               {phone ? <Phone size={16} className="shrink-0" /> : <Mail size={16} className="shrink-0" />}
               <span>{phone || email}</span>
@@ -263,13 +263,18 @@ export function CompactProfileHeader({
         </div>
       </div>
 
-      <div className="flex items-center justify-center sm:justify-start gap-3 shrink-0 w-full sm:w-auto border-t border-gray-100 pt-5 sm:border-0 sm:pt-0">
-        <Button variant="outline" onClick={handleShare} className="gap-1.5 text-[15px] sm:text-base h-11 sm:h-10 px-4 flex-1 sm:flex-none">
-          {copied ? <Check size={16} /> : <Share2 size={16} />}
-          {copied ? "Copiado" : "Compartir"}
-        </Button>
-        <Link href={`/perfil/profesional/${username}`} target="_blank" className="flex-1 sm:flex-none">
-          <Button variant="outline" className="gap-1.5 text-[15px] sm:text-base h-11 sm:h-10 px-4 w-full">
+      <div className="flex items-start justify-center sm:justify-start gap-1 shrink-0 w-full sm:w-auto border-t border-gray-100 pt-5 sm:border-0 sm:pt-0">
+        <div className="flex flex-col items-center gap-1 sm:items-start">
+          <Button variant="outline" onClick={handleShare} className="gap-1.5 text-[15px] sm:text-base h-11 sm:h-10 px-4">
+            {copied ? <Check size={16} /> : <Share2 size={16} />}
+            {copied ? "Copiado" : "Compartir"}
+          </Button>
+          <p className="whitespace-nowrap text-center text-xs leading-snug text-brand-gray sm:text-left">
+            Pedí reseñas
+          </p>
+        </div>
+        <Link href={`/perfil/profesional/${username}`} target="_blank" className="shrink-0">
+          <Button variant="outline" className="gap-1.5 text-[15px] sm:text-base h-11 sm:h-10 px-4">
             <ExternalLink size={16} />
             Vista previa
           </Button>
@@ -324,7 +329,7 @@ export function CompactProfileHeader({
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <p className="text-xs text-brand-gray">JPG, PNG o WebP · máx 5 MB</p>
+            <p className="text-xs text-brand-gray">JPG, PNG o WebP Â· mÃ¡x 5 MB</p>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -342,17 +347,17 @@ export function CompactProfileHeader({
 
           <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-3">
             <div className="flex flex-col gap-1.5 min-w-0">
-              <Label htmlFor="location" className="text-xs text-brand-gray">Ubicación</Label>
+              <Label htmlFor="location" className="text-xs text-brand-gray">UbicaciÃ³n</Label>
               <Input id="location" value={loc} onChange={(e) => setLoc(e.target.value)} className="bg-white border-gray-200 text-brand-dark" />
             </div>
             <div className="flex flex-col gap-1.5 min-w-0">
-              <Label htmlFor="phone" className="text-xs text-brand-gray">Teléfono</Label>
+              <Label htmlFor="phone" className="text-xs text-brand-gray">TelÃ©fono</Label>
               <Input id="phone" value={tel} onChange={(e) => setTel(e.target.value)} className="bg-white border-gray-200 text-brand-dark" />
             </div>
           </div>
 
           <div className="flex flex-col gap-1.5 min-w-0">
-            <Label htmlFor="bio" className="text-xs text-brand-gray">Biografía</Label>
+            <Label htmlFor="bio" className="text-xs text-brand-gray">BiografÃ­a</Label>
             <Textarea id="bio" value={about} onChange={(e) => setAbout(e.target.value)} className="bg-white border-gray-200 text-brand-dark" rows={3} />
           </div>
 

@@ -67,7 +67,7 @@ Reglas:
 }
 
 export async function getBotReply(conversationId: string, professionalId: string): Promise<{ text: string; escalate: boolean } | null> {
-  const apiKey = process.env.DEEPSEEK_API_KEY;
+  const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) return null;
 
   const systemPrompt = await buildSystemPrompt(professionalId);
@@ -87,11 +87,11 @@ export async function getBotReply(conversationId: string, professionalId: string
   }));
 
   async function callOnce() {
-    const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
       body: JSON.stringify({
-        model: "deepseek-v4-flash",
+        model: process.env.OPENROUTER_MODEL ?? "deepseek/deepseek-v4.1-flash",
         messages: [{ role: "system", content: systemPrompt }, ...messages],
         temperature: 0.4,
         max_tokens: 1200,

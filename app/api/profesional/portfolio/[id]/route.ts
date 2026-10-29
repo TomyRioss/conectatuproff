@@ -42,9 +42,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   let keys: string[] | undefined
   if (imageKeys !== undefined) {
     keys = Array.isArray(imageKeys) ? imageKeys.filter(Boolean) : []
-    if (keys.length === 0) return NextResponse.json({ error: "Al menos una imagen requerida" }, { status: 400 })
     if (keys.length > MAX_IMAGES) return NextResponse.json({ error: `Máximo ${MAX_IMAGES} imágenes` }, { status: 400 })
-    data.imageUrl = keys[0]
+    data.imageUrl = keys[0] ?? null
   }
 
   try {

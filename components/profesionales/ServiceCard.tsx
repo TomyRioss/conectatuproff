@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Clock, Sparkles } from "lucide-react";
+import { formatDuration } from "@/lib/time";
 import { FavoriteButton } from "./FavoriteButton";
 import { ProBadge } from "@/components/ui/ProBadge";
 
@@ -63,7 +64,7 @@ export function ServiceCard({ service, handle, initialFavorited = false, isPro =
         </Link>
         {service.durationMin && (
           <p className="text-xs text-brand-gray flex items-center gap-1 mt-0.5">
-            <Clock size={12} /> {service.durationMin} min/{unit}
+            <Clock size={12} /> {formatDuration(service.durationMin)}/{unit}
           </p>
         )}
 

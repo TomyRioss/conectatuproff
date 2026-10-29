@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma"
 import type { ServiceFrequency } from "@/lib/generated/prisma/enums"
 import { addMinutes } from "@/lib/availability"
 
+const MAX_GALLERY_IMAGES = 5
+
 async function getOwnService(userId: string, serviceId: string) {
   const service = await prisma.service.findUnique({
     where: { id: serviceId },
@@ -73,10 +75,18 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     if (status !== undefined) data.status = status
 
     if (gallery !== undefined) {
-      const galleryUrls: string[] = Array.isArray(gallery) ? gallery.filter(Boolean).slice(0, 3) : []
+      const galleryItems = Array.isArray(gallery)
+        ? gallery.map((item) => typeof item === "string"
+          ? { imageUrl: item, description: null }
+          : { imageUrl: item?.key, description: typeof item?.description === "string" ? item.description.trim() || null : null })
+          .filter((item) => typeof item.imageUrl === "string" && item.imageUrl)
+        : []
+      if (galleryItems.length > MAX_GALLERY_IMAGES) {
+        return NextResponse.json({ error: `Máximo ${MAX_GALLERY_IMAGES} fotos` }, { status: 400 })
+      }
       data.gallery = {
         deleteMany: {},
-        create: galleryUrls.map((url, order) => ({ imageUrl: url, order })),
+        create: galleryItems.map(({ imageUrl, description }, order) => ({ imageUrl, description, order })),
       }
     }
     if (faqs !== undefined) {

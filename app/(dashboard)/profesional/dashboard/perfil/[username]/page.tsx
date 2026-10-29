@@ -6,6 +6,9 @@ import { IntroVideo } from "@/components/profesionales/IntroVideo";
 import { FormacionManageSection } from "@/components/profesionales/FormacionManageSection";
 import { PortfolioManageSection } from "@/components/profesionales/PortfolioManageSection";
 import { AboutEditSection } from "@/components/profesionales/AboutEditSection";
+import AgendaCitasPanel from "@/components/agenda/AgendaCitasPanel";
+import { CalendarAdminNotice } from "@/components/agenda/CalendarAdminNotice";
+import { CalendarCheck } from "lucide-react";
 
 export default async function ProfesionalDashboardPerfilPage({
   params,
@@ -51,15 +54,22 @@ export default async function ProfesionalDashboardPerfilPage({
         <AboutEditSection bio={pro.bio} />
       </div>
 
-      <div className="w-full max-w-6xl mx-auto px-6 sm:px-10 pb-16 flex flex-col gap-6">
-        <div className="pt-6">
-          <PortfolioManageSection username={username} />
-        </div>
+      <div className="mt-6 w-full max-w-6xl mx-auto px-6 sm:px-10 pb-16 flex flex-col gap-6">
+        <PortfolioManageSection />
 
         <IntroVideo name={pro.firstName} videoUrl={pro.videoUrl} isOwner />
 
         <div className="border-t border-gray-100 pt-8">
           <FormacionManageSection />
+        </div>
+
+        <div id="mis-citas" className="border-t border-gray-100 pt-8">
+          <h2 className="flex items-center gap-2 text-lg font-bold text-brand-dark font-display mb-4">
+            <CalendarCheck size={18} className="text-brand-violet" />
+            Recordá administrar tus citas con tus clientes!
+          </h2>
+          <CalendarAdminNotice />
+          <AgendaCitasPanel />
         </div>
       </div>
     </main>

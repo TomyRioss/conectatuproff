@@ -27,3 +27,21 @@
   --color-status-pending-soft: #FEF3E2;
   --color-status-noshow:       #AB737B;
 }
+
+/* Entrada de dropdowns propios (ZonaSelect): una sola transición de apertura */
+@keyframes zona-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [style*="zona-in"] {
+    animation: none !important;
+  }
+}

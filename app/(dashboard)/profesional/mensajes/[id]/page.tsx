@@ -1,4 +1,6 @@
 import { auth } from "@/lib/auth";
+
+import { avatarProxySrc } from "@/lib/avatar"
 import { prisma } from "@/lib/prisma";
 import { notFound, redirect } from "next/navigation";
 import ChatThread from "@/components/mensajes/ChatThread";
@@ -26,7 +28,7 @@ export default async function ProfesionalMensajeThreadPage({ params }: { params:
 
   const otherAvatar = conversation.client.avatarUrl
     ? `/api/avatar?key=${encodeURIComponent(conversation.client.avatarUrl)}`
-    : conversation.client.user.image;
+    : avatarProxySrc(conversation.client.user.image);
 
   return (
     <ChatThread

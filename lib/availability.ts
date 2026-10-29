@@ -18,10 +18,18 @@ export async function resolveWeeklyWindows(
   let rows: { dayOfWeek: number; startTime: string; endTime: string }[] = [];
 
   if (serviceId) {
-    rows = await prisma.serviceAvailability.findMany({
-      where: { serviceId },
-      select: { dayOfWeek: true, startTime: true, endTime: true },
+    const service = await prisma.service.findUnique({
+      where: { id: serviceId },
+      select: { frequencyType: true },
     });
+
+    // Sin frecuencia, el servicio toma toda la agenda general del profesional.
+    if (service?.frequencyType) {
+      rows = await prisma.serviceAvailability.findMany({
+        where: { serviceId },
+        select: { dayOfWeek: true, startTime: true, endTime: true },
+      });
+    }
   }
 
   const usingFallback = rows.length === 0;

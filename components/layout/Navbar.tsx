@@ -20,6 +20,7 @@ import { AISearchDialog } from "@/components/ui/AISearchDialog"
 import ZonaSelect from "@/components/search/ZonaSelect"
 import { UpgradePlanDialog } from "@/components/profesionales/UpgradePlanDialog"
 import { toast } from "sonner"
+import { avatarProxySrc } from "@/lib/avatar"
 
 function getInitials(name?: string | null, email?: string | null) {
   if (name) {
@@ -42,7 +43,7 @@ function AvatarButton() {
   const role = (session?.user as { role?: string })?.role
   const roleLabel =
     role === "PROFESSIONAL" ? "Profesional" : role === "CLIENT" ? "Cliente" : role === "OWNER" ? "Dueño" : role
-  const avatarUrl = session?.user?.image ?? null
+  const avatarUrl = avatarProxySrc(session?.user?.image ?? null)
   const isClient = role === "CLIENT"
   const isProfessional = role === "PROFESSIONAL"
   const [upgradeOpen, setUpgradeOpen] = useState(false)

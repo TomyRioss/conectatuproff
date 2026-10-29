@@ -4,47 +4,37 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
-export function ServiceGallery({ images, title }: { images: string[]; title: string }) {
+export function ServiceGallery({ images, title }: { images: { key: string; description: string }[]; title: string }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   if (images.length === 0) return null;
 
   return (
     <>
-      <div className="rounded-2xl overflow-hidden bg-brand-bg border border-gray-200 aspect-video cursor-pointer" onClick={() => setOpenIndex(0)}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`/api/avatar?key=${encodeURIComponent(images[0])}`}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
+      <div className="flex gap-3 overflow-x-auto pb-2">
+        {images.map((image, i) => (
+          <button
+            key={image.key}
+            type="button"
+            onClick={() => setOpenIndex(i)}
+            aria-label={`Ver imagen ${i + 1} de ${images.length} de ${title}`}
+            className="h-20 w-28 shrink-0 overflow-hidden rounded-lg border border-gray-200 transition-colors hover:border-brand-violet/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`/api/avatar?key=${encodeURIComponent(image.key)}`} alt="" className="h-full w-full object-cover" />
+          </button>
+        ))}
       </div>
-
-      {images.length > 1 && (
-        <div className="flex gap-3 overflow-x-auto pb-1">
-          {images.map((key, i) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => setOpenIndex(i)}
-              className="h-24 w-36 shrink-0 rounded-lg border border-gray-200 overflow-hidden hover:border-brand-violet/40 transition-colors"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/api/avatar?key=${encodeURIComponent(key)}`} alt="" className="w-full h-full object-cover" />
-            </button>
-          ))}
-        </div>
-      )}
 
       <Dialog open={openIndex !== null} onOpenChange={(open) => !open && setOpenIndex(null)}>
         {openIndex !== null && (
-          <DialogContent className="sm:max-w-3xl p-0 bg-black border-none">
-            <div className="relative aspect-video">
+          <DialogContent className="sm:max-w-4xl p-0 bg-white border-gray-200">
+            <div className="relative flex max-h-[80dvh] min-h-[220px] items-center justify-center px-4 pb-4 pt-12">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={`/api/avatar?key=${encodeURIComponent(images[openIndex])}`}
-                alt={title}
-                className="w-full h-full object-contain"
+                src={`/api/avatar?key=${encodeURIComponent(images[openIndex].key)}`}
+                alt={images[openIndex].description || title}
+                className="max-h-[70dvh] max-w-full object-contain"
               />
               {images.length > 1 && (
                 <>
@@ -64,12 +54,17 @@ export function ServiceGallery({ images, title }: { images: string[]; title: str
                   >
                     <ChevronRight size={18} />
                   </button>
-                  <span className="absolute bottom-3 right-3 text-xs text-white bg-black/60 rounded-full px-2.5 py-1">
+                  <span className="absolute bottom-5 right-6 rounded-full border border-gray-200 bg-white/90 px-2.5 py-1 text-xs text-brand-dark">
                     {openIndex + 1} de {images.length}
                   </span>
                 </>
               )}
             </div>
+            {images[openIndex].description && (
+              <p className="px-5 pb-5 text-sm leading-relaxed text-brand-dark">
+                {images[openIndex].description}
+              </p>
+            )}
           </DialogContent>
         )}
       </Dialog>
