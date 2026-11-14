@@ -241,7 +241,7 @@ export default function FloatingChatbot() {
                 className="flex-1 bg-brand-bg text-brand-dark placeholder:text-brand-gray text-[16px] sm:text-sm rounded-full px-4 py-3 sm:py-2.5 outline-none focus:ring-2 focus:ring-brand-rose/30"
               />
               <button
-                onClick={sendMessage}
+                onClick={() => sendMessage()}
                 disabled={!input.trim() || loading}
                 className="h-11 w-11 sm:h-9 sm:w-9 rounded-full bg-brand-green text-white flex items-center justify-center shrink-0 disabled:opacity-50 disabled:cursor-not-allowed hover:brightness-110 transition-all"
                 aria-label="Enviar"
