@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import type { PortfolioFormValue } from "@/components/profesionales/PortfolioForm"
+import { PortfolioMedia } from "@/components/profesionales/PortfolioMedia"
 
 export function PortfolioCard({
   item,
@@ -44,11 +45,11 @@ export function PortfolioCard({
   return (
     <div className="rounded-2xl bg-brand-bg border border-gray-200 overflow-hidden flex flex-col">
       <div className="aspect-video bg-gray-200 relative">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`/api/avatar?key=${encodeURIComponent(item.images[0]?.imageUrl ?? "")}`}
+        <PortfolioMedia
+          mediaKey={item.images[0]?.imageUrl ?? ""}
           alt={item.title ?? "Proyecto"}
-          className="absolute inset-0 w-full h-full object-cover"
+          controls
+          className="absolute inset-0"
         />
       </div>
 

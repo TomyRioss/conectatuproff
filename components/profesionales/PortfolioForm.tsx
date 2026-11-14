@@ -13,8 +13,12 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
+import { PortfolioMedia, isVideoKey, type MediaOrientation } from "@/components/profesionales/PortfolioMedia"
 
 const MAX_IMAGES = 5
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024
+const MAX_VIDEO_BYTES = 50 * 1024 * 1024
+const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp", "video/mp4", "video/webm", "video/quicktime"]
 const MAX_CATEGORIES = 4
 const MONTHS = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -68,6 +72,9 @@ export function PortfolioForm({
   const [categoryIds, setCategoryIds] = useState<string[]>(item?.categories?.map((c) => c.id) ?? [])
   const [imageKeys, setImageKeys] = useState<string[]>(item?.images.map((i) => i.imageUrl) ?? [])
   const [uploading, setUploading] = useState(false)
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null)
+  const [dragging, setDragging] = useState(false)
+  const [orientations, setOrientations] = useState<Record<string, MediaOrientation>>({})
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
@@ -92,42 +99,51 @@ export function PortfolioForm({
   const years = Array.from({ length: 15 }, (_, i) => currentYear - i)
 
   async function uploadOne(file: File) {
-    const formData = new FormData()
-    formData.append("file", file)
-    const res = await fetch("/api/profesional/portfolio/upload-image", { method: "POST", body: formData })
-    const data = await res.json().catch(() => null)
-    if (!res.ok) {
-      toast.error(data?.error ?? "No se pudo subir la imagen")
+    const isVideo = file.type.startsWith("video/")
+    if (file.size > (isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES)) {
+      toast.error(`${file.name}: ${isVideo ? "video máximo 50 MB" : "imagen máximo 5 MB"}`)
       return
     }
-    setImageKeys((prev) => [...prev, data.key])
+    try {
+      const formData = new FormData()
+      formData.append("file", file)
+      const res = await fetch("/api/profesional/portfolio/upload-image", { method: "POST", body: formData })
+      const data = await res.json().catch(() => null)
+      if (!res.ok) {
+        toast.error(`${file.name}: ${data?.error ?? "no se pudo subir"}`)
+        return
+      }
+      setImageKeys((prev) => [...prev, data.key])
+    } catch (e) {
+      console.error("PortfolioForm upload", e)
+      toast.error(`${file.name}: no se pudo subir`)
+    } finally {
+      setProgress((p) => p && { ...p, done: p.done + 1 })
+    }
   }
 
   async function handleImageUpload(files: FileList | File[]) {
     const remaining = MAX_IMAGES - imageKeys.length
     if (remaining <= 0) {
-      toast.error(`Máximo ${MAX_IMAGES} imágenes`)
+      toast.error(`Máximo ${MAX_IMAGES} archivos`)
       return
     }
-    const list = Array.from(files).slice(0, remaining)
-    if (files.length > list.length) {
-      toast.error(`Máximo ${MAX_IMAGES} imágenes`)
-    }
+    const accepted = Array.from(files).filter((f) => ACCEPTED_TYPES.includes(f.type))
+    if (accepted.length < files.length) toast.error("Algunos archivos tienen un formato no permitido")
+    const list = accepted.slice(0, remaining)
+    if (accepted.length > list.length) toast.error(`Máximo ${MAX_IMAGES} archivos`)
+    if (!list.length) return
+
     setUploading(true)
-    try {
-      for (const file of list) {
-        await uploadOne(file)
-      }
-    } catch {
-      toast.error("No se pudo subir la imagen")
-    } finally {
-      setUploading(false)
-    }
+    setProgress({ done: 0, total: list.length })
+    await Promise.all(list.map(uploadOne))
+    setUploading(false)
+    setProgress(null)
   }
 
   async function handleSubmit() {
     if (imageKeys.length === 0) {
-      toast.error("Agregá al menos una imagen")
+      toast.error("Agregá al menos una imagen o video")
       return
     }
 
@@ -349,14 +365,17 @@ export function PortfolioForm({
           <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-3 sm:gap-4 mb-3">
             {imageKeys.map((key, index) => {
               const isCover = index === 0
+              const orientation = isVideoKey(key) ? orientations[key] : undefined
+              const sizeClass = orientation === "portrait" ? "sm:w-16" : orientation === "landscape" ? "sm:w-48" : "sm:w-28"
               return (
-                <div key={key} className="group relative w-full sm:w-28 aspect-square sm:h-28 sm:aspect-auto">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`/api/avatar?key=${encodeURIComponent(key)}`}
-                    alt=""
-                    className={`w-full h-full rounded-xl object-cover border ${isCover ? "border-brand-violet ring-2 ring-brand-violet/40" : "border-gray-200"}`}
-                  />
+                <div key={key} className={`group relative w-full ${sizeClass} aspect-square sm:h-28 sm:aspect-auto`}>
+                  <div className={`w-full h-full rounded-xl overflow-hidden border ${isCover ? "border-brand-violet ring-2 ring-brand-violet/40" : "border-gray-200"}`}>
+                    <PortfolioMedia
+                      mediaKey={key}
+                      alt={isVideoKey(key) ? "Video adjunto" : "Imagen adjunta"}
+                      onOrientation={(o) => setOrientations((prev) => ({ ...prev, [key]: o }))}
+                    />
+                  </div>
 
                   {isCover ? (
                     <span className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 rounded-full bg-brand-violet text-white text-[10px] font-semibold px-2 py-0.5">
@@ -378,7 +397,7 @@ export function PortfolioForm({
                     type="button"
                     onClick={() => setImageKeys(imageKeys.filter((k) => k !== key))}
                     className="absolute -top-1.5 -right-1.5 bg-white border border-gray-200 rounded-full p-0.5 shadow"
-                    aria-label="Quitar imagen"
+                    aria-label="Quitar archivo"
                   >
                     <X size={12} className="text-brand-dark" strokeWidth={3} />
                   </button>
@@ -389,19 +408,34 @@ export function PortfolioForm({
         )}
 
         {imageKeys.length < MAX_IMAGES && (
-          <label className="flex flex-col items-center justify-center gap-3 px-4 py-8 sm:py-10 text-center rounded-xl border border-dashed border-gray-300 cursor-pointer hover:bg-brand-bg/50 active:bg-brand-bg transition-colors">
-            <span className="text-brand-dark text-sm">Arrastrá y soltá los archivos o</span>
+          <label
+            onDragOver={(e) => {
+              e.preventDefault()
+              setDragging(true)
+            }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={(e) => {
+              e.preventDefault()
+              setDragging(false)
+              if (!uploading && e.dataTransfer.files.length) handleImageUpload(e.dataTransfer.files)
+            }}
+            className={`flex flex-col items-center justify-center gap-3 px-4 py-8 sm:py-10 text-center rounded-xl border border-dashed cursor-pointer transition-colors ${dragging ? "border-brand-violet bg-brand-bg" : "border-gray-300 hover:bg-brand-bg/50 active:bg-brand-bg"} ${uploading ? "pointer-events-none opacity-70" : ""}`}
+          >
+            <span className="text-brand-dark text-sm">
+              {dragging ? "Soltá los archivos acá" : "Arrastrá y soltá imágenes o videos, o"}
+            </span>
             <span className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 min-h-[44px] text-sm font-medium text-brand-dark">
               {uploading ? <Loader2 size={16} className="animate-spin" /> : <Upload size={16} />}
-              Seleccioná los archivos
+              {progress ? `Subiendo ${progress.done}/${progress.total}…` : "Seleccioná los archivos"}
             </span>
             <span className="text-xs text-brand-gray leading-relaxed">
-              .jpg, .jpeg, .png, .webp · máximo 5 MB · máximo {MAX_IMAGES} archivos
+              Imágenes .jpg, .png, .webp (máx. 5 MB) · Videos .mp4, .webm, .mov verticales u horizontales (máx. 50 MB) · hasta {MAX_IMAGES} archivos
             </span>
             <input
               type="file"
-              accept="image/jpeg,image/png,image/webp"
+              accept={ACCEPTED_TYPES.join(",")}
               multiple
+              disabled={uploading}
               className="hidden"
               onChange={(e) => {
                 if (e.target.files?.length) handleImageUpload(e.target.files)
