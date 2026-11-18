@@ -234,7 +234,7 @@ export function PortfolioForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div>
-          <Label htmlFor="duration" className="text-brand-dark font-semibold text-base">Duración de la publicación</Label>
+          <Label htmlFor="duration" className="text-brand-dark font-semibold text-base">Duración (Horas)</Label>
           <Input
             id="duration"
             type="number"
