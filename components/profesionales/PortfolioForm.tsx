@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { toast } from "sonner"
-import { Loader2, Upload, X, ChevronDown, Star } from "lucide-react"
+import { Loader2, Upload, X, ChevronDown, Star, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
