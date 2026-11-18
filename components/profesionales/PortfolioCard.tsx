@@ -85,7 +85,7 @@ export function PortfolioCard({
           )}
           {(item.durationMin || item.durationMax) && (
             <span className="text-brand-gray text-xs">
-              {item.durationMin ?? item.durationMax}{item.durationMax && item.durationMin !== item.durationMax ? `-${item.durationMax}` : ""} días
+              {item.durationMin ?? item.durationMax}{item.durationMax && item.durationMin !== item.durationMax ? `-${item.durationMax}` : ""} horas
             </span>
           )}
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, Suspense } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import FormField from "@/components/auth/FormField";
 import PasswordInput from "@/components/auth/PasswordInput";
 import AuthShell from "@/components/auth/AuthShell";
-import { completeProfileFormSchema, type CompleteProfileFormInput } from "@/lib/validations/auth";
+import { completeProfileFormSchema, normalizeUsername, type CompleteProfileFormInput } from "@/lib/validations/auth";
 
 // Solo rutas internas: evita open-redirect vía ?next=
 function safeNext(value: string | null): string {
@@ -23,17 +23,21 @@ function CompletarPerfilForm() {
   const next = safeNext(searchParams.get("next"));
   const { data: session, status, update } = useSession();
   const [usernameStatus, setUsernameStatus] = useState<"idle" | "checking" | "available" | "taken">("idle");
+  const [usernameStatusFor, setUsernameStatusFor] = useState("");
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const {
     register,
     handleSubmit,
     setError,
-    watch,
-    formState: { errors, isSubmitting },
-  } = useForm<CompleteProfileFormInput>({ resolver: zodResolver(completeProfileFormSchema) });
+    control,
+    formState: { errors, isSubmitting, isValid },
+  } = useForm<CompleteProfileFormInput>({
+    resolver: zodResolver(completeProfileFormSchema),
+    mode: "onChange",
+  });
 
-  const username = watch("username") ?? "";
+  const username = normalizeUsername(useWatch({ control, name: "username" }) ?? "");
 
   useEffect(() => {
     if (status === "unauthenticated") router.replace("/login");
@@ -41,19 +45,25 @@ function CompletarPerfilForm() {
   }, [status, session, router, next]);
 
   useEffect(() => {
+    let active = true;
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    if (username.length < 3) { setUsernameStatus("idle"); return; }
-    setUsernameStatus("checking");
+    if (!isValid || username.length < 3) return;
     debounceRef.current = setTimeout(async () => {
+      setUsernameStatusFor(username);
+      setUsernameStatus("checking");
       try {
         const res = await fetch(`/api/register/check-username?username=${encodeURIComponent(username)}`);
         const data = await res.json();
-        setUsernameStatus(data.available ? "available" : "taken");
+        if (active && data.available !== null) setUsernameStatus(data.available ? "available" : "taken");
       } catch {
-        setUsernameStatus("idle");
+        if (active) setUsernameStatus("idle");
       }
     }, 500);
-  }, [username]);
+    return () => {
+      active = false;
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, [username, isValid]);
 
   async function onSubmit(data: CompleteProfileFormInput) {
     try {
@@ -108,16 +118,11 @@ function CompletarPerfilForm() {
               label="Nombre de usuario"
               placeholder="juan_garcia"
               error={errors.username?.message}
-              {...register("username", {
-                setValueAs: (value: string) => value.toLowerCase(),
-                onChange: (event) => {
-                  event.currentTarget.value = event.currentTarget.value.toLowerCase();
-                },
-              })}
+              {...register("username")}
             />
-            {usernameStatus === "checking" && <p className="text-xs text-brand-gray">Verificando...</p>}
-            {usernameStatus === "available" && <p className="text-xs text-brand-green font-medium">✓ Usuario disponible</p>}
-            {usernameStatus === "taken" && <p className="text-xs text-red-500 font-medium">✗ Usuario no disponible</p>}
+            {isValid && usernameStatusFor === username && usernameStatus === "checking" && <p className="text-xs text-brand-gray">Verificando...</p>}
+            {isValid && usernameStatusFor === username && usernameStatus === "available" && <p className="text-xs text-brand-green font-medium">✓ Usuario disponible</p>}
+            {isValid && usernameStatusFor === username && usernameStatus === "taken" && <p className="text-xs text-red-500 font-medium">✗ Usuario no disponible</p>}
           </div>
 
           <PasswordInput label="Contraseña" placeholder="Mínimo 8 caracteres" error={errors.password?.message} {...register("password")} />

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { toast } from "sonner"
-import { Loader2, Upload, X, ChevronDown, Star, Check } from "lucide-react"
+import { Loader2, Upload, X, ChevronDown, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -23,14 +23,6 @@ const MAX_CATEGORIES = 4
 const MONTHS = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
-]
-
-const DURATION_RANGES = [
-  { label: "1-7 día", min: 1, max: 7 },
-  { label: "7-30 días", min: 7, max: 30 },
-  { label: "1-3 meses", min: 30, max: 90 },
-  { label: "3-6 meses", min: 90, max: 180 },
-  { label: "Más de 6 meses", min: 180, max: null as number | null },
 ]
 
 type Category = { id: string; name: string; slug: string }
@@ -62,10 +54,7 @@ export function PortfolioForm({
   const [title, setTitle] = useState(item?.title ?? "")
   const [description, setDescription] = useState(item?.description ?? "")
   const [cost, setCost] = useState(item?.costMin != null ? String(item.costMin) : "")
-  const initialDurationLabel = DURATION_RANGES.find(
-    (r) => r.min === item?.durationMin && r.max === item?.durationMax
-  )?.label ?? ""
-  const [durationLabel, setDurationLabel] = useState(initialDurationLabel)
+  const [duration, setDuration] = useState(item?.durationMin != null ? String(item.durationMin) : "")
   const [month, setMonth] = useState(itemStartedAt ? String(itemStartedAt.getMonth()) : "")
   const [year, setYear] = useState(itemStartedAt ? String(itemStartedAt.getFullYear()) : "")
   const [categories, setCategories] = useState<Category[]>([])
@@ -96,7 +85,7 @@ export function PortfolioForm({
   }
 
   const currentYear = new Date().getFullYear()
-  const years = Array.from({ length: 15 }, (_, i) => currentYear - i)
+  const years = Array.from({ length: 16 }, (_, i) => currentYear + 1 - i)
 
   async function uploadOne(file: File) {
     const isVideo = file.type.startsWith("video/")
@@ -153,15 +142,15 @@ export function PortfolioForm({
         ? new Date(Number(year), Number(month), 1).toISOString()
         : undefined
 
-      const selectedRange = DURATION_RANGES.find((r) => r.label === durationLabel)
+      const durationValue = duration ? Number(duration) : undefined
 
       const payload = {
         title: title || undefined,
         description: description || undefined,
         costMin: cost || undefined,
         costMax: cost || undefined,
-        durationMin: selectedRange?.min ?? undefined,
-        durationMax: selectedRange?.max ?? undefined,
+        durationMin: durationValue,
+        durationMax: durationValue,
         tags: [],
         startedAt,
         categoryIds,
@@ -245,32 +234,17 @@ export function PortfolioForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div>
-          <Label className="text-brand-dark font-semibold text-base">Duración de la publicación</Label>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                type="button"
-                className={`${inputClass} w-full flex items-center justify-between border bg-white`}
-              >
-                <span className={durationLabel ? "text-brand-dark" : "text-brand-gray/60"}>
-                  {durationLabel || "Selecciona la duración."}
-                </span>
-                <ChevronDown size={16} className="text-brand-gray shrink-0" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-40 max-w-[calc(100vw-2rem)] bg-white border-gray-200">
-              {DURATION_RANGES.map((r) => (
-                <DropdownMenuItem
-                  key={r.label}
-                  onClick={() => setDurationLabel(r.label)}
-                  className="text-brand-dark justify-between"
-                >
-                  {r.label}
-                  {durationLabel === r.label && <Check size={14} className="text-brand-violet" />}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Label htmlFor="duration" className="text-brand-dark font-semibold text-base">Duración de la publicación</Label>
+          <Input
+            id="duration"
+            type="number"
+            min="1"
+            step="1"
+            placeholder="Ingresa un número"
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+            className={inputClass}
+          />
         </div>
 
         <div>

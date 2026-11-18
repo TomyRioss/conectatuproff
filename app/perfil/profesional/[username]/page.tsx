@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ProfileHeader } from "@/components/profesionales/ProfileHeader";
 import { IntroVideo } from "@/components/profesionales/IntroVideo";
 import { AboutSection } from "@/components/profesionales/AboutSection";
+import { PortfolioGallery } from "@/components/profesionales/PortfolioGallery";
 import { FormacionSection } from "@/components/profesionales/FormacionSection";
 import { ServiceCard } from "@/components/profesionales/ServiceCard";
 import { PackageCard } from "@/components/profesionales/PackageCard";
@@ -40,6 +41,23 @@ export default async function ProfesionalProfilePage({
       user: { select: { image: true, dniStatus: true } },
       subcategory: { select: { name: true } },
       services: { where: { status: "ACTIVE" }, orderBy: { createdAt: "asc" } },
+      portfolio: {
+        orderBy: { order: "asc" },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          imageUrl: true,
+          costMin: true,
+          costMax: true,
+          durationMin: true,
+          durationMax: true,
+          images: {
+            orderBy: { order: "asc" },
+            select: { imageUrl: true },
+          },
+        },
+      },
       packages: { where: { isActive: true }, orderBy: { createdAt: "asc" } },
       reviews: {
         orderBy: { createdAt: "desc" },
@@ -80,13 +98,24 @@ export default async function ProfesionalProfilePage({
       <div className="max-w-7xl mx-auto px-4 mt-6 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
         <div className="space-y-6">
           <ProfileHeader
-            pro={{ ...pro, dniVerified: pro.user.dniStatus === "APPROVED" }}
+            pro={{
+              userId: pro.userId,
+              firstName: pro.firstName,
+              lastName: pro.lastName,
+              specialty: pro.specialty,
+              location: pro.location,
+              isVerified: pro.isVerified,
+              isPro: pro.isPro,
+              subcategory: pro.subcategory,
+              dniVerified: pro.user.dniStatus === "APPROVED",
+            }}
             username={username}
             avatarSrc={avatarSrc}
             avgRating={avgRating}
             reviewCount={reviewCount}
           />
           <AboutSection bio={pro.bio} />
+          <PortfolioGallery items={pro.portfolio} />
           <IntroVideo name={pro.firstName} videoUrl={pro.videoUrl} />
         </div>
 

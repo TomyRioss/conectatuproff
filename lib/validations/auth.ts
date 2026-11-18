@@ -1,10 +1,11 @@
 import { z } from "zod";
 
+export const normalizeUsername = (value: string) => value.trim().replace(/\s+/g, "_").toLowerCase();
+
 const usernameSchema = z
   .string()
-  .toLowerCase()
-  .min(3, "Mínimo 3 caracteres")
-  .regex(/^[a-z0-9_]+$/, "Solo letras, números y _");
+  .transform(normalizeUsername)
+  .pipe(z.string().min(3, "Minimo 3 caracteres").regex(/^[\p{L}0-9_]+$/u, "Solo letras, numeros y _"));
 
 export const loginSchema = z.object({
   email: z.string().email("Email inválido"),
