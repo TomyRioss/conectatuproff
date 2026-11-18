@@ -180,7 +180,7 @@ export function PortfolioForm({
         toast.error(data?.error ?? "Error al guardar")
         return
       }
-      toast.success(isEdit ? "Proyecto actualizado" : "Proyecto creado")
+      toast.success(isEdit ? "Publicación actualizada" : "Publicación creada")
       onSaved()
     } catch {
       toast.error("Error al guardar")
@@ -195,11 +195,11 @@ export function PortfolioForm({
   return (
     <div className="flex flex-col gap-6 sm:gap-7">
       <h1 className="text-2xl sm:text-3xl font-bold text-brand-dark leading-tight tracking-tight">
-        {isEdit ? "Editá tu proyecto" : "Agregá un nuevo proyecto a tu portfolio"}
+        {isEdit ? "Editá tu publicación" : "Agregá una nueva publicación a tu portfolio"}
       </h1>
 
       <div>
-        <Label htmlFor="title" className="text-brand-dark font-semibold text-base">Nombre del proyecto</Label>
+        <Label htmlFor="title" className="text-brand-dark font-semibold text-base">Nombre de la publicación</Label>
         <Input
           id="title"
           value={title}
@@ -212,7 +212,7 @@ export function PortfolioForm({
       </div>
 
       <div className="w-full sm:w-1/2">
-        <Label className="text-brand-dark font-semibold text-base">Categoría del proyecto</Label>
+        <Label className="text-brand-dark font-semibold text-base">Categoría de la publicación</Label>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
@@ -245,7 +245,7 @@ export function PortfolioForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div>
-          <Label className="text-brand-dark font-semibold text-base">Duración del proyecto</Label>
+          <Label className="text-brand-dark font-semibold text-base">Duración de la publicación</Label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
@@ -291,7 +291,7 @@ export function PortfolioForm({
       </div>
 
       <div>
-        <Label className="text-brand-dark font-semibold text-base">Proyecto iniciado el</Label>
+        <Label className="text-brand-dark font-semibold text-base">Publicación iniciada el</Label>
         <div className="grid grid-cols-2 gap-3 w-full sm:w-1/2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -347,7 +347,7 @@ export function PortfolioForm({
       </div>
 
       <div>
-        <Label htmlFor="description" className="text-brand-dark font-semibold text-base">Descripción del proyecto</Label>
+        <Label htmlFor="description" className="text-brand-dark font-semibold text-base">Descripción de la publicación</Label>
         <textarea
           id="description"
           value={description ?? ""}
@@ -447,7 +447,7 @@ export function PortfolioForm({
       </div>
 
       <Button onClick={handleSubmit} disabled={saving || uploading} className="bg-brand-green text-white hover:opacity-90 min-h-[48px] h-12 sm:h-11 rounded-xl text-base sm:text-sm font-semibold sticky bottom-[max(0.75rem,env(safe-area-inset-bottom))] sm:static shadow-lg sm:shadow-none">
-        {saving ? "Guardando..." : isEdit ? "Guardar cambios" : "Crear proyecto"}
+        {saving ? "Guardando..." : isEdit ? "Guardar cambios" : "Crear publicación"}
       </Button>
     </div>
   )

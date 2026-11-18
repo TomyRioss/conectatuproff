@@ -24,7 +24,7 @@ export function PortfolioCard({
   const [busy, setBusy] = useState(false)
 
   async function handleDelete() {
-    if (!confirm("¿Eliminar este proyecto? Esta acción no se puede deshacer.")) return
+    if (!confirm("¿Eliminar esta publicación? Esta acción no se puede deshacer.")) return
     setBusy(true)
     try {
       const res = await fetch(`/api/profesional/portfolio/${item.id}`, { method: "DELETE" })
@@ -33,7 +33,7 @@ export function PortfolioCard({
         toast.error(data?.error ?? "No se pudo eliminar")
         return
       }
-      toast.success("Proyecto eliminado")
+      toast.success("Publicación eliminada")
       onChanged()
     } catch {
       toast.error("No se pudo eliminar")
@@ -47,7 +47,7 @@ export function PortfolioCard({
       <div className="aspect-video bg-gray-200 relative">
         <PortfolioMedia
           mediaKey={item.images[0]?.imageUrl ?? ""}
-          alt={item.title ?? "Proyecto"}
+          alt={item.title ?? "Publicación"}
           controls
           className="absolute inset-0"
         />

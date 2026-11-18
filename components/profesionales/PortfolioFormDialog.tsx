@@ -18,7 +18,7 @@ export function PortfolioFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
         <h2 className="text-lg font-bold text-brand-dark font-display">
-          {item ? "Editar proyecto" : "Nuevo proyecto"}
+          {item ? "Editar publicación" : "Nueva publicación"}
         </h2>
         <div className="mt-2">
           <PortfolioForm item={item} onSaved={() => { onOpenChange(false); onSaved() }} />

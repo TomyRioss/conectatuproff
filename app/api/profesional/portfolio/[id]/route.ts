@@ -22,7 +22,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
   const { id } = await params
   const existing = await getOwnPortfolioItem(session.user.id, id)
-  if (!existing) return NextResponse.json({ error: "Proyecto no encontrado" }, { status: 404 })
+  if (!existing) return NextResponse.json({ error: "Publicación no encontrada" }, { status: 404 })
 
   const body = await req.json()
   const { title, description, costMin, costMax, durationMin, durationMax, tags, imageKeys, startedAt, categoryIds } = body
@@ -87,7 +87,7 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
 
   const { id } = await params
   const existing = await getOwnPortfolioItem(session.user.id, id)
-  if (!existing) return NextResponse.json({ error: "Proyecto no encontrado" }, { status: 404 })
+  if (!existing) return NextResponse.json({ error: "Publicación no encontrada" }, { status: 404 })
 
   try {
     await prisma.portfolioItem.delete({ where: { id } })

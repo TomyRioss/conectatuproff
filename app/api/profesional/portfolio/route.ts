@@ -100,6 +100,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ ...item, categories: item.categories.map((c) => c.category) }, { status: 201 })
   } catch (e) {
     console.error("POST /api/profesional/portfolio", e)
-    return NextResponse.json({ error: "Error al crear proyecto" }, { status: 500 })
+    return NextResponse.json({ error: "Error al crear publicación" }, { status: 500 })
   }
 }

@@ -1,7 +1,7 @@
 # Portfolio profesional — Design
 
 ## Objetivo
-Profesionales pueden armar un portfolio de proyectos (estilo Upwork). Clientes ven grid de thumbnails en el perfil público y pueden entrar al detalle de cada proyecto en página propia.
+Profesionales pueden armar un portfolio de publicaciones (estilo Upwork). Clientes ven grid de thumbnails en el perfil público y pueden entrar al detalle de cada publicación en página propia.
 
 ## DB (migración autorizada por usuario)
 
@@ -54,7 +54,7 @@ Todos requieren sesión con `role === "PROFESSIONAL"` y ownership del `professio
 
 ## Dashboard profesional (`app/(dashboard)/profesional/dashboard/perfil/[username]/page.tsx`)
 
-Nueva sección "Portfolio" (grid tipo mockup: thumbnails + botón "Agregar proyecto"):
+Nueva sección "Portfolio" (grid tipo mockup: thumbnails + botón "Agregar publicación"):
 - `PortfolioSection` (server component, recibe `pro.portfolio` con `images`)
 - `PortfolioFormDialog` + `PortfolioForm` (client, patrón `ServiceFormDialog`/`ServiceForm`): título, descripción, costMin/costMax, durationMin/durationMax, tags (input chip-style), hasta 5 imágenes (upload múltiple, reusa lógica de `servicios/upload-image`)
 - `PortfolioCard` (patrón `ManageServiceCard`): thumbnail, editar, eliminar
@@ -78,5 +78,5 @@ Estilo mockup imagen 3:
 Todos los endpoints: try/catch, log server-side, respuesta JSON con `error` para feedback UX (toast) en el form — sin fallos silenciosos.
 
 ## Fuera de alcance
-- Reordenar drag&drop de proyectos (usa `order` simple, editable solo vía numeric input si se pide después)
+- Reordenar drag&drop de publicaciones (usa `order` simple, editable solo vía numeric input si se pide después)
 - Tags no ligados a Category (texto libre confirmado)
