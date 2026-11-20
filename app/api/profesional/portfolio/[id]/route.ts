@@ -2,8 +2,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { deleteFile } from "@/lib/storage"
-
-const MAX_IMAGES = 5
+import { portfolioLimitError } from "@/lib/portfolio-limits"
 
 async function getOwnPortfolioItem(userId: string, itemId: string) {
   const item = await prisma.portfolioItem.findUnique({
@@ -42,7 +41,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   let keys: string[] | undefined
   if (imageKeys !== undefined) {
     keys = Array.isArray(imageKeys) ? imageKeys.filter(Boolean) : []
-    if (keys.length > MAX_IMAGES) return NextResponse.json({ error: `Máximo ${MAX_IMAGES} imágenes` }, { status: 400 })
+    const limitError = portfolioLimitError(keys)
+    if (limitError) return NextResponse.json({ error: limitError }, { status: 400 })
     data.imageUrl = keys[0] ?? null
   }
 

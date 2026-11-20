@@ -5,6 +5,7 @@ import { toast } from "sonner"
 import { Loader2, Upload, X, ChevronDown, Star, Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { PriceInput } from "@/components/ui/price-input"
 import { Label } from "@/components/ui/label"
 import {
   DropdownMenu,
@@ -14,8 +15,8 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
 import { PortfolioMedia, isVideoKey, type MediaOrientation } from "@/components/profesionales/PortfolioMedia"
+import { PORTFOLIO_MAX_IMAGES, PORTFOLIO_MAX_VIDEOS } from "@/lib/portfolio-limits"
 
-const MAX_IMAGES = 5
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024
 const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp", "video/mp4", "video/webm", "video/quicktime"]
@@ -84,6 +85,10 @@ export function PortfolioForm({
     })
   }
 
+  const videoCount = imageKeys.filter(isVideoKey).length
+  const imageCount = imageKeys.length - videoCount
+  const canAddMore = imageCount < PORTFOLIO_MAX_IMAGES || videoCount < PORTFOLIO_MAX_VIDEOS
+
   const currentYear = new Date().getFullYear()
   const years = Array.from({ length: 16 }, (_, i) => currentYear + 1 - i)
 
@@ -112,15 +117,18 @@ export function PortfolioForm({
   }
 
   async function handleImageUpload(files: FileList | File[]) {
-    const remaining = MAX_IMAGES - imageKeys.length
-    if (remaining <= 0) {
-      toast.error(`Máximo ${MAX_IMAGES} archivos`)
-      return
-    }
     const accepted = Array.from(files).filter((f) => ACCEPTED_TYPES.includes(f.type))
     if (accepted.length < files.length) toast.error("Algunos archivos tienen un formato no permitido")
-    const list = accepted.slice(0, remaining)
-    if (accepted.length > list.length) toast.error(`Máximo ${MAX_IMAGES} archivos`)
+
+    let imagesLeft = PORTFOLIO_MAX_IMAGES - imageCount
+    let videosLeft = PORTFOLIO_MAX_VIDEOS - videoCount
+    const list = accepted.filter((f) => {
+      if (f.type.startsWith("video/")) return videosLeft-- > 0
+      return imagesLeft-- > 0
+    })
+    if (accepted.length > list.length) {
+      toast.error(`Máximo ${PORTFOLIO_MAX_IMAGES} imágenes y ${PORTFOLIO_MAX_VIDEOS} video por publicación`)
+    }
     if (!list.length) return
 
     setUploading(true)
@@ -206,7 +214,7 @@ export function PortfolioForm({
           <DropdownMenuTrigger asChild>
             <button
               type="button"
-              className={`${inputClass} w-full flex items-center justify-between border bg-white`}
+              className={`${inputClass} w-full flex items-center justify-between gap-2 border bg-white`}
             >
               <span className={categoryIds.length ? "text-brand-dark" : "text-brand-gray/60"}>
                 {categoryIds.length
@@ -249,18 +257,13 @@ export function PortfolioForm({
 
         <div>
           <Label className="text-brand-dark font-semibold text-base">Costo (ARS)</Label>
-          <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-gray text-sm">$</span>
-            <Input
-              id="cost"
-              type="number"
-              min="0"
-              placeholder="Ej. 1000"
-              value={cost}
-              onChange={(e) => setCost(e.target.value)}
-              className={`${inputClass} pl-7`}
-            />
-          </div>
+          <PriceInput
+            id="cost"
+            placeholder="Ej. $1.000"
+            value={cost}
+            onValueChange={setCost}
+            className={inputClass}
+          />
         </div>
       </div>
 
@@ -271,9 +274,9 @@ export function PortfolioForm({
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className={`${inputClass} w-full flex items-center justify-between border bg-white`}
+                className={`${inputClass} w-full flex items-center justify-between gap-2 border bg-white`}
               >
-                <span className={month === "" ? "text-brand-gray/60" : "text-brand-dark"}>
+                <span className={`truncate ${month === "" ? "text-brand-gray/60" : "text-brand-dark"}`}>
                   {month === "" ? "Mes" : MONTHS[Number(month)]}
                 </span>
                 <ChevronDown size={16} className="text-brand-gray shrink-0" />
@@ -296,9 +299,9 @@ export function PortfolioForm({
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className={`${inputClass} w-full flex items-center justify-between border bg-white`}
+                className={`${inputClass} w-full flex items-center justify-between gap-2 border bg-white`}
               >
-                <span className={year === "" ? "text-brand-gray/60" : "text-brand-dark"}>
+                <span className={`truncate ${year === "" ? "text-brand-gray/60" : "text-brand-dark"}`}>
                   {year === "" ? "Año" : year}
                 </span>
                 <ChevronDown size={16} className="text-brand-gray shrink-0" />
@@ -381,7 +384,7 @@ export function PortfolioForm({
           </div>
         )}
 
-        {imageKeys.length < MAX_IMAGES && (
+        {canAddMore && (
           <label
             onDragOver={(e) => {
               e.preventDefault()
@@ -403,7 +406,7 @@ export function PortfolioForm({
               {progress ? `Subiendo ${progress.done}/${progress.total}…` : "Seleccioná los archivos"}
             </span>
             <span className="text-xs text-brand-gray leading-relaxed">
-              Imágenes .jpg, .png, .webp (máx. 5 MB) · Videos .mp4, .webm, .mov verticales u horizontales (máx. 50 MB) · hasta {MAX_IMAGES} archivos
+              Imágenes .jpg, .png, .webp (máx. 5 MB) · Videos .mp4, .webm, .mov verticales u horizontales (máx. 50 MB) · hasta {PORTFOLIO_MAX_IMAGES} imágenes y {PORTFOLIO_MAX_VIDEOS} video ({imageCount}/{PORTFOLIO_MAX_IMAGES} imágenes · {videoCount}/{PORTFOLIO_MAX_VIDEOS} video)
             </span>
             <input
               type="file"

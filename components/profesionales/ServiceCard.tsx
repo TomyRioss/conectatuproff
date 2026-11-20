@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Clock, Sparkles } from "lucide-react";
 import { formatDuration } from "@/lib/time";
+import { formatPrice } from "@/lib/format-price";
 import { FavoriteButton } from "./FavoriteButton";
 import { ProBadge } from "@/components/ui/ProBadge";
 
@@ -27,7 +28,7 @@ export function ServiceCard({ service, handle, initialFavorited = false, isPro =
 
   return (
     <div
-      className={`bg-white rounded-lg overflow-hidden flex flex-col relative ${
+      className={`bg-white rounded-lg overflow-hidden flex flex-col relative h-full ${
         isPro ? "border-2 border-brand-violet/40 shadow-sm" : "border border-gray-200"
       }`}
     >
@@ -75,7 +76,7 @@ export function ServiceCard({ service, handle, initialFavorited = false, isPro =
         <div className="flex items-center justify-between mt-auto pt-4">
           <div>
             <p className="font-bold text-brand-violet">
-              {price.toLocaleString("es-AR", { style: "currency", currency: service.currency })}
+              {formatPrice(price)}
             </p>
             <p className="text-[10px] uppercase text-brand-gray">por {unit}</p>
           </div>

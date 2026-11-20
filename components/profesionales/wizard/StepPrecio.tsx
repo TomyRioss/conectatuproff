@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Plus, Trash2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { PriceInput } from "@/components/ui/price-input"
 import { Button } from "@/components/ui/button"
 import { SelectNative } from "@/components/ui/select-native"
 import { formatDuration } from "@/lib/time"
@@ -25,14 +26,6 @@ export function StepPrecio({
       .catch(() => {})
   }, [])
 
-  function formatMiles(digits: string) {
-    return digits ? Number(digits).toLocaleString("es-AR") : ""
-  }
-
-  function onlyDigits(value: string) {
-    return value.replace(/\D/g, "")
-  }
-
   return (
     <div className="max-w-xl">
       <h2 className="text-xl sm:text-2xl font-bold text-brand-dark">Precio y duración</h2>
@@ -41,15 +34,13 @@ export function StepPrecio({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
         <div>
           <Label htmlFor="price">Precio (ARS)</Label>
-          <Input
+          <PriceInput
             id="price"
-            inputMode="numeric"
-            placeholder="Ej: 50.000"
-            value={formatMiles(state.price)}
-            onChange={(e) => {
-              const price = onlyDigits(e.target.value)
+            placeholder="Ej: $50.000"
+            value={state.price}
+            onValueChange={(price) =>
               update({ price, ...(state.extraSessionPrice ? { extraSessionPrice: price } : {}) })
-            }}
+            }
             className="mt-1"
           />
         </div>

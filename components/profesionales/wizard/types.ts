@@ -9,6 +9,7 @@ export type FrequencyType = "UNICA" | "SEMANAL" | "MENSUAL"
 export type WizardState = {
   title: string
   price: string
+  advancePercent: string
   durationMin: string
   frequencyType: FrequencyType | ""
   frequencyCount: string
@@ -25,6 +26,7 @@ export type WizardState = {
 export const initialWizardState: WizardState = {
   title: "",
   price: "",
+  advancePercent: "100",
   durationMin: "",
   frequencyType: "",
   frequencyCount: "",

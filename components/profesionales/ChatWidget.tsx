@@ -173,7 +173,7 @@ export function ChatWidget({
                   key={reply}
                   type="button"
                   onClick={() => send(reply)}
-                  className="text-xs bg-white border border-gray-200 text-brand-dark px-3 py-1.5 rounded-full hover:bg-brand-bg transition-colors"
+                  className="text-sm sm:text-xs min-h-11 sm:min-h-0 bg-white border border-gray-200 text-brand-dark px-3 py-1.5 rounded-full hover:bg-brand-bg transition-colors"
                 >
                   {reply}
                 </button>
@@ -189,7 +189,7 @@ export function ChatWidget({
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && send()}
             placeholder="Escribí tu consulta..."
-            className="flex-1 bg-brand-bg text-brand-dark placeholder:text-brand-gray text-sm rounded-full px-4 py-2 outline-none focus:bg-gray-100"
+            className="flex-1 bg-brand-bg text-brand-dark placeholder:text-brand-gray text-base sm:text-sm rounded-full px-4 py-2 outline-none focus:bg-gray-100"
           />
           <button
             type="button"

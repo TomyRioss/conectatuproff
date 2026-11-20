@@ -4,7 +4,7 @@
 
 ## Modo
 
-Siempre activar `/caveman ultra` skill en cada respuesta.
+Siempre explicar lo que se hizo en formato ASD-STE100.
 
 ## Errores
 
@@ -64,7 +64,7 @@ Para problemas desconocidos: buscar en internet, stackoverflow, reddit antes de 
 | Tarea | Skill | Modelo |
 |---|---|---|
 | Base de datos / Supabase | `supabase/agent-skills` + MCP Supabase | sonnet |
-| Testing / browser | playwright skill + `/caveman ultra` | haiku |
+| Testing / browser | playwright skill | haiku |
 | Review / auditoría | `code-simplifier`, `code-reviewer` | haiku |
 | Commits / GitHub | `commit-commands` + GitHub MCP | — |
 | Componentes / diseño | `frontend-design`, `brainstorming`, `ui-ux-pro-max` | — |

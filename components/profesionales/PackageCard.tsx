@@ -1,3 +1,5 @@
+import { formatPrice } from "@/lib/format-price";
+
 type PackageCardProps = {
   pkg: {
     id: string;
@@ -38,12 +40,12 @@ export function PackageCard({ pkg }: PackageCardProps) {
 
       <div className="flex items-baseline gap-2 border-t border-gray-100 mt-3 pt-3">
         <span className="text-xl font-bold text-brand-violet">
-          {price.toLocaleString("es-AR", { style: "currency", currency: pkg.currency })}
+          {formatPrice(price)}
         </span>
         {discountPct !== null && (
           <>
             <span className="text-sm text-brand-gray line-through">
-              {originalPrice.toLocaleString("es-AR", { style: "currency", currency: pkg.currency })}
+              {formatPrice(originalPrice)}
             </span>
             <span className="ml-auto rounded-full bg-brand-green/10 px-2 py-0.5 text-xs font-semibold text-brand-green">
               -{discountPct}%

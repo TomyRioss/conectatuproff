@@ -31,6 +31,14 @@ export default async function AgendarPage({
     );
   }
 
+  const client = await prisma.client.findUnique({
+    where: { userId: session.user.id },
+    select: {
+      dni: true,
+      user: { select: { dniStatus: true, dniPhotoFront: true, dniPhotoTorso: true } },
+    },
+  });
+
   const pro = await prisma.professional.findFirst({
     where: { isActive: true, user: { username, isActive: true } },
     select: {
@@ -69,6 +77,12 @@ export default async function AgendarPage({
           price: s.price ? s.price.toString() : null,
         }))}
         initialServiceId={preselectedServiceId}
+        initialDni={client?.dni?.toString() ?? ""}
+        initialVerificationComplete={Boolean(
+          client?.user.dniPhotoFront &&
+          client.user.dniPhotoTorso &&
+          (client.user.dniStatus === "PENDING" || client.user.dniStatus === "APPROVED")
+        )}
       />
     </main>
   );

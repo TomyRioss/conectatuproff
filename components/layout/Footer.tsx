@@ -35,7 +35,7 @@ const linkCls =
 
 export default function Footer() {
   return (
-    <footer className="bg-brand-dark text-white">
+    <footer className="bg-brand-dark text-white pb-20 lg:pb-0">
       <div className="h-[3px] bg-gradient-to-r from-brand-green via-brand-violet to-brand-green" />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 lg:py-14">
         {/* Mobile: brand + accordion */}

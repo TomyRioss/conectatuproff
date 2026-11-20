@@ -43,6 +43,7 @@ export async function POST(req: Request) {
     title,
     description,
     price,
+    advancePercent,
     durationMin,
     frequencyType,
     frequencyCount,
@@ -70,6 +71,10 @@ export async function POST(req: Request) {
   }
   if (priceNum !== null && !Number.isFinite(priceNum)) {
     return NextResponse.json({ error: "Precio inválido" }, { status: 400 })
+  }
+  const advancePercentNum = advancePercent === undefined ? 100 : Number(advancePercent)
+  if (!Number.isInteger(advancePercentNum) || advancePercentNum < 1 || advancePercentNum > 100) {
+    return NextResponse.json({ error: "El adelanto debe ser entre 1% y 100%" }, { status: 400 })
   }
 
   const galleryItems = Array.isArray(gallery)
@@ -104,6 +109,7 @@ export async function POST(req: Request) {
         title: title.trim(),
         description: description?.trim() || null,
         price: priceNum,
+        advancePercent: advancePercentNum,
         status: isDraft ? "DRAFT" : undefined,
         durationMin: durationMinNum,
         frequencyType: frequencyType || null,

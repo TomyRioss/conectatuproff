@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-
-const MAX_IMAGES = 5
+import { portfolioLimitError } from "@/lib/portfolio-limits"
 
 async function getOwnProfessionalId(userId: string) {
   const pro = await prisma.professional.findUnique({ where: { userId }, select: { id: true, isVerified: true } })
@@ -48,7 +47,8 @@ export async function POST(req: Request) {
     body as Record<string, unknown>
 
   const keys: string[] = Array.isArray(imageKeys) ? (imageKeys as unknown[]).filter((k): k is string => !!k) : []
-  if (keys.length > MAX_IMAGES) return NextResponse.json({ error: `Máximo ${MAX_IMAGES} imágenes` }, { status: 400 })
+  const limitError = portfolioLimitError(keys)
+  if (limitError) return NextResponse.json({ error: limitError }, { status: 400 })
 
   const catIds: string[] = Array.isArray(categoryIds)
     ? (categoryIds as unknown[]).filter((c): c is string => typeof c === "string" && !!c).slice(0, 4)

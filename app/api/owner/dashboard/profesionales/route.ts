@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireOwner } from "@/lib/owner-auth";
-import { PRO_PLAN_PRICE } from "@/lib/mercadopago";
+import { PRO_PLAN_PRICE } from "@/lib/plan";
 
 export async function GET() {
   const { error } = await requireOwner();

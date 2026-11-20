@@ -25,6 +25,7 @@ function buildPayload(state: WizardState, videoUrl: string) {
     title: state.title,
     description: state.description || undefined,
     price: state.price ? Number(state.price) : undefined,
+    advancePercent: Number(state.advancePercent || 100),
     durationMin: state.durationMin ? Number(state.durationMin) : undefined,
     frequencyType: state.frequencyType || null,
     frequencyCount: state.frequencyType && state.frequencyType !== "UNICA" && state.frequencyCount ? Number(state.frequencyCount) : null,
@@ -56,7 +57,11 @@ export function ServiceWizard({
 } = {}) {
   const router = useRouter()
   const [step, setStep] = useState(0)
-  const [state, setState] = useState<WizardState>(initialState ?? initialWizardState)
+  const [state, setState] = useState<WizardState>(() => ({
+    ...initialWizardState,
+    ...initialState,
+    advancePercent: initialState?.advancePercent || initialWizardState.advancePercent,
+  }))
   const [videoUrl, setVideoUrl] = useState(initialVideoUrl ?? "")
   const [publishing, setPublishing] = useState(false)
   const [saving, setSaving] = useState(false)

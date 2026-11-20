@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { PriceInput } from "@/components/ui/price-input"
 
 export interface PaqueteFormValues {
   name: string
@@ -90,7 +91,7 @@ export function PaqueteForm({
               value={values.description}
               onChange={(e) => setValues({ ...values, description: e.target.value })}
               rows={3}
-              className="flex w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-brand-dark placeholder:text-brand-gray focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2"
+              className="flex w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-base sm:text-sm text-brand-dark placeholder:text-brand-gray focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2"
             />
           </div>
 
@@ -137,25 +138,21 @@ export function PaqueteForm({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="price">Precio del paquete</Label>
-              <Input
+              <PriceInput
                 id="price"
-                type="number"
-                min={0}
-                step="0.01"
+                placeholder="$0"
                 value={values.price}
-                onChange={(e) => setValues({ ...values, price: e.target.value })}
+                onValueChange={(price) => setValues({ ...values, price })}
                 required
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="originalPrice">Precio sin descuento</Label>
-              <Input
+              <PriceInput
                 id="originalPrice"
-                type="number"
-                min={0}
-                step="0.01"
+                placeholder="$0"
                 value={values.originalPrice}
-                onChange={(e) => setValues({ ...values, originalPrice: e.target.value })}
+                onValueChange={(originalPrice) => setValues({ ...values, originalPrice })}
                 required
               />
             </div>

@@ -5,13 +5,15 @@ import { toast } from "sonner"
 import { Loader2, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { PortfolioFormDialog } from "@/components/profesionales/PortfolioFormDialog"
-import { PortfolioCard } from "@/components/profesionales/PortfolioCard"
+import { PortfolioDetailDialog } from "@/components/profesionales/PortfolioDetailDialog"
+import { PortfolioCard }from "@/components/profesionales/PortfolioCard"
 import type { PortfolioFormValue } from "@/components/profesionales/PortfolioForm"
 
 export function PortfolioManageSection() {
   const [items, setItems] = useState<PortfolioFormValue[]>([])
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editing, setEditing] = useState<PortfolioFormValue | undefined>(undefined)
+  const [viewing, setViewing] = useState<PortfolioFormValue | null>(null)
   const [loading, setLoading] = useState(true)
 
   const load = useCallback(async () => {
@@ -63,11 +65,17 @@ export function PortfolioManageSection() {
               key={item.id}
               item={item}
               onEdit={() => { setEditing(item); setDialogOpen(true) }}
+              onOpen={() => setViewing(item)}
               onChanged={load}
             />
           ))}
         </div>
       )}
+
+      <PortfolioDetailDialog
+        item={viewing && { ...viewing, media: viewing.images.map((i) => i.imageUrl) }}
+        onClose={() => setViewing(null)}
+      />
 
       <PortfolioFormDialog
         open={dialogOpen}

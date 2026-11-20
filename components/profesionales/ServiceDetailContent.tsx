@@ -4,6 +4,7 @@ import { FavoriteButton } from "@/components/profesionales/FavoriteButton";
 import { ServiceGallery } from "@/components/profesionales/ServiceGallery";
 import { ServiceVideo } from "@/components/profesionales/ServiceVideo";
 import { formatDuration } from "@/lib/time";
+import { formatPrice } from "@/lib/format-price";
 
 export type ServiceDetailContentProps = {
   serviceId?: string;
@@ -76,7 +77,7 @@ export function ServiceDetailContent({
           {preview && (
             <div className="mb-3">
               <p className="text-xl font-bold text-brand-violet">
-                {price.toLocaleString("es-AR", { style: "currency", currency })}
+                {formatPrice(price)}
               </p>
               <p className="text-xs uppercase text-brand-gray">por {unit}</p>
             </div>

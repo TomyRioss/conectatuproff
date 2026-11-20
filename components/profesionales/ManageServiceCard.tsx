@@ -7,6 +7,7 @@ import Link from "next/link"
 import { MoreVertical, Pencil, Trash2, Play, Pause } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { formatDuration } from "@/lib/time"
+import { formatPrice } from "@/lib/format-price"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -125,7 +126,7 @@ export function ManageServiceCard({
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 sm:contents">
         <span className="font-bold text-brand-dark text-sm sm:w-20 sm:text-right">
-          {service.price !== null && service.price !== undefined ? `$${String(service.price)}` : "—"}
+          {formatPrice(service.price) || "—"}
         </span>
         <span className="text-xs text-brand-gray sm:w-20 sm:text-right">{formatDuration(service.durationMin) || "—"}</span>
         {service.modality ? (

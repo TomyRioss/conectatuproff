@@ -15,6 +15,7 @@ export async function GET() {
       email: true,
       dniPhotoFront: true,
       dniPhotoBack: true,
+      dniPhotoTorso: true,
       dniSubmittedAt: true,
       client: { select: { id: true } },
       professional: { select: { id: true } },
@@ -31,6 +32,7 @@ export async function GET() {
       roles: [u.client ? "Cliente" : null, u.professional ? "Profesional" : null].filter(Boolean),
       dniPhotoFront: u.dniPhotoFront ? await getPresignedDownloadUrl(u.dniPhotoFront, 900) : null,
       dniPhotoBack: u.dniPhotoBack ? await getPresignedDownloadUrl(u.dniPhotoBack, 900) : null,
+      dniPhotoTorso: u.dniPhotoTorso ? await getPresignedDownloadUrl(u.dniPhotoTorso, 900) : null,
     }))
   )
 

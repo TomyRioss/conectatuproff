@@ -100,7 +100,7 @@ export default function HeroSection({ subcategories }: Props) {
               placeholder="¿Qué servicio buscás?"
               value={servicio}
               onChange={(e) => setServicio(e.target.value)}
-              className="bg-transparent text-[#1A1A2E] placeholder:text-gray-300 text-sm outline-none w-full"
+              className="bg-transparent text-[#1A1A2E] placeholder:text-gray-300 text-base sm:text-sm outline-none w-full"
             />
           </div>
 

@@ -83,7 +83,7 @@ export default function AgendaCitasPanel() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center justify-between gap-3 text-left"
+        className="w-full min-h-11 flex items-center justify-between gap-3 text-left"
       >
         <span className="flex items-center gap-2 text-lg font-bold text-brand-dark font-display">
           <CalendarCheck size={18} className="text-brand-violet" />

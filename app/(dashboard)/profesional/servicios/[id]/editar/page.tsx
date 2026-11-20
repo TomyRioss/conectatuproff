@@ -44,6 +44,7 @@ export default async function EditarServicioPage({ params }: { params: Promise<{
   const initialState: WizardState = {
     title: service.title,
     price: service.price ? String(service.price) : "",
+    advancePercent: String(service.advancePercent),
     durationMin: service.durationMin ? String(service.durationMin) : "",
     frequencyType: service.frequencyType ?? "",
     frequencyCount: service.frequencyCount ? String(service.frequencyCount) : "",

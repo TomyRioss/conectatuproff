@@ -90,6 +90,7 @@ model User {
   role          Role      @default(CLIENT)
   dniPhotoFront String?
   dniPhotoBack  String?
+  dniPhotoTorso String?
   dniStatus     DniStatus @default(NONE)
   dniSubmittedAt DateTime?
   isActive      Boolean   @default(true)
@@ -329,6 +330,7 @@ model Service {
   title             String
   description       String?   @db.Text
   price             Decimal?  @db.Decimal(10, 2)
+  advancePercent    Int       @default(100)
   currency          String    @default("ARS")
   durationMin       Int?
   serviceType       ServiceType?
@@ -550,6 +552,7 @@ model Appointment {
   serviceId        String?
   clientPackageId  String?
   priceAtBooking   Decimal?          @db.Decimal(10, 2)
+  advanceAtBooking Decimal?          @db.Decimal(10, 2)
   currency         String            @default("ARS")
   startAt          DateTime
   durationMin      Int?

@@ -1,4 +1,9 @@
+"use client";
+
+import { useState } from "react";
+import { Images } from "lucide-react";
 import { PortfolioMedia } from "@/components/profesionales/PortfolioMedia";
+import { PortfolioDetailDialog, formatRange } from "@/components/profesionales/PortfolioDetailDialog";
 
 type PortfolioItem = {
   id: string;
@@ -12,14 +17,9 @@ type PortfolioItem = {
   images: { imageUrl: string }[];
 };
 
-function formatRange(min: number | null, max: number | null, format: (value: number) => string) {
-  if (min == null && max == null) return null;
-  if (min == null) return format(max!);
-  if (max == null || max === min) return format(min);
-  return `${format(min)}-${format(max)}`;
-}
-
 export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
+  const [selected, setSelected] = useState<PortfolioItem | null>(null);
+
   if (items.length === 0) return null;
 
   return (
@@ -40,13 +40,31 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
           const duration = formatRange(item.durationMin, item.durationMax, String);
 
           return (
-            <article key={item.id} className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white">
+            <article
+              key={item.id}
+              role="button"
+              tabIndex={0}
+              aria-label={`Ver detalles: ${item.title || "Publicación"}`}
+              onClick={() => setSelected(item)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setSelected(item);
+                }
+              }}
+              className="flex min-w-0 cursor-pointer flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white transition-shadow hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+            >
               <div className="relative aspect-video bg-gray-100">
                 <PortfolioMedia
                   mediaKey={mediaKey}
                   alt={item.title || "Trabajo realizado"}
                   className="absolute inset-0"
                 />
+                {item.images.length > 1 && (
+                  <span className="absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white">
+                    <Images size={14} /> {item.images.length}
+                  </span>
+                )}
               </div>
               <div className="flex flex-1 flex-col gap-2 p-4">
                 <h3 className="text-sm font-semibold leading-snug text-brand-dark">
@@ -68,6 +86,16 @@ export function PortfolioGallery({ items }: { items: PortfolioItem[] }) {
           );
         })}
       </div>
+
+      <PortfolioDetailDialog
+        item={
+          selected && {
+            ...selected,
+            media: selected.images.length > 0 ? selected.images.map((i) => i.imageUrl) : [selected.imageUrl],
+          }
+        }
+        onClose={() => setSelected(null)}
+      />
     </section>
   );
 }

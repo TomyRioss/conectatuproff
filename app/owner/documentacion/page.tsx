@@ -30,6 +30,7 @@ interface DniDoc {
   roles: string[];
   dniPhotoFront: string | null;
   dniPhotoBack: string | null;
+  dniPhotoTorso: string | null;
 }
 
 export default function DocumentacionPage() {
@@ -150,6 +151,17 @@ export default function DocumentacionPage() {
                     </a>
                   ) : (
                     <div className="w-48 h-28 rounded-lg border border-dashed border-gray-300 flex items-center justify-center text-xs text-brand-gray">Sin foto frente</div>
+                  )}
+                  {d.dniPhotoTorso ? (
+                    <a href={d.dniPhotoTorso} target="_blank" rel="noopener noreferrer" className="group relative">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={d.dniPhotoTorso} alt="Foto del torso" className="w-48 h-28 object-cover rounded-lg border border-gray-200 group-hover:opacity-80 transition-opacity" />
+                      <span className="absolute bottom-1.5 left-1.5 bg-black/60 text-white text-xs px-1.5 py-0.5 rounded flex items-center gap-1">
+                        Torso <ExternalLink size={10} />
+                      </span>
+                    </a>
+                  ) : (
+                    <div className="w-48 h-28 rounded-lg border border-dashed border-gray-300 flex items-center justify-center text-xs text-brand-gray">Sin foto de torso</div>
                   )}
                   {d.dniPhotoBack ? (
                     <a href={d.dniPhotoBack} target="_blank" rel="noopener noreferrer" className="group relative">

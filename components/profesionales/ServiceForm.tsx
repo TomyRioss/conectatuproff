@@ -7,6 +7,7 @@ import { Loader2, Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { PriceInput } from "@/components/ui/price-input"
 
 type Category = { id: string; name: string; slug: string }
 
@@ -133,7 +134,7 @@ export function ServiceForm({
       <div className="grid grid-cols-2 gap-3">
         <div>
           <Label htmlFor="price">Precio (ARS)</Label>
-          <Input id="price" type="number" min="0" value={price} onChange={(e) => setPrice(e.target.value)} />
+          <PriceInput id="price" placeholder="$0" value={price} onValueChange={setPrice} />
         </div>
         <div>
           <Label htmlFor="durationMin">Duración (min)</Label>

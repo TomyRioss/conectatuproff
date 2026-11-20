@@ -4,6 +4,9 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
+## Formato de explicación
+- Siempre explicar lo que se hizo en formato ASD-STE100.
+
 ## Playwright / QA local
 - NO usar `playwright-cli` interactivo (sesiones daemon se cuelgan). Usar el script autocontenido:
   `node scripts/qa/audit.mjs <url> [shot.png]` (viewport 375x846, loguea solo, imprime JSON, captura a `scripts/qa/`).

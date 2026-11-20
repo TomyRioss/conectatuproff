@@ -15,11 +15,11 @@ export async function GET(req: Request) {
 
     const { searchParams } = new URL(req.url)
     const side = searchParams.get("side")
-    if (side !== "front" && side !== "back") {
+    if (side !== "front" && side !== "back" && side !== "torso") {
       return NextResponse.json({ error: "Lado inválido" }, { status: 400 })
     }
     const contentType = searchParams.get("contentType") ?? "image/jpeg"
-    if (!contentType.startsWith("image/")) {
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(contentType)) {
       return NextResponse.json({ error: "El archivo debe ser una imagen" }, { status: 400 })
     }
     const ext = contentType.split("/")[1] ?? "jpg"

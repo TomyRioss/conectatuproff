@@ -17,7 +17,7 @@ function ItemMenu({ onEdit, onDelete }: { onEdit: () => void; onDelete: () => vo
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="text-brand-gray hover:text-brand-dark shrink-0" aria-label="Opciones">
+        <button className="text-brand-gray hover:text-brand-dark shrink-0 h-11 w-11 -m-3 flex items-center justify-center" aria-label="Opciones">
           <MoreVertical size={16} />
         </button>
       </DropdownMenuTrigger>

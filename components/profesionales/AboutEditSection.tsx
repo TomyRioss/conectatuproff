@@ -60,7 +60,7 @@ export function AboutEditSection({ bio }: Props) {
       <div className="bg-white rounded-2xl border border-gray-200 p-5">
         <div className="flex items-center gap-2 mb-3">
           <h2 className="text-lg font-bold text-brand-dark">Acerca de</h2>
-          <button onClick={() => setEditing(true)} aria-label="Editar biografía">
+          <button onClick={() => setEditing(true)} aria-label="Editar biografía" className="h-11 w-11 -m-3 flex items-center justify-center">
             <Pencil size={16} className="text-brand-gray hover:text-brand-violet transition-colors" />
           </button>
         </div>

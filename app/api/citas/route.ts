@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 import { avatarProxySrc } from "@/lib/avatar"
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { sendMail } from "@/lib/mail";
 import { resolveWeeklyWindows } from "@/lib/availability";
 import { arDateKey, getArParts } from "@/lib/time";
+import { sendMail } from "@/lib/mail";
 
 export async function GET() {
   const session = await auth();
@@ -85,8 +85,9 @@ export async function POST(req: Request) {
   }
 
   try {
-    const client = await prisma.client.findUnique({ where: { userId: session.user.id }, select: { id: true } });
+    const client = await prisma.client.findUnique({ where: { userId: session.user.id }, select: { id: true, dni: true } });
     if (!client) return NextResponse.json({ error: "Perfil de cliente no encontrado" }, { status: 404 });
+    if (!client.dni) return NextResponse.json({ error: "DNI_REQUIRED" }, { status: 400 });
 
     const professional = await prisma.professional.findFirst({
       where: { id: professionalId, isActive: true, isVerified: true, user: { isActive: true } },
@@ -182,8 +183,21 @@ export async function POST(req: Request) {
 
     const clientUser = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { name: true },
+      select: { name: true, dniPhotoFront: true },
     });
+
+    // Comparte el frente del DNI con el profesional en el chat del turno.
+    if (clientUser?.dniPhotoFront?.startsWith("dni-docs/")) {
+      await prisma.message.create({
+        data: {
+          conversationId: conversation.id,
+          senderRole: "BOT",
+          escalatesToHuman: false,
+          body: `El cliente compartió el frente de su DNI para la reserva. [Ver foto](/api/citas/${appointment.id}/dni-frente)`,
+        },
+      });
+      await prisma.conversation.update({ where: { id: conversation.id }, data: { updatedAt: new Date() } });
+    }
 
     if (professional.user.email) {
       await sendMail({

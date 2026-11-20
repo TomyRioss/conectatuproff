@@ -25,13 +25,9 @@ export function UpgradePlanDialog({ open, onOpenChange }: { open: boolean; onOpe
       const res = await fetch("/api/profesional/plan/subscribe", { method: "POST" })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? "No pudimos activar el plan")
-      if (data.free) {
-        window.location.reload()
-        return
-      }
-      window.location.href = data.init_point
+      window.location.reload()
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "No pudimos iniciar el pago")
+      setError(e instanceof Error ? e.message : "No pudimos activar el plan")
       setLoading(false)
     }
   }

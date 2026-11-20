@@ -231,7 +231,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-white border-b border-gray-200">
       <div className="max-w-6xl mx-auto px-3 sm:px-6 h-16 lg:h-20 flex items-center justify-between gap-2 lg:grid lg:grid-cols-[auto_1fr_auto_auto] lg:gap-6">
 
-        <Link href="/" className="text-[15px] lg:text-2xl font-bold text-[#1A1A2E] font-[family-name:var(--font-display)] shrink-0 leading-none">
+        <Link href="/" className="text-[15px] lg:text-2xl font-bold text-[#1A1A2E] font-[family-name:var(--font-display)] shrink-0 leading-none py-3 lg:py-0">
           Conecta<span className="text-[#6C5CE7]">Tu</span>Proff
         </Link>
 
@@ -358,7 +358,7 @@ export default function Navbar() {
 
         {isLoggedIn ? (
           <button
-            className="lg:hidden text-[#1A1A2E] p-1 shrink-0 ml-auto"
+            className="lg:hidden text-[#1A1A2E] h-11 w-11 -mr-2.5 flex items-center justify-center shrink-0 ml-auto"
             onClick={() => setOpen(!open)}
             aria-label="Menú"
           >
@@ -368,13 +368,13 @@ export default function Navbar() {
           <div className="lg:hidden flex items-center gap-1.5 shrink-0 ml-auto">
             <Link
               href="/profesional/login"
-              className="text-[11px] text-[#1A1A2E] hover:text-[#6C5CE7] transition-colors underline decoration-[#1EC97E] underline-offset-2 whitespace-nowrap shrink-0"
+              className="text-xs text-[#1A1A2E] hover:text-[#6C5CE7] transition-colors underline decoration-[#1EC97E] underline-offset-2 whitespace-nowrap shrink-0 min-h-11 flex items-center px-1"
             >
               ¿Sos profesional?
             </Link>
             <Link
               href="/register"
-              className="text-[11px] font-medium bg-[#1EC97E] text-white px-2.5 py-1.5 rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
+              className="text-xs font-medium bg-[#1EC97E] text-white px-3 min-h-10 flex items-center rounded-lg hover:opacity-90 transition-opacity whitespace-nowrap shrink-0"
             >
               Busca ahora
             </Link>

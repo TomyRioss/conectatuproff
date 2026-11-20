@@ -30,6 +30,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     title,
     description,
     price,
+    advancePercent,
     durationMin,
     frequencyType,
     frequencyCount,
@@ -54,6 +55,9 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   if (price !== undefined && price !== null && price !== "" && !isDraft && Number(price) <= 0) {
     return NextResponse.json({ error: "Precio inválido" }, { status: 400 })
   }
+  if (advancePercent !== undefined && (!Number.isInteger(Number(advancePercent)) || Number(advancePercent) < 1 || Number(advancePercent) > 100)) {
+    return NextResponse.json({ error: "El adelanto debe ser entre 1% y 100%" }, { status: 400 })
+  }
   if (status !== undefined && !["ACTIVE", "DRAFT", "PAUSED"].includes(status)) {
     return NextResponse.json({ error: "Estado inválido" }, { status: 400 })
   }
@@ -63,6 +67,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     if (title !== undefined) data.title = title.trim()
     if (description !== undefined) data.description = description?.trim() || null
     if (price !== undefined) data.price = price !== null && price !== "" ? Number(price) : null
+    if (advancePercent !== undefined) data.advancePercent = Number(advancePercent)
     if (durationMin !== undefined) data.durationMin = durationMin ? Number(durationMin) : null
     if (frequencyType !== undefined) data.frequencyType = frequencyType || null
     if (frequencyCount !== undefined) data.frequencyCount = frequencyCount ? Number(frequencyCount) : null
