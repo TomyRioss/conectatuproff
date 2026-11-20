@@ -125,31 +125,36 @@ export function ChatWidget({
   return (
     <div id="chat-widget" className="max-w-7xl mx-auto px-4 mt-6 mb-8 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
       <div className="min-w-0">
-      <div className="bg-brand-bg border border-gray-200 rounded-2xl overflow-hidden">
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200 bg-white">
-          <Avatar className="h-9 w-9">
-            {avatarSrc && <AvatarImage src={avatarSrc} alt={name} />}
-            <AvatarFallback className="bg-brand-violet text-white text-sm">
-              {name[0]?.toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            <p className="text-brand-dark text-sm font-medium">{name}</p>
-            <p className="text-brand-gray text-xs">En línea · responde en ~10 min</p>
+      <div className="bg-brand-bg border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-gray-200 bg-white">
+          <div className="relative shrink-0">
+            <Avatar className="h-11 w-11 ring-2 ring-white shadow-sm">
+              {avatarSrc && <AvatarImage src={avatarSrc} alt={name} />}
+              <AvatarFallback className="bg-brand-violet text-white text-sm">
+                {name[0]?.toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-brand-green ring-2 ring-white" />
+          </div>
+          <div className="min-w-0">
+            <p className="text-brand-dark text-base font-semibold leading-tight truncate">{name}</p>
+            <p className="text-brand-gray text-xs mt-0.5">
+              <span className="font-medium text-brand-dark">En línea</span> · responde en ~10 min
+            </p>
           </div>
         </div>
 
-        <div className="px-4 py-3">
+        <div className="px-4 py-4">
           {messages.length > 0 ? (
             <div className="flex flex-col gap-2 max-h-60 overflow-y-auto">
               {loading && <p className="text-xs text-brand-gray">Cargando mensajes...</p>}
               {messages.map((m) => (
                 <div
                   key={m.id}
-                  className={`max-w-[85%] rounded-xl px-3 py-2 text-sm ${
+                  className={`max-w-[85%] px-3.5 py-2 text-sm leading-relaxed shadow-sm ${
                     m.senderRole === "CLIENT"
-                      ? "self-end bg-brand-violet text-white"
-                      : "self-start bg-white border border-gray-200 text-brand-dark"
+                      ? "self-end bg-brand-violet text-white rounded-2xl rounded-br-sm"
+                      : "self-start bg-white border border-gray-200 text-brand-dark rounded-2xl rounded-bl-sm"
                   }`}
                 >
                   {m.body}
@@ -158,22 +163,22 @@ export function ChatWidget({
               <div ref={bottomRef} />
             </div>
           ) : (
-            <div className="bg-white border border-gray-200 rounded-xl rounded-tl-none px-3 py-2 max-w-[85%]">
-              <p className="text-xs text-brand-violet font-medium mb-0.5">{name}</p>
-              <p className="text-sm text-brand-dark">
+            <div className="bg-white border border-gray-200 rounded-2xl rounded-tl-sm px-4 py-3 max-w-[90%] sm:max-w-[75%] shadow-sm">
+              <p className="text-xs text-brand-violet font-semibold mb-1">{name}</p>
+              <p className="text-sm text-brand-dark leading-relaxed">
                 ¿Tenés dudas sobre qué tratamiento es ideal para vos? ¡Escribime y te asesoro sin cargo! 😊
               </p>
             </div>
           )}
 
           {messages.length === 0 && (
-            <div className="flex flex-wrap gap-2 mt-3">
+            <div className="flex flex-wrap gap-2 mt-4">
               {QUICK_REPLIES.map((reply) => (
                 <button
                   key={reply}
                   type="button"
                   onClick={() => send(reply)}
-                  className="text-sm sm:text-xs min-h-11 sm:min-h-0 bg-white border border-gray-200 text-brand-dark px-3 py-1.5 rounded-full hover:bg-brand-bg transition-colors"
+                  className="cursor-pointer text-sm min-h-11 sm:min-h-9 bg-white border border-brand-violet/30 text-brand-dark font-medium px-4 py-1.5 rounded-full shadow-sm hover:border-brand-violet hover:bg-brand-violet hover:text-white active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-violet focus-visible:ring-offset-2 transition-all"
                 >
                   {reply}
                 </button>
@@ -189,23 +194,23 @@ export function ChatWidget({
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && send()}
             placeholder="Escribí tu consulta..."
-            className="flex-1 bg-brand-bg text-brand-dark placeholder:text-brand-gray text-base sm:text-sm rounded-full px-4 py-2 outline-none focus:bg-gray-100"
+            className="flex-1 min-w-0 bg-brand-bg border border-gray-200 text-brand-dark placeholder:text-brand-gray text-base sm:text-sm rounded-full px-4 py-2.5 outline-none focus:bg-white focus:border-brand-violet focus:ring-2 focus:ring-brand-violet/20 transition-all"
           />
           <button
             type="button"
             aria-label="Enviar mensaje"
             disabled={sending || !message.trim()}
             onClick={() => send()}
-            className="h-9 w-9 rounded-full bg-brand-green flex items-center justify-center shrink-0 disabled:opacity-50"
+            className="cursor-pointer h-10 w-10 rounded-full bg-brand-green text-white flex items-center justify-center shrink-0 shadow-sm hover:brightness-95 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2 disabled:bg-gray-200 disabled:text-brand-gray disabled:shadow-none disabled:cursor-not-allowed disabled:active:scale-100 transition-all"
           >
-            {sending ? <Loader2 size={15} className="text-white animate-spin" /> : <Send size={15} className="text-white" />}
+            {sending ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
           </button>
         </div>
 
         {conversationId && isClient && (
           <Link
             href={`/cliente/mensajes/${conversationId}`}
-            className="block px-4 py-2 text-center text-xs font-medium text-brand-violet hover:underline border-t border-gray-100 bg-white"
+            className="block px-4 py-2.5 text-center text-sm font-medium text-brand-violet hover:underline border-t border-gray-100 bg-white"
           >
             Ver la conversación completa
           </Link>

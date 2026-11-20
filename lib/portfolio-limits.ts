@@ -10,3 +10,8 @@ export function portfolioLimitError(keys: string[]): string | null {
   if (keys.length - videos > PORTFOLIO_MAX_IMAGES) return `Máximo ${PORTFOLIO_MAX_IMAGES} imágenes`
   return null
 }
+
+export function portfolioImageTitle(titles: unknown, key: string) {
+  const t = titles && typeof titles === "object" ? (titles as Record<string, unknown>)[key] : null
+  return typeof t === "string" ? t.trim().slice(0, 60) || null : null
+}

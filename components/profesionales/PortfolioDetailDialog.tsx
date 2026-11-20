@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { PortfolioMedia } from "@/components/profesionales/PortfolioMedia";
+import { PortfolioMedia, isVideoKey } from "@/components/profesionales/PortfolioMedia";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import {
   Carousel,
@@ -19,7 +19,7 @@ export type PortfolioDetail = {
   costMax: number | null;
   durationMin: number | null;
   durationMax: number | null;
-  media: string[];
+  media: { key: string; title: string | null }[];
 };
 
 export function formatRange(min: number | null, max: number | null, format: (value: number) => string) {
@@ -27,6 +27,15 @@ export function formatRange(min: number | null, max: number | null, format: (val
   if (min == null) return format(max!);
   if (max == null || max === min) return format(min);
   return `${format(min)}-${format(max)}`;
+}
+
+// punto del puntero en % del elemento: origen del zoom
+function pointOf(e: React.MouseEvent<HTMLElement> | React.PointerEvent<HTMLElement>) {
+  const r = e.currentTarget.getBoundingClientRect();
+  return {
+    x: Math.min(100, Math.max(0, ((e.clientX - r.left) / r.width) * 100)),
+    y: Math.min(100, Math.max(0, ((e.clientY - r.top) / r.height) * 100)),
+  };
 }
 
 export function PortfolioDetailDialog({
@@ -38,10 +47,14 @@ export function PortfolioDetailDialog({
 }) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     if (!api) return;
-    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    const onSelect = () => {
+      setCurrent(api.selectedScrollSnap());
+      setZoom(null);
+    };
     onSelect();
     api.on("select", onSelect);
     return () => {
@@ -53,7 +66,14 @@ export function PortfolioDetailDialog({
   const duration = item ? formatRange(item.durationMin, item.durationMax, String) : null;
 
   return (
-    <Dialog open={!!item} onOpenChange={(open) => !open && onClose()}>
+    <Dialog
+      open={!!item}
+      onOpenChange={(open) => {
+        if (open) return;
+        setZoom(null);
+        onClose();
+      }}
+    >
       <DialogContent className="sm:max-w-2xl">
         {item && (
           <>
@@ -61,17 +81,34 @@ export function PortfolioDetailDialog({
               <DialogTitle className="leading-snug">{item.title || "Publicación"}</DialogTitle>
               <DialogDescription className="sr-only">Detalles de la publicación</DialogDescription>
             </div>
-            <Carousel setApi={setApi} className="w-full min-w-0">
+            <Carousel setApi={setApi} opts={{ watchDrag: !zoom }} className="w-full min-w-0">
               <CarouselContent>
-                {item.media.map((key, i) => (
+                {item.media.map(({ key, title }, i) => (
                   <CarouselItem key={key}>
-                    <div className="relative aspect-video overflow-hidden rounded-xl bg-gray-100">
-                      <PortfolioMedia
-                        mediaKey={key}
-                        alt={`${item.title || "Trabajo realizado"} (${i + 1} de ${item.media.length})`}
-                        controls
-                        className="absolute inset-0"
-                      />
+                    <div
+                      className={`relative aspect-video overflow-hidden rounded-xl bg-gray-100 ${
+                        isVideoKey(key) ? "" : zoom ? "cursor-zoom-out touch-none" : "cursor-zoom-in"
+                      }`}
+                      onClick={isVideoKey(key) ? undefined : (e) => (zoom ? setZoom(null) : setZoom(pointOf(e)))}
+                      onPointerMove={zoom ? (e) => setZoom(pointOf(e)) : undefined}
+                    >
+                      <div
+                        className="absolute inset-0 transition-transform duration-200"
+                        style={zoom ? { transform: "scale(2.5)", transformOrigin: `${zoom.x}% ${zoom.y}%` } : undefined}
+                      >
+                        <PortfolioMedia
+                          mediaKey={key}
+                          alt={title || `${item.title || "Trabajo realizado"} (${i + 1} de ${item.media.length})`}
+                          controls
+                          contain
+                          className="absolute inset-0"
+                        />
+                      </div>
+                      {title && (
+                        <p className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent px-4 pb-3 pt-8 text-sm font-medium text-white">
+                          {title}
+                        </p>
+                      )}
                     </div>
                   </CarouselItem>
                 ))}
@@ -88,14 +125,14 @@ export function PortfolioDetailDialog({
             </Carousel>
             {item.media.length > 1 && (
               <div className="flex justify-center gap-1.5">
-                {item.media.map((key, i) => (
+                {item.media.map(({ key }, i) => (
                   <button
                     key={key}
                     type="button"
                     aria-label={`Ver archivo ${i + 1}`}
                     aria-current={i === current}
                     onClick={() => api?.scrollTo(i)}
-                    className={`h-2 rounded-full transition-all ${i === current ? "w-5 bg-brand-dark" : "w-2 bg-gray-300"}`}
+                    className={`h-2 cursor-pointer rounded-full transition-all ${i === current ? "w-5 bg-brand-dark" : "w-2 bg-gray-300"}`}
                   />
                 ))}
               </div>

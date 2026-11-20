@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { portfolioLimitError } from "@/lib/portfolio-limits"
+import { portfolioLimitError, portfolioImageTitle } from "@/lib/portfolio-limits"
 
 async function getOwnProfessionalId(userId: string) {
   const pro = await prisma.professional.findUnique({ where: { userId }, select: { id: true, isVerified: true } })
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
   if (!body || typeof body !== "object") {
     return NextResponse.json({ error: "Datos inválidos" }, { status: 400 })
   }
-  const { title, description, costMin, costMax, durationMin, durationMax, tags, imageKeys, startedAt, categoryIds } =
+  const { title, description, costMin, costMax, durationMin, durationMax, tags, imageKeys, imageTitles, startedAt, categoryIds } =
     body as Record<string, unknown>
 
   const keys: string[] = Array.isArray(imageKeys) ? (imageKeys as unknown[]).filter((k): k is string => !!k) : []
@@ -89,7 +89,7 @@ export async function POST(req: Request) {
         startedAt:
           typeof startedAt === "string" && !Number.isNaN(new Date(startedAt).getTime()) ? new Date(startedAt) : null,
         images: {
-          create: keys.map((imageUrl, order) => ({ imageUrl, order })),
+          create: keys.map((imageUrl, order) => ({ imageUrl, order, title: portfolioImageTitle(imageTitles, imageUrl) })),
         },
         categories: {
           create: catIds.map((categoryId) => ({ categoryId })),

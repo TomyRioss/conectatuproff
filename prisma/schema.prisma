@@ -489,6 +489,7 @@ model PortfolioItemImage {
   id              String @id @default(cuid())
   portfolioItemId String
   imageUrl        String
+  title           String?
   order           Int    @default(0)
 
   portfolioItem PortfolioItem @relation(fields: [portfolioItemId], references: [id], onDelete: Cascade)

@@ -14,12 +14,14 @@ export function PortfolioMedia({
   mediaKey,
   alt,
   controls = false,
+  contain = false,
   className = "",
   onOrientation,
 }: {
   mediaKey: string
   alt: string
   controls?: boolean
+  contain?: boolean
   className?: string
   onOrientation?: (o: MediaOrientation) => void
 }) {
@@ -29,7 +31,7 @@ export function PortfolioMedia({
   if (!isVideoKey(mediaKey)) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img src={src} alt={alt} className={`w-full h-full object-cover ${className}`} />
+      <img src={src} alt={alt} className={`w-full h-full ${contain ? "object-contain" : "object-cover"} ${className}`} />
     )
   }
 

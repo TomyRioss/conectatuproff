@@ -206,7 +206,7 @@ export function BookingWizard({
 
   if (done) {
     return (
-      <div className="max-w-lg mx-auto px-4 pt-16 text-center">
+      <div className="max-w-lg mx-auto px-4 min-h-[calc(100dvh-9rem)] flex flex-col items-center justify-center text-center">
         <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-brand-green">
           <CheckCircle2 className="text-white" size={32} />
         </div>

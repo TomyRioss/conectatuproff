@@ -39,7 +39,7 @@ export type PortfolioFormValue = {
   tags: string[]
   startedAt?: string | null
   categories?: Category[]
-  images: { imageUrl: string }[]
+  images: { imageUrl: string; title?: string | null }[]
 }
 
 export function PortfolioForm({
@@ -61,6 +61,9 @@ export function PortfolioForm({
   const [categories, setCategories] = useState<Category[]>([])
   const [categoryIds, setCategoryIds] = useState<string[]>(item?.categories?.map((c) => c.id) ?? [])
   const [imageKeys, setImageKeys] = useState<string[]>(item?.images.map((i) => i.imageUrl) ?? [])
+  const [imageTitles, setImageTitles] = useState<Record<string, string>>(
+    Object.fromEntries((item?.images ?? []).filter((i) => i.title).map((i) => [i.imageUrl, i.title as string]))
+  )
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null)
   const [dragging, setDragging] = useState(false)
@@ -163,6 +166,7 @@ export function PortfolioForm({
         startedAt,
         categoryIds,
         imageKeys,
+        imageTitles,
       }
       const res = await fetch(
         isEdit ? `/api/profesional/portfolio/${item!.id}` : "/api/profesional/portfolio",
@@ -345,7 +349,8 @@ export function PortfolioForm({
               const orientation = isVideoKey(key) ? orientations[key] : undefined
               const sizeClass = orientation === "portrait" ? "sm:w-16" : orientation === "landscape" ? "sm:w-48" : "sm:w-28"
               return (
-                <div key={key} className={`group relative w-full ${sizeClass} aspect-square sm:h-28 sm:aspect-auto`}>
+                <div key={key} className={`flex w-full ${sizeClass} flex-col gap-1.5`}>
+                <div className="group relative w-full aspect-square sm:h-28 sm:aspect-auto">
                   <div className={`w-full h-full rounded-xl overflow-hidden border ${isCover ? "border-brand-violet ring-2 ring-brand-violet/40" : "border-gray-200"}`}>
                     <PortfolioMedia
                       mediaKey={key}
@@ -378,6 +383,15 @@ export function PortfolioForm({
                   >
                     <X size={12} className="text-brand-dark" strokeWidth={3} />
                   </button>
+                </div>
+                <Input
+                  value={imageTitles[key] ?? ""}
+                  maxLength={60}
+                  placeholder="Título"
+                  aria-label="Título del archivo"
+                  onChange={(e) => setImageTitles((prev) => ({ ...prev, [key]: e.target.value }))}
+                  className="h-8 rounded-lg border-gray-200 px-2 text-xs text-brand-dark placeholder:text-brand-gray/60"
+                />
                 </div>
               )
             })}

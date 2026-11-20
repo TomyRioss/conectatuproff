@@ -54,7 +54,7 @@ export default async function ProfesionalProfilePage({
           durationMax: true,
           images: {
             orderBy: { order: "asc" },
-            select: { imageUrl: true },
+            select: { imageUrl: true, title: true },
           },
         },
       },

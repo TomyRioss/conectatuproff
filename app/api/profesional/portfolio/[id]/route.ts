@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { deleteFile } from "@/lib/storage"
-import { portfolioLimitError } from "@/lib/portfolio-limits"
+import { portfolioLimitError, portfolioImageTitle } from "@/lib/portfolio-limits"
 
 async function getOwnPortfolioItem(userId: string, itemId: string) {
   const item = await prisma.portfolioItem.findUnique({
@@ -24,7 +24,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   if (!existing) return NextResponse.json({ error: "Publicación no encontrada" }, { status: 404 })
 
   const body = await req.json()
-  const { title, description, costMin, costMax, durationMin, durationMax, tags, imageKeys, startedAt, categoryIds } = body
+  const { title, description, costMin, costMax, durationMin, durationMax, tags, imageKeys, imageTitles, startedAt, categoryIds } = body
 
   const data: Record<string, unknown> = {}
   if (title !== undefined) data.title = title?.trim() || null
@@ -52,7 +52,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
         const removed = existing.images.filter((img) => !keys!.includes(img.imageUrl))
         await tx.portfolioItemImage.deleteMany({ where: { portfolioItemId: id } })
         await tx.portfolioItemImage.createMany({
-          data: keys!.map((imageUrl, order) => ({ portfolioItemId: id, imageUrl, order })),
+          data: keys!.map((imageUrl, order) => ({ portfolioItemId: id, imageUrl, order, title: portfolioImageTitle(imageTitles, imageUrl) })),
         })
         for (const img of removed) {
           if (img.imageUrl !== existing.imageUrl || !keys!.includes(img.imageUrl)) {

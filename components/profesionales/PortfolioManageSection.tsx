@@ -73,7 +73,7 @@ export function PortfolioManageSection() {
       )}
 
       <PortfolioDetailDialog
-        item={viewing && { ...viewing, media: viewing.images.map((i) => i.imageUrl) }}
+        item={viewing && { ...viewing, media: viewing.images.map((i) => ({ key: i.imageUrl, title: i.title ?? null })) }}
         onClose={() => setViewing(null)}
       />
 
