@@ -26,6 +26,7 @@ import { Textarea } from "@/components/ui/textarea"
 import SpecialtyAutocomplete from "@/components/auth/SpecialtyAutocomplete"
 import { AvatarCropDialog } from "@/components/profesionales/AvatarCropDialog"
 import { ProBadge } from "@/components/ui/ProBadge"
+import { directUpload } from "@/lib/direct-upload"
 
 interface Props {
   username: string
@@ -108,16 +109,13 @@ export function CompactProfileHeader({
     const file = new File([blob], "avatar.jpg", { type: blob.type })
     setPreviewUrl(URL.createObjectURL(blob))
 
-    const fd = new FormData()
-    fd.append("file", file)
-    const uploadRes = await fetch("/api/profesional/upload-avatar", { method: "POST", body: fd })
-    if (!uploadRes.ok) {
-      const err = await uploadRes.json()
-      toast.error(err.error ?? "Error subiendo imagen")
-      return
+    try {
+      const { key } = await directUpload("/api/profesional/upload-avatar", file)
+      await saveAvatarKey(key)
+    } catch (e) {
+      console.error("CompactProfileHeader avatar upload", e)
+      toast.error(e instanceof Error ? e.message : "Error subiendo imagen")
     }
-    const { key } = await uploadRes.json()
-    await saveAvatarKey(key)
   }
 
   function handleDiscard() {

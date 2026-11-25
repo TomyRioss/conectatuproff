@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { PortfolioMedia, isVideoKey, type MediaOrientation } from "@/components/profesionales/PortfolioMedia"
 import { PORTFOLIO_MAX_IMAGES, PORTFOLIO_MAX_VIDEOS } from "@/lib/portfolio-limits"
+import { directUpload, mediaType } from "@/lib/direct-upload"
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024
@@ -96,37 +97,30 @@ export function PortfolioForm({
   const years = Array.from({ length: 16 }, (_, i) => currentYear + 1 - i)
 
   async function uploadOne(file: File) {
-    const isVideo = file.type.startsWith("video/")
+    const isVideo = mediaType(file).startsWith("video/")
     if (file.size > (isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES)) {
       toast.error(`${file.name}: ${isVideo ? "video máximo 50 MB" : "imagen máximo 5 MB"}`)
       return
     }
     try {
-      const formData = new FormData()
-      formData.append("file", file)
-      const res = await fetch("/api/profesional/portfolio/upload-image", { method: "POST", body: formData })
-      const data = await res.json().catch(() => null)
-      if (!res.ok) {
-        toast.error(`${file.name}: ${data?.error ?? "no se pudo subir"}`)
-        return
-      }
-      setImageKeys((prev) => [...prev, data.key])
+      const { key } = await directUpload("/api/profesional/portfolio/upload-image", file)
+      setImageKeys((prev) => [...prev, key])
     } catch (e) {
       console.error("PortfolioForm upload", e)
-      toast.error(`${file.name}: no se pudo subir`)
+      toast.error(`${file.name}: ${e instanceof Error ? e.message : "no se pudo subir"}`)
     } finally {
       setProgress((p) => p && { ...p, done: p.done + 1 })
     }
   }
 
   async function handleImageUpload(files: FileList | File[]) {
-    const accepted = Array.from(files).filter((f) => ACCEPTED_TYPES.includes(f.type))
+    const accepted = Array.from(files).filter((f) => ACCEPTED_TYPES.includes(mediaType(f)))
     if (accepted.length < files.length) toast.error("Algunos archivos tienen un formato no permitido")
 
     let imagesLeft = PORTFOLIO_MAX_IMAGES - imageCount
     let videosLeft = PORTFOLIO_MAX_VIDEOS - videoCount
     const list = accepted.filter((f) => {
-      if (f.type.startsWith("video/")) return videosLeft-- > 0
+      if (mediaType(f).startsWith("video/")) return videosLeft-- > 0
       return imagesLeft-- > 0
     })
     if (accepted.length > list.length) {

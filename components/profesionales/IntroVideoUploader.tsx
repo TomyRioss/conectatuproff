@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Plus, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { directUpload } from "@/lib/direct-upload";
 
 export function IntroVideoUploader({ name: _name }: { name?: string }) {
   const router = useRouter();
@@ -14,13 +15,27 @@ export function IntroVideoUploader({ name: _name }: { name?: string }) {
   function getDuration(file: File) {
     return new Promise<number>((resolve, reject) => {
       const video = document.createElement("video");
+      const src = URL.createObjectURL(file);
+      // iOS Safari a veces nunca dispara loadedmetadata: timeout evita "Subiendo..." infinito.
+      const timer = setTimeout(() => {
+        URL.revokeObjectURL(src);
+        reject(new Error("timeout"));
+      }, 10000);
       video.preload = "metadata";
+      video.muted = true;
+      video.playsInline = true;
       video.onloadedmetadata = () => {
-        URL.revokeObjectURL(video.src);
+        clearTimeout(timer);
+        URL.revokeObjectURL(src);
         resolve(video.duration);
       };
-      video.onerror = () => reject(new Error("No se pudo leer el video"));
-      video.src = URL.createObjectURL(file);
+      video.onerror = () => {
+        clearTimeout(timer);
+        URL.revokeObjectURL(src);
+        reject(new Error("No se pudo leer el video"));
+      };
+      video.src = src;
+      video.load();
     });
   }
 
@@ -43,9 +58,17 @@ export function IntroVideoUploader({ name: _name }: { name?: string }) {
         return;
       }
 
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await fetch("/api/profesional/video", { method: "POST", body: formData });
+      if (file.size > 50 * 1024 * 1024) {
+        toast.error("El video no puede pesar más de 50 MB");
+        return;
+      }
+
+      const { key } = await directUpload("/api/profesional/video", file);
+      const res = await fetch("/api/profesional/video", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key }),
+      });
       if (!res.ok) {
         const body = await res.json().catch(() => null);
         toast.error(body?.error ?? "No se pudo subir el video");
@@ -53,8 +76,9 @@ export function IntroVideoUploader({ name: _name }: { name?: string }) {
       }
       toast.success("Video subido");
       router.refresh();
-    } catch {
-      toast.error("No se pudo subir el video");
+    } catch (e) {
+      console.error("IntroVideoUploader", e);
+      toast.error(e instanceof Error ? e.message : "No se pudo subir el video");
     } finally {
       setUploading(false);
     }
@@ -69,6 +93,8 @@ export function IntroVideoUploader({ name: _name }: { name?: string }) {
         className="hidden"
         onChange={(e) => {
           const file = e.target.files?.[0];
+          // reset: permite volver a elegir el mismo archivo tras un error
+          e.target.value = "";
           if (file) handleFile(file);
         }}
       />

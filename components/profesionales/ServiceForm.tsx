@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { PriceInput } from "@/components/ui/price-input"
+import { directUpload } from "@/lib/direct-upload"
 
 type Category = { id: string; name: string; slug: string }
 
@@ -53,18 +54,12 @@ export function ServiceForm({
   async function handleImageUpload(file: File) {
     setUploading(true)
     try {
-      const formData = new FormData()
-      formData.append("file", file)
-      const res = await fetch("/api/profesional/servicios/upload-image", { method: "POST", body: formData })
-      const data = await res.json().catch(() => null)
-      if (!res.ok) {
-        toast.error(data?.error ?? "No se pudo subir la imagen")
-        return
-      }
-      setImageUrl(data.key)
+      const { key } = await directUpload("/api/profesional/servicios/upload-image", file)
+      setImageUrl(key)
       toast.success("Imagen subida")
-    } catch {
-      toast.error("No se pudo subir la imagen")
+    } catch (e) {
+      console.error("ServiceForm upload", e)
+      toast.error(e instanceof Error ? e.message : "No se pudo subir la imagen")
     } finally {
       setUploading(false)
     }

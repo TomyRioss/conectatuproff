@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { directUpload } from "@/lib/direct-upload"
 
 interface Props {
   firstName: string
@@ -52,14 +53,7 @@ export default function EditProfileModal({ firstName, lastName, avatarKey, initi
       let newAvatarKey: string | undefined
 
       if (pendingFile) {
-        const fd = new FormData()
-        fd.append("file", pendingFile)
-        const uploadRes = await fetch("/api/cliente/upload-avatar", { method: "POST", body: fd })
-        if (!uploadRes.ok) {
-          const err = await uploadRes.json()
-          throw new Error(err.error ?? "Error subiendo imagen")
-        }
-        const { key } = await uploadRes.json()
+        const { key } = await directUpload("/api/cliente/upload-avatar", pendingFile)
         newAvatarKey = key
       }
 

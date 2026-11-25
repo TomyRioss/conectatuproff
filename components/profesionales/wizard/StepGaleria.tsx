@@ -3,6 +3,7 @@ import { toast } from "sonner"
 import { Loader2, Upload, X, Video as VideoIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import type { WizardState } from "./types"
+import { directUpload } from "@/lib/direct-upload"
 
 const MAX_IMAGES = 5
 
@@ -21,13 +22,11 @@ export function StepGaleria({
   const [uploadingVideo, setUploadingVideo] = useState(false)
   const [isPortraitVideo, setIsPortraitVideo] = useState(false)
 
-  async function uploadFile(file: File) {
-    const formData = new FormData()
-    formData.append("file", file)
-    const res = await fetch("/api/profesional/servicios/upload-media", { method: "POST", body: formData })
-    const data = await res.json().catch(() => null)
-    if (!res.ok) throw new Error(data?.error ?? "No se pudo subir")
-    return data as { key: string; type: "image" | "video" }
+  function uploadFile(file: File) {
+    return directUpload<{ uploadUrl: string; key: string; type: "image" | "video" }>(
+      "/api/profesional/servicios/upload-media",
+      file,
+    )
   }
 
   async function handleImageUpload(files: File[]) {
@@ -79,17 +78,27 @@ export function StepGaleria({
     return new Promise<number>((resolve, reject) => {
       const video = document.createElement("video")
       const url = URL.createObjectURL(file)
+      // iOS Safari a veces nunca dispara loadedmetadata: timeout evita bloqueo.
+      const timer = setTimeout(() => {
+        URL.revokeObjectURL(url)
+        reject(new Error("timeout"))
+      }, 10000)
       video.preload = "metadata"
+      video.muted = true
+      video.playsInline = true
       video.onloadedmetadata = () => {
+        clearTimeout(timer)
         URL.revokeObjectURL(url)
         if (Number.isFinite(video.duration)) resolve(video.duration)
         else reject(new Error("Duración de video inválida"))
       }
       video.onerror = () => {
+        clearTimeout(timer)
         URL.revokeObjectURL(url)
         reject(new Error("No se pudo leer la duración del video"))
       }
       video.src = url
+      video.load()
     })
   }
 
